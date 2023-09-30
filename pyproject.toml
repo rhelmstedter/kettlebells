@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "kettlebells"
+version = "0.1.1"
+description = "A CLI tool to create, save, and track progress of kettlebell workouts."
+authors = ["Russell Helmstedter <rhelmstedter@gmail.com>"]
+readme = "README.org"
+homepage = "https://github.com/rhelmstedter/kettlebells/"
+repository = "https://github.com/rhelmstedter/kettlebells/"
+keywords = ["CLI", "kettlebells", "fitness"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+typer = "^0.9.0"
+rich = "^13.5.2"
+plotext = "^5.2.8"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+coverage = "^7.3.1"
+pytest-cov = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+iron-cardio = "kettlebells.__main__:cli"

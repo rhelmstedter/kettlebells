@@ -1,0 +1,103 @@
+#+TITLE:            iron-cardio
+#+AUTHOR:           Russell Helmstedter
+#+EMAIL:            (concat "rhelmstedter" at-sign "gmail.com")
+#+DESCRIPTION:      README file for iron-cardio cli tool
+#+KEYWORDS:         kettlebells, iron cardio, cli
+#+LANGUAGE:         en
+#+OPTIONS:          toc:t
+#+EXPORT_FILE_NAME: ../README.org
+
+iron-cardio is a CLI designed to create, save, and track the progress of iron cardio sessions. The inspiration for this project came from [[https://www.chroniclesofstrength.com/what-strength-aerobics-are-and-how-to-use-them-w-brett-jones/][Pat Flynn's conversation with Bret Jones]]. For a more detailed look at Iron Cardio, go checkout the [[https://strongandfit.com/products/iron-cardio-by-brett-jones][Iron Cardio Book]] by Bret Jones.
+
+* Installation
+Use [[https://github.com/pypa/pipx][pipx]]
+#+begin_src bash
+pipx install iron-cardio
+#+end_src
+* Usage
+** Initialize
+Run the ~init~ command. This creates the database.
+
+#+begin_src bash
+iron-cardio init
+#+end_src
+
+Next, run the ~setloads~ command. This sets the units to either pounds or kilograms, the user's bodyweight, and the loads for the light, medium, and heavy kettlebell. This command can be run as needed when the user is ready to move up in load.
+
+#+begin_src bash
+iron-cardio setloads
+#+end_src
+
+** Commands
+*** session
+The ~session~ command generates a random iron cardio session.
+#+begin_src bash
+iron-cardio session
+#+end_src
+
+Generated sessions are built from the following parameters
+
+|------------------------+----------------------------|
+| Parameter              | Options                    |
+|------------------------+----------------------------|
+| *Single Bell Variations* | Classic                    |
+|                        | Classic + Pullup           |
+|                        | Classic + Snatch           |
+|                        | Traveling 2s               |
+|                        | Traveling 2s + Snatch      |
+|                        | Traveling 2s + Pullup      |
+|                        | Armor Building Complex 2.0 |
+|------------------------+----------------------------|
+| *Double Bell Variations* | Double Classic             |
+|                        | Double Traveling 2s        |
+|                        | Double Classic + Pullup    |
+|                        | Armor Building Complex     |
+|------------------------+----------------------------|
+| *TIMES*                  | 30 mins                    |
+|                        | 20 mins                    |
+|                        | 10 mins                    |
+|------------------------+----------------------------|
+| *LOADS*                  | heavy                      |
+|                        | medium                     |
+|                        | light                      |
+|------------------------+----------------------------|
+| *SWINGS*                 | 0 - 100                    |
+
+*** done
+The ~done~ command saves the most recently generated session to the database.
+
+#+begin_src
+iron-cardio done
+#+end_src
+
+To save a custom session, use the ~--custom~ flag. This allows the user to create a custom session.
+
+#+begin_src
+iron-cardio done --custom
+#+end_src
+
+*** last
+The ~last~ command displays the last saved session and calculates the amount of weight moved, the number of reps, and the pace (sec/rep).
+
+#+begin_src bash
+iron-cardio last
+#+end_src
+
+*** stats
+The ~stats~ command displays the aggregated weight moved, number of reps, and pace for all sessions in the database.
+
+#+begin_src bash
+iron-cardio stats
+#+end_src
+
+To plot the weight moved per session, use the ~--plot~ flag.
+
+#+begin_src bash
+iron-cardio stats --plot
+#+end_src
+
+*** best
+The ~best~ command displays the top ten sessions based on the weight moved.
+#+begin_src bash
+iron-cardio best
+#+end_src

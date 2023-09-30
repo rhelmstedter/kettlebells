@@ -1,0 +1,6 @@
+#+title: Iron Cardio
+
+* Issues
+** TODO Expand to more workouts than just iron cardio
+I would love to add other workouts like DFW or the Back to Basics (C&P Ladders with snatches or double front squats).
+** TODO add a sort option for ~iron-cardio best~
