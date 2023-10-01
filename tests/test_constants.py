@@ -1,6 +1,6 @@
-from iron_cardio.iron_cardio import Session
+from kettlebells.iron_cardio import IronCardioSession
 
-TEST_SESSION = Session(
+TEST_SESSION = IronCardioSession(
     **{
         "bells": "Double Bells",
         "variation": "Double Classic + Pullup",
@@ -12,7 +12,7 @@ TEST_SESSION = Session(
     }
 )
 
-TEST_SESSION_NO_SWINGS = Session(
+TEST_SESSION_NO_SWINGS = IronCardioSession(
     **{
         "bells": "Single Bell",
         "variation": "Traveling 2s + Snatch",
@@ -24,7 +24,7 @@ TEST_SESSION_NO_SWINGS = Session(
     },
 )
 
-TEST_SESSION_SINGLE_BELL_PULLUPS = Session(
+TEST_SESSION_SINGLE_BELL_PULLUPS = IronCardioSession(
     **{
         "bells": "Single Bell",
         "variation": "Classic + Pullup",
@@ -36,7 +36,7 @@ TEST_SESSION_SINGLE_BELL_PULLUPS = Session(
     },
 )
 
-TEST_CACHE_SESSION = Session(
+TEST_CACHE_SESSION = IronCardioSession(
     **{
         "bells": "Double Bells",
         "variation": "Double Classic",

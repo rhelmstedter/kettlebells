@@ -9,14 +9,14 @@ from .console import console
 from .constants import DATE_FORMAT
 
 
-def initialize_database(iron_cardio_home: Path, db_path: Path, force: bool) -> None:
+def initialize_database(kettlebells_home: Path, db_path: Path, force: bool) -> None:
     """Creates the home directory and the JSON database.
     :param iron_cardio_home: The home directory for the Iron Cardio database.
     :param db_path: The Path to the database.
     :param force: If True, overwrites the existing database with a blank one.
     :returns: None
     """
-    if iron_cardio_home.is_dir() and force:
+    if kettlebells_home.is_dir() and force:
         pass
     elif db_path.is_file():
         console.print(
@@ -24,7 +24,7 @@ def initialize_database(iron_cardio_home: Path, db_path: Path, force: bool) -> N
         )
         return
     try:
-        iron_cardio_home.mkdir()
+        kettlebells_home.mkdir()
     except FileExistsError:
         pass
     data = {"loads": dict(), "saved_sessions": [], "cached_sessions": []}

@@ -7,18 +7,18 @@ from rich.prompt import Confirm, IntPrompt, Prompt
 
 from .console import console
 from .constants import (
-    BELLS,
-    DOUBLEBELL_VARIATIONS,
-    LOADS,
-    SINGLEBELL_VARIATIONS,
-    SWINGS,
-    TIMES,
+    IC_BELLS,
+    IC_DOUBLEBELL_VARIATIONS,
+    IC_LOADS,
+    IC_SINGLEBELL_VARIATIONS,
+    IC_SWINGS,
+    IC_TIMES,
 )
 from .iron_cardio_database import read_database
 
 
 @dataclass
-class Session:
+class IronCardioSession:
     bells: str
     variation: str
     time: int
@@ -28,7 +28,7 @@ class Session:
     sets: int = 0
 
 
-def create_session(db_path: Path) -> Session:
+def create_ic_session(db_path: Path) -> IronCardioSession:
     """Create a random Iron Cardio Session.
     :param db_path: The Path to the database.
     :returns: A Session object with randomly generated parameters.
@@ -36,30 +36,30 @@ def create_session(db_path: Path) -> Session:
     data = read_database(db_path)
     loads = data["loads"]
     bells = choices(
-        population=tuple(BELLS.keys()),
-        weights=tuple(BELLS.values()),
+        population=tuple(IC_BELLS.keys()),
+        weights=tuple(IC_BELLS.values()),
     )[0]
     if bells == "Double Bells":
         variation = choices(
-            population=tuple(DOUBLEBELL_VARIATIONS.keys()),
-            weights=tuple(DOUBLEBELL_VARIATIONS.values()),
+            population=tuple(IC_DOUBLEBELL_VARIATIONS.keys()),
+            weights=tuple(IC_DOUBLEBELL_VARIATIONS.values()),
         )[0]
     elif bells == "Single Bell":
         variation = choices(
-            population=tuple(SINGLEBELL_VARIATIONS.keys()),
-            weights=tuple(SINGLEBELL_VARIATIONS.values()),
+            population=tuple(IC_SINGLEBELL_VARIATIONS.keys()),
+            weights=tuple(IC_SINGLEBELL_VARIATIONS.values()),
         )[0]
     time = choices(
-        population=tuple(TIMES.keys()),
-        weights=tuple(TIMES.values()),
+        population=tuple(IC_TIMES.keys()),
+        weights=tuple(IC_TIMES.values()),
     )[0]
     load = choices(
-        population=tuple(LOADS.keys()),
-        weights=tuple(LOADS.values()),
+        population=tuple(IC_LOADS.keys()),
+        weights=tuple(IC_LOADS.values()),
     )[0]
     swings = choices(
-        population=tuple(SWINGS.keys()),
-        weights=tuple(SWINGS.values()),
+        population=tuple(IC_SWINGS.keys()),
+        weights=tuple(IC_SWINGS.values()),
     )[0]
     load = loads[load]
     units = loads["units"]
@@ -67,7 +67,7 @@ def create_session(db_path: Path) -> Session:
         swings = choice(range(50, 160, 10))
     else:
         swings = 0
-    return Session(bells, variation, time, load, units, swings)
+    return IronCardioSession(bells, variation, time, load, units, swings)
 
 
 def _get_options(session_param: dict) -> str:
@@ -82,15 +82,15 @@ def _get_options(session_param: dict) -> str:
     return options[selection - 1]
 
 
-def create_custom_session() -> Session:
+def create_custom_session() -> IronCardioSession:
     """Create a custom Iron Cardio session.
     :returns: A Session object created by the user.
     """
-    bells = _get_options(BELLS)
+    bells = _get_options(IC_BELLS)
     if bells == "Double Bells":
-        variation = _get_options(DOUBLEBELL_VARIATIONS)
+        variation = _get_options(IC_DOUBLEBELL_VARIATIONS)
     elif bells == "Single Bell":
-        variation = _get_options(SINGLEBELL_VARIATIONS)
+        variation = _get_options(IC_SINGLEBELL_VARIATIONS)
     time = IntPrompt.ask("How long was your session (in minutes)")
     units = _get_units()
     load = IntPrompt.ask(f"What weight did you use (in {units})")
@@ -98,10 +98,10 @@ def create_custom_session() -> Session:
         swings = IntPrompt.ask("How many swings")
     else:
         swings = 0
-    return Session(bells, variation, time, load, units, swings)
+    return IronCardioSession(bells, variation, time, load, units, swings)
 
 
-def display_session(session: Session) -> None:
+def display_session(session: IronCardioSession) -> None:
     """Print a session to the console.
     :param session: The Session object to be displayed in the console.
     :returns: None.

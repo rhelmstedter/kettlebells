@@ -26,4 +26,4 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-iron-cardio = "kettlebells.__main__:cli"
+kettlebells = "kettlebells.__main__:cli"

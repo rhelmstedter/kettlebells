@@ -8,11 +8,11 @@ from rich.prompt import Confirm, IntPrompt, Prompt
 
 from . import __version__
 from .console import console
-from .constants import DATE_FORMAT, IRON_CARDIO_DB, IRON_CARDIO_HOME
+from .constants import DATE_FORMAT, KETTLEBELLS_DB, KETTLEBELLS_HOME
 from .iron_cardio import (
-    Session,
+    IronCardioSession,
     create_custom_session,
-    create_session,
+    create_ic_session,
     display_session,
     set_loads,
 )
@@ -24,7 +24,7 @@ from .iron_cardio_database import (
     save_session,
     write_database,
 )
-from .iron_cardio_stats import (
+from .stats import (
     display_session_stats,
     get_all_time_stats,
     get_best_sessions,
@@ -53,7 +53,7 @@ def global_options(
         callback=report_version,
     ),
 ):
-    """Create, save, and track progress of Iron Cardio Sessions."""
+    """Create, save, and track progress of kettlebell workouts."""
 
 
 @cli.command()
@@ -69,8 +69,8 @@ def init(
 ) -> None:
     """Initializes the Iron Cardio database."""
     initialize_database(
-        iron_cardio_home=IRON_CARDIO_HOME,
-        db_path=IRON_CARDIO_DB,
+        kettlebells_home=KETTLEBELLS_HOME,
+        db_path=KETTLEBELLS_DB,
         force=force,
     )
 
@@ -79,18 +79,30 @@ def init(
 def setloads(ctx: typer.Context) -> None:
     """Set units and loads for iron cardio sessions."""
     loads = set_loads()
-    data = read_database(IRON_CARDIO_DB)
+    data = read_database(KETTLEBELLS_DB)
     data["loads"] = loads
-    write_database(IRON_CARDIO_DB, data)
+    write_database(KETTLEBELLS_DB, data)
 
 
 @cli.command()
-def session(ctx: typer.Context) -> None:
+def workout(
+    ctx: typer.Context,
+    iron_cardio: bool = typer.Option(
+        False,
+        "--iron-cardio",
+        "-ic",
+        is_flag=True,
+        is_eager=True,
+    ),
+) -> None:
     """Create a random Iron Cardio session."""
-    confirm_loads(IRON_CARDIO_DB)
-    session = create_session(IRON_CARDIO_DB)
-    cache_session(IRON_CARDIO_DB, session)
-    display_session(session)
+    if iron_cardio:
+        confirm_loads(KETTLEBELLS_DB)
+        session = create_ic_session(KETTLEBELLS_DB)
+        cache_session(KETTLEBELLS_DB, session)
+        display_session(session)
+    else:
+        console.print("Please specify a type of workout.", style='yellow')
 
 
 @cli.command()
@@ -105,13 +117,13 @@ def done(
     ),
 ) -> None:
     """Save an Iron Cardio session"""
-    confirm_loads(IRON_CARDIO_DB)
-    data = read_database(IRON_CARDIO_DB)
+    confirm_loads(KETTLEBELLS_DB)
+    data = read_database(KETTLEBELLS_DB)
     if custom:
         session = create_custom_session()
         display_session(session)
     else:
-        session = Session(**data["cached_sessions"][-1])
+        session = IronCardioSession(**data["cached_sessions"][-1])
         console.print("Last workout generated:\n")
         display_session(session)
     if Confirm.ask("Save this session?"):
@@ -128,7 +140,7 @@ def done(
                 console.print("[yellow]Please enter a valid date[/yellow]")
                 continue
         session.sets = IntPrompt.ask("How many sets did you complete?")
-        save_session(IRON_CARDIO_DB, session_date, session)
+        save_session(KETTLEBELLS_DB, session_date, session)
         bodyweight = data["loads"]["bodyweight"]
         print()
         display_session_stats(session, bodyweight)
@@ -137,10 +149,10 @@ def done(
 @cli.command()
 def last(ctx: typer.Context) -> None:
     """Display stats from most recent session in database."""
-    data = read_database(IRON_CARDIO_DB)
+    data = read_database(KETTLEBELLS_DB)
     last_session = data["saved_sessions"][-1]
     session_date = last_session["date"]
-    session = Session(**last_session["session"])
+    session = IronCardioSession(**last_session["session"])
     bodyweight = data["loads"]["bodyweight"]
     print(f"\nDate: [green]{datetime.strptime(session_date, DATE_FORMAT): %b %d, %Y}\n")
     display_session(session)
@@ -158,8 +170,8 @@ def stats(
         is_eager=True,
     ),
 ) -> None:
-    """Display stats from most recent session in database."""
-    data = read_database(IRON_CARDIO_DB)
+    """Display stats from most recent workout in database."""
+    data = read_database(KETTLEBELLS_DB)
     dates, weight_per_session = get_all_time_stats(data)
     if plot:
         plot_sessions(dates, weight_per_session)
@@ -169,8 +181,8 @@ def stats(
 def best(
     ctx: typer.Context,
 ) -> None:
-    """Display stats from most recent session in database."""
-    data = read_database(IRON_CARDIO_DB)
+    """Display stats from the top ten w in database."""
+    data = read_database(KETTLEBELLS_DB)
     get_best_sessions(data)
 
 

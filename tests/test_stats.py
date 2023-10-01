@@ -2,8 +2,8 @@ from pathlib import Path
 
 import pytest
 
-from iron_cardio.iron_cardio_database import read_database
-from iron_cardio.iron_cardio_stats import (
+from kettlebells.iron_cardio_database import read_database
+from kettlebells.stats import (
     calc_session_stats,
     display_session_stats,
     get_all_time_stats,

@@ -4,17 +4,17 @@ import plotext as plt
 from rich.table import Table
 
 from .console import console
-from .constants import REP_SCHEMES
-from .iron_cardio import Session
+from .constants import IC_REP_SCHEMES
+from .iron_cardio import IronCardioSession
 
 
-def calc_session_stats(session: Session, bodyweight: int) -> dict:
+def calc_session_stats(session: IronCardioSession, bodyweight: int) -> dict:
     """Calculate the stats for a given session.
     :param session: The session for which to calculate the stats.
     :param bodyweight: The user's bodyweight at time of the session.
     :returns: A dict containing total weight moved, number of reps, and the pace.
     """
-    reps = REP_SCHEMES[session.variation] * session.sets
+    reps = IC_REP_SCHEMES[session.variation] * session.sets
 
     if session.bells == "Double Bells":
         load_factor = 2
@@ -30,7 +30,7 @@ def calc_session_stats(session: Session, bodyweight: int) -> dict:
 
     stats = {
         "weight moved": (
-            REP_SCHEMES[session.variation] * session.load * load_factor * session.sets
+            IC_REP_SCHEMES[session.variation] * session.load * load_factor * session.sets
             + (session.swings * session.load)
             + (bodyweight * int(session.sets * pullup_factor))
         ),
@@ -40,7 +40,7 @@ def calc_session_stats(session: Session, bodyweight: int) -> dict:
     return stats
 
 
-def display_session_stats(session: Session, bodyweight: int) -> None:
+def display_session_stats(session: IronCardioSession, bodyweight: int) -> None:
     """Prints the stats for a given session.
     :param session: The Session object for which to display the stats.
     :param bodyweight: The bodyweight of the user.
@@ -68,7 +68,7 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     sessions = []
     for session_data in data["saved_sessions"]:
         date = session_data["date"]
-        session = Session(**session_data["session"])
+        session = IronCardioSession(**session_data["session"])
         dates.append(date)
         stats.append(calc_session_stats(session, bodyweight))
         sessions.append(session)
@@ -119,7 +119,7 @@ def get_best_sessions(data: dict):
     sessions = []
     for session_data in data["saved_sessions"]:
         date = session_data["date"]
-        session = Session(**session_data["session"])
+        session = IronCardioSession(**session_data["session"])
         sessions.append((date, session, calc_session_stats(session, bodyweight)))
 
     best_sessions_weight = sorted(
