@@ -1,38 +1,38 @@
-# Created 2023-09-30 Sat 12:46
+# Created 2023-09-30 Sat 22:23
 #+options: toc:t
-#+title: iron-cardio
+#+title: kettlebells
 #+author: Russell Helmstedter
 #+description: README file for iron-cardio cli tool
 #+keywords: kettlebells, iron cardio, cli
 #+language: en
 #+export_file_name: ../README.org
 
-iron-cardio is a CLI designed to create, save, and track the progress of iron cardio sessions. The inspiration for this project came from [[https://www.chroniclesofstrength.com/what-strength-aerobics-are-and-how-to-use-them-w-brett-jones/][Pat Flynn's conversation with Bret Jones]]. For a more detailed look at Iron Cardio, go checkout the [[https://strongandfit.com/products/iron-cardio-by-brett-jones][Iron Cardio Book]] by Bret Jones.
+kettlebells is a CLI designed to create, save, and track the progress of kettlebell workouts. The inspiration for this project came from [[https://www.chroniclesofstrength.com/what-strength-aerobics-are-and-how-to-use-them-w-brett-jones/][Pat Flynn's conversation with Bret Jones]]. (For a more detailed look at Iron Cardio, go checkout the [[https://strongandfit.com/products/iron-cardio-by-brett-jones][Iron Cardio Book]] by Bret Jones.) After starting an [[https://github.com/rhelmstedter/iron-cardio][initial project]] that focused only on iron cardio, I wanted to be able to add more. This is essentially a fork of the iron-cardio project designed to add various workouts such as the armor building complex, and dry fighting weight.
 
 * Installation
 Use [[https://github.com/pypa/pipx][pipx]]
 #+begin_src bash
-pipx install iron-cardio
+pipx install kettlebells
 #+end_src
 * Usage
 ** Initialize
 Run the ~init~ command. This creates the database.
 
 #+begin_src bash
-iron-cardio init
+kettlebells init
 #+end_src
 
 Next, run the ~setloads~ command. This sets the units to either pounds or kilograms, the user's bodyweight, and the loads for the light, medium, and heavy kettlebell. This command can be run as needed when the user is ready to move up in load.
 
 #+begin_src bash
-iron-cardio setloads
+kettlebells setloads
 #+end_src
 
 ** Commands
-*** session
-The ~session~ command generates a random iron cardio session.
+*** workout
+The ~workout~ command with the ~--iron-cardio~ flag, generates a random iron cardio session.
 #+begin_src bash
-iron-cardio session
+kettlebells workout --iron-cardio
 #+end_src
 
 Generated sessions are built from the following parameters
@@ -64,40 +64,40 @@ Generated sessions are built from the following parameters
 | *SWINGS*                 | 0 - 100                    |
 
 *** done
-The ~done~ command saves the most recently generated session to the database.
+The ~done~ command saves the most recently generated workout to the database.
 
 #+begin_src
-iron-cardio done
+kettlebells done
 #+end_src
 
 To save a custom session, use the ~--custom~ flag. This allows the user to create a custom session.
 
 #+begin_src
-iron-cardio done --custom
+kettlebells done --custom
 #+end_src
 
 *** last
 The ~last~ command displays the last saved session and calculates the amount of weight moved, the number of reps, and the pace (sec/rep).
 
 #+begin_src bash
-iron-cardio last
+kettlebells last
 #+end_src
 
 *** stats
 The ~stats~ command displays the aggregated weight moved, number of reps, and pace for all sessions in the database.
 
 #+begin_src bash
-iron-cardio stats
+kettlebells stats
 #+end_src
 
 To plot the weight moved per session, use the ~--plot~ flag.
 
 #+begin_src bash
-iron-cardio stats --plot
+kettlebells stats --plot
 #+end_src
 
 *** best
 The ~best~ command displays the top ten sessions based on the weight moved.
 #+begin_src bash
-iron-cardio best
+kettlebells best
 #+end_src
