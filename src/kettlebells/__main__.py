@@ -22,7 +22,7 @@ from .iron_cardio import (
     display_session,
     set_loads,
 )
-from .iron_cardio_database import (
+from .database import (
     cache_session,
     confirm_loads,
     initialize_database,

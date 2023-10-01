@@ -16,7 +16,7 @@ from .constants import (
     SUGGESTION,
     WARNING,
 )
-from .iron_cardio_database import read_database
+from .database import read_database
 
 
 @dataclass
