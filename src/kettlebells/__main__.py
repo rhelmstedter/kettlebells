@@ -147,13 +147,15 @@ def done(
                 datetime.strptime(session_date, DATE_FORMAT)
                 break
             except ValueError:
-                console.print("[yellow]Please enter a valid date[/yellow]")
+                console.print(":warning: {session_date} not a valid date.", style=WARNING)
                 continue
         session.sets = IntPrompt.ask("How many sets did you complete?")
         save_session(KETTLEBELLS_DB, session_date, session)
         bodyweight = data["ic_loads"]["bodyweight"]
         print()
         display_session_stats(session, bodyweight)
+    else:
+        console.print("Workout not saved.")
 
 
 @cli.command()
@@ -164,7 +166,7 @@ def last(ctx: typer.Context) -> None:
     session_date = last_session["date"]
     session = IronCardioSession(**last_session["session"])
     bodyweight = data["ic_loads"]["bodyweight"]
-    print(f"\nDate: [green]{datetime.strptime(session_date, DATE_FORMAT): %b %d, %Y}\n")
+    print(f"\nDate: [green]{datetime.strptime(session_date, DATE_FORMAT):%b %d, %Y}\n")
     display_session(session)
     display_session_stats(session, bodyweight)
 
