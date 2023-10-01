@@ -126,7 +126,7 @@ def done(
         is_eager=True,
     ),
 ) -> None:
-    """Save an Iron Cardio session"""
+    """Save an kettlebells workout"""
     confirm_loads(KETTLEBELLS_DB)
     data = read_database(KETTLEBELLS_DB)
     if custom:

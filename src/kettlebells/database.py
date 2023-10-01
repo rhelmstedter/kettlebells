@@ -39,7 +39,7 @@ def read_database(db_path: Path) -> json:
     :returns: A json object of the data.
     """
     if not db_path.is_file():
-        console.print(":warning: Could not find Iron Cardio database.", style=WARNING)
+        console.print(":warning: Could not find kettlebells database.", style=WARNING)
         console.print(
             "Try running [underline]kettlebells init[/underline] first.",
             style=SUGGESTION,
