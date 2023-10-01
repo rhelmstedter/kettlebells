@@ -73,7 +73,7 @@ def init(
         is_eager=True,
     ),
 ) -> None:
-    """Initializes the Iron Cardio database."""
+    """Initializes the kettlebells database."""
     initialize_database(
         kettlebells_home=KETTLEBELLS_HOME,
         db_path=KETTLEBELLS_DB,
@@ -101,7 +101,7 @@ def workout(
         is_eager=True,
     ),
 ) -> None:
-    """Create a random Iron Cardio session."""
+    """Create a random kettlebells workout."""
     if iron_cardio:
         confirm_loads(KETTLEBELLS_DB)
         session = create_ic_session(KETTLEBELLS_DB)

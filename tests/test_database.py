@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-import kettlebells.iron_cardio_database as ic_db
+import kettlebells.database as ic_db
 
 from .test_constants import (
     TEST_CACHE_SESSION,

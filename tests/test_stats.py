@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from kettlebells.iron_cardio_database import read_database
+from kettlebells.database import read_database
 from kettlebells.stats import (
     calc_session_stats,
     display_session_stats,
