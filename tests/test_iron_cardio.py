@@ -16,8 +16,7 @@ from kettlebells.iron_cardio import (
     _get_units,
     create_custom_ic_session,
     create_ic_session,
-    display_session,
-    set_loads,
+    set_ic_loads,
 )
 
 from .test_constants import TEST_SESSION, TEST_SESSION_NO_SWINGS
@@ -45,9 +44,9 @@ def test_create_ic_session(database):
 
 def test_display_ic_session(capfd):
     """Test a session is displayed correctly in the console."""
-    display_session(TEST_SESSION)
+    TEST_SESSION.display_workout()
     output = capfd.readouterr()[0]
-    assert "Iron Cardio Session" in output
+    assert TEST_SESSION.workout_type.upper() in output
     assert "===================" in output
     assert "Bells: " in output
     assert "Variation: " in output
@@ -58,9 +57,9 @@ def test_display_ic_session(capfd):
 
 def test_display_session_no_swings(capfd):
     """Test a session is displayed correctly in the console with no swings."""
-    display_session(TEST_SESSION_NO_SWINGS)
+    TEST_SESSION_NO_SWINGS.display_workout()
     output = capfd.readouterr()[0]
-    assert "Iron Cardio Session" in output
+    assert TEST_SESSION.workout_type.upper() in output
     assert "===================" in output
     assert "Bells: " in output
     assert "Variation: " in output
@@ -84,7 +83,7 @@ def test_set_loads(units_mock, confirm_mock, int_mock):
     int_mock.side_effect = [190, 1, 2, 3]  # [body_weight, light, med, heavy]
     confirm_mock.side_effect = ["y"]
     units_mock.side_effect = ["pounds"]
-    actual = set_loads()
+    actual = set_ic_loads()
     assert actual == expected
 
 

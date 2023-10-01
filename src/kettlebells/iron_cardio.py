@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from pathlib import Path
 from random import choice, choices
 
@@ -17,17 +18,12 @@ from .constants import (
     WARNING,
 )
 from .database import read_database
+from .workout import Workout
 
 
 @dataclass
-class IronCardioSession:
-    bells: str
-    variation: str
-    time: int
-    load: int
-    units: str
-    swings: int
-    sets: int = 0
+class IronCardioSession(Workout):
+    workout_type: str = "iron cardio"
 
 
 def create_ic_session(db_path: Path) -> IronCardioSession:
@@ -69,7 +65,7 @@ def create_ic_session(db_path: Path) -> IronCardioSession:
         swings = choice(range(50, 160, 10))
     else:
         swings = 0
-    return IronCardioSession(bells, variation, time, load, units, swings)
+    return IronCardioSession(bells, variation, time, load, units, swings, sets=0)
 
 
 def _get_options(session_param: dict) -> str:
@@ -100,28 +96,7 @@ def create_custom_ic_session() -> IronCardioSession:
         swings = IntPrompt.ask("How many swings")
     else:
         swings = 0
-    return IronCardioSession(bells, variation, time, load, units, swings)
-
-
-def display_session(session: IronCardioSession) -> None:
-    """Print a session to the console.
-    :param session: The Session object to be displayed in the console.
-    :returns: None.
-    """
-    if session.swings:
-        swings = f"   Swings: {session.swings} reps"
-    else:
-        swings = ""
-    print(
-        f"""Iron Cardio Session
-[green]===================[/green]
-    Bells: {session.bells.title()}
-Variation: {session.variation}
-     Time: {session.time} mins
-     Load: {session.load} {session.units}
-{swings}
-    """
-    )
+    return IronCardioSession(bells, variation, time, load, units, swings, sets=0)
 
 
 def _get_units():
@@ -142,7 +117,7 @@ def _get_units():
     return units
 
 
-def set_loads() -> dict:
+def set_ic_loads() -> dict:
     """Creates a dictionary containing the units and kettlebell weights and body weight
     of the user.
     :returns: A dict of the loads set by the user.

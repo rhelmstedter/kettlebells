@@ -21,7 +21,7 @@ def test_ic_workout(database):
     """Test using the iron-cardio flag generates an iron cardio session."""
     with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
         result = runner.invoke(cli, ["workout", "-ic"])
-        assert "Iron Cardio Session" in result.stdout
+        assert "IRON CARDIO" in result.stdout
 
 
 def test_workout_no_flag(database):
@@ -62,7 +62,7 @@ def test_last(database):
         assert "Date: Sep 14, 2023" in result.stdout
 
 
-@mock.patch("kettlebells.__main__.set_loads")
+@mock.patch("kettlebells.__main__.set_ic_loads")
 @mock.patch("kettlebells.__main__.read_database")
 @mock.patch("kettlebells.__main__.write_database")
 def test_setloads(write_mock, read_mock, loads_mock):

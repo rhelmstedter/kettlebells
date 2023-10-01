@@ -75,6 +75,7 @@ def test_save_session(database):
             "units": "kilograms",
             "swings": 60,
             "sets": 20,
+            "workout_type": "iron cardio",
         },
     }
 

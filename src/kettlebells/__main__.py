@@ -19,8 +19,7 @@ from .iron_cardio import (
     IronCardioSession,
     create_custom_ic_session,
     create_ic_session,
-    display_session,
-    set_loads,
+    set_ic_loads,
 )
 from .database import (
     cache_session,
@@ -84,7 +83,7 @@ def init(
 @cli.command()
 def setloads(ctx: typer.Context) -> None:
     """Set units and loads for iron cardio sessions."""
-    loads = set_loads()
+    loads = set_ic_loads()
     data = read_database(KETTLEBELLS_DB)
     data["ic_loads"] = loads
     write_database(KETTLEBELLS_DB, data)
@@ -106,7 +105,7 @@ def workout(
         confirm_loads(KETTLEBELLS_DB)
         session = create_ic_session(KETTLEBELLS_DB)
         cache_session(KETTLEBELLS_DB, session)
-        display_session(session)
+        session.display_workout()
     else:
         console.print(
             ":warning: [underline]kettlebells workout[/underline] requires a workout flag.",
@@ -131,11 +130,11 @@ def done(
     data = read_database(KETTLEBELLS_DB)
     if custom:
         session = create_custom_ic_session()
-        display_session(session)
+        session.display_workout()
     else:
         session = IronCardioSession(**data["cached_sessions"][-1])
         console.print("Last workout generated:\n")
-        display_session(session)
+        session.display_workout()
     if Confirm.ask("Save this session?"):
         while True:
             session_date = Prompt.ask(
@@ -167,7 +166,7 @@ def last(ctx: typer.Context) -> None:
     session = IronCardioSession(**last_session["session"])
     bodyweight = data["ic_loads"]["bodyweight"]
     print(f"\nDate: [green]{datetime.strptime(session_date, DATE_FORMAT):%b %d, %Y}\n")
-    display_session(session)
+    session.display_workout(session)
     display_session_stats(session, bodyweight)
 
 
