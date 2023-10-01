@@ -40,7 +40,7 @@ def test_read_no_database(database_home, capfd):
     with pytest.raises(SystemExit):
         ic_db.read_database(database_home)
     output = capfd.readouterr()[0]
-    assert "Could not find Iron Cardio database." in output
+    assert "Could not find kettlebells database." in output
 
 
 def test_confirm_loads(database_home, capfd):
