@@ -14,7 +14,7 @@ from kettlebells.iron_cardio import (
     IronCardioSession,
     _get_options,
     _get_units,
-    create_custom_session,
+    create_custom_ic_session,
     create_ic_session,
     display_session,
     set_loads,
@@ -25,11 +25,11 @@ from .test_constants import TEST_SESSION, TEST_SESSION_NO_SWINGS
 POSSIBLE_SWINGS = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150]
 
 
-def test_create_session(database):
+def test_create_ic_session(database):
     """Test when a session is created, the parameters are appropriate based on the
     database and within the ranges defined in the constants module.
     """
-    loads = json.load(open(database.name))["loads"]
+    loads = json.load(open(database.name))["ic_loads"]
     actual = create_ic_session(Path(database.name))
     assert isinstance(actual, IronCardioSession)
     assert actual.bells in IC_BELLS.keys()
@@ -43,7 +43,7 @@ def test_create_session(database):
     assert actual.swings == 0 or actual.swings in POSSIBLE_SWINGS
 
 
-def test_display_session(capfd):
+def test_display_ic_session(capfd):
     """Test a session is displayed correctly in the console."""
     display_session(TEST_SESSION)
     output = capfd.readouterr()[0]
@@ -149,7 +149,7 @@ def test_custom_session(
     int_mock.side_effect = int_responses
     confirm_mock.side_effect = ["y"]
     units_mock.side_effect = ["kilograms"]
-    actual = create_custom_session()
+    actual = create_custom_ic_session()
     actual.sets = sets
     assert isinstance(actual, IronCardioSession)
     assert actual == expected

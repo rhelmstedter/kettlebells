@@ -15,7 +15,7 @@ from .test_constants import (
 
 
 def test_initialize_database(database_home):
-    expected = {"loads": dict(), "saved_sessions": [], "cached_sessions": []}
+    expected = {"ic_loads": dict(), "saved_sessions": [], "cached_sessions": []}
     ic_db.initialize_database(database_home.parents[0], database_home, False)
     assert database_home.is_file()
     assert json.load(open(database_home)) == expected
@@ -30,7 +30,7 @@ def test_initialize_database_already_existes(database, capfd):
 
 
 def test_initialize_database_force(database):
-    expected = {"loads": dict(), "saved_sessions": [], "cached_sessions": []}
+    expected = {"ic_loads": dict(), "saved_sessions": [], "cached_sessions": []}
     ic_db.initialize_database(Path(database.name).parents[0], Path(database.name), True)
     assert Path(database.name).is_file()
     assert json.load(open(database.name)) == expected

@@ -49,7 +49,7 @@ TEST_CACHE_SESSION = IronCardioSession(
 )
 
 TEST_DATA = {
-    "loads": {
+    "ic_loads": {
         "units": "kilograms",
         "bodyweight": 90,
         "light load": 20,
@@ -84,7 +84,7 @@ TEST_DATA = {
 }
 
 TEST_DATA_FULL_CACHE = {
-    "loads": {
+    "ic_loads": {
         "units": "kilograms",
         "bodyweight": 90,
         "light load": 20,

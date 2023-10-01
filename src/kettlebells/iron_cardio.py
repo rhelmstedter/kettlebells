@@ -13,6 +13,8 @@ from .constants import (
     IC_SINGLEBELL_VARIATIONS,
     IC_SWINGS,
     IC_TIMES,
+    SUGGESTION,
+    WARNING,
 )
 from .iron_cardio_database import read_database
 
@@ -34,7 +36,7 @@ def create_ic_session(db_path: Path) -> IronCardioSession:
     :returns: A Session object with randomly generated parameters.
     """
     data = read_database(db_path)
-    loads = data["loads"]
+    loads = data["ic_loads"]
     bells = choices(
         population=tuple(IC_BELLS.keys()),
         weights=tuple(IC_BELLS.values()),
@@ -82,9 +84,9 @@ def _get_options(session_param: dict) -> str:
     return options[selection - 1]
 
 
-def create_custom_session() -> IronCardioSession:
+def create_custom_ic_session() -> IronCardioSession:
     """Create a custom Iron Cardio session.
-    :returns: A Session object created by the user.
+    :returns: An IronCardioSession object created by the user.
     """
     bells = _get_options(IC_BELLS)
     if bells == "Double Bells":
@@ -133,7 +135,8 @@ def _get_units():
         elif units.startswith("k"):
             units = "kilograms"
         else:
-            console.print("[yellow]Please enter a p or k[/yellow]")
+            console.print(":warning: Invalid option", style=WARNING)
+            console.print("Please enter P or K", style=SUGGESTION)
             continue
         break
     return units
@@ -162,7 +165,7 @@ def set_loads() -> dict:
         for label, value in loads.items():
             console.print(f"{label.title()}: {value}")
         if Confirm.ask(
-            "Are these loads correct? If you confirm, they will be used to generate sessions."
+            "Are these loads correct? If you confirm, they will be used to generate Iron Cardio sessions."
         ):
             break
     return loads

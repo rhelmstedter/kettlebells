@@ -2,8 +2,12 @@
 
 from pathlib import Path
 
+WARNING = "red"
+SUGGESTION = "yellow"
+
 KETTLEBELLS_HOME = Path().home() / ".kettlebells"
 KETTLEBELLS_DB = KETTLEBELLS_HOME / "kettlebells_db.json"
+
 
 IC_BELLS = {"Single Bell": 4 / 6, "Double Bells": 2 / 6}
 IC_DOUBLEBELL_VARIATIONS = {

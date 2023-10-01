@@ -6,12 +6,12 @@ from datetime import datetime
 from pathlib import Path
 
 from .console import console
-from .constants import DATE_FORMAT
+from .constants import DATE_FORMAT, SUGGESTION, WARNING
 
 
 def initialize_database(kettlebells_home: Path, db_path: Path, force: bool) -> None:
     """Creates the home directory and the JSON database.
-    :param iron_cardio_home: The home directory for the Iron Cardio database.
+    :param kettlebells_home: The home directory for the kettlebells database.
     :param db_path: The Path to the database.
     :param force: If True, overwrites the existing database with a blank one.
     :returns: None
@@ -19,15 +19,17 @@ def initialize_database(kettlebells_home: Path, db_path: Path, force: bool) -> N
     if kettlebells_home.is_dir() and force:
         pass
     elif db_path.is_file():
+        console.print(":warning: Database base already exits.", style=WARNING)
         console.print(
-            "[yellow] Database base already exits. Run 'iron-cardio init --force' to overwrite database."
+            "Run [underline]kettlebells init --force[/underline] to overwrite database.",
+            style=SUGGESTION,
         )
         return
     try:
         kettlebells_home.mkdir()
     except FileExistsError:
         pass
-    data = {"loads": dict(), "saved_sessions": [], "cached_sessions": []}
+    data = {"ic_loads": dict(), "saved_sessions": [], "cached_sessions": []}
     write_database(db_path, data)
 
 
@@ -37,9 +39,10 @@ def read_database(db_path: Path) -> json:
     :returns: A json object of the data.
     """
     if not db_path.is_file():
-        console.print("[red]:warning: Could not find Iron Cardio database.")
+        console.print(":warning: Could not find Iron Cardio database.", style=WARNING)
         console.print(
-            "[yellow] Try running [underline]iron-cardio init[/underline] first."
+            "Try running [underline]kettlebells init[/underline] first.",
+            style=SUGGESTION,
         )
         sys.exit()
     with open(db_path) as db:
@@ -62,36 +65,37 @@ def confirm_loads(db_path: Path) -> None:
     :returns: None
     """
     data = read_database(db_path)
-    if not data["loads"]:
-        console.print("[red]:warning: Could not find loads in database.")
+    if not data["ic_loads"]:
+        console.print("[red]:warning: Could not find loads in database.", style=WARNING)
         console.print(
-            "[yellow] Try running [underline]iron-cardio setloads[/underline] first."
+            "Try running [underline]iron-cardio setloads[/underline] first.",
+            style=SUGGESTION,
         )
         sys.exit()
 
 
-def cache_session(db_path: Path, session) -> None:
+def cache_session(db_path: Path, ic_session) -> None:
     """Cache last 10 generated sessions.
     :param db_path: The Path to the database.
-    :param session: Session object to be stored in the cache.
+    :param session:IronCardioSession object to be stored in the cache.
     :returns: None
     """
     data = read_database(db_path)
     cache = deque(data["cached_sessions"], maxlen=10)
-    cache.append(asdict(session))
+    cache.append(asdict(ic_session))
     data["cached_sessions"] = list(cache)
     write_database(db_path, data)
 
 
-def save_session(db_path: Path, session_date: str, session) -> None:
+def save_session(db_path: Path, session_date: str, ic_session) -> None:
     """Save a session in the database.
     :param db_path: The Path to the database.
     :param session_date: The date of the workout.
-    :param session: Session object to be stored in the database.
+    :param session: IronCardioSession object to be stored in the database.
     :returns: None
     """
     data = read_database(db_path)
-    data["saved_sessions"].append({"date": session_date, "session": asdict(session)})
+    data["saved_sessions"].append({"date": session_date, "session": asdict(ic_session)})
     data["saved_sessions"] = sorted(
         data["saved_sessions"], key=lambda x: datetime.strptime(x["date"], DATE_FORMAT)
     )
