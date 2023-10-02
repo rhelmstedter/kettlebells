@@ -4,12 +4,7 @@ from unittest import mock
 
 import pytest
 
-from kettlebells.constants import (
-    IC_BELLS,
-    IC_DOUBLEBELL_VARIATIONS,
-    IC_SINGLEBELL_VARIATIONS,
-    IC_TIMES,
-)
+from kettlebells.constants import IRON_CARDIO_PARAMS
 from kettlebells.workouts import (
     Workout,
     _get_options,
@@ -31,12 +26,12 @@ def test_create_ic_session(database):
     loads = json.load(open(database.name))["ic_loads"]
     actual = random_ic_session(Path(database.name))
     assert isinstance(actual, Workout)
-    assert actual.bells in IC_BELLS.keys()
+    assert actual.bells in IRON_CARDIO_PARAMS["bells"].keys()
     assert (
-        actual.variation in IC_DOUBLEBELL_VARIATIONS.keys()
-        or actual.variation in IC_SINGLEBELL_VARIATIONS.keys()
+        actual.variation in IRON_CARDIO_PARAMS["doublebell variations"].keys()
+        or actual.variation in IRON_CARDIO_PARAMS["singlebell variations"].keys()
     )
-    assert actual.time in IC_TIMES.keys()
+    assert actual.time in IRON_CARDIO_PARAMS["times"].keys()
     assert actual.load in loads.values()
     assert actual.units == loads["units"]
     assert actual.swings == 0 or actual.swings in POSSIBLE_SWINGS
@@ -98,19 +93,18 @@ def test_get_units_good_input(ask_mock, response, units):
 
 
 @pytest.mark.parametrize(
-    "session_param, response, option",
+    "workout_param, response, option",
     [
-        (IC_BELLS, 1, "Single Bell"),
-        (IC_SINGLEBELL_VARIATIONS, 3, "Classic + Snatch"),
-        (IC_DOUBLEBELL_VARIATIONS, 4, "Armor Building Complex"),
+        (IRON_CARDIO_PARAMS["bells"], 1, "Single Bell"),
+        (IRON_CARDIO_PARAMS["singlebell variations"], 3, "Classic + Snatch"),
     ],
 )
 @mock.patch("kettlebells.workouts.IntPrompt.ask")
-def test_get_options(ask_mock, session_param, response, option):
+def test_get_options(ask_mock, workout_param, response, option):
     """Test the options for session parameters are valid."""
     expected = option
     ask_mock.side_effect = [response]
-    actual = _get_options(session_param)
+    actual = _get_options(workout_param)
     assert actual == expected
 
 

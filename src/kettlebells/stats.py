@@ -4,7 +4,7 @@ import plotext as plt
 from rich.table import Table
 
 from .console import console
-from .constants import IC_REP_SCHEMES
+from .constants import IRON_CARDIO_PARAMS
 from .workouts import Workout
 
 
@@ -30,7 +30,7 @@ def calc_session_stats(workout: Workout, bodyweight: int) -> dict:
 
     stats = {
         "weight moved": (
-            IC_REP_SCHEMES[workout.variation] * workout.load * load_factor * workout.sets
+            IRON_CARDIO_PARAMS["rep schemes"][workout.variation] * workout.load * load_factor * workout.sets
             + (workout.swings * workout.load)
             + (bodyweight * int(workout.sets * pullup_factor))
         ),
