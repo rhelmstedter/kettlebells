@@ -10,8 +10,8 @@ from kettlebells.workouts import (
     _get_options,
     _get_units,
     create_custom_ic_session,
-    random_ic_session,
-    set_ic_loads,
+    random_workout,
+    set_loads,
 )
 
 from .test_constants import TEST_SESSION, TEST_SESSION_NO_SWINGS
@@ -19,12 +19,12 @@ from .test_constants import TEST_SESSION, TEST_SESSION_NO_SWINGS
 POSSIBLE_SWINGS = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150]
 
 
-def test_create_ic_session(database):
+def test_create_random_workout(database):
     """Test when a session is created, the parameters are appropriate based on the
     database and within the ranges defined in the constants module.
     """
     loads = json.load(open(database.name))["ic_loads"]
-    actual = random_ic_session(Path(database.name))
+    actual = random_workout(Path(database.name), 'iron-cardio')
     assert isinstance(actual, Workout)
     assert actual.bells in IRON_CARDIO_PARAMS["bells"].keys()
     assert (
@@ -78,7 +78,7 @@ def test_set_loads(units_mock, confirm_mock, int_mock):
     int_mock.side_effect = [190, 1, 2, 3]  # [body_weight, light, med, heavy]
     confirm_mock.side_effect = ["y"]
     units_mock.side_effect = ["pounds"]
-    actual = set_ic_loads()
+    actual = set_loads()
     assert actual == expected
 
 

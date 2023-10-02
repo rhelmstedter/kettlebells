@@ -50,9 +50,24 @@ IRON_CARDIO_PARAMS = {
     },
 }
 
-# "Armor Building Complex": 1 / 6,
-# "Armor Building Complex 2.0": 2 / 10,
-ABC_REP_SCHEMES = {
-    "Armor Building Complex 2.0": 6,
-    "Armor Building Complex": 6,
+ABC_PARAMS = {
+    "bells": {"Single Bell": 2 / 6, "Double Bells": 4 / 6},
+    "doublebell variations": {"Armor Building Complex": 1},
+    "singlebell variations": {"Armor Building Complex 2.0": 1},
+    "times": {
+        25: 1 / 6,
+        20: 2 / 6,
+        15: 2 / 6,
+        10: 1 / 6,
+    },
+    "loads": {
+        "heavy load": 2 / 6,
+        "medium load": 3 / 6,
+        "light load": 1 / 6,
+    },
+    "swings": {True: 1 / 6, False: 5 / 6},
+    "rep schemes": {
+        "Armor Building Complex 2.0": 6,
+        "Armor Building Complex": 6,
+    },
 }

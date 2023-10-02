@@ -8,6 +8,7 @@ from rich.prompt import Confirm, IntPrompt, Prompt
 
 from .console import console
 from .constants import (
+    ABC_PARAMS,
     IRON_CARDIO_PARAMS,
     SUGGESTION,
     WARNING,
@@ -46,38 +47,47 @@ Variation: {self.variation}
         )
 
 
-def random_ic_session(db_path: Path) -> Workout:
-    """Create a random Iron Cardio Session.
+def _get_workout_params(workout_type: str) -> dict:
+    match workout_type:
+        case 'iron-cardio':
+            return "iron cardio", IRON_CARDIO_PARAMS
+        case 'abc':
+            return "Armor Building Complex", ABC_PARAMS
+
+
+def random_workout(db_path: Path, workout_type: str) -> Workout:
+    """Create a random workout based on workout_type.
     :param db_path: The Path to the database.
     :returns: A Session object with randomly generated parameters.
     """
     data = read_database(db_path)
     loads = data["ic_loads"]
+    workout_type, workout_params = _get_workout_params(workout_type)
     bells = choices(
-        population=tuple(IRON_CARDIO_PARAMS["bells"].keys()),
-        weights=tuple(IRON_CARDIO_PARAMS["bells"].values()),
+        population=tuple(workout_params["bells"].keys()),
+        weights=tuple(workout_params["bells"].values()),
     )[0]
     if bells == "Double Bells":
         variation = choices(
-            population=tuple(IRON_CARDIO_PARAMS["doublebell variations"].keys()),
-            weights=tuple(IRON_CARDIO_PARAMS["doublebell variations"].values()),
+            population=tuple(workout_params["doublebell variations"].keys()),
+            weights=tuple(workout_params["doublebell variations"].values()),
         )[0]
     elif bells == "Single Bell":
         variation = choices(
-            population=tuple(IRON_CARDIO_PARAMS["singlebell variations"].keys()),
-            weights=tuple(IRON_CARDIO_PARAMS["singlebell variations"].values()),
+            population=tuple(workout_params["singlebell variations"].keys()),
+            weights=tuple(workout_params["singlebell variations"].values()),
         )[0]
     time = choices(
-        population=tuple(IRON_CARDIO_PARAMS["times"].keys()),
-        weights=tuple(IRON_CARDIO_PARAMS["times"].values()),
+        population=tuple(workout_params["times"].keys()),
+        weights=tuple(workout_params["times"].values()),
     )[0]
     load = choices(
-        population=tuple(IRON_CARDIO_PARAMS["loads"].keys()),
-        weights=tuple(IRON_CARDIO_PARAMS["loads"].values()),
+        population=tuple(workout_params["loads"].keys()),
+        weights=tuple(workout_params["loads"].values()),
     )[0]
     swings = choices(
-        population=tuple(IRON_CARDIO_PARAMS["swings"].keys()),
-        weights=tuple(IRON_CARDIO_PARAMS["swings"].values()),
+        population=tuple(workout_params["swings"].keys()),
+        weights=tuple(workout_params["swings"].values()),
     )[0]
     load = loads[load]
     units = loads["units"]
@@ -93,8 +103,8 @@ def random_ic_session(db_path: Path) -> Workout:
         units=units,
         swings=swings,
         sets=0,
-        reps=IRON_CARDIO_PARAMS["rep schemes"][variation],
-        workout_type="iron cardio",
+        reps=workout_params["rep schemes"][variation],
+        workout_type=workout_type,
     )
 
 
@@ -163,7 +173,7 @@ def _get_units():
     return units
 
 
-def set_ic_loads() -> dict:
+def set_loads() -> dict:
     """Creates a dictionary containing the units and kettlebell weights and body weight
     of the user.
     :returns: A dict of the loads set by the user.

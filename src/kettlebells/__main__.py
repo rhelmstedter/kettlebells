@@ -18,8 +18,8 @@ from .constants import (
 from .workouts import (
     Workout,
     create_custom_ic_session,
-    random_ic_session,
-    set_ic_loads,
+    random_workout,
+    set_loads,
 )
 from .database import (
     cache_workout,
@@ -83,7 +83,7 @@ def init(
 @cli.command()
 def setloads(ctx: typer.Context) -> None:
     """Set units and loads for iron cardio sessions."""
-    loads = set_ic_loads()
+    loads = set_loads()
     data = read_database(KETTLEBELLS_DB)
     data["ic_loads"] = loads
     write_database(KETTLEBELLS_DB, data)
@@ -92,26 +92,19 @@ def setloads(ctx: typer.Context) -> None:
 @cli.command()
 def workout(
     ctx: typer.Context,
-    iron_cardio: bool = typer.Option(
-        False,
-        "--iron-cardio",
-        "-ic",
-        is_flag=True,
-        is_eager=True,
-    ),
+    workout_type: str
 ) -> None:
     """Create a random kettlebells workout."""
-    if iron_cardio:
-        confirm_loads(KETTLEBELLS_DB)
-        workout = random_ic_session(KETTLEBELLS_DB)
-        cache_workout(KETTLEBELLS_DB, workout)
-        workout.display_workout()
-    else:
+    confirm_loads(KETTLEBELLS_DB)
+    if not workout_type:
         console.print(
-            ":warning: [underline]kettlebells workout[/underline] requires a workout flag.",
+            ":warning: [underline]kettlebells workout[/underline] requires a workout type.",
             style=WARNING,
         )
         console.print("Please specify a type of workout.", style=SUGGESTION)
+    workout = random_workout(KETTLEBELLS_DB, workout_type)
+    cache_workout(KETTLEBELLS_DB, workout)
+    workout.display_workout()
 
 
 @cli.command()
