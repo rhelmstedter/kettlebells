@@ -1,6 +1,8 @@
 #+title: kettlebells
 
 * Issues
+** TODO update readme for workout commmand
+There are no more flags, just arguments that are passed in and then altered as needed in the ~workouts~ module.
 ** TODO Expand to more workouts than just iron cardio
 I would love to add other workouts like DFW or the Back to Basics (C&P Ladders with snatches or double front squats).
 
