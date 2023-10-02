@@ -17,19 +17,6 @@ def test_version():
     assert f"{__version__}\n" in result.stdout
 
 
-def test_ic_workout(database):
-    """Test using the iron-cardio flag generates an iron cardio session."""
-    with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
-        result = runner.invoke(cli, ["workout", "-ic"])
-        assert "Iron Cardio Session" in result.stdout
-
-
-def test_workout_no_flag(database):
-    """Test using no flag generates a warning."""
-    result = runner.invoke(cli, ["workout"])
-    assert "Please specify a type of workout." in result.stdout
-
-
 @mock.patch("kettlebells.__main__.Confirm.ask")
 def test_done_without_save(confirm_mock, database):
     """Test workout not saved renders correctly."""

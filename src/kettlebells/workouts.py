@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from pathlib import Path
 from random import choice, choices
 
@@ -7,12 +8,8 @@ from rich.prompt import Confirm, IntPrompt, Prompt
 
 from .console import console
 from .constants import (
-    IC_BELLS,
-    IC_DOUBLEBELL_VARIATIONS,
-    IC_LOADS,
-    IC_SINGLEBELL_VARIATIONS,
-    IC_SWINGS,
-    IC_TIMES,
+    ABC_PARAMS,
+    IRON_CARDIO_PARAMS,
     SUGGESTION,
     WARNING,
 )
@@ -20,48 +17,77 @@ from .database import read_database
 
 
 @dataclass
-class IronCardioSession:
+class Workout:
     bells: str
     variation: str
     time: int
     load: int
     units: str
     swings: int
-    sets: int = 0
+    sets: int
+    reps: int
+    workout_type: str
+
+    def display_workout(self) -> None:
+        """Print an a workout to the console.
+        :returns: None.
+        """
+        if self.swings:
+            swings = f"   Swings: {self.swings} reps"
+        else:
+            swings = ""
+        print(
+            f"""{self.workout_type.upper()}\n[green]===================[/green]
+    Bells: {self.bells.title()}
+Variation: {self.variation}
+     Time: {self.time} mins
+     Load: {self.load} {self.units}
+{swings}
+"""
+        )
 
 
-def create_ic_session(db_path: Path) -> IronCardioSession:
-    """Create a random Iron Cardio Session.
+def _get_workout_params(workout_type: str) -> dict:
+    match workout_type:
+        case 'iron-cardio':
+            return "iron cardio", IRON_CARDIO_PARAMS
+        case 'abc':
+            return "Armor Building Complex", ABC_PARAMS
+
+
+def random_workout(db_path: Path, workout_type: str) -> Workout:
+    """Create a random workout based on workout_type.
     :param db_path: The Path to the database.
     :returns: A Session object with randomly generated parameters.
     """
     data = read_database(db_path)
     loads = data["ic_loads"]
+    workout_type, workout_params = _get_workout_params(workout_type)
     bells = choices(
-        population=tuple(IC_BELLS.keys()),
-        weights=tuple(IC_BELLS.values()),
+        population=tuple(workout_params["bells"].keys()),
+        weights=tuple(workout_params["bells"].values()),
     )[0]
     if bells == "Double Bells":
         variation = choices(
-            population=tuple(IC_DOUBLEBELL_VARIATIONS.keys()),
-            weights=tuple(IC_DOUBLEBELL_VARIATIONS.values()),
+            population=tuple(workout_params["doublebell variations"].keys()),
+            weights=tuple(workout_params["doublebell variations"].values()),
         )[0]
     elif bells == "Single Bell":
         variation = choices(
-            population=tuple(IC_SINGLEBELL_VARIATIONS.keys()),
-            weights=tuple(IC_SINGLEBELL_VARIATIONS.values()),
+            population=tuple(workout_params["singlebell variations"].keys()),
+            weights=tuple(workout_params["singlebell variations"].values()),
         )[0]
     time = choices(
-        population=tuple(IC_TIMES.keys()),
-        weights=tuple(IC_TIMES.values()),
+        population=tuple(workout_params["times"].keys()),
+        weights=tuple(workout_params["times"].values()),
     )[0]
     load = choices(
-        population=tuple(IC_LOADS.keys()),
-        weights=tuple(IC_LOADS.values()),
+        population=tuple(workout_params["loads"].keys()),
+        weights=tuple(workout_params["loads"].values()),
     )[0]
     swings = choices(
-        population=tuple(IC_SWINGS.keys()),
-        weights=tuple(IC_SWINGS.values()),
+        population=tuple(workout_params["swings"].keys()),
+        weights=tuple(workout_params["swings"].values()),
     )[0]
     load = loads[load]
     units = loads["units"]
@@ -69,7 +95,17 @@ def create_ic_session(db_path: Path) -> IronCardioSession:
         swings = choice(range(50, 160, 10))
     else:
         swings = 0
-    return IronCardioSession(bells, variation, time, load, units, swings)
+    return Workout(
+        bells=bells,
+        variation=variation,
+        time=time,
+        load=load,
+        units=units,
+        swings=swings,
+        sets=0,
+        reps=workout_params["rep schemes"][variation],
+        workout_type=workout_type,
+    )
 
 
 def _get_options(session_param: dict) -> str:
@@ -80,19 +116,25 @@ def _get_options(session_param: dict) -> str:
     options = list(session_param.keys())
     for i, option in enumerate(options, 1):
         print(f"    [{i}] {option}")
-    selection = IntPrompt.ask("Choose your option")
-    return options[selection - 1]
+    while True:
+        try:
+            selection = IntPrompt.ask("Choose your option")
+            return options[selection - 1]
+        except IndexError:
+            print(':warning: Not a valid option.', style=WARNING)
+            print('Enter a number between 1 and {max(options) + 1}.', style=SUGGESTION)
+            continue
 
 
-def create_custom_ic_session() -> IronCardioSession:
+def create_custom_ic_session() -> Workout:
     """Create a custom Iron Cardio session.
-    :returns: An IronCardioSession object created by the user.
+    :returns: An Workout object created by the user.
     """
-    bells = _get_options(IC_BELLS)
+    bells = _get_options(IRON_CARDIO_PARAMS["bells"])
     if bells == "Double Bells":
-        variation = _get_options(IC_DOUBLEBELL_VARIATIONS)
+        variation = _get_options(IRON_CARDIO_PARAMS["doublebell variations"])
     elif bells == "Single Bell":
-        variation = _get_options(IC_SINGLEBELL_VARIATIONS)
+        variation = _get_options(IRON_CARDIO_PARAMS["singlebell variations"])
     time = IntPrompt.ask("How long was your session (in minutes)")
     units = _get_units()
     load = IntPrompt.ask(f"What weight did you use (in {units})")
@@ -100,27 +142,16 @@ def create_custom_ic_session() -> IronCardioSession:
         swings = IntPrompt.ask("How many swings")
     else:
         swings = 0
-    return IronCardioSession(bells, variation, time, load, units, swings)
-
-
-def display_session(session: IronCardioSession) -> None:
-    """Print a session to the console.
-    :param session: The Session object to be displayed in the console.
-    :returns: None.
-    """
-    if session.swings:
-        swings = f"   Swings: {session.swings} reps"
-    else:
-        swings = ""
-    print(
-        f"""Iron Cardio Session
-[green]===================[/green]
-    Bells: {session.bells.title()}
-Variation: {session.variation}
-     Time: {session.time} mins
-     Load: {session.load} {session.units}
-{swings}
-    """
+    return Workout(
+        bells,
+        variation,
+        time,
+        load,
+        units,
+        swings,
+        0,
+        IRON_CARDIO_PARAMS["rep schemes"][variation],
+        "iron cardio",
     )
 
 
@@ -169,21 +200,3 @@ def set_loads() -> dict:
         ):
             break
     return loads
-
-
-# def simulation() -> None:
-#     """A simulation of a year of generated sessions.
-#     :returns: None.
-#     """
-#     sessions = [create_session() for s in range(3 * 52)]
-#     stats = Counter()
-#     for session in sessions:
-#         for c in session:
-#             if isinstance(c, int):
-#                 c = "Swings"
-#             stats.update([c])
-#     one_year = dict(sorted(stats.items(), key=lambda x: x[1], reverse=True))
-#     width = len(max(one_year.keys(), key=len))
-#     for session, count in one_year.items():
-#         print(f"{session: >{width}}: " + "#" * count)
-#         print(f"{session: >{width}}: " + "#" * count)

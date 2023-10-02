@@ -75,12 +75,14 @@ def test_save_session(database):
             "units": "kilograms",
             "swings": 60,
             "sets": 20,
+            "reps": 3,
+            "workout_type": "iron cardio",
         },
     }
 
 
 def test_cache_session(database):
-    ic_db.cache_session(Path(database.name), TEST_CACHE_SESSION)
+    ic_db.cache_workout(Path(database.name), TEST_CACHE_SESSION)
     data = json.load(open(database.name))
     assert len(data["cached_sessions"]) == 10
     assert data["cached_sessions"][-1] == asdict(TEST_CACHE_SESSION)

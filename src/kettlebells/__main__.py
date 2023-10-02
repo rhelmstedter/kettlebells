@@ -15,15 +15,14 @@ from .constants import (
     SUGGESTION,
     WARNING,
 )
-from .iron_cardio import (
-    IronCardioSession,
+from .workouts import (
+    Workout,
     create_custom_ic_session,
-    create_ic_session,
-    display_session,
+    random_workout,
     set_loads,
 )
 from .database import (
-    cache_session,
+    cache_workout,
     confirm_loads,
     initialize_database,
     read_database,
@@ -93,26 +92,19 @@ def setloads(ctx: typer.Context) -> None:
 @cli.command()
 def workout(
     ctx: typer.Context,
-    iron_cardio: bool = typer.Option(
-        False,
-        "--iron-cardio",
-        "-ic",
-        is_flag=True,
-        is_eager=True,
-    ),
+    workout_type: str
 ) -> None:
     """Create a random kettlebells workout."""
-    if iron_cardio:
-        confirm_loads(KETTLEBELLS_DB)
-        session = create_ic_session(KETTLEBELLS_DB)
-        cache_session(KETTLEBELLS_DB, session)
-        display_session(session)
-    else:
+    confirm_loads(KETTLEBELLS_DB)
+    if not workout_type:
         console.print(
-            ":warning: [underline]kettlebells workout[/underline] requires a workout flag.",
+            ":warning: [underline]kettlebells workout[/underline] requires a workout type.",
             style=WARNING,
         )
         console.print("Please specify a type of workout.", style=SUGGESTION)
+    workout = random_workout(KETTLEBELLS_DB, workout_type)
+    cache_workout(KETTLEBELLS_DB, workout)
+    workout.display_workout()
 
 
 @cli.command()
@@ -131,11 +123,11 @@ def done(
     data = read_database(KETTLEBELLS_DB)
     if custom:
         session = create_custom_ic_session()
-        display_session(session)
+        session.display_workout()
     else:
-        session = IronCardioSession(**data["cached_sessions"][-1])
+        session = Workout(**data["cached_sessions"][-1])
         console.print("Last workout generated:\n")
-        display_session(session)
+        session.display_workout()
     if Confirm.ask("Save this session?"):
         while True:
             session_date = Prompt.ask(
@@ -147,7 +139,9 @@ def done(
                 datetime.strptime(session_date, DATE_FORMAT)
                 break
             except ValueError:
-                console.print(":warning: {session_date} not a valid date.", style=WARNING)
+                console.print(
+                    ":warning: {session_date} not a valid date.", style=WARNING
+                )
                 continue
         session.sets = IntPrompt.ask("How many sets did you complete?")
         save_session(KETTLEBELLS_DB, session_date, session)
@@ -164,10 +158,10 @@ def last(ctx: typer.Context) -> None:
     data = read_database(KETTLEBELLS_DB)
     last_session = data["saved_sessions"][-1]
     session_date = last_session["date"]
-    session = IronCardioSession(**last_session["session"])
+    session = Workout(**last_session["session"])
     bodyweight = data["ic_loads"]["bodyweight"]
     print(f"\nDate: [green]{datetime.strptime(session_date, DATE_FORMAT):%b %d, %Y}\n")
-    display_session(session)
+    session.display_workout(session)
     display_session_stats(session, bodyweight)
 
 

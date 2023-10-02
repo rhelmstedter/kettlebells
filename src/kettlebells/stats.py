@@ -4,43 +4,43 @@ import plotext as plt
 from rich.table import Table
 
 from .console import console
-from .constants import IC_REP_SCHEMES
-from .iron_cardio import IronCardioSession
+from .constants import IRON_CARDIO_PARAMS
+from .workouts import Workout
 
 
-def calc_session_stats(session: IronCardioSession, bodyweight: int) -> dict:
+def calc_session_stats(workout: Workout, bodyweight: int) -> dict:
     """Calculate the stats for a given session.
-    :param session: The session for which to calculate the stats.
+    :param session: The workout for which to calculate the stats.
     :param bodyweight: The user's bodyweight at time of the session.
     :returns: A dict containing total weight moved, number of reps, and the pace.
     """
-    reps = IC_REP_SCHEMES[session.variation] * session.sets
+    total_reps = workout.reps * workout.sets
 
-    if session.bells == "Double Bells":
+    if workout.bells == "Double Bells":
         load_factor = 2
     else:
         load_factor = 1
 
-    if "Pullup" in session.variation and session.bells == "Double Bells":
+    if "Pullup" in workout.variation and workout.bells == "Double Bells":
         pullup_factor = 1
-    elif "Pullup" in session.variation and session.bells == "Single Bell":
+    elif "Pullup" in workout.variation and workout.bells == "Single Bell":
         pullup_factor = 0.5
     else:
         pullup_factor = 0
 
     stats = {
         "weight moved": (
-            IC_REP_SCHEMES[session.variation] * session.load * load_factor * session.sets
-            + (session.swings * session.load)
-            + (bodyweight * int(session.sets * pullup_factor))
+            IRON_CARDIO_PARAMS["rep schemes"][workout.variation] * workout.load * load_factor * workout.sets
+            + (workout.swings * workout.load)
+            + (bodyweight * int(workout.sets * pullup_factor))
         ),
-        "reps": reps + int(session.sets * pullup_factor),
-        "pace": (session.time * 60) / (reps + (session.sets * pullup_factor)),
+        "reps": total_reps + int(workout.sets * pullup_factor),
+        "pace": (workout.time * 60) / (total_reps + (workout.sets * pullup_factor)),
     }
     return stats
 
 
-def display_session_stats(session: IronCardioSession, bodyweight: int) -> None:
+def display_session_stats(session: Workout, bodyweight: int) -> None:
     """Prints the stats for a given session.
     :param session: The Session object for which to display the stats.
     :param bodyweight: The bodyweight of the user.
@@ -68,7 +68,7 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     sessions = []
     for session_data in data["saved_sessions"]:
         date = session_data["date"]
-        session = IronCardioSession(**session_data["session"])
+        session = Workout(**session_data["session"])
         dates.append(date)
         stats.append(calc_session_stats(session, bodyweight))
         sessions.append(session)
@@ -119,7 +119,7 @@ def get_best_sessions(data: dict):
     sessions = []
     for session_data in data["saved_sessions"]:
         date = session_data["date"]
-        session = IronCardioSession(**session_data["session"])
+        session = Workout(**session_data["session"])
         sessions.append((date, session, calc_session_stats(session, bodyweight)))
 
     best_sessions_weight = sorted(
