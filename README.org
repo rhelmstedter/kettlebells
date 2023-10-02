@@ -1,4 +1,4 @@
-# Created 2023-09-30 Sat 22:23
+# Created 2023-10-02 Mon 16:43
 #+options: toc:t
 #+title: kettlebells
 #+author: Russell Helmstedter
@@ -30,12 +30,17 @@ kettlebells setloads
 
 ** Commands
 *** workout
-The ~workout~ command with the ~--iron-cardio~ flag, generates a random iron cardio session.
+The work out command generates a random workout. The current options are:
+- ~iron-cardio~
+- ~abc~
+
+**** iron-cardio
+The ~workout~ command with an argument of ~iron-cardio~, generates a random iron cardio session.
 #+begin_src bash
-kettlebells workout --iron-cardio
+kettlebells workout iron-cardio
 #+end_src
 
-Generated sessions are built from the following parameters
+Iron cardio sessions are built from the following parameters
 
 |--------------------------+----------------------------|
 | Parameter                | Options                    |
@@ -62,6 +67,13 @@ Generated sessions are built from the following parameters
 |                          | light                      |
 |--------------------------+----------------------------|
 | *SWINGS*                 | 0 - 100                    |
+
+**** abc
+The workout command with an argument of ~abc~ will generate a random armor building complex workout.
+
+#+begin_src
+kettlebells workout abc
+#+end_src
 
 *** done
 The ~done~ command saves the most recently generated workout to the database.
