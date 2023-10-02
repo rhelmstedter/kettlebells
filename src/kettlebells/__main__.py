@@ -15,14 +15,14 @@ from .constants import (
     SUGGESTION,
     WARNING,
 )
-from .iron_cardio import (
-    IronCardioSession,
+from .workouts import (
+    Workout,
     create_custom_ic_session,
-    create_ic_session,
+    random_ic_session,
     set_ic_loads,
 )
 from .database import (
-    cache_session,
+    cache_workout,
     confirm_loads,
     initialize_database,
     read_database,
@@ -103,9 +103,9 @@ def workout(
     """Create a random kettlebells workout."""
     if iron_cardio:
         confirm_loads(KETTLEBELLS_DB)
-        session = create_ic_session(KETTLEBELLS_DB)
-        cache_session(KETTLEBELLS_DB, session)
-        session.display_workout()
+        workout = random_ic_session(KETTLEBELLS_DB)
+        cache_workout(KETTLEBELLS_DB, workout)
+        workout.display_workout()
     else:
         console.print(
             ":warning: [underline]kettlebells workout[/underline] requires a workout flag.",
@@ -132,7 +132,7 @@ def done(
         session = create_custom_ic_session()
         session.display_workout()
     else:
-        session = IronCardioSession(**data["cached_sessions"][-1])
+        session = Workout(**data["cached_sessions"][-1])
         console.print("Last workout generated:\n")
         session.display_workout()
     if Confirm.ask("Save this session?"):
@@ -146,7 +146,9 @@ def done(
                 datetime.strptime(session_date, DATE_FORMAT)
                 break
             except ValueError:
-                console.print(":warning: {session_date} not a valid date.", style=WARNING)
+                console.print(
+                    ":warning: {session_date} not a valid date.", style=WARNING
+                )
                 continue
         session.sets = IntPrompt.ask("How many sets did you complete?")
         save_session(KETTLEBELLS_DB, session_date, session)
@@ -163,7 +165,7 @@ def last(ctx: typer.Context) -> None:
     data = read_database(KETTLEBELLS_DB)
     last_session = data["saved_sessions"][-1]
     session_date = last_session["date"]
-    session = IronCardioSession(**last_session["session"])
+    session = Workout(**last_session["session"])
     bodyweight = data["ic_loads"]["bodyweight"]
     print(f"\nDate: [green]{datetime.strptime(session_date, DATE_FORMAT):%b %d, %Y}\n")
     session.display_workout(session)

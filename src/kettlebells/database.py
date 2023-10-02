@@ -74,7 +74,7 @@ def confirm_loads(db_path: Path) -> None:
         sys.exit()
 
 
-def cache_session(db_path: Path, ic_session) -> None:
+def cache_workout(db_path: Path, workout) -> None:
     """Cache last 10 generated sessions.
     :param db_path: The Path to the database.
     :param session:IronCardioSession object to be stored in the cache.
@@ -82,12 +82,12 @@ def cache_session(db_path: Path, ic_session) -> None:
     """
     data = read_database(db_path)
     cache = deque(data["cached_sessions"], maxlen=10)
-    cache.append(asdict(ic_session))
+    cache.append(asdict(workout))
     data["cached_sessions"] = list(cache)
     write_database(db_path, data)
 
 
-def save_session(db_path: Path, session_date: str, ic_session) -> None:
+def save_session(db_path: Path, session_date: str, workout) -> None:
     """Save a session in the database.
     :param db_path: The Path to the database.
     :param session_date: The date of the workout.
@@ -95,7 +95,7 @@ def save_session(db_path: Path, session_date: str, ic_session) -> None:
     :returns: None
     """
     data = read_database(db_path)
-    data["saved_sessions"].append({"date": session_date, "session": asdict(ic_session)})
+    data["saved_sessions"].append({"date": session_date, "session": asdict(workout)})
     data["saved_sessions"] = sorted(
         data["saved_sessions"], key=lambda x: datetime.strptime(x["date"], DATE_FORMAT)
     )

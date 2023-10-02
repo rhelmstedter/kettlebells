@@ -16,17 +16,43 @@ from .constants import (
     IC_TIMES,
     SUGGESTION,
     WARNING,
+    IC_REP_SCHEMES,
 )
 from .database import read_database
-from .workout import Workout
 
 
 @dataclass
-class IronCardioSession(Workout):
-    workout_type: str = "iron cardio"
+class Workout:
+    bells: str
+    variation: str
+    time: int
+    load: int
+    units: str
+    swings: int
+    sets: int
+    reps: int
+    workout_type: str
+
+    def display_workout(self) -> None:
+        """Print an a workout to the console.
+        :returns: None.
+        """
+        if self.swings:
+            swings = f"   Swings: {self.swings} reps"
+        else:
+            swings = ""
+        print(
+            f"""{self.workout_type.upper()}\n[green]===================[/green]
+    Bells: {self.bells.title()}
+Variation: {self.variation}
+     Time: {self.time} mins
+     Load: {self.load} {self.units}
+{swings}
+"""
+        )
 
 
-def create_ic_session(db_path: Path) -> IronCardioSession:
+def random_ic_session(db_path: Path) -> Workout:
     """Create a random Iron Cardio Session.
     :param db_path: The Path to the database.
     :returns: A Session object with randomly generated parameters.
@@ -65,7 +91,17 @@ def create_ic_session(db_path: Path) -> IronCardioSession:
         swings = choice(range(50, 160, 10))
     else:
         swings = 0
-    return IronCardioSession(bells, variation, time, load, units, swings, sets=0)
+    return Workout(
+        bells=bells,
+        variation=variation,
+        time=time,
+        load=load,
+        units=units,
+        swings=swings,
+        sets=0,
+        reps=IC_REP_SCHEMES[variation],
+        workout_type="iron cardio",
+    )
 
 
 def _get_options(session_param: dict) -> str:
@@ -80,9 +116,9 @@ def _get_options(session_param: dict) -> str:
     return options[selection - 1]
 
 
-def create_custom_ic_session() -> IronCardioSession:
+def create_custom_ic_session() -> Workout:
     """Create a custom Iron Cardio session.
-    :returns: An IronCardioSession object created by the user.
+    :returns: An Workout object created by the user.
     """
     bells = _get_options(IC_BELLS)
     if bells == "Double Bells":
@@ -96,7 +132,17 @@ def create_custom_ic_session() -> IronCardioSession:
         swings = IntPrompt.ask("How many swings")
     else:
         swings = 0
-    return IronCardioSession(bells, variation, time, load, units, swings, sets=0)
+    return Workout(
+        bells,
+        variation,
+        time,
+        load,
+        units,
+        swings,
+        0,
+        IC_REP_SCHEMES[variation],
+        "iron cardio",
+    )
 
 
 def _get_units():

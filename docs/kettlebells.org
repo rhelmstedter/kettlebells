@@ -4,7 +4,9 @@
 ** TODO Expand to more workouts than just iron cardio
 I would love to add other workouts like DFW or the Back to Basics (C&P Ladders with snatches or double front squats).
 
-this process has been started. Originally I thought I would make separate classes for each type of workout (e.g., iron cardio, ABC, DFW). Now, I think I should have a single class with an added attribute ~Workout.workout_type~. I am currently stuck and need to take a break.
+Originally, I thought I would make separate classes for each type of workout (e.g., iron cardio, ABC, DFW). Now, I think I should have a single class with an added attribute ~Workout.workout_type~. This is the way.
+
+I added another attribute called ~Workout.reps~. This solves all of the problems for now. Next up is to build a random ABC workout. There are less options to choose from than iron cardio so it should go smoothly.
 ** TODO add a sort option for ~best~ command
 ** DONE identify when to use workout instead of session
 CLOSED: [2023-10-01 Sun 15:42]

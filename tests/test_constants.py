@@ -1,6 +1,7 @@
-from kettlebells.iron_cardio import IronCardioSession
+from kettlebells.workouts import Workout
+from kettlebells.constants import IC_REP_SCHEMES
 
-TEST_SESSION = IronCardioSession(
+TEST_SESSION = Workout(
     **{
         "bells": "Double Bells",
         "variation": "Double Classic + Pullup",
@@ -9,10 +10,12 @@ TEST_SESSION = IronCardioSession(
         "units": "kilograms",
         "swings": 60,
         "sets": 20,
+        "reps": IC_REP_SCHEMES["Double Classic + Pullup"],
+        "workout_type": "iron cardio",
     }
 )
 
-TEST_SESSION_NO_SWINGS = IronCardioSession(
+TEST_SESSION_NO_SWINGS = Workout(
     **{
         "bells": "Single Bell",
         "variation": "Traveling 2s + Snatch",
@@ -21,10 +24,12 @@ TEST_SESSION_NO_SWINGS = IronCardioSession(
         "units": "kilograms",
         "swings": 0,
         "sets": 16,
+        "reps": IC_REP_SCHEMES["Traveling 2s + Snatch"],
+        "workout_type": "iron cardio",
     },
 )
 
-TEST_SESSION_SINGLE_BELL_PULLUPS = IronCardioSession(
+TEST_SESSION_SINGLE_BELL_PULLUPS = Workout(
     **{
         "bells": "Single Bell",
         "variation": "Classic + Pullup",
@@ -33,10 +38,12 @@ TEST_SESSION_SINGLE_BELL_PULLUPS = IronCardioSession(
         "units": "kilograms",
         "swings": 100,
         "sets": 10,
+        "reps": IC_REP_SCHEMES["Classic + Pullup"],
+        "workout_type": "iron cardio",
     },
 )
 
-TEST_CACHE_SESSION = IronCardioSession(
+TEST_CACHE_SESSION = Workout(
     **{
         "bells": "Double Bells",
         "variation": "Double Classic",
@@ -45,6 +52,8 @@ TEST_CACHE_SESSION = IronCardioSession(
         "units": "kilograms",
         "swings": 0,
         "sets": 0,
+        "reps": IC_REP_SCHEMES["Double Classic"],
+        "workout_type": "iron cardio",
     }
 )
 
@@ -67,6 +76,8 @@ TEST_DATA = {
                 "units": "kilograms",
                 "swings": 0,
                 "sets": 29,
+                "reps": IC_REP_SCHEMES["Double Classic"],
+                "workout_type": "iron cardio",
             },
         },
     ],
@@ -79,6 +90,8 @@ TEST_DATA = {
             "units": "kilograms",
             "swings": 0,
             "sets": 0,
+            "reps": IC_REP_SCHEMES["Classic"],
+            "workout_type": "iron cardio",
         },
     ],
 }
@@ -102,6 +115,8 @@ TEST_DATA_FULL_CACHE = {
                 "units": "kilograms",
                 "swings": 0,
                 "sets": 29,
+                "reps": IC_REP_SCHEMES["Double Classic"],
+                "workout_type": "iron cardio",
             },
         },
     ],
@@ -114,6 +129,8 @@ TEST_DATA_FULL_CACHE = {
             "units": "kilograms",
             "swings": 0,
             "sets": 0,
+            "reps": IC_REP_SCHEMES["Classic"],
+            "workout_type": "iron cardio",
         },
         {
             "bells": "Double Bells",
@@ -123,6 +140,8 @@ TEST_DATA_FULL_CACHE = {
             "units": "kilograms",
             "swings": 0,
             "sets": 0,
+            "reps": IC_REP_SCHEMES["Double Classic"],
+            "workout_type": "iron cardio",
         },
         {
             "bells": "Single Bell",
@@ -132,6 +151,8 @@ TEST_DATA_FULL_CACHE = {
             "units": "kilograms",
             "swings": 70,
             "sets": 0,
+            "reps": IC_REP_SCHEMES["Traveling 2s + Snatch"],
+            "workout_type": "iron cardio",
         },
         {
             "bells": "Double Bells",
@@ -141,6 +162,8 @@ TEST_DATA_FULL_CACHE = {
             "units": "kilograms",
             "swings": 0,
             "sets": 0,
+            "reps": IC_REP_SCHEMES["Double Classic"],
+            "workout_type": "iron cardio",
         },
         {
             "bells": "Single Bell",
@@ -150,6 +173,8 @@ TEST_DATA_FULL_CACHE = {
             "units": "kilograms",
             "swings": 0,
             "sets": 0,
+            "reps": IC_REP_SCHEMES["Traveling 2s + Snatch"],
+            "workout_type": "iron cardio",
         },
         {
             "bells": "Single Bell",
@@ -159,6 +184,8 @@ TEST_DATA_FULL_CACHE = {
             "units": "kilograms",
             "swings": 120,
             "sets": 0,
+            "reps": IC_REP_SCHEMES["Traveling 2s"],
+            "workout_type": "iron cardio",
         },
         {
             "bells": "Double Bells",
@@ -168,6 +195,8 @@ TEST_DATA_FULL_CACHE = {
             "units": "kilograms",
             "swings": 120,
             "sets": 0,
+            "reps": IC_REP_SCHEMES["Double Traveling 2s"],
+            "workout_type": "iron cardio",
         },
         {
             "bells": "Single Bell",
@@ -177,6 +206,8 @@ TEST_DATA_FULL_CACHE = {
             "units": "kilograms",
             "swings": 0,
             "sets": 0,
+            "reps": IC_REP_SCHEMES["Traveling 2s + Pullup"],
+            "workout_type": "iron cardio",
         },
         {
             "bells": "Double Bells",
@@ -186,6 +217,8 @@ TEST_DATA_FULL_CACHE = {
             "units": "kilograms",
             "swings": 0,
             "sets": 0,
+            "reps": IC_REP_SCHEMES["Double Traveling 2s"],
+            "workout_type": "iron cardio",
         },
         {
             "bells": "Double Bells",
@@ -195,6 +228,8 @@ TEST_DATA_FULL_CACHE = {
             "units": "kilograms",
             "swings": 60,
             "sets": 0,
+            "reps": IC_REP_SCHEMES["Double Classic + Pullup"],
+            "workout_type": "iron cardio",
         },
     ],
 }

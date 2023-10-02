@@ -10,12 +10,12 @@ from kettlebells.constants import (
     IC_SINGLEBELL_VARIATIONS,
     IC_TIMES,
 )
-from kettlebells.iron_cardio import (
-    IronCardioSession,
+from kettlebells.workouts import (
+    Workout,
     _get_options,
     _get_units,
     create_custom_ic_session,
-    create_ic_session,
+    random_ic_session,
     set_ic_loads,
 )
 
@@ -29,8 +29,8 @@ def test_create_ic_session(database):
     database and within the ranges defined in the constants module.
     """
     loads = json.load(open(database.name))["ic_loads"]
-    actual = create_ic_session(Path(database.name))
-    assert isinstance(actual, IronCardioSession)
+    actual = random_ic_session(Path(database.name))
+    assert isinstance(actual, Workout)
     assert actual.bells in IC_BELLS.keys()
     assert (
         actual.variation in IC_DOUBLEBELL_VARIATIONS.keys()
@@ -68,9 +68,9 @@ def test_display_session_no_swings(capfd):
     assert "Swings: " not in output
 
 
-@mock.patch("kettlebells.iron_cardio.IntPrompt.ask")
-@mock.patch("kettlebells.iron_cardio.Confirm")
-@mock.patch("kettlebells.iron_cardio._get_units")
+@mock.patch("kettlebells.workouts.IntPrompt.ask")
+@mock.patch("kettlebells.workouts.Confirm")
+@mock.patch("kettlebells.workouts._get_units")
 def test_set_loads(units_mock, confirm_mock, int_mock):
     """Test that setting the loads in the database works."""
     expected = {
@@ -88,7 +88,7 @@ def test_set_loads(units_mock, confirm_mock, int_mock):
 
 
 @pytest.mark.parametrize("response, units", [("p", "pounds"), ("k", "kilograms")])
-@mock.patch("kettlebells.iron_cardio.Prompt.ask")
+@mock.patch("kettlebells.workouts.Prompt.ask")
 def test_get_units_good_input(ask_mock, response, units):
     """Test that units are set correctly."""
     expected = units
@@ -105,7 +105,7 @@ def test_get_units_good_input(ask_mock, response, units):
         (IC_DOUBLEBELL_VARIATIONS, 4, "Armor Building Complex"),
     ],
 )
-@mock.patch("kettlebells.iron_cardio.IntPrompt.ask")
+@mock.patch("kettlebells.workouts.IntPrompt.ask")
 def test_get_options(ask_mock, session_param, response, option):
     """Test the options for session parameters are valid."""
     expected = option
@@ -127,10 +127,10 @@ def test_get_options(ask_mock, session_param, response, option):
         ),
     ],
 )
-@mock.patch("kettlebells.iron_cardio.IntPrompt.ask")
-@mock.patch("kettlebells.iron_cardio.Confirm")
-@mock.patch("kettlebells.iron_cardio._get_units")
-@mock.patch("kettlebells.iron_cardio._get_options")
+@mock.patch("kettlebells.workouts.IntPrompt.ask")
+@mock.patch("kettlebells.workouts.Confirm")
+@mock.patch("kettlebells.workouts._get_units")
+@mock.patch("kettlebells.workouts._get_options")
 def test_custom_session(
     options_mock,
     units_mock,
@@ -150,5 +150,5 @@ def test_custom_session(
     units_mock.side_effect = ["kilograms"]
     actual = create_custom_ic_session()
     actual.sets = sets
-    assert isinstance(actual, IronCardioSession)
+    assert isinstance(actual, Workout)
     assert actual == expected
