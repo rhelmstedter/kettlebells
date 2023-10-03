@@ -29,7 +29,7 @@ def initialize_database(kettlebells_home: Path, db_path: Path, force: bool) -> N
         kettlebells_home.mkdir()
     except FileExistsError:
         pass
-    data = {"ic_loads": dict(), "saved_sessions": [], "cached_sessions": []}
+    data = {"loads": dict(), "saved_sessions": [], "cached_sessions": []}
     write_database(db_path, data)
 
 
@@ -65,7 +65,7 @@ def confirm_loads(db_path: Path) -> None:
     :returns: None
     """
     data = read_database(db_path)
-    if not data["ic_loads"]:
+    if not data["loads"]:
         console.print("[red]:warning: Could not find loads in database.", style=WARNING)
         console.print(
             "Try running [underline]iron-cardio setloads[/underline] first.",

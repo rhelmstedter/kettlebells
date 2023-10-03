@@ -82,7 +82,7 @@ def setloads(ctx: typer.Context) -> None:
     """Set units and loads for iron cardio sessions."""
     loads = set_loads()
     data = read_database(KETTLEBELLS_DB)
-    data["ic_loads"] = loads
+    data["loads"] = loads
     write_database(KETTLEBELLS_DB, data)
 
 
@@ -132,7 +132,7 @@ def done(
                 continue
         session.sets = IntPrompt.ask("How many sets did you complete?")
         save_session(KETTLEBELLS_DB, session_date, session)
-        bodyweight = data["ic_loads"]["bodyweight"]
+        bodyweight = data["loads"]["bodyweight"]
         print()
         display_session_stats(session, bodyweight)
     else:
@@ -146,7 +146,7 @@ def last(ctx: typer.Context) -> None:
     last_session = data["saved_sessions"][-1]
     session_date = last_session["date"]
     session = Workout(**last_session["session"])
-    bodyweight = data["ic_loads"]["bodyweight"]
+    bodyweight = data["loads"]["bodyweight"]
     print(f"\nDate: [green]{datetime.strptime(session_date, DATE_FORMAT):%b %d, %Y}\n")
     session.display_workout()
     display_session_stats(session, bodyweight)

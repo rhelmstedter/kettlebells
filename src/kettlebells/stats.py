@@ -61,8 +61,8 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     :data: A dict of the data in the database.
     :returns: Lists of both dates and weight moved per session.
     """
-    bodyweight = data["ic_loads"]["bodyweight"]
-    units = data["ic_loads"]["units"]
+    bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
     dates = []
     stats = []
     sessions = []
@@ -112,8 +112,8 @@ def get_best_sessions(data: dict):
     """Get the best sessions based on weight moved.
     :param data: A dict of the data from the database.
     :returns: None"""
-    bodyweight = data["ic_loads"]["bodyweight"]
-    units = data["ic_loads"]["units"]
+    bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
     if units.startswith("k"):
         units = "kg"
     sessions = []

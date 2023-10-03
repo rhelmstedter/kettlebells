@@ -61,7 +61,7 @@ def random_workout(db_path: Path, workout_type: str) -> Workout:
     :returns: A Session object with randomly generated parameters.
     """
     data = read_database(db_path)
-    loads = data["ic_loads"]
+    loads = data["loads"]
     workout_type, workout_params = get_workout_params(workout_type)
     bells = choices(
         population=tuple(workout_params["bells"].keys()),

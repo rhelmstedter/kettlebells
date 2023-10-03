@@ -23,7 +23,7 @@ def test_create_random_workout(database):
     """Test when a session is created, the parameters are appropriate based on the
     database and within the ranges defined in the constants module.
     """
-    loads = json.load(open(database.name))["ic_loads"]
+    loads = json.load(open(database.name))["loads"]
     actual = random_workout(Path(database.name), 'iron-cardio')
     assert isinstance(actual, Workout)
     assert actual.bells in IRON_CARDIO_PARAMS["bells"].keys()
@@ -37,7 +37,7 @@ def test_create_random_workout(database):
     assert actual.swings == 0 or actual.swings in POSSIBLE_SWINGS
 
 
-def test_display_ic_session(capfd):
+def test_display_session(capfd):
     """Test a session is displayed correctly in the console."""
     TEST_SESSION.display_workout()
     output = capfd.readouterr()[0]

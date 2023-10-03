@@ -58,7 +58,7 @@ TEST_CACHE_SESSION = Workout(
 )
 
 TEST_DATA = {
-    "ic_loads": {
+    "loads": {
         "units": "kilograms",
         "bodyweight": 90,
         "light load": 20,
@@ -97,7 +97,7 @@ TEST_DATA = {
 }
 
 TEST_DATA_FULL_CACHE = {
-    "ic_loads": {
+    "loads": {
         "units": "kilograms",
         "bodyweight": 90,
         "light load": 20,
