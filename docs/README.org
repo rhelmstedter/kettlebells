@@ -35,12 +35,12 @@ The work out command generates a random workout. The current options are:
 + ~abc~
 
 **** iron-cardio
-The ~workout~ command with an argument of ~iron-cardio~, generates a random iron cardio session.
+The ~workout~ command with an argument of ~iron-cardio~, generates a random iron cardio workout.
 #+begin_src bash
 kettlebells workout iron-cardio
 #+end_src
 
-Iron cardio sessions are built from the following parameters
+Iron cardio workouts are built from the following parameters:
 
 |------------------------+----------------------------|
 | Parameter              | Options                    |
@@ -51,12 +51,10 @@ Iron cardio sessions are built from the following parameters
 |                        | Traveling 2s               |
 |                        | Traveling 2s + Snatch      |
 |                        | Traveling 2s + Pullup      |
-|                        | Armor Building Complex 2.0 |
 |------------------------+----------------------------|
 | *Double Bell Variations* | Double Classic             |
 |                        | Double Traveling 2s        |
 |                        | Double Classic + Pullup    |
-|                        | Armor Building Complex     |
 |------------------------+----------------------------|
 | *TIMES*                  | 30 mins                    |
 |                        | 20 mins                    |
@@ -74,6 +72,24 @@ The workout command with an argument of ~abc~ will generate a random armor build
 #+begin_src
 kettlebells workout abc
 #+end_src
+
+|------------------------+----------------------------|
+| Parameter              | Options                    |
+|------------------------+----------------------------|
+| *Single Bell Variations* | Armor Building Complex 2.0 |
+|------------------------+----------------------------|
+| *Double Bell Variations* | Armor Building Complex     |
+|------------------------+----------------------------|
+| *TIMES*                | 25 mins                    |
+|                        | 20 mins                    |
+|                        | 15 mins                    |
+|                        | 10 mins                    |
+|------------------------+----------------------------|
+| *LOADS*                | heavy                      |
+|                        | medium                     |
+|                        | light                      |
+|------------------------+----------------------------|
+| *SWINGS*               | 0 - 100                    |
 
 *** done
 The ~done~ command saves the most recently generated workout to the database.
@@ -102,14 +118,14 @@ The ~stats~ command displays the aggregated weight moved, number of reps, and pa
 kettlebells stats
 #+end_src
 
-To plot the weight moved per session, use the ~--plot~ flag.
+To plot the weight moved per workout, use the ~--plot~ flag.
 
 #+begin_src bash
 kettlebells stats --plot
 #+end_src
 
 *** best
-The ~best~ command displays the top ten sessions based on the weight moved.
+The ~best~ command displays the top ten workout based on the weight moved.
 #+begin_src bash
 kettlebells best
 #+end_src
