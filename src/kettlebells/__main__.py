@@ -1,10 +1,12 @@
 import sys
 from datetime import date, datetime
 from pathlib import Path
+from typing import Optional
 
 import typer
 from rich import print
 from rich.prompt import Confirm, IntPrompt, Prompt
+from typing_extensions import Annotated
 
 from . import __version__
 from .console import console
@@ -14,12 +16,6 @@ from .constants import (
     KETTLEBELLS_HOME,
     SUGGESTION,
     WARNING,
-)
-from .workouts import (
-    Workout,
-    create_custom_ic_session,
-    random_workout,
-    set_loads,
 )
 from .database import (
     cache_workout,
@@ -35,6 +31,7 @@ from .stats import (
     get_best_sessions,
     plot_sessions,
 )
+from .workouts import Workout, create_custom_workout, random_workout, set_loads
 
 cli = typer.Typer(add_completion=False)
 
@@ -90,10 +87,7 @@ def setloads(ctx: typer.Context) -> None:
 
 
 @cli.command()
-def workout(
-    ctx: typer.Context,
-    workout_type: str
-) -> None:
+def workout(ctx: typer.Context, workout_type: str) -> None:
     """Create a random kettlebells workout."""
     confirm_loads(KETTLEBELLS_DB)
     if not workout_type:
@@ -109,20 +103,13 @@ def workout(
 
 @cli.command()
 def done(
-    ctx: typer.Context,
-    custom: bool = typer.Option(
-        False,
-        "--custom",
-        "-c",
-        is_flag=True,
-        is_eager=True,
-    ),
+    ctx: typer.Context, workout_type: Annotated[Optional[str], typer.Argument()] = None
 ) -> None:
     """Save an kettlebells workout"""
     confirm_loads(KETTLEBELLS_DB)
     data = read_database(KETTLEBELLS_DB)
-    if custom:
-        session = create_custom_ic_session()
+    if workout_type:
+        session = create_custom_workout(workout_type)
         session.display_workout()
     else:
         session = Workout(**data["cached_sessions"][-1])
@@ -161,7 +148,7 @@ def last(ctx: typer.Context) -> None:
     session = Workout(**last_session["session"])
     bodyweight = data["ic_loads"]["bodyweight"]
     print(f"\nDate: [green]{datetime.strptime(session_date, DATE_FORMAT):%b %d, %Y}\n")
-    session.display_workout(session)
+    session.display_workout()
     display_session_stats(session, bodyweight)
 
 
