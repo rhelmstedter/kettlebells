@@ -47,11 +47,11 @@ Variation: {self.variation}
         )
 
 
-def _get_workout_params(workout_type: str) -> dict:
+def get_workout_params(workout_type: str) -> dict:
     match workout_type:
-        case 'iron-cardio':
+        case "iron-cardio" | "iron cardio":
             return "iron cardio", IRON_CARDIO_PARAMS
-        case 'abc':
+        case "abc" | "Armor Building Complex":
             return "Armor Building Complex", ABC_PARAMS
 
 
@@ -62,7 +62,7 @@ def random_workout(db_path: Path, workout_type: str) -> Workout:
     """
     data = read_database(db_path)
     loads = data["ic_loads"]
-    workout_type, workout_params = _get_workout_params(workout_type)
+    workout_type, workout_params = get_workout_params(workout_type)
     bells = choices(
         population=tuple(workout_params["bells"].keys()),
         weights=tuple(workout_params["bells"].values()),
@@ -121,20 +121,21 @@ def _get_options(session_param: dict) -> str:
             selection = IntPrompt.ask("Choose your option")
             return options[selection - 1]
         except IndexError:
-            print(':warning: Not a valid option.', style=WARNING)
-            print('Enter a number between 1 and {max(options) + 1}.', style=SUGGESTION)
+            print(":warning: Not a valid option.", style=WARNING)
+            print("Enter a number between 1 and {max(options) + 1}.", style=SUGGESTION)
             continue
 
 
-def create_custom_ic_session() -> Workout:
+def create_custom_workout(workout_type: str) -> Workout:
     """Create a custom Iron Cardio session.
     :returns: An Workout object created by the user.
     """
-    bells = _get_options(IRON_CARDIO_PARAMS["bells"])
+    workout_type, workout_params = get_workout_params(workout_type)
+    bells = _get_options(workout_params["bells"])
     if bells == "Double Bells":
-        variation = _get_options(IRON_CARDIO_PARAMS["doublebell variations"])
+        variation = _get_options(workout_params["doublebell variations"])
     elif bells == "Single Bell":
-        variation = _get_options(IRON_CARDIO_PARAMS["singlebell variations"])
+        variation = _get_options(workout_params["singlebell variations"])
     time = IntPrompt.ask("How long was your session (in minutes)")
     units = _get_units()
     load = IntPrompt.ask(f"What weight did you use (in {units})")
@@ -150,12 +151,12 @@ def create_custom_ic_session() -> Workout:
         units,
         swings,
         0,
-        IRON_CARDIO_PARAMS["rep schemes"][variation],
-        "iron cardio",
+        workout_params["rep schemes"][variation],
+        workout_type,
     )
 
 
-def _get_units():
+def _get_units() -> str:
     """A helper function to get the units.
     :returns: A string, either 'pounds' or 'kilograms'.
     """

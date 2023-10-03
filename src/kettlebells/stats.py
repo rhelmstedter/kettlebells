@@ -4,8 +4,7 @@ import plotext as plt
 from rich.table import Table
 
 from .console import console
-from .constants import IRON_CARDIO_PARAMS
-from .workouts import Workout
+from .workouts import Workout, get_workout_params
 
 
 def calc_session_stats(workout: Workout, bodyweight: int) -> dict:
@@ -15,6 +14,7 @@ def calc_session_stats(workout: Workout, bodyweight: int) -> dict:
     :returns: A dict containing total weight moved, number of reps, and the pace.
     """
     total_reps = workout.reps * workout.sets
+    workout_params = get_workout_params(workout.workout_type)[1]
 
     if workout.bells == "Double Bells":
         load_factor = 2
@@ -30,7 +30,7 @@ def calc_session_stats(workout: Workout, bodyweight: int) -> dict:
 
     stats = {
         "weight moved": (
-            IRON_CARDIO_PARAMS["rep schemes"][workout.variation] * workout.load * load_factor * workout.sets
+            workout_params["rep schemes"][workout.variation] * workout.load * load_factor * workout.sets
             + (workout.swings * workout.load)
             + (bodyweight * int(workout.sets * pullup_factor))
         ),
