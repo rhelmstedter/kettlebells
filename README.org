@@ -1,4 +1,4 @@
-# Created 2023-10-02 Mon 16:43
+# Created 2023-10-02 Mon 17:33
 #+options: toc:t
 #+title: kettlebells
 #+author: Russell Helmstedter
@@ -82,21 +82,21 @@ The ~done~ command saves the most recently generated workout to the database.
 kettlebells done
 #+end_src
 
-To save a custom session, use the ~--custom~ flag. This allows the user to create a custom session.
+To save a custom workout, add the workout type as an argument. For example, to save a custom Armor Building Complex workout use an argument of ~abc~.
 
 #+begin_src
-kettlebells done --custom
+kettlebells done abc
 #+end_src
 
 *** last
-The ~last~ command displays the last saved session and calculates the amount of weight moved, the number of reps, and the pace (sec/rep).
+The ~last~ command displays the last saved workout and calculates the amount of weight moved, the total reps, and the pace (sec/rep).
 
 #+begin_src bash
 kettlebells last
 #+end_src
 
 *** stats
-The ~stats~ command displays the aggregated weight moved, number of reps, and pace for all sessions in the database.
+The ~stats~ command displays the aggregated weight moved, number of reps, and pace for all workout in the database.
 
 #+begin_src bash
 kettlebells stats
