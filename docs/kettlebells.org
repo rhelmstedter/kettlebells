@@ -1,9 +1,11 @@
 #+title: kettlebells
 
 * Issues
-** TODO update readme for workout commmand
+** DONE update readme for workout commmand
+CLOSED: [2023-10-03 Tue 19:20]
 There are no more flags, just arguments that are passed in and then altered as needed in the ~workouts~ module.
-** TODO Expand to more workouts than just iron cardio
+** DONE Expand to more workouts than just iron cardio
+CLOSED: [2023-10-03 Tue 19:20]
 I would love to add other workouts like DFW or the Back to Basics (C&P Ladders with snatches or double front squats).
 
 Originally, I thought I would make separate classes for each type of workout (e.g., iron cardio, ABC, DFW). Now, I think I should have a single class with an added attribute ~Workout.workout_type~. This is the way.
@@ -12,3 +14,13 @@ I added another attribute called ~Workout.reps~. This solves all of the problems
 ** TODO add a sort option for ~best~ command
 ** DONE identify when to use workout instead of session
 CLOSED: [2023-10-01 Sun 15:42]
+** TODO refactor functions into methods
+~calc_session_stats~ and ~display_session_stats~ should be refactored into methods for the ~Workout~ object. One barrier is controlling for bodyweight. Currently, bodyweight is stored globally in the database under the key "loads". Perhaps, it makes sense to add bodyweight at an attribute for the ~Workout~ object. This way, when the global bodyweight changes, stats for any given session don't.
+** TODO rethink how reps are stored.
+Currently reps are stored as a int for each ~Workout~. Maybe it makes more sense to store reps as a dict with each exercise as the key and the reps per set as the value. E.g., an classric iron cardio reps would be:
+
+#+begin_src python
+{"clean": 1, "press": 1, "squat": 1}
+#+end_src
+
+This would allow for workouts similar to the workout generator.
