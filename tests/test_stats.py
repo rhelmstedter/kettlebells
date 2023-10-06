@@ -8,32 +8,32 @@ from kettlebells.stats import (
 )
 
 from .test_constants import (
-    TEST_SESSION,
-    TEST_SESSION_NO_SWINGS,
-    TEST_SESSION_SINGLE_BELL_PULLUPS,
+    TEST_WORKOUT,
+    TEST_WORKOUT_NO_SWINGS,
+    TEST_WORKOUT_SINGLE_BELL_PULLUPS,
 )
 
 
 @pytest.mark.parametrize(
-    "session, stats",
+    "workout, stats",
     [
-        (TEST_SESSION, {"weight moved": 6840, "reps": 80, "pace": 22.5}),
+        (TEST_WORKOUT, {"weight moved": 6840, "reps": 80, "pace": 22.5}),
         (
-            TEST_SESSION_NO_SWINGS,
+            TEST_WORKOUT_NO_SWINGS,
             {"weight moved": 1920, "reps": 80, "pace": 15.0},
         ),
     ],
 )
-def test_calc_session_stats(session, stats):
-    """Test session stats are calculated correctly."""
-    actual = session.calc_workout_stats()
+def test_calc_workout_stats(workout, stats):
+    """Test workout stats are calculated correctly."""
+    actual = workout.calc_workout_stats()
     expected = stats
     assert actual == expected
 
 
-def test_display_session_stats_single_bell_pullups(capfd):
-    """Test session stats are displayed correctly."""
-    TEST_SESSION_SINGLE_BELL_PULLUPS.display_workout_stats()
+def test_display_workout_stats_single_bell_pullups(capfd):
+    """Test workout stats are displayed correctly."""
+    TEST_WORKOUT_SINGLE_BELL_PULLUPS.display_workout_stats()
     output = capfd.readouterr()[0]
     expected = """Workout Stats
 =============

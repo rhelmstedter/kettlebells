@@ -14,13 +14,13 @@ from kettlebells.workouts import (
     set_loads,
 )
 
-from .test_constants import TEST_SESSION, TEST_SESSION_NO_SWINGS
+from .test_constants import TEST_WORKOUT, TEST_WORKOUT_NO_SWINGS
 
 POSSIBLE_SWINGS = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150]
 
 
 def test_create_random_workout(database):
-    """Test when a session is created, the parameters are appropriate based on the
+    """Test when a workout is created, the parameters are appropriate based on the
     database and within the ranges defined in the constants module.
     """
     loads = json.load(open(database.name))["loads"]
@@ -37,12 +37,12 @@ def test_create_random_workout(database):
     assert actual.swings == 0 or actual.swings in POSSIBLE_SWINGS
 
 
-def test_display_session(capfd):
-    """Test a session is displayed correctly in the console."""
-    TEST_SESSION.display_workout()
+def test_display_workout(capfd):
+    """Test a workout is displayed correctly in the console."""
+    TEST_WORKOUT.display_workout()
     output = capfd.readouterr()[0]
-    assert TEST_SESSION.workout_type.upper() in output
-    assert "=" * len(TEST_SESSION.workout_type) in output
+    assert TEST_WORKOUT.workout_type.upper() in output
+    assert "=" * len(TEST_WORKOUT.workout_type) in output
     assert "Bells: " in output
     assert "Variation: " in output
     assert "Time: " in output
@@ -50,12 +50,12 @@ def test_display_session(capfd):
     assert "Swings: " in output
 
 
-def test_display_session_no_swings(capfd):
-    """Test a session is displayed correctly in the console with no swings."""
-    TEST_SESSION_NO_SWINGS.display_workout()
+def test_display_workout_no_swings(capfd):
+    """Test a workout is displayed correctly in the console with no swings."""
+    TEST_WORKOUT_NO_SWINGS.display_workout()
     output = capfd.readouterr()[0]
-    assert TEST_SESSION_NO_SWINGS.workout_type.upper() in output
-    assert "=" * len(TEST_SESSION_NO_SWINGS.workout_type) in output
+    assert TEST_WORKOUT_NO_SWINGS.workout_type.upper() in output
+    assert "=" * len(TEST_WORKOUT_NO_SWINGS.workout_type) in output
     assert "Bells: " in output
     assert "Variation: " in output
     assert "Time: " in output
@@ -101,7 +101,7 @@ def test_get_units_good_input(ask_mock, response, units):
 )
 @mock.patch("kettlebells.workouts.IntPrompt.ask")
 def test_get_options(ask_mock, workout_param, response, option):
-    """Test the options for session parameters are valid."""
+    """Test the options for workout parameters are valid."""
     expected = option
     ask_mock.side_effect = [response]
     actual = _get_options(workout_param)
@@ -109,11 +109,11 @@ def test_get_options(ask_mock, workout_param, response, option):
 
 
 @pytest.mark.parametrize(
-    "session, bells, variation, int_responses, sets",
+    "workout, bells, variation, int_responses, sets",
     [
-        (TEST_SESSION, "Double Bells", "Double Classic + Pullup", [30, 28, 60], 20),
+        (TEST_WORKOUT, "Double Bells", "Double Classic + Pullup", [30, 28, 60], 20),
         (
-            TEST_SESSION_NO_SWINGS,
+            TEST_WORKOUT_NO_SWINGS,
             "Single Bell",
             "Traveling 2s + Snatch",
             [20, 24, 0],
@@ -125,20 +125,20 @@ def test_get_options(ask_mock, workout_param, response, option):
 @mock.patch("kettlebells.workouts.Confirm")
 @mock.patch("kettlebells.workouts._get_units")
 @mock.patch("kettlebells.workouts._get_options")
-def test_custom_session(
+def test_custom_workout(
     options_mock,
     units_mock,
     confirm_mock,
     int_mock,
-    session,
+    workout,
     bells,
     variation,
     int_responses,
     sets,
     database,
 ):
-    """Test creating a custom session works as intended."""
-    expected = session
+    """Test creating a custom workout works as intended."""
+    expected = workout
     options_mock.side_effect = [bells, variation]
     int_mock.side_effect = int_responses
     confirm_mock.side_effect = ["y"]

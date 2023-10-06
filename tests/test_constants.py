@@ -1,7 +1,7 @@
 from kettlebells.workouts import Workout
 from kettlebells.constants import IRON_CARDIO_PARAMS
 
-TEST_SESSION = Workout(
+TEST_WORKOUT = Workout(
     **{
         "bodyweight": 90,
         "bells": "Double Bells",
@@ -16,7 +16,7 @@ TEST_SESSION = Workout(
     }
 )
 
-TEST_SESSION_NO_SWINGS = Workout(
+TEST_WORKOUT_NO_SWINGS = Workout(
     **{
         "bodyweight": 90,
         "bells": "Single Bell",
@@ -31,7 +31,7 @@ TEST_SESSION_NO_SWINGS = Workout(
     },
 )
 
-TEST_SESSION_SINGLE_BELL_PULLUPS = Workout(
+TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
     **{
         "bodyweight": 90,
         "bells": "Single Bell",
@@ -46,7 +46,7 @@ TEST_SESSION_SINGLE_BELL_PULLUPS = Workout(
     },
 )
 
-TEST_CACHE_SESSION = Workout(
+TEST_CACHE_WORKOUT = Workout(
     **{
         "bodyweight": 90,
         "bells": "Double Bells",
@@ -72,7 +72,7 @@ TEST_DATA = {
     "saved_workouts": [
         {
             "date": "2023-09-14",
-            "session": {
+            "workout": {
                 "bodyweight": 90,
                 "bells": "Double Bells",
                 "variation": "Double Classic",
@@ -113,7 +113,7 @@ TEST_DATA_FULL_CACHE = {
     "saved_workouts": [
         {
             "date": "2023-09-14",
-            "session": {
+            "workout": {
                 "bodyweight": 90,
                 "bells": "Double Bells",
                 "variation": "Double Classic",

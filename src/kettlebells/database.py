@@ -75,9 +75,9 @@ def confirm_loads(db_path: Path) -> None:
 
 
 def cache_workout(db_path: Path, workout) -> None:
-    """Cache last 10 generated sessions.
+    """Cache last 10 generated workout.
     :param db_path: The Path to the database.
-    :param session:IronCardioSession object to be stored in the cache.
+    :param workout: Workout object to be stored in the cache.
     :returns: None
     """
     data = read_database(db_path)
@@ -88,14 +88,14 @@ def cache_workout(db_path: Path, workout) -> None:
 
 
 def save_workout(db_path: Path, workout_date: str, workout) -> None:
-    """Save a session in the database.
+    """Save a workout in the database.
     :param db_path: The Path to the database.
-    :param session_date: The date of the workout.
-    :param session: IronCardioSession object to be stored in the database.
+    :param workout_date: The date of the workout.
+     n:param workout: Workout object to be stored in the database.
     :returns: None
     """
     data = read_database(db_path)
-    data["saved_workouts"].append({"date": workout_date, "session": asdict(workout)})
+    data["saved_workouts"].append({"date": workout_date, "workout": asdict(workout)})
     data["saved_workouts"] = sorted(
         data["saved_workouts"], key=lambda x: datetime.strptime(x["date"], DATE_FORMAT)
     )

@@ -138,14 +138,14 @@ def done(
 
 @cli.command()
 def last(ctx: typer.Context) -> None:
-    """Display stats from most recent session in database."""
+    """Display stats from most recent workout in database."""
     data = read_database(KETTLEBELLS_DB)
-    last_session = data["saved_workouts"][-1]
-    session_date = last_session["date"]
-    session = Workout(**last_session["session"])
-    console.print(f"\nDate: [green]{datetime.strptime(session_date, DATE_FORMAT):%b %d, %Y}\n")
-    session.display_workout()
-    session.display_workout_stats()
+    last_workout = data["saved_workouts"][-1]
+    workout_date = last_workout["date"]
+    workout = Workout(**last_workout["workout"])
+    console.print(f"\nDate: [green]{datetime.strptime(workout_date, DATE_FORMAT):%b %d, %Y}\n")
+    workout.display_workout()
+    workout.display_workout_stats()
 
 
 @cli.command()
@@ -161,9 +161,9 @@ def stats(
 ) -> None:
     """Display stats from most recent workout in database."""
     data = read_database(KETTLEBELLS_DB)
-    dates, weight_per_session = get_all_time_stats(data)
+    dates, weight_per_workout = get_all_time_stats(data)
     if plot:
-        plot_workouts(dates, weight_per_session)
+        plot_workouts(dates, weight_per_workout)
 
 
 @cli.command()

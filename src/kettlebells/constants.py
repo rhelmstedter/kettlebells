@@ -1,4 +1,4 @@
-"""constants for iron cardio session parameters."""
+"""constants for kettlebells."""
 
 from pathlib import Path
 

@@ -91,7 +91,7 @@ class Workout:
 def random_workout(db_path: Path, workout_type: str) -> Workout:
     """Create a random workout based on workout_type.
     :param db_path: The Path to the database.
-    :returns: A Session object with randomly generated parameters.
+    :returns: A Workout object with randomly generated parameters.
     """
     data = read_database(db_path)
     loads = data["loads"]
@@ -143,7 +143,7 @@ def random_workout(db_path: Path, workout_type: str) -> Workout:
 
 
 def create_custom_workout(db_path: Path, workout_type: str) -> Workout:
-    """Create a custom Iron Cardio session.
+    """Create a custom Workout Object.
     :returns: An Workout object created by the user.
     """
     data = read_database(db_path)
@@ -154,7 +154,7 @@ def create_custom_workout(db_path: Path, workout_type: str) -> Workout:
         variation = _get_options(workout_params["doublebell variations"])
     elif bells == "Single Bell":
         variation = _get_options(workout_params["singlebell variations"])
-    time = IntPrompt.ask("How long was your session (in minutes)")
+    time = IntPrompt.ask("How long was your workout (in minutes)")
     units = _get_units()
     load = IntPrompt.ask(f"What weight did you use (in {units})")
     if Confirm.ask("Did you swing"):
@@ -198,18 +198,18 @@ def set_loads() -> dict:
         for label, value in loads.items():
             console.print(f"{label.title()}: {value}")
         if Confirm.ask(
-            "Are these loads correct? If you confirm, they will be used to generate Iron Cardio sessions."
+            "Are these loads correct? If you confirm, they will be used to generate workouts."
         ):
             break
     return loads
 
 
-def _get_options(session_param: dict) -> str:
-    """Select options for a given Session parameter.
-    :param session_param: The dictionary containing options for a Session parameter.
-    :returns: A string consisting of the Session parameter choosen by the user.
+def _get_options(workout_param: dict) -> str:
+    """Select options for a given workout parameter.
+    :param workout_param: The dictionary containing options for a Workout parameter.
+    :returns: A string consisting of the workout parameter choosen by the user.
     """
-    options = list(session_param.keys())
+    options = list(workout_param.keys())
     for i, option in enumerate(options, 1):
         print(f"    [{i}] {option}")
     while True:

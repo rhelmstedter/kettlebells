@@ -7,10 +7,10 @@ import pytest
 import kettlebells.database as db
 
 from .test_constants import (
-    TEST_CACHE_SESSION,
+    TEST_CACHE_WORKOUT,
     TEST_DATA,
     TEST_DATA_FULL_CACHE,
-    TEST_SESSION,
+    TEST_WORKOUT,
 )
 
 
@@ -62,12 +62,12 @@ def test_read_database(database):
     assert data == TEST_DATA_FULL_CACHE
 
 
-def test_save_session(database):
-    db.save_workout(Path(database.name), "2023-09-14", TEST_SESSION)
+def test_save_workout(database):
+    db.save_workout(Path(database.name), "2023-09-14", TEST_WORKOUT)
     data = json.load(open(database.name))
     assert data["saved_workouts"][-1] == {
         "date": "2023-09-14",
-        "session": {
+        "workout": {
             "bodyweight": 90,
             "bells": "Double Bells",
             "variation": "Double Classic + Pullup",
@@ -82,8 +82,8 @@ def test_save_session(database):
     }
 
 
-def test_cache_session(database):
-    db.cache_workout(Path(database.name), TEST_CACHE_SESSION)
+def test_cache_workout(database):
+    db.cache_workout(Path(database.name), TEST_CACHE_WORKOUT)
     data = json.load(open(database.name))
     assert len(data["cached_workouts"]) == 10
-    assert data["cached_workouts"][-1] == asdict(TEST_CACHE_SESSION)
+    assert data["cached_workouts"][-1] == asdict(TEST_CACHE_WORKOUT)
