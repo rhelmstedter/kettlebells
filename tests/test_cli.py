@@ -39,7 +39,7 @@ def test_done_with_save(int_mock, prompt_mock, confirm_mock, database):
     with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
         result = runner.invoke(cli, ["done"])
         assert "Last workout generated:" in result.stdout
-        assert "Session Stats" in result.stdout
+        assert "Workout Stats" in result.stdout
 
 
 def test_last(database):

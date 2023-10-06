@@ -15,26 +15,26 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     units = data["loads"]["units"]
     dates = []
     stats = []
-    sessions = []
-    for session_data in data["saved_sessions"]:
-        date = session_data["date"]
-        session = Workout(**session_data["session"])
+    workouts = []
+    for workout_data in data["saved_sessions"]:
+        date = workout_data["date"]
+        workout = Workout(**workout_data["session"])
         dates.append(date)
-        stats.append(session.calc_session_stats())
-        sessions.append(session)
-    total_mins = sum(session.time for session in sessions)
-    weight_per_session = [stat["weight moved"] for stat in stats]
-    total_weight_moved = sum(weight_per_session)
+        stats.append(workout.calc_workout_stats())
+        workouts.append(workout)
+    total_mins = sum(workout.time for workout in workouts)
+    weight_per_workout = [stat["weight moved"] for stat in stats]
+    total_weight_moved = sum(weight_per_workout)
     total_reps = sum(stat["reps"] for stat in stats)
     average_pace = mean(stat["pace"] for stat in stats)
-    print("\nAll Time Stats")
+    console.print("\nAll Time Stats")
     console.print("==============", style="green")
-    print(f"    Total Sessions: {len(stats):,}")
-    print(f"        Total Time: {total_mins} mins")
-    print(f"Total Weight Moved: {total_weight_moved:,} {units}")
-    print(f"        Total Reps: {total_reps:,}")
-    print(f"      Average Pace: {average_pace:.1f} sec/rep")
-    return dates, weight_per_session
+    console.print(f"    Total Workouts: {len(stats):,}")
+    console.print(f"        Total Time: {total_mins} mins")
+    console.print(f"Total Weight Moved: {total_weight_moved:,} {units}")
+    console.print(f"        Total Reps: {total_reps:,}")
+    console.print(f"      Average Pace: {average_pace:.1f} sec/rep")
+    return dates, weight_per_workout
 
 
 def plot_workouts(dates: list[str], weight_per_workout: list[int]) -> None:
@@ -68,7 +68,7 @@ def top_ten_workouts(data: dict):
     for session_data in data["saved_sessions"]:
         date = session_data["date"]
         session = Workout(**session_data["session"])
-        sessions.append((date, session, session.calc_session_stats()))
+        sessions.append((date, session, session.calc_workout_stats()))
 
     best_sessions_weight = sorted(
         sessions, key=lambda x: x[2]["weight moved"], reverse=True

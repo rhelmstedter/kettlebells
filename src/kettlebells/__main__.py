@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Optional
 
 import typer
-from rich import print
 from rich.prompt import Confirm, IntPrompt, Prompt
 from typing_extensions import Annotated
 
@@ -38,7 +37,7 @@ cli = typer.Typer(add_completion=False)
 def report_version(display: bool) -> None:
     """Print version and exit."""
     if display:
-        print(f"{Path(sys.argv[0]).name} {__version__}")
+        console.print(f"{Path(sys.argv[0]).name} {__version__}")
         raise typer.Exit()
 
 
@@ -132,7 +131,7 @@ def done(
         workout.sets = IntPrompt.ask("How many sets did you complete?")
         save_workout(KETTLEBELLS_DB, workout_date, workout)
         print()
-        workout.display_session_stats()
+        workout.display_workout_stats()
     else:
         console.print("Workout not saved.")
 
@@ -144,9 +143,9 @@ def last(ctx: typer.Context) -> None:
     last_session = data["saved_sessions"][-1]
     session_date = last_session["date"]
     session = Workout(**last_session["session"])
-    print(f"\nDate: [green]{datetime.strptime(session_date, DATE_FORMAT):%b %d, %Y}\n")
+    console.print(f"\nDate: [green]{datetime.strptime(session_date, DATE_FORMAT):%b %d, %Y}\n")
     session.display_workout()
-    session.display_session_stats()
+    session.display_workout_stats()
 
 
 @cli.command()

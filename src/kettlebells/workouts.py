@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from random import choice, choices
 
-from rich import print
 from rich.prompt import Confirm, IntPrompt, Prompt
 
 from .console import console
@@ -37,20 +36,16 @@ class Workout:
             swings = f"   Swings: {self.swings} reps"
         else:
             swings = ""
-        print(
-            f"""{self.workout_type.upper()}\n[green]===================[/green]
-    Bells: {self.bells.title()}
-Variation: {self.variation}
-     Time: {self.time} mins
-     Load: {self.load} {self.units}
-{swings}
-"""
-        )
+        console.print(self.workout_type.upper())
+        console.print("=" * len(self.workout_type), style="green")
+        console.print(f"    Bells: {self.bells.title()}")
+        console.print(f"Variation: {self.variation}")
+        console.print(f"     Time: {self.time} mins")
+        console.print(f"     Load: {self.load} {self.units}")
+        console.print(swings)
 
-    def calc_session_stats(self) -> dict:
-        """Calculate the stats for a given session.
-        :param session: The workout for which to calculate the stats.
-        :param bodyweight: The user's bodyweight at time of the session.
+    def calc_workout_stats(self) -> dict:
+        """Calculate the stats for a given workout.
         :returns: A dict containing total weight moved, number of reps, and the pace.
         """
         total_reps = self.reps * self.sets
@@ -82,20 +77,15 @@ Variation: {self.variation}
         }
         return stats
 
-    def display_session_stats(self) -> None:
-        """Prints the stats for a given session.
-        :param session: The Session object for which to display the stats.
-        :param bodyweight: The bodyweight of the user.
+    def display_workout_stats(self) -> None:
+        """Prints the stats for a given workout.
         :returns: None"""
-        stats = self.calc_session_stats()
-        console.print(
-            f"""Session Stats
-[green]=============[/green]
-Weight Moved: {stats.get("weight moved"):,} {self.units}
-  Total Reps: {stats.get("reps")}
-        Pace: {round(stats.get("pace"), 1)} sec/rep
-        """
-        )
+        stats = self.calc_workout_stats()
+        console.print("Workout Stats")
+        console.print("=============", style="green")
+        console.print(f"Weight Moved: {stats.get('weight moved'):,} {self.units}")
+        console.print(f"  Total Reps: {stats.get('reps')}")
+        console.print(f"        Pace: {round(stats.get('pace'), 1)} sec/rep")
 
 
 def random_workout(db_path: Path, workout_type: str) -> Workout:

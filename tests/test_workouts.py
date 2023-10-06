@@ -24,7 +24,7 @@ def test_create_random_workout(database):
     database and within the ranges defined in the constants module.
     """
     loads = json.load(open(database.name))["loads"]
-    actual = random_workout(Path(database.name), 'iron-cardio')
+    actual = random_workout(Path(database.name), "iron-cardio")
     assert isinstance(actual, Workout)
     assert actual.bells in IRON_CARDIO_PARAMS["bells"].keys()
     assert (
@@ -42,7 +42,7 @@ def test_display_session(capfd):
     TEST_SESSION.display_workout()
     output = capfd.readouterr()[0]
     assert TEST_SESSION.workout_type.upper() in output
-    assert "===================" in output
+    assert "=" * len(TEST_SESSION.workout_type) in output
     assert "Bells: " in output
     assert "Variation: " in output
     assert "Time: " in output
@@ -54,8 +54,8 @@ def test_display_session_no_swings(capfd):
     """Test a session is displayed correctly in the console with no swings."""
     TEST_SESSION_NO_SWINGS.display_workout()
     output = capfd.readouterr()[0]
-    assert TEST_SESSION.workout_type.upper() in output
-    assert "===================" in output
+    assert TEST_SESSION_NO_SWINGS.workout_type.upper() in output
+    assert "=" * len(TEST_SESSION_NO_SWINGS.workout_type) in output
     assert "Bells: " in output
     assert "Variation: " in output
     assert "Time: " in output

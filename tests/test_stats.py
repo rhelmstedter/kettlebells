@@ -26,16 +26,16 @@ from .test_constants import (
 )
 def test_calc_session_stats(session, stats):
     """Test session stats are calculated correctly."""
-    actual = session.calc_session_stats()
+    actual = session.calc_workout_stats()
     expected = stats
     assert actual == expected
 
 
 def test_display_session_stats_single_bell_pullups(capfd):
     """Test session stats are displayed correctly."""
-    TEST_SESSION_SINGLE_BELL_PULLUPS.display_session_stats()
+    TEST_SESSION_SINGLE_BELL_PULLUPS.display_workout_stats()
     output = capfd.readouterr()[0]
-    expected = """Session Stats
+    expected = """Workout Stats
 =============
 Weight Moved: 3,050 kilograms
   Total Reps: 35
@@ -52,7 +52,7 @@ def test_get_all_time_stats(database, capfd):
     output = capfd.readouterr()[0]
     expected_output = """\nAll Time Stats
 ==============
-    Total Sessions: 1
+    Total Workouts: 1
         Total Time: 20 mins
 Total Weight Moved: 3,480 kilograms
         Total Reps: 87
