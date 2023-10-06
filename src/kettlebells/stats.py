@@ -4,56 +4,7 @@ import plotext as plt
 from rich.table import Table
 
 from .console import console
-from .workouts import Workout, get_workout_params
-
-
-def calc_session_stats(workout: Workout, bodyweight: int) -> dict:
-    """Calculate the stats for a given session.
-    :param session: The workout for which to calculate the stats.
-    :param bodyweight: The user's bodyweight at time of the session.
-    :returns: A dict containing total weight moved, number of reps, and the pace.
-    """
-    total_reps = workout.reps * workout.sets
-    workout_params = get_workout_params(workout.workout_type)[1]
-
-    if workout.bells == "Double Bells":
-        load_factor = 2
-    else:
-        load_factor = 1
-
-    if "Pullup" in workout.variation and workout.bells == "Double Bells":
-        pullup_factor = 1
-    elif "Pullup" in workout.variation and workout.bells == "Single Bell":
-        pullup_factor = 0.5
-    else:
-        pullup_factor = 0
-
-    stats = {
-        "weight moved": (
-            workout_params["rep schemes"][workout.variation] * workout.load * load_factor * workout.sets
-            + (workout.swings * workout.load)
-            + (bodyweight * int(workout.sets * pullup_factor))
-        ),
-        "reps": total_reps + int(workout.sets * pullup_factor),
-        "pace": (workout.time * 60) / (total_reps + (workout.sets * pullup_factor)),
-    }
-    return stats
-
-
-def display_session_stats(session: Workout, bodyweight: int) -> None:
-    """Prints the stats for a given session.
-    :param session: The Session object for which to display the stats.
-    :param bodyweight: The bodyweight of the user.
-    :returns: None"""
-    stats = calc_session_stats(session, bodyweight)
-    console.print(
-        f"""Session Stats
-[green]=============[/green]
-Weight Moved: {stats.get("weight moved"):,} {session.units}
-  Total Reps: {stats.get("reps")}
-        Pace: {round(stats.get("pace"), 1)} sec/rep
-    """
-    )
+from .workouts import Workout
 
 
 def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
@@ -61,7 +12,6 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     :data: A dict of the data in the database.
     :returns: Lists of both dates and weight moved per session.
     """
-    bodyweight = data["loads"]["bodyweight"]
     units = data["loads"]["units"]
     dates = []
     stats = []
@@ -70,7 +20,7 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
         date = session_data["date"]
         session = Workout(**session_data["session"])
         dates.append(date)
-        stats.append(calc_session_stats(session, bodyweight))
+        stats.append(session.calc_session_stats())
         sessions.append(session)
     total_mins = sum(session.time for session in sessions)
     weight_per_session = [stat["weight moved"] for stat in stats]
@@ -87,18 +37,17 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     return dates, weight_per_session
 
 
-def plot_sessions(dates: list[str], weight_per_session: list[int]) -> None:
-    """
+def plot_workouts(dates: list[str], weight_per_workout: list[int]) -> None:
+    """ Plot weight per workout.
     :param dates: A list of the dates stored as a string.
     :param weight_per_session: A list of the weight moved per session.
     :returns: None
     """
-    """Plot weight per session."""
     background_color = "yellow"
     foreground_color = "black"
     plt.clear_color()
     plt.date_form("Y-m-d")
-    plt.plot(dates, weight_per_session, marker="hd", color=foreground_color)
+    plt.plot(dates, weight_per_workout, marker="hd", color=foreground_color)
     plt.ticks_color(foreground_color)
     plt.plotsize(100, 30)
     plt.canvas_color(background_color)
@@ -108,11 +57,10 @@ def plot_sessions(dates: list[str], weight_per_session: list[int]) -> None:
     plt.show()
 
 
-def get_best_sessions(data: dict):
+def top_ten_workouts(data: dict):
     """Get the best sessions based on weight moved.
     :param data: A dict of the data from the database.
     :returns: None"""
-    bodyweight = data["loads"]["bodyweight"]
     units = data["loads"]["units"]
     if units.startswith("k"):
         units = "kg"
@@ -120,7 +68,7 @@ def get_best_sessions(data: dict):
     for session_data in data["saved_sessions"]:
         date = session_data["date"]
         session = Workout(**session_data["session"])
-        sessions.append((date, session, calc_session_stats(session, bodyweight)))
+        sessions.append((date, session, session.calc_session_stats()))
 
     best_sessions_weight = sorted(
         sessions, key=lambda x: x[2]["weight moved"], reverse=True

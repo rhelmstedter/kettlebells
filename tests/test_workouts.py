@@ -135,6 +135,7 @@ def test_custom_session(
     variation,
     int_responses,
     sets,
+    database,
 ):
     """Test creating a custom session works as intended."""
     expected = session
@@ -142,7 +143,7 @@ def test_custom_session(
     int_mock.side_effect = int_responses
     confirm_mock.side_effect = ["y"]
     units_mock.side_effect = ["kilograms"]
-    actual = create_custom_workout("iron-cardio")
+    actual = create_custom_workout(Path(database.name), "iron-cardio")
     actual.sets = sets
     assert isinstance(actual, Workout)
     assert actual == expected

@@ -4,8 +4,6 @@ import pytest
 
 from kettlebells.database import read_database
 from kettlebells.stats import (
-    calc_session_stats,
-    display_session_stats,
     get_all_time_stats,
 )
 
@@ -28,14 +26,14 @@ from .test_constants import (
 )
 def test_calc_session_stats(session, stats):
     """Test session stats are calculated correctly."""
-    actual = calc_session_stats(session, 90)
+    actual = session.calc_session_stats()
     expected = stats
     assert actual == expected
 
 
 def test_display_session_stats_single_bell_pullups(capfd):
     """Test session stats are displayed correctly."""
-    display_session_stats(TEST_SESSION_SINGLE_BELL_PULLUPS, 90)
+    TEST_SESSION_SINGLE_BELL_PULLUPS.display_session_stats()
     output = capfd.readouterr()[0]
     expected = """Session Stats
 =============

@@ -87,7 +87,7 @@ def cache_workout(db_path: Path, workout) -> None:
     write_database(db_path, data)
 
 
-def save_session(db_path: Path, session_date: str, workout) -> None:
+def save_workout(db_path: Path, workout_date: str, workout) -> None:
     """Save a session in the database.
     :param db_path: The Path to the database.
     :param session_date: The date of the workout.
@@ -95,7 +95,7 @@ def save_session(db_path: Path, session_date: str, workout) -> None:
     :returns: None
     """
     data = read_database(db_path)
-    data["saved_sessions"].append({"date": session_date, "session": asdict(workout)})
+    data["saved_sessions"].append({"date": workout_date, "session": asdict(workout)})
     data["saved_sessions"] = sorted(
         data["saved_sessions"], key=lambda x: datetime.strptime(x["date"], DATE_FORMAT)
     )

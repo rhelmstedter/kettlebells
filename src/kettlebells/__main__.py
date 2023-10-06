@@ -22,14 +22,13 @@ from .database import (
     confirm_loads,
     initialize_database,
     read_database,
-    save_session,
+    save_workout,
     write_database,
 )
 from .stats import (
-    display_session_stats,
     get_all_time_stats,
-    get_best_sessions,
-    plot_sessions,
+    top_ten_workouts,
+    plot_workouts,
 )
 from .workouts import Workout, create_custom_workout, random_workout, set_loads
 
@@ -79,7 +78,7 @@ def init(
 
 @cli.command()
 def setloads(ctx: typer.Context) -> None:
-    """Set units and loads for iron cardio sessions."""
+    """Set units and loads for workouts."""
     loads = set_loads()
     data = read_database(KETTLEBELLS_DB)
     data["loads"] = loads
@@ -109,32 +108,31 @@ def done(
     confirm_loads(KETTLEBELLS_DB)
     data = read_database(KETTLEBELLS_DB)
     if workout_type:
-        session = create_custom_workout(workout_type)
-        session.display_workout()
+        workout = create_custom_workout(workout_type)
+        workout.display_workout()
     else:
-        session = Workout(**data["cached_sessions"][-1])
+        workout = Workout(**data["cached_sessions"][-1])
         console.print("Last workout generated:\n")
-        session.display_workout()
-    if Confirm.ask("Save this session?"):
+        workout.display_workout()
+    if Confirm.ask("Save this workout?"):
         while True:
-            session_date = Prompt.ask(
+            workout_date = Prompt.ask(
                 "Enter the date of the workout (YYYY-MM-DD), or press enter for today"
             )
-            if not session_date:
-                session_date = date.today().strftime(DATE_FORMAT)
+            if not workout_date:
+                workout_date = date.today().strftime(DATE_FORMAT)
             try:
-                datetime.strptime(session_date, DATE_FORMAT)
+                datetime.strptime(workout_date, DATE_FORMAT)
                 break
             except ValueError:
                 console.print(
-                    ":warning: {session_date} not a valid date.", style=WARNING
+                    ":warning: {workout_date} not a valid date.", style=WARNING
                 )
                 continue
-        session.sets = IntPrompt.ask("How many sets did you complete?")
-        save_session(KETTLEBELLS_DB, session_date, session)
-        bodyweight = data["loads"]["bodyweight"]
+        workout.sets = IntPrompt.ask("How many sets did you complete?")
+        save_workout(KETTLEBELLS_DB, workout_date, workout)
         print()
-        display_session_stats(session, bodyweight)
+        workout.display_session_stats()
     else:
         console.print("Workout not saved.")
 
@@ -146,10 +144,9 @@ def last(ctx: typer.Context) -> None:
     last_session = data["saved_sessions"][-1]
     session_date = last_session["date"]
     session = Workout(**last_session["session"])
-    bodyweight = data["loads"]["bodyweight"]
     print(f"\nDate: [green]{datetime.strptime(session_date, DATE_FORMAT):%b %d, %Y}\n")
     session.display_workout()
-    display_session_stats(session, bodyweight)
+    session.display_session_stats()
 
 
 @cli.command()
@@ -167,7 +164,7 @@ def stats(
     data = read_database(KETTLEBELLS_DB)
     dates, weight_per_session = get_all_time_stats(data)
     if plot:
-        plot_sessions(dates, weight_per_session)
+        plot_workouts(dates, weight_per_session)
 
 
 @cli.command()
@@ -176,7 +173,7 @@ def best(
 ) -> None:
     """Display stats from the top ten w in database."""
     data = read_database(KETTLEBELLS_DB)
-    get_best_sessions(data)
+    top_ten_workouts(data)
 
 
 if __name__ == "__main__":

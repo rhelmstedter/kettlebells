@@ -3,6 +3,7 @@ from kettlebells.constants import IRON_CARDIO_PARAMS
 
 TEST_SESSION = Workout(
     **{
+        "bodyweight": 90,
         "bells": "Double Bells",
         "variation": "Double Classic + Pullup",
         "time": 30,
@@ -17,6 +18,7 @@ TEST_SESSION = Workout(
 
 TEST_SESSION_NO_SWINGS = Workout(
     **{
+        "bodyweight": 90,
         "bells": "Single Bell",
         "variation": "Traveling 2s + Snatch",
         "time": 20,
@@ -31,6 +33,7 @@ TEST_SESSION_NO_SWINGS = Workout(
 
 TEST_SESSION_SINGLE_BELL_PULLUPS = Workout(
     **{
+        "bodyweight": 90,
         "bells": "Single Bell",
         "variation": "Classic + Pullup",
         "time": 10,
@@ -45,6 +48,7 @@ TEST_SESSION_SINGLE_BELL_PULLUPS = Workout(
 
 TEST_CACHE_SESSION = Workout(
     **{
+        "bodyweight": 90,
         "bells": "Double Bells",
         "variation": "Double Classic",
         "time": 20,
@@ -69,6 +73,7 @@ TEST_DATA = {
         {
             "date": "2023-09-14",
             "session": {
+                "bodyweight": 90,
                 "bells": "Double Bells",
                 "variation": "Double Classic",
                 "time": 20,
@@ -83,6 +88,7 @@ TEST_DATA = {
     ],
     "cached_sessions": [
         {
+            "bodyweight": 90,
             "bells": "Single Bell",
             "variation": "Classic",
             "time": 10,
@@ -108,6 +114,7 @@ TEST_DATA_FULL_CACHE = {
         {
             "date": "2023-09-14",
             "session": {
+                "bodyweight": 90,
                 "bells": "Double Bells",
                 "variation": "Double Classic",
                 "time": 20,
@@ -122,6 +129,7 @@ TEST_DATA_FULL_CACHE = {
     ],
     "cached_sessions": [
         {
+            "bodyweight": 90,
             "bells": "Single Bell",
             "variation": "Classic",
             "time": 10,
@@ -133,6 +141,7 @@ TEST_DATA_FULL_CACHE = {
             "workout_type": "iron cardio",
         },
         {
+            "bodyweight": 90,
             "bells": "Double Bells",
             "variation": "Double Classic",
             "time": 10,
@@ -144,6 +153,7 @@ TEST_DATA_FULL_CACHE = {
             "workout_type": "iron cardio",
         },
         {
+            "bodyweight": 90,
             "bells": "Single Bell",
             "variation": "Traveling 2s + Snatch",
             "time": 20,
@@ -155,6 +165,7 @@ TEST_DATA_FULL_CACHE = {
             "workout_type": "iron cardio",
         },
         {
+            "bodyweight": 90,
             "bells": "Double Bells",
             "variation": "Double Classic",
             "time": 10,
@@ -166,6 +177,7 @@ TEST_DATA_FULL_CACHE = {
             "workout_type": "iron cardio",
         },
         {
+            "bodyweight": 90,
             "bells": "Single Bell",
             "variation": "Traveling 2s + Snatch",
             "time": 20,
@@ -177,6 +189,7 @@ TEST_DATA_FULL_CACHE = {
             "workout_type": "iron cardio",
         },
         {
+            "bodyweight": 90,
             "bells": "Single Bell",
             "variation": "Traveling 2s",
             "time": 20,
@@ -188,6 +201,7 @@ TEST_DATA_FULL_CACHE = {
             "workout_type": "iron cardio",
         },
         {
+            "bodyweight": 90,
             "bells": "Double Bells",
             "variation": "Double Traveling 2s",
             "time": 30,
@@ -199,6 +213,7 @@ TEST_DATA_FULL_CACHE = {
             "workout_type": "iron cardio",
         },
         {
+            "bodyweight": 90,
             "bells": "Single Bell",
             "variation": "Traveling 2s + Pullup",
             "time": 30,
@@ -210,6 +225,7 @@ TEST_DATA_FULL_CACHE = {
             "workout_type": "iron cardio",
         },
         {
+            "bodyweight": 90,
             "bells": "Double Bells",
             "variation": "Double Traveling 2s",
             "time": 10,
@@ -221,6 +237,7 @@ TEST_DATA_FULL_CACHE = {
             "workout_type": "iron cardio",
         },
         {
+            "bodyweight": 90,
             "bells": "Double Bells",
             "variation": "Double Classic + Pullup",
             "time": 30,

@@ -63,11 +63,12 @@ def test_read_database(database):
 
 
 def test_save_session(database):
-    db.save_session(Path(database.name), "2023-09-14", TEST_SESSION)
+    db.save_workout(Path(database.name), "2023-09-14", TEST_SESSION)
     data = json.load(open(database.name))
     assert data["saved_sessions"][-1] == {
         "date": "2023-09-14",
         "session": {
+            "bodyweight": 90,
             "bells": "Double Bells",
             "variation": "Double Classic + Pullup",
             "time": 30,

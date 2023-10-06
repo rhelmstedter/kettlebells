@@ -18,6 +18,7 @@ from .database import read_database
 
 @dataclass
 class Workout:
+    bodyweight: int
     bells: str
     variation: str
     time: int
@@ -46,13 +47,55 @@ Variation: {self.variation}
 """
         )
 
+    def calc_session_stats(self) -> dict:
+        """Calculate the stats for a given session.
+        :param session: The workout for which to calculate the stats.
+        :param bodyweight: The user's bodyweight at time of the session.
+        :returns: A dict containing total weight moved, number of reps, and the pace.
+        """
+        total_reps = self.reps * self.sets
+        workout_params = _get_workout_params(self.workout_type)[1]
 
-def get_workout_params(workout_type: str) -> dict:
-    match workout_type:
-        case "iron-cardio" | "iron cardio":
-            return "iron cardio", IRON_CARDIO_PARAMS
-        case "abc" | "Armor Building Complex":
-            return "Armor Building Complex", ABC_PARAMS
+        if self.bells == "Double Bells":
+            load_factor = 2
+        else:
+            load_factor = 1
+
+        if "Pullup" in self.variation and self.bells == "Double Bells":
+            pullup_factor = 1
+        elif "Pullup" in self.variation and self.bells == "Single Bell":
+            pullup_factor = 0.5
+        else:
+            pullup_factor = 0
+
+        stats = {
+            "weight moved": (
+                workout_params["rep schemes"][self.variation]
+                * self.load
+                * load_factor
+                * self.sets
+                + (self.swings * self.load)
+                + (self.bodyweight * int(self.sets * pullup_factor))
+            ),
+            "reps": total_reps + int(self.sets * pullup_factor),
+            "pace": (self.time * 60) / (total_reps + (self.sets * pullup_factor)),
+        }
+        return stats
+
+    def display_session_stats(self) -> None:
+        """Prints the stats for a given session.
+        :param session: The Session object for which to display the stats.
+        :param bodyweight: The bodyweight of the user.
+        :returns: None"""
+        stats = self.calc_session_stats()
+        console.print(
+            f"""Session Stats
+[green]=============[/green]
+Weight Moved: {stats.get("weight moved"):,} {self.units}
+  Total Reps: {stats.get("reps")}
+        Pace: {round(stats.get("pace"), 1)} sec/rep
+        """
+        )
 
 
 def random_workout(db_path: Path, workout_type: str) -> Workout:
@@ -62,7 +105,7 @@ def random_workout(db_path: Path, workout_type: str) -> Workout:
     """
     data = read_database(db_path)
     loads = data["loads"]
-    workout_type, workout_params = get_workout_params(workout_type)
+    workout_type, workout_params = _get_workout_params(workout_type)
     bells = choices(
         population=tuple(workout_params["bells"].keys()),
         weights=tuple(workout_params["bells"].values()),
@@ -96,6 +139,7 @@ def random_workout(db_path: Path, workout_type: str) -> Workout:
     else:
         swings = 0
     return Workout(
+        bodyweight=data["loads"]["bodyweight"],
         bells=bells,
         variation=variation,
         time=time,
@@ -108,29 +152,13 @@ def random_workout(db_path: Path, workout_type: str) -> Workout:
     )
 
 
-def _get_options(session_param: dict) -> str:
-    """Select options for a given Session parameter.
-    :param session_param: The dictionary containing options for a Session parameter.
-    :returns: A string consisting of the Session parameter choosen by the user.
-    """
-    options = list(session_param.keys())
-    for i, option in enumerate(options, 1):
-        print(f"    [{i}] {option}")
-    while True:
-        try:
-            selection = IntPrompt.ask("Choose your option")
-            return options[selection - 1]
-        except IndexError:
-            print(":warning: Not a valid option.", style=WARNING)
-            print("Enter a number between 1 and {max(options) + 1}.", style=SUGGESTION)
-            continue
-
-
-def create_custom_workout(workout_type: str) -> Workout:
+def create_custom_workout(db_path: Path, workout_type: str) -> Workout:
     """Create a custom Iron Cardio session.
     :returns: An Workout object created by the user.
     """
-    workout_type, workout_params = get_workout_params(workout_type)
+    data = read_database(db_path)
+    bodyweight = data["loads"]["bodyweight"]
+    workout_type, workout_params = _get_workout_params(workout_type)
     bells = _get_options(workout_params["bells"])
     if bells == "Double Bells":
         variation = _get_options(workout_params["doublebell variations"])
@@ -144,6 +172,7 @@ def create_custom_workout(workout_type: str) -> Workout:
     else:
         swings = 0
     return Workout(
+        bodyweight,
         bells,
         variation,
         time,
@@ -154,24 +183,6 @@ def create_custom_workout(workout_type: str) -> Workout:
         workout_params["rep schemes"][variation],
         workout_type,
     )
-
-
-def _get_units() -> str:
-    """A helper function to get the units.
-    :returns: A string, either 'pounds' or 'kilograms'.
-    """
-    while True:
-        units = Prompt.ask("[P]ounds or [K]ilograms").lower()
-        if units.startswith("p"):
-            units = "pounds"
-        elif units.startswith("k"):
-            units = "kilograms"
-        else:
-            console.print(":warning: Invalid option", style=WARNING)
-            console.print("Please enter P or K", style=SUGGESTION)
-            continue
-        break
-    return units
 
 
 def set_loads() -> dict:
@@ -201,3 +212,47 @@ def set_loads() -> dict:
         ):
             break
     return loads
+
+
+def _get_options(session_param: dict) -> str:
+    """Select options for a given Session parameter.
+    :param session_param: The dictionary containing options for a Session parameter.
+    :returns: A string consisting of the Session parameter choosen by the user.
+    """
+    options = list(session_param.keys())
+    for i, option in enumerate(options, 1):
+        print(f"    [{i}] {option}")
+    while True:
+        try:
+            selection = IntPrompt.ask("Choose your option")
+            return options[selection - 1]
+        except IndexError:
+            print(":warning: Not a valid option.", style=WARNING)
+            print("Enter a number between 1 and {max(options) + 1}.", style=SUGGESTION)
+            continue
+
+
+def _get_units() -> str:
+    """A helper function to get the units.
+    :returns: A string, either 'pounds' or 'kilograms'.
+    """
+    while True:
+        units = Prompt.ask("[P]ounds or [K]ilograms").lower()
+        if units.startswith("p"):
+            units = "pounds"
+        elif units.startswith("k"):
+            units = "kilograms"
+        else:
+            console.print(":warning: Invalid option", style=WARNING)
+            console.print("Please enter P or K", style=SUGGESTION)
+            continue
+        break
+    return units
+
+
+def _get_workout_params(workout_type: str) -> dict:
+    match workout_type:
+        case "iron-cardio" | "iron cardio":
+            return "iron cardio", IRON_CARDIO_PARAMS
+        case "abc" | "Armor Building Complex":
+            return "Armor Building Complex", ABC_PARAMS

@@ -68,9 +68,9 @@ def test_init(init_mock):
 
 
 @mock.patch("kettlebells.__main__.read_database")
-@mock.patch("kettlebells.__main__.get_best_sessions")
+@mock.patch("kettlebells.__main__.top_ten_workouts")
 def test_best(best_mock, read_mock):
-    "Test best command calls read_database and get_best_sessions." ""
+    "Test best command calls read_database and top_ten_workouts."""
     runner.invoke(cli, ["best"])
     best_mock.assert_called_once()
     read_mock.assert_called_once()
