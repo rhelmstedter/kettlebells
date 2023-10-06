@@ -10,13 +10,13 @@ from .workouts import Workout
 def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     """Print stats from all workout in the database.
     :data: A dict of the data in the database.
-    :returns: Lists of both dates and weight moved per session.
+    :returns: Lists of both dates and weight moved per workout.
     """
     units = data["loads"]["units"]
     dates = []
     stats = []
     workouts = []
-    for workout_data in data["saved_sessions"]:
+    for workout_data in data["saved_workouts"]:
         date = workout_data["date"]
         workout = Workout(**workout_data["session"])
         dates.append(date)
@@ -52,29 +52,29 @@ def plot_workouts(dates: list[str], weight_per_workout: list[int]) -> None:
     plt.plotsize(100, 30)
     plt.canvas_color(background_color)
     plt.axes_color(background_color)
-    plt.title("Weight Moved Per Session")
+    plt.title("Weight Moved Per Workout")
     plt.xlabel("Date")
     plt.show()
 
 
 def top_ten_workouts(data: dict):
-    """Get the best sessions based on weight moved.
+    """Get the top ten workouts based on weight moved.
     :param data: A dict of the data from the database.
     :returns: None"""
     units = data["loads"]["units"]
     if units.startswith("k"):
         units = "kg"
     sessions = []
-    for session_data in data["saved_sessions"]:
+    for session_data in data["saved_workouts"]:
         date = session_data["date"]
         session = Workout(**session_data["session"])
         sessions.append((date, session, session.calc_workout_stats()))
 
-    best_sessions_weight = sorted(
+    best_workouts_weight = sorted(
         sessions, key=lambda x: x[2]["weight moved"], reverse=True
     )
-    if len(best_sessions_weight) > 10:
-        best_sessions_weight = best_sessions_weight[:10]
+    if len(best_workouts_weight) > 10:
+        best_workouts_weight = best_workouts_weight[:10]
 
     columns = [
         ("Date", "green"),
@@ -87,7 +87,7 @@ def top_ten_workouts(data: dict):
     weight_table = Table(title="Best Sessions by Weight moved")
     for col, style in columns:
         weight_table.add_column(col, style=style, justify="right")
-    for date, session, stats in best_sessions_weight:
+    for date, session, stats in best_workouts_weight:
         weight_table.add_row(
             date,
             session.variation,

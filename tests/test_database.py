@@ -15,7 +15,7 @@ from .test_constants import (
 
 
 def test_initialize_database(database_home):
-    expected = {"loads": dict(), "saved_sessions": [], "cached_sessions": []}
+    expected = {"loads": dict(), "saved_workouts": [], "cached_workouts": []}
     db.initialize_database(database_home.parents[0], database_home, False)
     assert database_home.is_file()
     assert json.load(open(database_home)) == expected
@@ -30,7 +30,7 @@ def test_initialize_database_already_existes(database, capfd):
 
 
 def test_initialize_database_force(database):
-    expected = {"loads": dict(), "saved_sessions": [], "cached_sessions": []}
+    expected = {"loads": dict(), "saved_workouts": [], "cached_workouts": []}
     db.initialize_database(Path(database.name).parents[0], Path(database.name), True)
     assert Path(database.name).is_file()
     assert json.load(open(database.name)) == expected
@@ -65,7 +65,7 @@ def test_read_database(database):
 def test_save_session(database):
     db.save_workout(Path(database.name), "2023-09-14", TEST_SESSION)
     data = json.load(open(database.name))
-    assert data["saved_sessions"][-1] == {
+    assert data["saved_workouts"][-1] == {
         "date": "2023-09-14",
         "session": {
             "bodyweight": 90,
@@ -85,5 +85,5 @@ def test_save_session(database):
 def test_cache_session(database):
     db.cache_workout(Path(database.name), TEST_CACHE_SESSION)
     data = json.load(open(database.name))
-    assert len(data["cached_sessions"]) == 10
-    assert data["cached_sessions"][-1] == asdict(TEST_CACHE_SESSION)
+    assert len(data["cached_workouts"]) == 10
+    assert data["cached_workouts"][-1] == asdict(TEST_CACHE_SESSION)

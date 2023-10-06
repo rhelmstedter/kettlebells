@@ -43,7 +43,7 @@ def test_done_with_save(int_mock, prompt_mock, confirm_mock, database):
 
 
 def test_last(database):
-    """Test the last command reads the last saved session and displays the date and stats."""
+    """Test the last command reads the last saved workout and displays the date and stats."""
     with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
         result = runner.invoke(cli, ["last"])
         assert "Date: Sep 14, 2023" in result.stdout

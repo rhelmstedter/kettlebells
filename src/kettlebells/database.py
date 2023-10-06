@@ -29,7 +29,7 @@ def initialize_database(kettlebells_home: Path, db_path: Path, force: bool) -> N
         kettlebells_home.mkdir()
     except FileExistsError:
         pass
-    data = {"loads": dict(), "saved_sessions": [], "cached_sessions": []}
+    data = {"loads": dict(), "saved_workouts": [], "cached_workouts": []}
     write_database(db_path, data)
 
 
@@ -81,9 +81,9 @@ def cache_workout(db_path: Path, workout) -> None:
     :returns: None
     """
     data = read_database(db_path)
-    cache = deque(data["cached_sessions"], maxlen=10)
+    cache = deque(data["cached_workouts"], maxlen=10)
     cache.append(asdict(workout))
-    data["cached_sessions"] = list(cache)
+    data["cached_workouts"] = list(cache)
     write_database(db_path, data)
 
 
@@ -95,8 +95,8 @@ def save_workout(db_path: Path, workout_date: str, workout) -> None:
     :returns: None
     """
     data = read_database(db_path)
-    data["saved_sessions"].append({"date": workout_date, "session": asdict(workout)})
-    data["saved_sessions"] = sorted(
-        data["saved_sessions"], key=lambda x: datetime.strptime(x["date"], DATE_FORMAT)
+    data["saved_workouts"].append({"date": workout_date, "session": asdict(workout)})
+    data["saved_workouts"] = sorted(
+        data["saved_workouts"], key=lambda x: datetime.strptime(x["date"], DATE_FORMAT)
     )
     write_database(db_path, data)

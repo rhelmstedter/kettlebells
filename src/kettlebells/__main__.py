@@ -110,7 +110,7 @@ def done(
         workout = create_custom_workout(workout_type)
         workout.display_workout()
     else:
-        workout = Workout(**data["cached_sessions"][-1])
+        workout = Workout(**data["cached_workouts"][-1])
         console.print("Last workout generated:\n")
         workout.display_workout()
     if Confirm.ask("Save this workout?"):
@@ -140,7 +140,7 @@ def done(
 def last(ctx: typer.Context) -> None:
     """Display stats from most recent session in database."""
     data = read_database(KETTLEBELLS_DB)
-    last_session = data["saved_sessions"][-1]
+    last_session = data["saved_workouts"][-1]
     session_date = last_session["date"]
     session = Workout(**last_session["session"])
     console.print(f"\nDate: [green]{datetime.strptime(session_date, DATE_FORMAT):%b %d, %Y}\n")

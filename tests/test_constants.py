@@ -69,7 +69,7 @@ TEST_DATA = {
         "medium load": 24,
         "heavy load": 28,
     },
-    "saved_sessions": [
+    "saved_workouts": [
         {
             "date": "2023-09-14",
             "session": {
@@ -86,7 +86,7 @@ TEST_DATA = {
             },
         },
     ],
-    "cached_sessions": [
+    "cached_workouts": [
         {
             "bodyweight": 90,
             "bells": "Single Bell",
@@ -110,7 +110,7 @@ TEST_DATA_FULL_CACHE = {
         "medium load": 24,
         "heavy load": 28,
     },
-    "saved_sessions": [
+    "saved_workouts": [
         {
             "date": "2023-09-14",
             "session": {
@@ -127,7 +127,7 @@ TEST_DATA_FULL_CACHE = {
             },
         },
     ],
-    "cached_sessions": [
+    "cached_workouts": [
         {
             "bodyweight": 90,
             "bells": "Single Bell",
