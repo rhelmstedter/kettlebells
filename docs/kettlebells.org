@@ -14,7 +14,8 @@ I added another attribute called ~Workout.reps~. This solves all of the problems
 ** TODO add a sort option for ~best~ command
 ** DONE identify when to use workout instead of session
 CLOSED: [2023-10-01 Sun 15:42]
-** TODO refactor functions into methods
+** DONE refactor functions into methods
+CLOSED: [2023-10-06 Fri 15:58]
 ~calc_session_stats~ and ~display_session_stats~ should be refactored into methods for the ~Workout~ object. One barrier is controlling for bodyweight. Currently, bodyweight is stored globally in the database under the key "loads". Perhaps, it makes sense to add bodyweight at an attribute for the ~Workout~ object. This way, when the global bodyweight changes, stats for any given session don't.
 ** TODO rethink how reps are stored.
 Currently reps are stored as a int for each ~Workout~. Maybe it makes more sense to store reps as a dict with each exercise as the key and the reps per set as the value. E.g., an classric iron cardio reps would be:
