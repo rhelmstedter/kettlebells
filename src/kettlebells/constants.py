@@ -10,21 +10,16 @@ KETTLEBELLS_DB = KETTLEBELLS_HOME / "kettlebells_db.json"
 
 DATE_FORMAT = "%Y-%m-%d"
 
-
 IRON_CARDIO_PARAMS = {
     "bells": {"Single Bell": 4 / 6, "Double Bells": 2 / 6},
     "doublebell variations": {
-        "Double Classic": 3 / 6,
-        "Double Traveling 2s": 1 / 6,
-        "Double Classic + Pullup": 1 / 6,
+        "Double Classic": 4 / 6,
+        "Double Classic + Pullup": 2 / 6,
     },
     "singlebell variations": {
-        "Classic": 3 / 10,
-        "Classic + Pullup": 1 / 10,
-        "Classic + Snatch": 1 / 10,
-        "Traveling 2s": 1 / 10,
-        "Traveling 2s + Snatch": 1 / 10,
-        "Traveling 2s + Pullup": 1 / 10,
+        "Classic": 3 / 6,
+        "Classic + Pullup": 2 / 6,
+        "Classic + Snatch": 1 / 6,
     },
     "times": {
         30: 1 / 6,
@@ -37,16 +32,31 @@ IRON_CARDIO_PARAMS = {
         "light load": 1 / 6,
     },
     "swings": {True: 2 / 6, False: 4 / 6},
-    "rep schemes": {
-        "Classic": 3,
-        "Classic + Pullup": 3,
-        "Double Classic": 3,
-        "Double Classic + Pullup": 3,
-        "Classic + Snatch": 4,
-        "Traveling 2s": 4,
-        "Traveling 2s + Pullup": 4,
-        "Double Traveling 2s": 4,
-        "Traveling 2s + Snatch": 5,
+    "exercises": {
+        "Classic": [("Clean", 1), ("Press", 1), ("Front Squat", 1)],
+        "Classic + Pullup": [
+            ("Clean", 1),
+            ("Press", 1),
+            ("Front Squat", 1),
+            ("Pullup", 1),
+        ],
+        "Classic + Snatch": [
+            ("Clean", 1),
+            ("Press", 1),
+            ("Front Squat", 1),
+            ("Snatch", 1),
+        ],
+        "Double Classic": [
+            ("Double Clean", 1),
+            ("Double Press", 1),
+            ("Double Front Squat", 1),
+        ],
+        "Double Classic + Pullup": [
+            ("Double Clean", 1),
+            ("Double Press", 1),
+            ("Double Front Squat", 1),
+            ("Pullup", 1),
+        ],
     },
 }
 
@@ -66,8 +76,12 @@ ABC_PARAMS = {
         "light load": 1 / 6,
     },
     "swings": {True: 1 / 6, False: 5 / 6},
-    "rep schemes": {
-        "Armor Building Complex 2.0": 6,
-        "Armor Building Complex": 6,
+    "exercises": {
+        "Armor Building Complex 2.0": [("Clean", 2), ("Press", 2), ("Front Squat", 2)],
+        "Armor Building Complex": [
+            ("Double Clean", 2),
+            ("Double Press", 1),
+            ("Double Front Squat", 3),
+        ],
     },
 }

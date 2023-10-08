@@ -17,11 +17,31 @@ CLOSED: [2023-10-01 Sun 15:42]
 ** DONE refactor functions into methods
 CLOSED: [2023-10-06 Fri 15:58]
 ~calc_session_stats~ and ~display_session_stats~ should be refactored into methods for the ~Workout~ object. One barrier is controlling for bodyweight. Currently, bodyweight is stored globally in the database under the key "loads". Perhaps, it makes sense to add bodyweight at an attribute for the ~Workout~ object. This way, when the global bodyweight changes, stats for any given session don't.
-** TODO rethink how reps are stored.
-Currently reps are stored as a int for each ~Workout~. Maybe it makes more sense to store reps as a dict with each exercise as the key and the reps per set as the value. E.g., an classric iron cardio reps would be:
+** TODO rethink the workout object.
+Currently reps are stored as a int for each ~Workout~. Maybe it makes more sense to store reps as a dict with each exercise as the key and the reps per set as the value. E.g., a classic iron cardio rep scheme would be:
 
 #+begin_src python
 {"clean": 1, "press": 1, "squat": 1}
 #+end_src
 
-This would allow for workouts similar to the workout generator.
+Or, maybe, it makes sense to change the load, sets, and reps attributes to a single attribute called ~Workout.exercises~.
+
+To start, I am thinking about including the following movements:
+
+Kettlebells
++ TGU
++ press
++ squat
++ clean
++ swing
++ snatch
+
+Bodyweight
++ pull-up
++ push-up
++ TRX pull
++ hip thrust
+
+Although, I'm not sure I have to be explicit. In other words, users could add whatever exercise they want. They would manually set the load, sets, and reps. I could have pre-made workouts like Iron Cardio, ABC, and the Back to Basics Kettlebell workout, but users would have the flexibility to add what they want.
+
+One idea I just had, offer the movements described as suggestions, but always have an "other" option that users can type in.

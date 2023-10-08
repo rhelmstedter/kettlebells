@@ -26,15 +26,11 @@ def test_create_random_workout(database):
     loads = json.load(open(database.name))["loads"]
     actual = random_workout(Path(database.name), "iron-cardio")
     assert isinstance(actual, Workout)
-    assert actual.bells in IRON_CARDIO_PARAMS["bells"].keys()
     assert (
         actual.variation in IRON_CARDIO_PARAMS["doublebell variations"].keys()
         or actual.variation in IRON_CARDIO_PARAMS["singlebell variations"].keys()
     )
     assert actual.time in IRON_CARDIO_PARAMS["times"].keys()
-    assert actual.load in loads.values()
-    assert actual.units == loads["units"]
-    assert actual.swings == 0 or actual.swings in POSSIBLE_SWINGS
 
 
 def test_display_workout(capfd):
@@ -43,7 +39,6 @@ def test_display_workout(capfd):
     output = capfd.readouterr()[0]
     assert TEST_WORKOUT.workout_type.upper() in output
     assert "=" * len(TEST_WORKOUT.workout_type) in output
-    assert "Bells: " in output
     assert "Variation: " in output
     assert "Time: " in output
     assert "Load: " in output
@@ -56,7 +51,6 @@ def test_display_workout_no_swings(capfd):
     output = capfd.readouterr()[0]
     assert TEST_WORKOUT_NO_SWINGS.workout_type.upper() in output
     assert "=" * len(TEST_WORKOUT_NO_SWINGS.workout_type) in output
-    assert "Bells: " in output
     assert "Variation: " in output
     assert "Time: " in output
     assert "Load: " in output
@@ -109,15 +103,15 @@ def test_get_options(ask_mock, workout_param, response, option):
 
 
 @pytest.mark.parametrize(
-    "workout, bells, variation, int_responses, sets",
+    "workout, bells, variation, confirm, int_responses",
     [
-        (TEST_WORKOUT, "Double Bells", "Double Classic + Pullup", [30, 28, 60], 20),
+        # int responses are time, load, sets, swings
         (
-            TEST_WORKOUT_NO_SWINGS,
-            "Single Bell",
-            "Traveling 2s + Snatch",
-            [20, 24, 0],
-            16,
+            TEST_WORKOUT,
+            "Double Bells",
+            "Double Classic + Pullup",
+            True,
+            [30, 28, 20, 60],
         ),
     ],
 )
@@ -133,17 +127,16 @@ def test_custom_workout(
     workout,
     bells,
     variation,
+    confirm,
     int_responses,
-    sets,
     database,
 ):
     """Test creating a custom workout works as intended."""
     expected = workout
     options_mock.side_effect = [bells, variation]
     int_mock.side_effect = int_responses
-    confirm_mock.side_effect = ["y"]
+    confirm_mock.return_value = "y"
     units_mock.side_effect = ["kilograms"]
     actual = create_custom_workout(Path(database.name), "iron-cardio")
-    actual.sets = sets
     assert isinstance(actual, Workout)
     assert actual == expected

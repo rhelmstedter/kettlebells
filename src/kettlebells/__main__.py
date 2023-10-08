@@ -107,7 +107,7 @@ def done(
     confirm_loads(KETTLEBELLS_DB)
     data = read_database(KETTLEBELLS_DB)
     if workout_type:
-        workout = create_custom_workout(workout_type)
+        workout = create_custom_workout(KETTLEBELLS_DB, workout_type)
         workout.display_workout()
     else:
         workout = Workout(**data["cached_workouts"][-1])
@@ -128,7 +128,6 @@ def done(
                     ":warning: {workout_date} not a valid date.", style=WARNING
                 )
                 continue
-        workout.sets = IntPrompt.ask("How many sets did you complete?")
         save_workout(KETTLEBELLS_DB, workout_date, workout)
         print()
         workout.display_workout_stats()

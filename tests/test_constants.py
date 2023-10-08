@@ -1,17 +1,58 @@
-from kettlebells.workouts import Workout
-from kettlebells.constants import IRON_CARDIO_PARAMS
+from kettlebells.workouts import Workout, Exercise
+
 
 TEST_WORKOUT = Workout(
     **{
         "bodyweight": 90,
-        "bells": "Double Bells",
         "variation": "Double Classic + Pullup",
         "time": 30,
-        "load": 28,
-        "units": "kilograms",
-        "swings": 60,
-        "sets": 20,
-        "reps": IRON_CARDIO_PARAMS["rep schemes"]["Double Classic + Pullup"],
+        "exercises": [
+            Exercise(
+                **{
+                    "name": "Double Clean",
+                    "load": 28,
+                    "units": "kilograms",
+                    "sets": 20,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Double Press",
+                    "load": 28,
+                    "units": "kilograms",
+                    "sets": 20,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Double Front Squat",
+                    "load": 28,
+                    "units": "kilograms",
+                    "sets": 20,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Pullup",
+                    "load": 90,
+                    "units": "kilograms",
+                    "sets": 20,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Swings",
+                    "load": 28,
+                    "units": "kilograms",
+                    "sets": 1,
+                    "reps": 60,
+                },
+            ),
+        ],
         "workout_type": "iron cardio",
     }
 )
@@ -19,44 +60,93 @@ TEST_WORKOUT = Workout(
 TEST_WORKOUT_NO_SWINGS = Workout(
     **{
         "bodyweight": 90,
-        "bells": "Single Bell",
-        "variation": "Traveling 2s + Snatch",
+        "variation": "Classic + Snatch",
         "time": 20,
-        "load": 24,
-        "units": "kilograms",
-        "swings": 0,
-        "sets": 16,
-        "reps": IRON_CARDIO_PARAMS["rep schemes"]["Traveling 2s + Snatch"],
+        "exercises": [
+            Exercise(
+                **{
+                    "name": "Clean",
+                    "load": 24,
+                    "units": "kilograms",
+                    "sets": 16,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Press",
+                    "load": 24,
+                    "units": "kilograms",
+                    "sets": 16,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Front Squat",
+                    "load": 24,
+                    "units": "kilograms",
+                    "sets": 16,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Snatch",
+                    "load": 24,
+                    "units": "kilograms",
+                    "sets": 16,
+                    "reps": 1,
+                },
+            ),
+        ],
         "workout_type": "iron cardio",
-    },
+    }
 )
 
 TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
     **{
         "bodyweight": 90,
-        "bells": "Single Bell",
         "variation": "Classic + Pullup",
         "time": 10,
-        "load": 20,
-        "units": "kilograms",
-        "swings": 100,
-        "sets": 10,
-        "reps": IRON_CARDIO_PARAMS["rep schemes"]["Classic + Pullup"],
-        "workout_type": "iron cardio",
-    },
-)
-
-TEST_CACHE_WORKOUT = Workout(
-    **{
-        "bodyweight": 90,
-        "bells": "Double Bells",
-        "variation": "Double Classic",
-        "time": 20,
-        "load": 20,
-        "units": "kilograms",
-        "swings": 0,
-        "sets": 0,
-        "reps": IRON_CARDIO_PARAMS["rep schemes"]["Double Classic"],
+        "exercises": [
+            Exercise(
+                **{
+                    "name": "Clean",
+                    "load": 20,
+                    "units": "kilograms",
+                    "sets": 10,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Press",
+                    "load": 20,
+                    "units": "kilograms",
+                    "sets": 10,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Front Squat",
+                    "load": 20,
+                    "units": "kilograms",
+                    "sets": 10,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Pullup",
+                    "load": 90,
+                    "units": "kilograms",
+                    "sets": 8,
+                    "reps": 1,
+                },
+            ),
+        ],
         "workout_type": "iron cardio",
     }
 )
@@ -74,14 +164,31 @@ TEST_DATA = {
             "date": "2023-09-14",
             "workout": {
                 "bodyweight": 90,
-                "bells": "Double Bells",
                 "variation": "Double Classic",
                 "time": 20,
-                "load": 20,
-                "units": "kilograms",
-                "swings": 0,
-                "sets": 29,
-                "reps": IRON_CARDIO_PARAMS["rep schemes"]["Double Classic"],
+                "exercises": [
+                    {
+                        "name": "Double Clean",
+                        "load": 20,
+                        "units": "kilograms",
+                        "sets": 29,
+                        "reps": 1,
+                    },
+                    {
+                        "name": "Double Press",
+                        "load": 20,
+                        "units": "kilograms",
+                        "sets": 29,
+                        "reps": 1,
+                    },
+                    {
+                        "name": "Double Front Squat",
+                        "load": 20,
+                        "units": "kilograms",
+                        "sets": 29,
+                        "reps": 1,
+                    },
+                ],
                 "workout_type": "iron cardio",
             },
         },
@@ -89,164 +196,46 @@ TEST_DATA = {
     "cached_workouts": [
         {
             "bodyweight": 90,
-            "bells": "Single Bell",
-            "variation": "Classic",
-            "time": 10,
-            "load": 28,
-            "units": "kilograms",
-            "swings": 0,
-            "sets": 0,
-            "reps": IRON_CARDIO_PARAMS["rep schemes"]["Classic"],
-            "workout_type": "iron cardio",
-        },
-    ],
-}
-
-TEST_DATA_FULL_CACHE = {
-    "loads": {
-        "units": "kilograms",
-        "bodyweight": 90,
-        "light load": 20,
-        "medium load": 24,
-        "heavy load": 28,
-    },
-    "saved_workouts": [
-        {
-            "date": "2023-09-14",
-            "workout": {
-                "bodyweight": 90,
-                "bells": "Double Bells",
-                "variation": "Double Classic",
-                "time": 20,
-                "load": 20,
-                "units": "kilograms",
-                "swings": 0,
-                "sets": 29,
-                "reps": IRON_CARDIO_PARAMS["rep schemes"]["Double Classic"],
-                "workout_type": "iron cardio",
-            },
-        },
-    ],
-    "cached_workouts": [
-        {
-            "bodyweight": 90,
-            "bells": "Single Bell",
-            "variation": "Classic",
-            "time": 10,
-            "load": 28,
-            "units": "kilograms",
-            "swings": 0,
-            "sets": 0,
-            "reps": IRON_CARDIO_PARAMS["rep schemes"]["Classic"],
-            "workout_type": "iron cardio",
-        },
-        {
-            "bodyweight": 90,
-            "bells": "Double Bells",
-            "variation": "Double Classic",
-            "time": 10,
-            "load": 24,
-            "units": "kilograms",
-            "swings": 0,
-            "sets": 0,
-            "reps": IRON_CARDIO_PARAMS["rep schemes"]["Double Classic"],
-            "workout_type": "iron cardio",
-        },
-        {
-            "bodyweight": 90,
-            "bells": "Single Bell",
-            "variation": "Traveling 2s + Snatch",
-            "time": 20,
-            "load": 24,
-            "units": "kilograms",
-            "swings": 70,
-            "sets": 0,
-            "reps": IRON_CARDIO_PARAMS["rep schemes"]["Traveling 2s + Snatch"],
-            "workout_type": "iron cardio",
-        },
-        {
-            "bodyweight": 90,
-            "bells": "Double Bells",
-            "variation": "Double Classic",
-            "time": 10,
-            "load": 28,
-            "units": "kilograms",
-            "swings": 0,
-            "sets": 0,
-            "reps": IRON_CARDIO_PARAMS["rep schemes"]["Double Classic"],
-            "workout_type": "iron cardio",
-        },
-        {
-            "bodyweight": 90,
-            "bells": "Single Bell",
-            "variation": "Traveling 2s + Snatch",
-            "time": 20,
-            "load": 24,
-            "units": "kilograms",
-            "swings": 0,
-            "sets": 0,
-            "reps": IRON_CARDIO_PARAMS["rep schemes"]["Traveling 2s + Snatch"],
-            "workout_type": "iron cardio",
-        },
-        {
-            "bodyweight": 90,
-            "bells": "Single Bell",
-            "variation": "Traveling 2s",
-            "time": 20,
-            "load": 24,
-            "units": "kilograms",
-            "swings": 120,
-            "sets": 0,
-            "reps": IRON_CARDIO_PARAMS["rep schemes"]["Traveling 2s"],
-            "workout_type": "iron cardio",
-        },
-        {
-            "bodyweight": 90,
-            "bells": "Double Bells",
-            "variation": "Double Traveling 2s",
-            "time": 30,
-            "load": 28,
-            "units": "kilograms",
-            "swings": 120,
-            "sets": 0,
-            "reps": IRON_CARDIO_PARAMS["rep schemes"]["Double Traveling 2s"],
-            "workout_type": "iron cardio",
-        },
-        {
-            "bodyweight": 90,
-            "bells": "Single Bell",
-            "variation": "Traveling 2s + Pullup",
-            "time": 30,
-            "load": 20,
-            "units": "kilograms",
-            "swings": 0,
-            "sets": 0,
-            "reps": IRON_CARDIO_PARAMS["rep schemes"]["Traveling 2s + Pullup"],
-            "workout_type": "iron cardio",
-        },
-        {
-            "bodyweight": 90,
-            "bells": "Double Bells",
-            "variation": "Double Traveling 2s",
-            "time": 10,
-            "load": 24,
-            "units": "kilograms",
-            "swings": 0,
-            "sets": 0,
-            "reps": IRON_CARDIO_PARAMS["rep schemes"]["Double Traveling 2s"],
-            "workout_type": "iron cardio",
-        },
-        {
-            "bodyweight": 90,
-            "bells": "Double Bells",
             "variation": "Double Classic + Pullup",
             "time": 30,
-            "load": 28,
-            "units": "kilograms",
-            "swings": 60,
-            "sets": 0,
-            "reps": IRON_CARDIO_PARAMS["rep schemes"]["Double Classic + Pullup"],
+            "exercises": [
+                {
+                    "name": "Double Clean",
+                    "load": 28,
+                    "units": "kilograms",
+                    "sets": 20,
+                    "reps": 1,
+                },
+                {
+                    "name": "Double Press",
+                    "load": 28,
+                    "units": "kilograms",
+                    "sets": 20,
+                    "reps": 1,
+                },
+                {
+                    "name": "Double Front Squat",
+                    "load": 28,
+                    "units": "kilograms",
+                    "sets": 20,
+                    "reps": 1,
+                },
+                {
+                    "name": "Pullup",
+                    "load": 90,
+                    "units": "kilograms",
+                    "sets": 20,
+                    "reps": 1,
+                },
+                {
+                    "name": "Swings",
+                    "load": 28,
+                    "units": "kilograms",
+                    "sets": 6,
+                    "reps": 10,
+                },
+            ],
             "workout_type": "iron cardio",
-        },
+        }
     ],
 }

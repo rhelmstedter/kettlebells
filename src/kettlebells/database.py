@@ -81,7 +81,7 @@ def cache_workout(db_path: Path, workout) -> None:
     :returns: None
     """
     data = read_database(db_path)
-    cache = deque(data["cached_workouts"], maxlen=10)
+    cache = deque(data["cached_workouts"], maxlen=1)
     cache.append(asdict(workout))
     data["cached_workouts"] = list(cache)
     write_database(db_path, data)

@@ -4,7 +4,7 @@ from tempfile import NamedTemporaryFile, TemporaryDirectory
 
 import pytest
 
-from .test_constants import TEST_DATA_FULL_CACHE
+from .test_constants import TEST_DATA
 
 
 @pytest.fixture(scope="function")
@@ -19,5 +19,5 @@ def database_home():
 def database():
     database = NamedTemporaryFile()
     with open(database.name, "w") as db:
-        json.dump(TEST_DATA_FULL_CACHE, db)
+        json.dump(TEST_DATA, db)
     return database

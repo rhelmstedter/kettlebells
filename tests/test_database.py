@@ -7,9 +7,7 @@ import pytest
 import kettlebells.database as db
 
 from .test_constants import (
-    TEST_CACHE_WORKOUT,
     TEST_DATA,
-    TEST_DATA_FULL_CACHE,
     TEST_WORKOUT,
 )
 
@@ -22,9 +20,7 @@ def test_initialize_database(database_home):
 
 
 def test_initialize_database_already_existes(database, capfd):
-    db.initialize_database(
-        Path(database.name).parents[0], Path(database.name), False
-    )
+    db.initialize_database(Path(database.name).parents[0], Path(database.name), False)
     output = capfd.readouterr()[0]
     assert "Database base already exits." in output
 
@@ -59,7 +55,7 @@ def test_write_database(database):
 
 def test_read_database(database):
     data = db.read_database(Path(database.name))
-    assert data == TEST_DATA_FULL_CACHE
+    assert data == TEST_DATA
 
 
 def test_save_workout(database):
@@ -69,21 +65,52 @@ def test_save_workout(database):
         "date": "2023-09-14",
         "workout": {
             "bodyweight": 90,
-            "bells": "Double Bells",
             "variation": "Double Classic + Pullup",
             "time": 30,
-            "load": 28,
-            "units": "kilograms",
-            "swings": 60,
-            "sets": 20,
-            "reps": 3,
+            "exercises": [
+                {
+                    "name": "Double Clean",
+                    "load": 28,
+                    "units": "kilograms",
+                    "sets": 20,
+                    "reps": 1,
+                },
+                {
+                    "name": "Double Press",
+                    "load": 28,
+                    "units": "kilograms",
+                    "sets": 20,
+                    "reps": 1,
+                },
+                {
+                    "name": "Double Front Squat",
+                    "load": 28,
+                    "units": "kilograms",
+                    "sets": 20,
+                    "reps": 1,
+                },
+                {
+                    "name": "Pullup",
+                    "load": 90,
+                    "units": "kilograms",
+                    "sets": 20,
+                    "reps": 1,
+                },
+                {
+                    "name": "Swings",
+                    "load": 28,
+                    "units": "kilograms",
+                    "sets": 6,
+                    "reps": 10,
+                },
+            ],
             "workout_type": "iron cardio",
         },
     }
 
 
 def test_cache_workout(database):
-    db.cache_workout(Path(database.name), TEST_CACHE_WORKOUT)
+    db.cache_workout(Path(database.name), TEST_WORKOUT)
     data = json.load(open(database.name))
-    assert len(data["cached_workouts"]) == 10
-    assert data["cached_workouts"][-1] == asdict(TEST_CACHE_WORKOUT)
+    assert len(data["cached_workouts"]) == 1
+    assert data["cached_workouts"][-1] == asdict(TEST_WORKOUT)

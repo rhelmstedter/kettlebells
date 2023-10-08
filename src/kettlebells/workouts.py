@@ -16,64 +16,60 @@ from .database import read_database
 
 
 @dataclass
-class Workout:
-    bodyweight: int
-    bells: str
-    variation: str
-    time: int
+class Exercise:
+    name: str
     load: int
     units: str
-    swings: int
     sets: int
     reps: int
+
+
+@dataclass
+class Workout:
+    bodyweight: int
+    variation: str
+    time: int
+    exercises: list[Exercise]
     workout_type: str
 
     def display_workout(self) -> None:
         """Print an a workout to the console.
         :returns: None.
         """
-        if self.swings:
-            swings = f"   Swings: {self.swings} reps"
-        else:
-            swings = ""
         console.print(self.workout_type.upper())
         console.print("=" * len(self.workout_type), style="green")
-        console.print(f"    Bells: {self.bells.title()}")
         console.print(f"Variation: {self.variation}")
         console.print(f"     Time: {self.time} mins")
-        console.print(f"     Load: {self.load} {self.units}")
-        console.print(swings)
+        if self.workout_type in ["iron cardio", "abc"]:
+            swings = [e for e in self.exercises if "Swings" in e.name]
+            console.print(
+                f"     Load: {self.exercises[0].load} {self.exercises[0].units}"
+            )
+            if swings and "Swings" in swings:
+                console.print("   Swings:", swings[0].reps)
+        else:
+            for exercise in self.exercises:
+                console.print(exercise.title())
+                console.print(f"\tLoad: {exercise.load}")
+                console.print(f"\t{exercise.sets} sets of {exercise.reps} reps")
 
     def calc_workout_stats(self) -> dict:
         """Calculate the stats for a given workout.
         :returns: A dict containing total weight moved, number of reps, and the pace.
         """
-        total_reps = self.reps * self.sets
-        workout_params = _get_workout_params(self.workout_type)[1]
-
-        if self.bells == "Double Bells":
-            load_factor = 2
-        else:
-            load_factor = 1
-
-        if "Pullup" in self.variation and self.bells == "Double Bells":
-            pullup_factor = 1
-        elif "Pullup" in self.variation and self.bells == "Single Bell":
-            pullup_factor = 0.5
-        else:
-            pullup_factor = 0
+        total_reps = 0
+        weight_moved = 0
+        for exercise in self.exercises:
+            total_reps += exercise.reps * exercise.sets
+            if "double" in exercise.name.lower():
+                weight_moved += exercise.reps * exercise.sets * exercise.load * 2
+            else:
+                weight_moved += exercise.reps * exercise.sets * exercise.load
 
         stats = {
-            "weight moved": (
-                workout_params["rep schemes"][self.variation]
-                * self.load
-                * load_factor
-                * self.sets
-                + (self.swings * self.load)
-                + (self.bodyweight * int(self.sets * pullup_factor))
-            ),
-            "reps": total_reps + int(self.sets * pullup_factor),
-            "pace": (self.time * 60) / (total_reps + (self.sets * pullup_factor)),
+            "weight moved": weight_moved,
+            "reps": total_reps,
+            "pace": (self.time * 60) / total_reps,
         }
         return stats
 
@@ -124,20 +120,26 @@ def random_workout(db_path: Path, workout_type: str) -> Workout:
     )[0]
     load = loads[load]
     units = loads["units"]
+    exercises = []
+    for exercise in workout_params["exercises"][variation]:
+        exercises.append(
+            Exercise(name=exercise[0], load=load, units=units, sets=0, reps=exercise[1])
+        )
+
     if swings:
-        swings = choice(range(50, 160, 10))
-    else:
-        swings = 0
+        swings = Exercise(
+            name="Swings",
+            load=load,
+            units=units,
+            sets=1,
+            reps=choice(range(50, 160, 10)),
+        )
+        exercises.append(swings)
     return Workout(
         bodyweight=data["loads"]["bodyweight"],
-        bells=bells,
         variation=variation,
         time=time,
-        load=load,
-        units=units,
-        swings=swings,
-        sets=0,
-        reps=workout_params["rep schemes"][variation],
+        exercises=exercises,
         workout_type=workout_type,
     )
 
@@ -157,20 +159,55 @@ def create_custom_workout(db_path: Path, workout_type: str) -> Workout:
     time = IntPrompt.ask("How long was your workout (in minutes)")
     units = _get_units()
     load = IntPrompt.ask(f"What weight did you use (in {units})")
+    sets = IntPrompt.ask("How many sets did you complete?")
+    exercises = []
+    for exercise in workout_params["exercises"][variation]:
+        if bells == "Single Bell" and exercise[0] == "Pullup":
+            exercises.append(
+                Exercise(
+                    name=exercise[0],
+                    load=bodyweight,
+                    units=units,
+                    sets=sets // 2,
+                    reps=exercise[1],
+                )
+            )
+        elif bells == "Double Bells" and exercise[0] == "Pullup":
+            exercises.append(
+                Exercise(
+                    name=exercise[0],
+                    load=bodyweight,
+                    units=units,
+                    sets=sets,
+                    reps=exercise[1],
+                )
+            )
+        else:
+            exercises.append(
+                Exercise(
+                    name=exercise[0],
+                    load=load,
+                    units=units,
+                    sets=sets,
+                    reps=exercise[1],
+                )
+            )
     if Confirm.ask("Did you swing"):
         swings = IntPrompt.ask("How many swings")
-    else:
-        swings = 0
+        exercises.append(
+            Exercise(
+                name="Swings",
+                load=load,
+                units=units,
+                sets=1,
+                reps=swings,
+            )
+        )
     return Workout(
         bodyweight,
-        bells,
         variation,
         time,
-        load,
-        units,
-        swings,
-        0,
-        workout_params["rep schemes"][variation],
+        exercises,
         workout_type,
     )
 
