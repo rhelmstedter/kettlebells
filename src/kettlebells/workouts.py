@@ -40,7 +40,7 @@ class Workout:
         console.print("=" * len(self.workout_type), style="green")
         console.print(f"Variation: {self.variation}")
         console.print(f"     Time: {self.time} mins")
-        if self.workout_type in ["iron cardio", "abc"]:
+        if self.workout_type in ["iron cardio", "armor building complex"]:
             swings = [e for e in self.exercises if "Swings" in e.name]
             console.print(
                 f"     Load: {self.exercises[0].load} {self.units}"
@@ -49,7 +49,7 @@ class Workout:
                 console.print("   Swings:", swings[0].reps)
         else:
             for exercise in self.exercises:
-                console.print(exercise.title())
+                console.print(exercise.name.title())
                 console.print(f"\tLoad: {exercise.load}")
                 console.print(f"\t{exercise.sets} sets of {exercise.reps} reps")
 
@@ -279,4 +279,4 @@ def _get_workout_params(workout_type: str) -> dict:
         case "iron-cardio" | "iron cardio":
             return "iron cardio", IRON_CARDIO_PARAMS
         case "abc" | "Armor Building Complex":
-            return "Armor Building Complex", ABC_PARAMS
+            return "armor building complex", ABC_PARAMS
