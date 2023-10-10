@@ -143,8 +143,10 @@ def last(ctx: typer.Context) -> None:
     last_workout = data["saved_workouts"][-1]
     workout_date = last_workout["date"]
     workout = Workout(**last_workout["workout"])
+    workout.exercises = [Exercise(**e) for e in workout.exercises]
     console.print(f"\nDate: [green]{datetime.strptime(workout_date, DATE_FORMAT):%b %d, %Y}\n")
     workout.display_workout()
+    print()
     workout.display_workout_stats()
 
 
