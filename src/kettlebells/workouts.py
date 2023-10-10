@@ -42,9 +42,7 @@ class Workout:
         console.print(f"     Time: {self.time} mins")
         if self.workout_type in ["iron cardio", "armor building complex"]:
             swings = [e for e in self.exercises if "Swings" in e.name]
-            console.print(
-                f"     Load: {self.exercises[0].load} {self.units}"
-            )
+            console.print(f"     Load: {self.exercises[0].load} {self.units}")
             if swings and "Swings" in swings:
                 console.print("   Swings:", swings[0].reps)
         else:
@@ -55,7 +53,7 @@ class Workout:
 
     def calc_workout_stats(self) -> dict:
         """Calculate the stats for a given workout.
-        :returns: A dict containing total weight moved, number of reps, and the pace.
+        :returns: A dict containing total weight moved, number of reps, and the density.
         """
         total_reps = 0
         weight_moved = 0
@@ -69,7 +67,7 @@ class Workout:
         stats = {
             "weight moved": weight_moved,
             "reps": total_reps,
-            "pace": round((self.time * 60) / total_reps, 1),
+            "density": round(weight_moved / self.time, 1),
         }
         return stats
 
@@ -81,7 +79,7 @@ class Workout:
         console.print("=============", style="green")
         console.print(f"Weight Moved: {stats.get('weight moved'):,} {self.units}")
         console.print(f"  Total Reps: {stats.get('reps')}")
-        console.print(f"        Pace: {stats.get('pace')} sec/rep")
+        console.print(f"     Density: {stats.get('density')} kg/min")
 
 
 def random_workout(db_path: Path, workout_type: str) -> Workout:

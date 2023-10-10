@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 from unittest import mock
 
@@ -23,7 +22,6 @@ def test_create_random_workout(database):
     """Test when a workout is created, the parameters are appropriate based on the
     database and within the ranges defined in the constants module.
     """
-    loads = json.load(open(database.name))["loads"]
     actual = random_workout(Path(database.name), "iron-cardio")
     assert isinstance(actual, Workout)
     assert (

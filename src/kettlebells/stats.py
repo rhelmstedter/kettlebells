@@ -27,14 +27,14 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     weight_per_workout = [stat["weight moved"] for stat in stats]
     total_weight_moved = sum(weight_per_workout)
     total_reps = sum(stat["reps"] for stat in stats)
-    average_pace = mean(stat["pace"] for stat in stats)
+    average_density = mean(stat["density"] for stat in stats)
     console.print("\nAll Time Stats")
     console.print("==============", style="green")
     console.print(f"    Total Workouts: {len(stats):,}")
     console.print(f"        Total Time: {total_mins} mins")
     console.print(f"Total Weight Moved: {total_weight_moved:,} {units}")
     console.print(f"        Total Reps: {total_reps:,}")
-    console.print(f"      Average Pace: {average_pace:.1f} sec/rep")
+    console.print(f"   Average Density: {average_density:.1f} kg/min")
     return dates, weight_per_workout
 
 
@@ -69,6 +69,7 @@ def top_ten_workouts(data: dict):
     for workout_data in data["saved_workouts"]:
         date = workout_data["date"]
         workout = Workout(**workout_data["workout"])
+        workout.exercises = [Exercise(**e) for e in workout.exercises]
         workouts.append((date, workout, workout.calc_workout_stats()))
 
     best_workouts_weight = sorted(
@@ -83,7 +84,7 @@ def top_ten_workouts(data: dict):
         ("Time (mins)", "magenta"),
         (f"Weight Moved ({units})", "blue"),
         ("Reps", "blue"),
-        ("Pace (sec/rep)", "blue"),
+        ("Density (kg/min)", "blue"),
     ]
     weight_table = Table(title="Best workouts by Weight moved")
     for col, style in columns:
@@ -95,6 +96,6 @@ def top_ten_workouts(data: dict):
             f"{workout.time}",
             f"{stats['weight moved']:,}",
             f"{stats['reps']}",
-            f"{stats['pace']:.1f}",
+            f"{stats['density']:.1f}",
         )
     console.print(weight_table)
