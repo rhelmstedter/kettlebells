@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Optional
 
 import typer
-from rich.prompt import Confirm, IntPrompt, Prompt
+from rich.prompt import Confirm, Prompt
 from typing_extensions import Annotated
 
 from . import __version__
@@ -29,7 +29,7 @@ from .stats import (
     top_ten_workouts,
     plot_workouts,
 )
-from .workouts import Workout, create_custom_workout, random_workout, set_loads
+from .workouts import Workout, Exercise, create_custom_workout, random_workout, set_loads
 
 cli = typer.Typer(add_completion=False)
 
@@ -111,6 +111,7 @@ def done(
         workout.display_workout()
     else:
         workout = Workout(**data["cached_workouts"][-1])
+        workout.exercises = [Exercise(**e) for e in workout.exercises]
         console.print("Last workout generated:\n")
         workout.display_workout()
     if Confirm.ask("Save this workout?"):

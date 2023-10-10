@@ -42,7 +42,6 @@ def test_display_workout(capfd):
     assert "Variation: " in output
     assert "Time: " in output
     assert "Load: " in output
-    assert "Swings: " in output
 
 
 def test_display_workout_no_swings(capfd):

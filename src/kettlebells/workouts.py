@@ -19,7 +19,6 @@ from .database import read_database
 class Exercise:
     name: str
     load: int
-    units: str
     sets: int
     reps: int
 
@@ -27,6 +26,7 @@ class Exercise:
 @dataclass
 class Workout:
     bodyweight: int
+    units: str
     variation: str
     time: int
     exercises: list[Exercise]
@@ -43,7 +43,7 @@ class Workout:
         if self.workout_type in ["iron cardio", "abc"]:
             swings = [e for e in self.exercises if "Swings" in e.name]
             console.print(
-                f"     Load: {self.exercises[0].load} {self.exercises[0].units}"
+                f"     Load: {self.exercises[0].load} {self.units}"
             )
             if swings and "Swings" in swings:
                 console.print("   Swings:", swings[0].reps)
@@ -69,7 +69,7 @@ class Workout:
         stats = {
             "weight moved": weight_moved,
             "reps": total_reps,
-            "pace": (self.time * 60) / total_reps,
+            "pace": round((self.time * 60) / total_reps, 1),
         }
         return stats
 
@@ -81,7 +81,7 @@ class Workout:
         console.print("=============", style="green")
         console.print(f"Weight Moved: {stats.get('weight moved'):,} {self.units}")
         console.print(f"  Total Reps: {stats.get('reps')}")
-        console.print(f"        Pace: {round(stats.get('pace'), 1)} sec/rep")
+        console.print(f"        Pace: {stats.get('pace')} sec/rep")
 
 
 def random_workout(db_path: Path, workout_type: str) -> Workout:
@@ -123,20 +123,20 @@ def random_workout(db_path: Path, workout_type: str) -> Workout:
     exercises = []
     for exercise in workout_params["exercises"][variation]:
         exercises.append(
-            Exercise(name=exercise[0], load=load, units=units, sets=0, reps=exercise[1])
+            Exercise(name=exercise[0], load=load, sets=0, reps=exercise[1])
         )
 
     if swings:
         swings = Exercise(
             name="Swings",
             load=load,
-            units=units,
             sets=1,
             reps=choice(range(50, 160, 10)),
         )
         exercises.append(swings)
     return Workout(
         bodyweight=data["loads"]["bodyweight"],
+        units=units,
         variation=variation,
         time=time,
         exercises=exercises,
@@ -167,7 +167,6 @@ def create_custom_workout(db_path: Path, workout_type: str) -> Workout:
                 Exercise(
                     name=exercise[0],
                     load=bodyweight,
-                    units=units,
                     sets=sets // 2,
                     reps=exercise[1],
                 )
@@ -177,7 +176,6 @@ def create_custom_workout(db_path: Path, workout_type: str) -> Workout:
                 Exercise(
                     name=exercise[0],
                     load=bodyweight,
-                    units=units,
                     sets=sets,
                     reps=exercise[1],
                 )
@@ -187,7 +185,6 @@ def create_custom_workout(db_path: Path, workout_type: str) -> Workout:
                 Exercise(
                     name=exercise[0],
                     load=load,
-                    units=units,
                     sets=sets,
                     reps=exercise[1],
                 )
@@ -198,17 +195,17 @@ def create_custom_workout(db_path: Path, workout_type: str) -> Workout:
             Exercise(
                 name="Swings",
                 load=load,
-                units=units,
                 sets=1,
                 reps=swings,
             )
         )
     return Workout(
-        bodyweight,
-        variation,
-        time,
-        exercises,
-        workout_type,
+        bodyweight=bodyweight,
+        units=units,
+        variation=variation,
+        time=time,
+        exercises=exercises,
+        workout_type=workout_type,
     )
 
 

@@ -4,6 +4,7 @@ from kettlebells.workouts import Workout, Exercise
 TEST_WORKOUT = Workout(
     **{
         "bodyweight": 90,
+        "units": "kilograms",
         "variation": "Double Classic + Pullup",
         "time": 30,
         "exercises": [
@@ -11,7 +12,6 @@ TEST_WORKOUT = Workout(
                 **{
                     "name": "Double Clean",
                     "load": 28,
-                    "units": "kilograms",
                     "sets": 20,
                     "reps": 1,
                 },
@@ -20,7 +20,6 @@ TEST_WORKOUT = Workout(
                 **{
                     "name": "Double Press",
                     "load": 28,
-                    "units": "kilograms",
                     "sets": 20,
                     "reps": 1,
                 },
@@ -29,7 +28,6 @@ TEST_WORKOUT = Workout(
                 **{
                     "name": "Double Front Squat",
                     "load": 28,
-                    "units": "kilograms",
                     "sets": 20,
                     "reps": 1,
                 },
@@ -38,7 +36,6 @@ TEST_WORKOUT = Workout(
                 **{
                     "name": "Pullup",
                     "load": 90,
-                    "units": "kilograms",
                     "sets": 20,
                     "reps": 1,
                 },
@@ -47,7 +44,6 @@ TEST_WORKOUT = Workout(
                 **{
                     "name": "Swings",
                     "load": 28,
-                    "units": "kilograms",
                     "sets": 1,
                     "reps": 60,
                 },
@@ -60,6 +56,7 @@ TEST_WORKOUT = Workout(
 TEST_WORKOUT_NO_SWINGS = Workout(
     **{
         "bodyweight": 90,
+        "units": "kilograms",
         "variation": "Classic + Snatch",
         "time": 20,
         "exercises": [
@@ -67,7 +64,6 @@ TEST_WORKOUT_NO_SWINGS = Workout(
                 **{
                     "name": "Clean",
                     "load": 24,
-                    "units": "kilograms",
                     "sets": 16,
                     "reps": 1,
                 },
@@ -76,7 +72,6 @@ TEST_WORKOUT_NO_SWINGS = Workout(
                 **{
                     "name": "Press",
                     "load": 24,
-                    "units": "kilograms",
                     "sets": 16,
                     "reps": 1,
                 },
@@ -85,7 +80,6 @@ TEST_WORKOUT_NO_SWINGS = Workout(
                 **{
                     "name": "Front Squat",
                     "load": 24,
-                    "units": "kilograms",
                     "sets": 16,
                     "reps": 1,
                 },
@@ -94,7 +88,6 @@ TEST_WORKOUT_NO_SWINGS = Workout(
                 **{
                     "name": "Snatch",
                     "load": 24,
-                    "units": "kilograms",
                     "sets": 16,
                     "reps": 1,
                 },
@@ -107,6 +100,7 @@ TEST_WORKOUT_NO_SWINGS = Workout(
 TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
     **{
         "bodyweight": 90,
+        "units": "kilograms",
         "variation": "Classic + Pullup",
         "time": 10,
         "exercises": [
@@ -114,7 +108,6 @@ TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
                 **{
                     "name": "Clean",
                     "load": 20,
-                    "units": "kilograms",
                     "sets": 10,
                     "reps": 1,
                 },
@@ -123,7 +116,6 @@ TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
                 **{
                     "name": "Press",
                     "load": 20,
-                    "units": "kilograms",
                     "sets": 10,
                     "reps": 1,
                 },
@@ -132,7 +124,6 @@ TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
                 **{
                     "name": "Front Squat",
                     "load": 20,
-                    "units": "kilograms",
                     "sets": 10,
                     "reps": 1,
                 },
@@ -141,8 +132,7 @@ TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
                 **{
                     "name": "Pullup",
                     "load": 90,
-                    "units": "kilograms",
-                    "sets": 8,
+                    "sets": 5,
                     "reps": 1,
                 },
             ),
@@ -164,27 +154,25 @@ TEST_DATA = {
             "date": "2023-09-14",
             "workout": {
                 "bodyweight": 90,
+                "units": "kilograms",
                 "variation": "Double Classic",
                 "time": 20,
                 "exercises": [
                     {
                         "name": "Double Clean",
                         "load": 20,
-                        "units": "kilograms",
                         "sets": 29,
                         "reps": 1,
                     },
                     {
                         "name": "Double Press",
                         "load": 20,
-                        "units": "kilograms",
                         "sets": 29,
                         "reps": 1,
                     },
                     {
                         "name": "Double Front Squat",
                         "load": 20,
-                        "units": "kilograms",
                         "sets": 29,
                         "reps": 1,
                     },
@@ -196,41 +184,37 @@ TEST_DATA = {
     "cached_workouts": [
         {
             "bodyweight": 90,
+            "units": "kilograms",
             "variation": "Double Classic + Pullup",
             "time": 30,
             "exercises": [
                 {
                     "name": "Double Clean",
                     "load": 28,
-                    "units": "kilograms",
                     "sets": 20,
                     "reps": 1,
                 },
                 {
                     "name": "Double Press",
                     "load": 28,
-                    "units": "kilograms",
                     "sets": 20,
                     "reps": 1,
                 },
                 {
                     "name": "Double Front Squat",
                     "load": 28,
-                    "units": "kilograms",
                     "sets": 20,
                     "reps": 1,
                 },
                 {
                     "name": "Pullup",
                     "load": 90,
-                    "units": "kilograms",
                     "sets": 20,
                     "reps": 1,
                 },
                 {
                     "name": "Swings",
                     "load": 28,
-                    "units": "kilograms",
                     "sets": 6,
                     "reps": 10,
                 },

@@ -4,7 +4,7 @@ import plotext as plt
 from rich.table import Table
 
 from .console import console
-from .workouts import Workout
+from .workouts import Workout, Exercise
 
 
 def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
@@ -18,8 +18,9 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     workouts = []
     for workout_data in data["saved_workouts"]:
         date = workout_data["date"]
-        workout = Workout(**workout_data["workout"])
         dates.append(date)
+        workout = Workout(**workout_data["workout"])
+        workout.exercises = [Exercise(**exercise) for exercise in workout.exercises]
         stats.append(workout.calc_workout_stats())
         workouts.append(workout)
     total_mins = sum(workout.time for workout in workouts)

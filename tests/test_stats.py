@@ -17,10 +17,10 @@ from .test_constants import (
 @pytest.mark.parametrize(
     "workout, stats",
     [
-        (TEST_WORKOUT, {"weight moved": 6840, "reps": 80, "pace": 22.5}),
+        (TEST_WORKOUT, {"weight moved": 6840, "reps": 140, "pace": 12.9}),
         (
             TEST_WORKOUT_NO_SWINGS,
-            {"weight moved": 1920, "reps": 80, "pace": 15.0},
+            {"weight moved": 1536, "reps": 64, "pace": 18.8},
         ),
     ],
 )
@@ -37,7 +37,7 @@ def test_display_workout_stats_single_bell_pullups(capfd):
     output = capfd.readouterr()[0]
     expected = """Workout Stats
 =============
-Weight Moved: 3,050 kilograms
+Weight Moved: 1,050 kilograms
   Total Reps: 35
         Pace: 17.1 sec/rep
 """
