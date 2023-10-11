@@ -85,3 +85,108 @@ ABC_PARAMS = {
         ],
     },
 }
+
+BTB = {
+    "Two Ladders + Snatch": {
+        "exercises": [
+            {
+                "name": "Clean",
+                "sets": 2,
+            },
+            {
+                "name": "Press",
+                "sets": 2,
+            },
+            {
+                "name": "Snatch",
+                "sets": 1,
+                "reps": 100,
+            },
+        ],
+    },
+    "Three Ladders + Snatch": {
+        "exercises": [
+            {
+                "name": "Clean",
+                "sets": 3,
+            },
+            {
+                "name": "Press",
+                "sets": 3,
+            },
+            {
+                "name": "Snatch",
+                "sets": 1,
+                "reps": 80,
+            },
+        ],
+    },
+    "Five Ladders + Snatch": {
+        "exercises": [
+            {
+                "name": "Clean",
+                "sets": 5,
+            },
+            {
+                "name": "Press",
+                "sets": 5,
+            },
+            {
+                "name": "Snatch",
+                "sets": 1,
+                "reps": 60,
+            },
+        ],
+    },
+    "Two Ladders + Double Front Sqauat": {
+        "exercises": [
+            {
+                "name": "Clean",
+                "sets": 2,
+            },
+            {
+                "name": "Press",
+                "sets": 2,
+            },
+            {
+                "name": "Double Front Squat",
+                "sets": 2,
+                "reps": 10,
+            },
+        ],
+    },
+    "Three Ladders + Double Front Squat": {
+        "exercises": [
+            {
+                "name": "Clean",
+                "sets": 3,
+            },
+            {
+                "name": "Press",
+                "sets": 3,
+            },
+            {
+                "name": "Double Front Squat",
+                "sets": 3,
+                "reps": 10,
+            },
+        ],
+    },
+    "Five Ladders + Double Front Squat": {
+        "exercises": [
+            {
+                "name": "Clean",
+                "sets": 5,
+            },
+            {
+                "name": "Press",
+                "sets": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "sets": 5,
+                "reps": 10,
+            },
+        ],
+    },
+}

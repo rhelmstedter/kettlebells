@@ -1,17 +1,11 @@
 from dataclasses import dataclass
-
 from pathlib import Path
 from random import choice, choices
 
 from rich.prompt import Confirm, IntPrompt, Prompt
 
 from .console import console
-from .constants import (
-    ABC_PARAMS,
-    IRON_CARDIO_PARAMS,
-    SUGGESTION,
-    WARNING,
-)
+from .constants import ABC_PARAMS, BTB, IRON_CARDIO_PARAMS, SUGGESTION, WARNING
 from .database import read_database
 
 
@@ -38,18 +32,28 @@ class Workout:
         """
         console.print(self.workout_type.upper())
         console.print("=" * len(self.workout_type), style="green")
-        console.print(f"Variation: {self.variation}")
-        console.print(f"     Time: {self.time} mins")
+        display_params = [("Variation", self.variation), ("Time", f"{self.time} mins")]
         if self.workout_type in ["iron cardio", "armor building complex"]:
+            display_params.append(("Load", f"{self.exercises[0].load} {self.units}"))
             swings = [e for e in self.exercises if "Swings" in e.name]
-            console.print(f"     Load: {self.exercises[0].load} {self.units}")
-            if swings and "Swings" in swings:
-                console.print("   Swings:", swings[0].reps)
+            if swings:
+                display_params.append(("Swings", swings[0].reps))
+        elif self.workout_type == "btb":
+            second_block = self.exercises[-1]
+            display_params.append(
+                ("C&P Load", f"{self.exercises[0].load} {self.units}")
+            )
+            display_params.append(
+                (f"{second_block.name} Load", f"{second_block.load} {self.units}")
+            )
         else:
             for exercise in self.exercises:
                 console.print(exercise.name.title())
-                console.print(f"\tLoad: {exercise.load}")
-                console.print(f"\t{exercise.sets} sets of {exercise.reps} reps")
+                console.print(
+                    f"    {exercise.sets} sets of {exercise.reps} reps with {exercise.load} {self.units}"
+                )
+            return
+        _print_helper(display_params)
 
     def calc_workout_stats(self) -> dict:
         """Calculate the stats for a given workout.
@@ -77,12 +81,15 @@ class Workout:
         stats = self.calc_workout_stats()
         console.print("Workout Stats")
         console.print("=============", style="green")
-        console.print(f"Weight Moved: {stats.get('weight moved'):,} {self.units}")
-        console.print(f"  Total Reps: {stats.get('reps')}")
-        console.print(f"     Density: {stats.get('density')} kg/min")
+        stats_to_print = [
+            ("Weight Moved", f"{stats.get('weight moved'):,} {self.units}"),
+            ("Total Reps", f"{stats.get('reps')}"),
+            ("Density", f"{stats.get('density')} kg/min"),
+        ]
+        _print_helper(stats_to_print)
 
 
-def random_workout(db_path: Path, workout_type: str) -> Workout:
+def random_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
     """Create a random workout based on workout_type.
     :param db_path: The Path to the database.
     :returns: A Workout object with randomly generated parameters.
@@ -142,7 +149,7 @@ def random_workout(db_path: Path, workout_type: str) -> Workout:
     )
 
 
-def create_custom_workout(db_path: Path, workout_type: str) -> Workout:
+def create_custom_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
     """Create a custom Workout Object.
     :returns: An Workout object created by the user.
     """
@@ -236,6 +243,48 @@ def set_loads() -> dict:
     return loads
 
 
+def create_btb_workout(db_path: Path) -> Workout:
+    data = read_database(db_path)
+    bodyweight = data["loads"]["bodyweight"]
+    variation = _get_options(BTB)
+    if "Double Front Squat" in variation:
+        second_block = "double front squats"
+    else:
+        second_block = "snatch"
+    time = IntPrompt.ask("How long was your workout (in minutes)")
+    units = _get_units()
+    c_and_p_load = IntPrompt.ask(
+        f"Enter the weight you used for the clean and press (in {units})"
+    )
+    second_block_load = IntPrompt.ask(
+        f"Enter the weight you used for the {second_block} (in {units})"
+    )
+    second_block_exercise = BTB[variation]["exercises"][-1]
+    exercises = []
+    for exercise in BTB[variation]["exercises"][:2]:
+        exercises.append(
+            Exercise(
+                name=exercise["name"], load=c_and_p_load, sets=exercise["sets"], reps=10
+            )
+        )
+    exercises.append(
+        Exercise(
+            name=second_block_exercise["name"],
+            load=second_block_load,
+            sets=second_block_exercise["sets"],
+            reps=second_block_exercise["reps"],
+        )
+    )
+    return Workout(
+        bodyweight=bodyweight,
+        units=units,
+        variation=variation,
+        time=time,
+        exercises=exercises,
+        workout_type="btb",
+    )
+
+
 def _get_options(workout_param: dict) -> str:
     """Select options for a given workout parameter.
     :param workout_param: The dictionary containing options for a Workout parameter.
@@ -243,14 +292,16 @@ def _get_options(workout_param: dict) -> str:
     """
     options = list(workout_param.keys())
     for i, option in enumerate(options, 1):
-        print(f"    [{i}] {option}")
+        console.print(f"    [{i}] {option}")
     while True:
         try:
             selection = IntPrompt.ask("Choose your option")
             return options[selection - 1]
         except IndexError:
-            print(":warning: Not a valid option.", style=WARNING)
-            print("Enter a number between 1 and {max(options) + 1}.", style=SUGGESTION)
+            console.print(":warning: Not a valid option.", style=WARNING)
+            console.print(
+                "Enter a number between 1 and {max(options) + 1}.", style=SUGGESTION
+            )
             continue
 
 
@@ -278,3 +329,10 @@ def _get_workout_params(workout_type: str) -> dict:
             return "iron cardio", IRON_CARDIO_PARAMS
         case "abc" | "Armor Building Complex":
             return "armor building complex", ABC_PARAMS
+
+
+def _print_helper(to_print: list) -> None:
+    longest_label = len(max(to_print, key=lambda x: len(x[0]))[0])
+    for label, value in to_print:
+        console.print(f"{label: >{longest_label}}: {value}")
+    console.print()

@@ -29,7 +29,14 @@ from .stats import (
     top_ten_workouts,
     plot_workouts,
 )
-from .workouts import Workout, Exercise, create_custom_workout, random_workout, set_loads
+from .workouts import (
+    Workout,
+    Exercise,
+    create_custom_ic_or_abc,
+    random_ic_or_abc,
+    set_loads,
+    create_btb_workout,
+)
 
 cli = typer.Typer(add_completion=False)
 
@@ -94,7 +101,7 @@ def workout(ctx: typer.Context, workout_type: str) -> None:
             style=WARNING,
         )
         console.print("Please specify a type of workout.", style=SUGGESTION)
-    workout = random_workout(KETTLEBELLS_DB, workout_type)
+    workout = random_ic_or_abc(KETTLEBELLS_DB, workout_type)
     cache_workout(KETTLEBELLS_DB, workout)
     workout.display_workout()
 
@@ -106,14 +113,16 @@ def done(
     """Save an kettlebells workout"""
     confirm_loads(KETTLEBELLS_DB)
     data = read_database(KETTLEBELLS_DB)
-    if workout_type:
-        workout = create_custom_workout(KETTLEBELLS_DB, workout_type)
-        workout.display_workout()
-    else:
-        workout = Workout(**data["cached_workouts"][-1])
-        workout.exercises = [Exercise(**e) for e in workout.exercises]
-        console.print("Last workout generated:\n")
-        workout.display_workout()
+    match workout_type:
+        case "iron-cardio" | "abc":
+            workout = create_custom_ic_or_abc(KETTLEBELLS_DB, workout_type)
+        case "btb":
+            workout = create_btb_workout(KETTLEBELLS_DB)
+        case _:
+            workout = Workout(**data["cached_workouts"][-1])
+            workout.exercises = [Exercise(**e) for e in workout.exercises]
+            console.print("Last workout generated:\n")
+    workout.display_workout()
     if Confirm.ask("Save this workout?"):
         while True:
             workout_date = Prompt.ask(
@@ -144,7 +153,9 @@ def last(ctx: typer.Context) -> None:
     workout_date = last_workout["date"]
     workout = Workout(**last_workout["workout"])
     workout.exercises = [Exercise(**e) for e in workout.exercises]
-    console.print(f"\nDate: [green]{datetime.strptime(workout_date, DATE_FORMAT):%b %d, %Y}\n")
+    console.print(
+        f"\nDate: [green]{datetime.strptime(workout_date, DATE_FORMAT):%b %d, %Y}\n"
+    )
     workout.display_workout()
     print()
     workout.display_workout_stats()
