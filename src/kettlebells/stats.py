@@ -2,6 +2,7 @@ from statistics import mean
 
 import plotext as plt
 from rich.table import Table
+from dacite import from_dict
 
 from .console import console
 from .workouts import Workout, Exercise
@@ -19,8 +20,7 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     for workout_data in data["saved_workouts"]:
         date = workout_data["date"]
         dates.append(date)
-        workout = Workout(**workout_data["workout"])
-        workout.exercises = [Exercise(**exercise) for exercise in workout.exercises]
+        workout = from_dict(Workout, workout_data["workout"])
         stats.append(workout.calc_workout_stats())
         workouts.append(workout)
     total_mins = sum(workout.time for workout in workouts)
@@ -68,8 +68,7 @@ def top_ten_workouts(data: dict):
     workouts = []
     for workout_data in data["saved_workouts"]:
         date = workout_data["date"]
-        workout = Workout(**workout_data["workout"])
-        workout.exercises = [Exercise(**e) for e in workout.exercises]
+        workout = from_dict(Workout, workout_data["workout"])
         workouts.append((date, workout, workout.calc_workout_stats()))
 
     best_workouts_weight = sorted(

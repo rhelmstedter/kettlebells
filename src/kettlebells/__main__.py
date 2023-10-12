@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Optional
 
 import typer
+from dacite import from_dict
 from rich.prompt import Confirm, Prompt
 from typing_extensions import Annotated
 
@@ -119,8 +120,7 @@ def done(
         case "btb":
             workout = create_btb_workout(KETTLEBELLS_DB)
         case _:
-            workout = Workout(**data["cached_workouts"][-1])
-            workout.exercises = [Exercise(**e) for e in workout.exercises]
+            workout = from_dict(Workout, data["cached_workouts"][-1])
             console.print("Last workout generated:\n")
     workout.display_workout()
     if Confirm.ask("Save this workout?"):
@@ -151,8 +151,7 @@ def last(ctx: typer.Context) -> None:
     data = read_database(KETTLEBELLS_DB)
     last_workout = data["saved_workouts"][-1]
     workout_date = last_workout["date"]
-    workout = Workout(**last_workout["workout"])
-    workout.exercises = [Exercise(**e) for e in workout.exercises]
+    workout = from_dict(Workout, last_workout["workout"])
     console.print(
         f"\nDate: [green]{datetime.strptime(workout_date, DATE_FORMAT):%b %d, %Y}\n"
     )
