@@ -329,7 +329,7 @@ def _get_units() -> str:
 
 def _get_workout_params(workout_type: str) -> dict:
     match workout_type:
-        case "iron-cardio" | "iron cardio":
+        case "ic" | "iron cardio":
             return "iron cardio", IRON_CARDIO_PARAMS
         case "abc" | "Armor Building Complex":
             return "armor building complex", ABC_PARAMS

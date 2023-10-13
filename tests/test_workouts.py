@@ -22,7 +22,7 @@ def test_create_random_workout(database):
     """Test when a workout is created, the parameters are appropriate based on the
     database and within the ranges defined in the constants module.
     """
-    actual = random_ic_or_abc(Path(database.name), "iron-cardio")
+    actual = random_ic_or_abc(Path(database.name), "ic")
     assert isinstance(actual, Workout)
     assert (
         actual.variation in IRON_CARDIO_PARAMS["doublebell variations"].keys()
@@ -134,6 +134,6 @@ def test_custom_workout(
     int_mock.side_effect = int_responses
     confirm_mock.return_value = "y"
     units_mock.side_effect = ["kilograms"]
-    actual = create_ic_or_abc(Path(database.name), "iron-cardio")
+    actual = create_ic_or_abc(Path(database.name), "ic")
     assert isinstance(actual, Workout)
     assert actual == expected

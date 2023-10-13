@@ -104,13 +104,13 @@ def workout(ctx: typer.Context, workout_type: str) -> None:
 
 @cli.command()
 def done(
-    ctx: typer.Context, workout_type: Annotated[Optional[str], typer.Argument()] = None
+        ctx: typer.Context, workout_type: Annotated[Optional[str], typer.Argument(help="Possible Arguments: ic, abc, btb")] = None
 ) -> None:
     """Save an kettlebells workout"""
     confirm_loads(KETTLEBELLS_DB)
     data = read_database(KETTLEBELLS_DB)
     match workout_type:
-        case "iron-cardio" | "abc":
+        case "ic" | "abc":
             workout = create_ic_or_abc(KETTLEBELLS_DB, workout_type)
         case "btb":
             workout = create_btb_workout(KETTLEBELLS_DB)
@@ -177,7 +177,7 @@ def stats(
 def best(
     ctx: typer.Context,
 ) -> None:
-    """Display stats from the top ten w in database."""
+    """Display stats from the top ten workouts in database."""
     data = read_database(KETTLEBELLS_DB)
     top_ten_workouts(data)
 
