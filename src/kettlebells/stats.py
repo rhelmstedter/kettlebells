@@ -1,11 +1,11 @@
 from statistics import mean
 
 import plotext as plt
-from rich.table import Table
 from dacite import from_dict
+from rich.table import Table
 
 from .console import console
-from .workouts import Workout, Exercise
+from .workouts import Workout
 
 
 def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
@@ -39,7 +39,7 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
 
 
 def plot_workouts(dates: list[str], weight_per_workout: list[int]) -> None:
-    """ Plot weight per workout.
+    """Plot weight per workout.
     :param dates: A list of the dates stored as a string.
     :param weight_per_workout: A list of the weight moved per workout.
     :returns: None

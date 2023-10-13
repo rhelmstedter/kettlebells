@@ -6,10 +6,7 @@ import pytest
 
 import kettlebells.database as db
 
-from .test_constants import (
-    TEST_DATA,
-    TEST_WORKOUT,
-)
+from .test_constants import TEST_DATA, TEST_WORKOUT
 
 
 def test_initialize_database(database_home):

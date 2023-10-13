@@ -1,12 +1,11 @@
-from unittest import mock
 from pathlib import Path
+from unittest import mock
 
 from typer.testing import CliRunner
 
-from kettlebells.__init__ import __version__
-
-from kettlebells.__main__ import cli
 import kettlebells.__main__
+from kettlebells.__init__ import __version__
+from kettlebells.__main__ import cli
 
 runner = CliRunner()
 
@@ -69,7 +68,7 @@ def test_init(init_mock):
 @mock.patch("kettlebells.__main__.read_database")
 @mock.patch("kettlebells.__main__.top_ten_workouts")
 def test_best(best_mock, read_mock):
-    "Test best command calls read_database and top_ten_workouts."""
+    "Test best command calls read_database and top_ten_workouts." ""
     runner.invoke(cli, ["best"])
     best_mock.assert_called_once()
     read_mock.assert_called_once()

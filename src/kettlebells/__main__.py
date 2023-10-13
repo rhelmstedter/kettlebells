@@ -25,18 +25,13 @@ from .database import (
     save_workout,
     write_database,
 )
-from .stats import (
-    get_all_time_stats,
-    top_ten_workouts,
-    plot_workouts,
-)
+from .stats import get_all_time_stats, plot_workouts, top_ten_workouts
 from .workouts import (
     Workout,
-    Exercise,
+    create_btb_workout,
     create_custom_ic_or_abc,
     random_ic_or_abc,
     set_loads,
-    create_btb_workout,
 )
 
 cli = typer.Typer(add_completion=False)

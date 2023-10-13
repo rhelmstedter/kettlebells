@@ -3,9 +3,7 @@ from pathlib import Path
 import pytest
 
 from kettlebells.database import read_database
-from kettlebells.stats import (
-    get_all_time_stats,
-)
+from kettlebells.stats import get_all_time_stats
 
 from .test_constants import (
     TEST_WORKOUT,

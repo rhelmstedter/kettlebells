@@ -1,5 +1,4 @@
-from kettlebells.workouts import Workout, Exercise
-
+from kettlebells.workouts import Exercise, Workout
 
 TEST_WORKOUT = Workout(
     **{
