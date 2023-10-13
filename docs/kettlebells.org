@@ -17,7 +17,7 @@ CLOSED: [2023-10-01 Sun 15:42]
 ** DONE refactor functions into methods
 CLOSED: [2023-10-06 Fri 15:58]
 ~calc_session_stats~ and ~display_session_stats~ should be refactored into methods for the ~Workout~ object. One barrier is controlling for bodyweight. Currently, bodyweight is stored globally in the database under the key "loads". Perhaps, it makes sense to add bodyweight at an attribute for the ~Workout~ object. This way, when the global bodyweight changes, stats for any given session don't.
-** DONE rethink the workout object.
+** DONE rethink the workout object
 CLOSED: [2023-10-09 Mon 21:44]
 Currently reps are stored as a int for each ~Workout~. Maybe it makes more sense to store reps as a dict with each exercise as the key and the reps per set as the value. E.g., a classic iron cardio rep scheme would be:
 
@@ -49,3 +49,5 @@ One idea I just had, offer the movements described as suggestions, but always ha
 
 ** TODO add improved help text
 ** TODO add a command for descriptions of workouts
+** TODO add a way to create custom workouts
+Also see [[rethink the workout object][rethink the workout object]] section for ideas.

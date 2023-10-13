@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from random import choice, choices
 
-from dacite import from_dict
 from rich.prompt import Confirm, IntPrompt, Prompt
 
 from .console import console
