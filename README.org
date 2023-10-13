@@ -1,4 +1,4 @@
-# Created 2023-10-09 Mon 20:58
+# Created 2023-10-12 Thu 20:48
 #+options: toc:t
 #+title: kettlebells
 #+author: Russell Helmstedter
@@ -35,11 +35,12 @@ kettlebells setloads
 The work out command generates a random workout. The current options are:
 - ~iron-cardio~
 - ~abc~
+- ~btb~
 
 **** iron-cardio
-The ~workout~ command with an argument of ~iron-cardio~, generates a random iron cardio workout.
+The ~workout~ command with an argument of ~ic~, generates a random iron cardio workout.
 #+begin_src bash
-kettlebells workout iron-cardio
+kettlebells workout ic
 #+end_src
 
 Iron cardio workouts are built from the following parameters:
@@ -63,6 +64,7 @@ Iron cardio workouts are built from the following parameters:
 |                          | light                   |
 |--------------------------+-------------------------|
 | *SWINGS*                 | 0 - 150                 |
+|--------------------------+-------------------------|
 
 **** abc
 The workout command with an argument of ~abc~ will generate a random armor building complex workout.
@@ -88,6 +90,30 @@ kettlebells workout abc
 |                          | light                      |
 |--------------------------+----------------------------|
 | *SWINGS*                 | 0 - 100                    |
+|--------------------------+----------------------------|
+
+**** btb
+
+The workout command with an argument of ~btb~ will generate a random Back to Basics Workout. These workouts are constructed based on The Pat Flynn Show episode with Dan John [[https://patflynnshow.libsyn.com/the-best-kettlebell-program-for-beginners-the-btbkp][The BEST Kettlebell Program for GEGINNERS | THE BTBKP]]. The choices are ladders of 2-3-5 clean and presses followed by either snatches or double front squats. The warm up and cool downs are not included in the calculations.
+
+#+begin_src
+kettlebells workout btb
+#+end_src
+
+The program options are:
+
+|-------------+----------------------------------|
+| First block | Second Block                     |
+|-------------+----------------------------------|
+| 2 ladders   | 60 Snatches                      |
+| 3 ladders   | 80 Snatches                      |
+| 5 ladders   | 100 Snatches                     |
+|-------------+----------------------------------|
+| 2 ladders   | 10 sets of 5 Double Front Squats |
+| 3 ladders   | 10 sets of 5 Double Front Squats |
+| 5 ladders   | 10 sets of 5 Double Front Squats |
+|-------------+----------------------------------|
+
 
 *** done
 The ~done~ command saves the most recently generated workout to the database.
