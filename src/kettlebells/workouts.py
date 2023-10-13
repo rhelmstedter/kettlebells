@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from random import choice, choices
 
+from dacite import from_dict
 from rich.prompt import Confirm, IntPrompt, Prompt
 
 from .console import console
@@ -41,7 +42,7 @@ class Workout:
         elif self.workout_type == "btb":
             second_block = self.exercises[-1]
             display_params.append(
-                ("C&P Load", f"{self.exercises[0].load} {self.units}")
+                ("Clean and Press Load", f"{self.exercises[0].load} {self.units}")
             )
             display_params.append(
                 (f"{second_block.name} Load", f"{second_block.load} {self.units}")
@@ -62,12 +63,16 @@ class Workout:
         total_reps = 0
         weight_moved = 0
         for exercise in self.exercises:
-            total_reps += exercise.reps * exercise.sets
             if "double" in exercise.name.lower():
-                weight_moved += exercise.reps * exercise.sets * exercise.load * 2
+                load = exercise.load * 2
             else:
-                weight_moved += exercise.reps * exercise.sets * exercise.load
-
+                load = exercise.load
+            if "and" in exercise.name.lower():
+                reps = 2 * exercise.reps * exercise.sets
+            else:
+                reps = exercise.reps * exercise.sets
+            total_reps += reps
+            weight_moved += reps * load
         stats = {
             "weight moved": weight_moved,
             "reps": total_reps,
@@ -259,22 +264,22 @@ def create_btb_workout(db_path: Path) -> Workout:
     second_block_load = IntPrompt.ask(
         f"Enter the weight you used for the {second_block} (in {units})"
     )
-    second_block_exercise = BTB[variation]["exercises"][-1]
-    exercises = []
-    for exercise in BTB[variation]["exercises"][:2]:
-        exercises.append(
-            Exercise(
-                name=exercise["name"], load=c_and_p_load, sets=exercise["sets"], reps=10
-            )
-        )
-    exercises.append(
+    c_and_p = BTB[variation]["exercises"][0]
+    second_block_exercise = BTB[variation]["exercises"][1]
+    exercises = [
+        Exercise(
+            name=c_and_p["name"],
+            load=c_and_p_load,
+            sets=c_and_p["sets"],
+            reps=c_and_p["reps"],
+        ),
         Exercise(
             name=second_block_exercise["name"],
             load=second_block_load,
             sets=second_block_exercise["sets"],
             reps=second_block_exercise["reps"],
-        )
-    )
+        ),
+    ]
     return Workout(
         bodyweight=bodyweight,
         units=units,

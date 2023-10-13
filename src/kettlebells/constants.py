@@ -87,15 +87,12 @@ ABC_PARAMS = {
 }
 
 BTB = {
-    "Two Ladders + Snatch": {
+    "2 Clean and Press Ladders + Snatch": {
         "exercises": [
             {
-                "name": "Clean",
+                "name": "Clean and Press",
                 "sets": 2,
-            },
-            {
-                "name": "Press",
-                "sets": 2,
+                "reps": 20,
             },
             {
                 "name": "Snatch",
@@ -104,15 +101,12 @@ BTB = {
             },
         ],
     },
-    "Three Ladders + Snatch": {
+    "3 Clean and Press Ladders + Snatch": {
         "exercises": [
             {
-                "name": "Clean",
+                "name": "Clean and Press",
                 "sets": 3,
-            },
-            {
-                "name": "Press",
-                "sets": 3,
+                "reps": 20,
             },
             {
                 "name": "Snatch",
@@ -121,15 +115,12 @@ BTB = {
             },
         ],
     },
-    "Five Ladders + Snatch": {
+    "5 Clean and Press Ladders + Snatch": {
         "exercises": [
             {
-                "name": "Clean",
+                "name": "Clean and Press",
                 "sets": 5,
-            },
-            {
-                "name": "Press",
-                "sets": 5,
+                "reps": 20,
             },
             {
                 "name": "Snatch",
@@ -138,15 +129,12 @@ BTB = {
             },
         ],
     },
-    "Two Ladders + Double Front Sqauat": {
+    "2 Clean and Press Ladders + Double Front Squat": {
         "exercises": [
             {
-                "name": "Clean",
+                "name": "Clean and Press",
                 "sets": 2,
-            },
-            {
-                "name": "Press",
-                "sets": 2,
+                "reps": 20,
             },
             {
                 "name": "Double Front Squat",
@@ -155,15 +143,12 @@ BTB = {
             },
         ],
     },
-    "Three Ladders + Double Front Squat": {
+    "3 Clean and Press Ladders + Double Front Squat": {
         "exercises": [
             {
-                "name": "Clean",
+                "name": "Clean and Press",
                 "sets": 3,
-            },
-            {
-                "name": "Press",
-                "sets": 3,
+                "reps": 20,
             },
             {
                 "name": "Double Front Squat",
@@ -172,15 +157,12 @@ BTB = {
             },
         ],
     },
-    "Five Ladders + Double Front Squat": {
+    "5 Clean and Press Ladders + Double Front Squat": {
         "exercises": [
             {
-                "name": "Clean",
+                "name": "Clean and Press",
                 "sets": 5,
-            },
-            {
-                "name": "Press",
-                "sets": 5,
+                "reps": 20,
             },
             {
                 "name": "Double Front Squat",
