@@ -8,7 +8,7 @@ from kettlebells.workouts import (
     Workout,
     _get_options,
     _get_units,
-    create_custom_ic_or_abc,
+    create_ic_or_abc,
     random_ic_or_abc,
     set_loads,
 )
@@ -134,6 +134,6 @@ def test_custom_workout(
     int_mock.side_effect = int_responses
     confirm_mock.return_value = "y"
     units_mock.side_effect = ["kilograms"]
-    actual = create_custom_ic_or_abc(Path(database.name), "iron-cardio")
+    actual = create_ic_or_abc(Path(database.name), "iron-cardio")
     assert isinstance(actual, Workout)
     assert actual == expected

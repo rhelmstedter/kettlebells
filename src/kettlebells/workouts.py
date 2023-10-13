@@ -154,7 +154,7 @@ def random_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
     )
 
 
-def create_custom_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
+def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
     """Create a custom Workout Object.
     :returns: An Workout object created by the user.
     """

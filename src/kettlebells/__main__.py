@@ -29,7 +29,7 @@ from .stats import get_all_time_stats, plot_workouts, top_ten_workouts
 from .workouts import (
     Workout,
     create_btb_workout,
-    create_custom_ic_or_abc,
+    create_ic_or_abc,
     random_ic_or_abc,
     set_loads,
 )
@@ -111,7 +111,7 @@ def done(
     data = read_database(KETTLEBELLS_DB)
     match workout_type:
         case "iron-cardio" | "abc":
-            workout = create_custom_ic_or_abc(KETTLEBELLS_DB, workout_type)
+            workout = create_ic_or_abc(KETTLEBELLS_DB, workout_type)
         case "btb":
             workout = create_btb_workout(KETTLEBELLS_DB)
         case _:
