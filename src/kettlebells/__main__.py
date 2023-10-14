@@ -88,15 +88,14 @@ def setloads(ctx: typer.Context) -> None:
 
 
 @cli.command()
-def workout(ctx: typer.Context, workout_type: str) -> None:
-    """Create a random kettlebells workout."""
+def workout(
+    ctx: typer.Context,
+    workout_type: Annotated[
+        str, typer.Argument(help="Possible workouts are ic or abc")
+    ],
+) -> None:
+    """Create a random iron cardio or armor building complex workout."""
     confirm_loads(KETTLEBELLS_DB)
-    if not workout_type:
-        console.print(
-            ":warning: [underline]kettlebells workout[/underline] requires a workout type.",
-            style=WARNING,
-        )
-        console.print("Please specify a type of workout.", style=SUGGESTION)
     workout = random_ic_or_abc(KETTLEBELLS_DB, workout_type)
     cache_workout(KETTLEBELLS_DB, workout)
     workout.display_workout()
@@ -104,9 +103,16 @@ def workout(ctx: typer.Context, workout_type: str) -> None:
 
 @cli.command()
 def done(
-        ctx: typer.Context, workout_type: Annotated[Optional[str], typer.Argument(help="Possible Arguments: ic, abc, btb")] = None
+    ctx: typer.Context,
+    workout_type: Annotated[
+        Optional[str],
+        typer.Argument(help="Possible workouts are ic, abc, or btb."),
+    ] = None,
 ) -> None:
-    """Save an kettlebells workout"""
+    """Save a kettlebell workout.
+
+    If no argument is passed, kettlebells will attempt to use the most recently generated workout.
+    """
     confirm_loads(KETTLEBELLS_DB)
     data = read_database(KETTLEBELLS_DB)
     match workout_type:
@@ -166,7 +172,7 @@ def stats(
         is_eager=True,
     ),
 ) -> None:
-    """Display stats from most recent workout in database."""
+    """Display stats from all workouts in database."""
     data = read_database(KETTLEBELLS_DB)
     dates, weight_per_workout = get_all_time_stats(data)
     if plot:
@@ -177,9 +183,9 @@ def stats(
 def best(
     ctx: typer.Context,
 ) -> None:
-    """Display stats from the top ten workouts in database."""
+    """Display a table of the top ten workouts in database."""
     data = read_database(KETTLEBELLS_DB)
-    top_ten_workouts(data)
+    console.print(top_ten_workouts(data))
 
 
 if __name__ == "__main__":

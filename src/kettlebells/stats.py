@@ -58,7 +58,7 @@ def plot_workouts(dates: list[str], weight_per_workout: list[int]) -> None:
     plt.show()
 
 
-def top_ten_workouts(data: dict):
+def top_ten_workouts(data: dict) -> Table:
     """Get the top ten workouts based on weight moved.
     :param data: A dict of the data from the database.
     :returns: None"""
@@ -85,11 +85,11 @@ def top_ten_workouts(data: dict):
         ("Reps", "blue"),
         ("Density (kg/min)", "blue"),
     ]
-    weight_table = Table(title="Best workouts by Weight moved")
+    top_ten_table = Table(title="Best Workouts by Weight Moved")
     for col, style in columns:
-        weight_table.add_column(col, style=style, justify="right")
+        top_ten_table.add_column(col, style=style, justify="right")
     for date, workout, stats in best_workouts_weight:
-        weight_table.add_row(
+        top_ten_table.add_row(
             date,
             workout.variation,
             f"{workout.time}",
@@ -97,4 +97,4 @@ def top_ten_workouts(data: dict):
             f"{stats['reps']}",
             f"{stats['density']:.1f}",
         )
-    console.print(weight_table)
+    return top_ten_table

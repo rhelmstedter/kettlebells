@@ -1,6 +1,6 @@
 from kettlebells.workouts import Exercise, Workout
 
-TEST_WORKOUT = Workout(
+TEST_IC_WORKOUT = Workout(
     **{
         "bodyweight": 90,
         "units": "kilograms",
@@ -50,6 +50,20 @@ TEST_WORKOUT = Workout(
         ],
         "workout_type": "iron cardio",
     }
+)
+
+TEST_BTB_WORKOUT = Workout(
+    **{
+        "bodyweight": 90,
+        "units": "kilograms",
+        "variation": "2 Clean and Press Ladders + Snatch",
+        "time": 30,
+        "exercises": [
+            Exercise(**{"name": "Clean and Press", "load": 24, "sets": 2, "reps": 20}),
+            Exercise(**{"name": "Snatch", "load": 20, "sets": 1, "reps": 100}),
+        ],
+        "workout_type": "btb",
+    },
 )
 
 TEST_WORKOUT_NO_SWINGS = Workout(

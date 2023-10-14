@@ -10,10 +10,11 @@ from kettlebells.workouts import (
     _get_units,
     create_ic_or_abc,
     random_ic_or_abc,
+    create_btb_workout,
     set_loads,
 )
 
-from .test_constants import TEST_WORKOUT, TEST_WORKOUT_NO_SWINGS
+from .test_constants import TEST_IC_WORKOUT, TEST_WORKOUT_NO_SWINGS, TEST_BTB_WORKOUT
 
 POSSIBLE_SWINGS = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150]
 
@@ -31,12 +32,13 @@ def test_create_random_workout(database):
     assert actual.time in IRON_CARDIO_PARAMS["times"].keys()
 
 
-def test_display_workout(capfd):
+@pytest.mark.parametrize("workout", [TEST_IC_WORKOUT, TEST_BTB_WORKOUT])
+def test_display_workout(workout, capfd):
     """Test a workout is displayed correctly in the console."""
-    TEST_WORKOUT.display_workout()
+    workout.display_workout()
     output = capfd.readouterr()[0]
-    assert TEST_WORKOUT.workout_type.upper() in output
-    assert "=" * len(TEST_WORKOUT.workout_type) in output
+    assert workout.workout_type.upper() in output
+    assert "=" * len(workout.workout_type) in output
     assert "Variation: " in output
     assert "Time: " in output
     assert "Load: " in output
@@ -99,12 +101,22 @@ def test_get_options(ask_mock, workout_param, response, option):
     assert actual == expected
 
 
+@mock.patch("kettlebells.workouts.IntPrompt.ask")
+def test_get_options_bad_input(ask_mock):
+    """Test bad index results in infinite loop."""
+    try:
+        ask_mock.side_effect = [10, 20, "k"]
+        _get_options(IRON_CARDIO_PARAMS["bells"])
+    except StopIteration:
+        pass
+
+
 @pytest.mark.parametrize(
     "workout, bells, variation, confirm, int_responses",
     [
         # int responses are time, load, sets, swings
         (
-            TEST_WORKOUT,
+            TEST_IC_WORKOUT,
             "Double Bells",
             "Double Classic + Pullup",
             True,
@@ -128,12 +140,33 @@ def test_custom_workout(
     int_responses,
     database,
 ):
-    """Test creating a custom workout works as intended."""
+    """Test creating a custom iron cardio or abc workout works as intended."""
     expected = workout
     options_mock.side_effect = [bells, variation]
     int_mock.side_effect = int_responses
     confirm_mock.return_value = "y"
     units_mock.side_effect = ["kilograms"]
     actual = create_ic_or_abc(Path(database.name), "ic")
+    assert isinstance(actual, Workout)
+    assert actual == expected
+
+
+@mock.patch("kettlebells.workouts.IntPrompt.ask")
+@mock.patch("kettlebells.workouts.Confirm")
+@mock.patch("kettlebells.workouts._get_units")
+@mock.patch("kettlebells.workouts._get_options")
+def test_custom_btb_workout(
+    options_mock,
+    units_mock,
+    confirm_mock,
+    int_mock,
+    database,
+):
+    """Test creating a custom iron cardio or abc workout works as intended."""
+    expected = TEST_BTB_WORKOUT
+    options_mock.side_effect = ["2 Clean and Press Ladders + Snatch"]
+    int_mock.side_effect = [30, 24, 20]
+    units_mock.return_value = "kilograms"
+    actual = create_btb_workout(Path(database.name))
     assert isinstance(actual, Workout)
     assert actual == expected

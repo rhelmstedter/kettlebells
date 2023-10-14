@@ -6,7 +6,7 @@ import pytest
 
 import kettlebells.database as db
 
-from .test_constants import TEST_DATA, TEST_WORKOUT
+from .test_constants import TEST_DATA, TEST_IC_WORKOUT
 
 
 def test_initialize_database(database_home):
@@ -56,7 +56,7 @@ def test_read_database(database):
 
 
 def test_save_workout(database):
-    db.save_workout(Path(database.name), "2023-09-14", TEST_WORKOUT)
+    db.save_workout(Path(database.name), "2023-09-14", TEST_IC_WORKOUT)
     data = json.load(open(database.name))
     assert data["saved_workouts"][-1] == {
         "date": "2023-09-14",
@@ -103,7 +103,7 @@ def test_save_workout(database):
 
 
 def test_cache_workout(database):
-    db.cache_workout(Path(database.name), TEST_WORKOUT)
+    db.cache_workout(Path(database.name), TEST_IC_WORKOUT)
     data = json.load(open(database.name))
     assert len(data["cached_workouts"]) == 1
-    assert data["cached_workouts"][-1] == asdict(TEST_WORKOUT)
+    assert data["cached_workouts"][-1] == asdict(TEST_IC_WORKOUT)

@@ -248,6 +248,10 @@ def set_loads() -> dict:
 
 
 def create_btb_workout(db_path: Path) -> Workout:
+    """Create a back to basics kettelbell workout.
+    :param db_path: The Path to the database.
+    :returns: A workout object.
+    """
     data = read_database(db_path)
     bodyweight = data["loads"]["bodyweight"]
     variation = _get_options(BTB)
@@ -257,11 +261,12 @@ def create_btb_workout(db_path: Path) -> Workout:
         second_block = "snatch"
     time = IntPrompt.ask("How long was your workout (in minutes)")
     units = _get_units()
+    console.print("Enter the weight used for the...")
     c_and_p_load = IntPrompt.ask(
-        f"Enter the weight you used for the clean and press (in {units})"
+        f"clean and press (in {units})"
     )
     second_block_load = IntPrompt.ask(
-        f"Enter the weight you used for the {second_block} (in {units})"
+        f"{second_block} (in {units})"
     )
     c_and_p = BTB[variation]["exercises"][0]
     second_block_exercise = BTB[variation]["exercises"][1]
@@ -301,7 +306,7 @@ def _get_options(workout_param: dict) -> str:
         try:
             selection = IntPrompt.ask("Choose your option")
             return options[selection - 1]
-        except IndexError:
+        except (IndexError, TypeError):
             console.print(":warning: Not a valid option.", style=WARNING)
             console.print(
                 "Enter a number between 1 and {max(options) + 1}.", style=SUGGESTION

@@ -3,10 +3,10 @@ from pathlib import Path
 import pytest
 
 from kettlebells.database import read_database
-from kettlebells.stats import get_all_time_stats
+from kettlebells.stats import get_all_time_stats, top_ten_workouts
 
 from .test_constants import (
-    TEST_WORKOUT,
+    TEST_IC_WORKOUT,
     TEST_WORKOUT_NO_SWINGS,
     TEST_WORKOUT_SINGLE_BELL_PULLUPS,
 )
@@ -15,7 +15,7 @@ from .test_constants import (
 @pytest.mark.parametrize(
     "workout, stats",
     [
-        (TEST_WORKOUT, {"weight moved": 6840, "reps": 140, "density": 228}),
+        (TEST_IC_WORKOUT, {"weight moved": 6840, "reps": 140, "density": 228}),
         (
             TEST_WORKOUT_NO_SWINGS,
             {"weight moved": 1536, "reps": 64, "density": 76.8},
@@ -57,3 +57,12 @@ Total Weight Moved: 3,480 kilograms
    Average Density: 174.0 kg/min"""
     assert actual == expected
     assert expected_output in output
+
+
+def test_top_ten_workouts(database):
+    """Test the table object created by top_ten_workouts."""
+    data = read_database(Path(database.name))
+    table = top_ten_workouts(data)
+    assert table.title == "Best Workouts by Weight Moved"
+    assert len(table.rows) == 1
+    assert len(table.columns) == 6
