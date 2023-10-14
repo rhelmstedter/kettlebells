@@ -1,4 +1,4 @@
-# Created 2023-10-12 Thu 20:48
+# Created 2023-10-14 Sat 12:53
 #+options: toc:t
 #+title: kettlebells
 #+author: Russell Helmstedter
@@ -35,7 +35,6 @@ kettlebells setloads
 The work out command generates a random workout. The current options are:
 - ~iron-cardio~
 - ~abc~
-- ~btb~
 
 **** iron-cardio
 The ~workout~ command with an argument of ~ic~, generates a random iron cardio workout.
@@ -92,12 +91,27 @@ kettlebells workout abc
 | *SWINGS*                 | 0 - 100                    |
 |--------------------------+----------------------------|
 
-**** btb
 
-The workout command with an argument of ~btb~ will generate a random Back to Basics Workout. These workouts are constructed based on The Pat Flynn Show episode with Dan John [[https://patflynnshow.libsyn.com/the-best-kettlebell-program-for-beginners-the-btbkp][The BEST Kettlebell Program for GEGINNERS | THE BTBKP]]. The choices are ladders of 2-3-5 clean and presses followed by either snatches or double front squats. The warm up and cool downs are not included in the calculations.
+
+*** done
+The ~done~ command saves the most recently generated workout to the database. The current options are:
+- ic
+- abc
+- btb
+
+
+When run with no argument, the ~done~ command will attempt to use the most recently generated random workout. To save a custom workout, add the workout type as an argument. For example, to save a custom Armor Building Complex workout use an argument of ~abc~.
 
 #+begin_src
-kettlebells workout btb
+kettlebells done abc
+#+end_src
+
+**** btb
+
+The done command with an argument of ~btb~ will allows the user to save a Back to Basics Workout. These workouts are constructed based on The Pat Flynn Show episode with Dan John [[https://patflynnshow.libsyn.com/the-best-kettlebell-program-for-beginners-the-btbkp][The BEST Kettlebell Program for GEGINNERS | THE BTBKP]]. The choices are ladders of 2-3-5 clean and presses followed by either snatches or double front squats. The warm up and cool exercises are not included in the workout.
+
+#+begin_src
+kettlebells done btb
 #+end_src
 
 The program options are:
@@ -113,20 +127,6 @@ The program options are:
 | 3 ladders   | 10 sets of 5 Double Front Squats |
 | 5 ladders   | 10 sets of 5 Double Front Squats |
 |-------------+----------------------------------|
-
-
-*** done
-The ~done~ command saves the most recently generated workout to the database.
-
-#+begin_src
-kettlebells done
-#+end_src
-
-To save a custom workout, add the workout type as an argument. For example, to save a custom Armor Building Complex workout use an argument of ~abc~.
-
-#+begin_src
-kettlebells done abc
-#+end_src
 
 *** last
 The ~last~ command displays the last saved workout and calculates the amount of weight moved, the total reps, and the pace (sec/rep).
