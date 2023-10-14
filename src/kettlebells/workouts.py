@@ -27,9 +27,7 @@ class Workout:
     workout_type: str
 
     def display_workout(self) -> None:
-        """Print an a workout to the console.
-        :returns: None.
-        """
+        """Print a workout to the console."""
         console.print(self.workout_type.upper())
         console.print("=" * len(self.workout_type), style="green")
         display_params = [("Variation", self.variation), ("Time", f"{self.time} mins")]
@@ -57,7 +55,9 @@ class Workout:
 
     def calc_workout_stats(self) -> dict:
         """Calculate the stats for a given workout.
-        :returns: A dict containing total weight moved, number of reps, and the density.
+
+        Returns:
+            A dict containing total weight moved, number of reps, and the density.
         """
         total_reps = 0
         weight_moved = 0
@@ -81,7 +81,10 @@ class Workout:
 
     def display_workout_stats(self) -> None:
         """Prints the stats for a given workout.
-        :returns: None"""
+
+        Returns:
+            None
+        """
         stats = self.calc_workout_stats()
         console.print("Workout Stats")
         console.print("=============", style="green")
@@ -95,8 +98,11 @@ class Workout:
 
 def random_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
     """Create a random workout based on workout_type.
-    :param db_path: The Path to the database.
-    :returns: A Workout object with randomly generated parameters.
+
+    Params:
+        db_path - The Path to the database.
+    Returns:
+        A Workout object with randomly generated parameters.
     """
     data = read_database(db_path)
     loads = data["loads"]
@@ -155,7 +161,13 @@ def random_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
 
 def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
     """Create a custom Workout Object.
-    :returns: An Workout object created by the user.
+
+    Args:
+        db_path: The Path object to the database.
+        workout_type: The workout type either 'ic' or 'abc'
+
+    Returns:
+        A Workout object created by the user.
     """
     data = read_database(db_path)
     bodyweight = data["loads"]["bodyweight"]
@@ -221,7 +233,10 @@ def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
 def set_loads() -> dict:
     """Creates a dictionary containing the units and kettlebell weights and body weight
     of the user.
-    :returns: A dict of the loads set by the user.
+
+    Returns:
+        A dict of the loads set by the user.
+
     """
     while True:
         units = _get_units()
@@ -249,8 +264,13 @@ def set_loads() -> dict:
 
 def create_btb_workout(db_path: Path) -> Workout:
     """Create a back to basics kettelbell workout.
-    :param db_path: The Path to the database.
-    :returns: A workout object.
+
+    Args:
+        db_path: The Path to the database.
+
+    Returns:
+        A workout object.
+
     """
     data = read_database(db_path)
     bodyweight = data["loads"]["bodyweight"]
@@ -262,12 +282,8 @@ def create_btb_workout(db_path: Path) -> Workout:
     time = IntPrompt.ask("How long was your workout (in minutes)")
     units = _get_units()
     console.print("Enter the weight used for the...")
-    c_and_p_load = IntPrompt.ask(
-        f"clean and press (in {units})"
-    )
-    second_block_load = IntPrompt.ask(
-        f"{second_block} (in {units})"
-    )
+    c_and_p_load = IntPrompt.ask(f"clean and press (in {units})")
+    second_block_load = IntPrompt.ask(f"{second_block} (in {units})")
     c_and_p = BTB[variation]["exercises"][0]
     second_block_exercise = BTB[variation]["exercises"][1]
     exercises = [
@@ -296,8 +312,10 @@ def create_btb_workout(db_path: Path) -> Workout:
 
 def _get_options(workout_param: dict) -> str:
     """Select options for a given workout parameter.
-    :param workout_param: The dictionary containing options for a Workout parameter.
-    :returns: A string consisting of the workout parameter choosen by the user.
+    Args:
+        workout_param: options for a given workout parameter.
+    Returns:
+        A string consisting of the workout parameter choosen by the user.
     """
     options = list(workout_param.keys())
     for i, option in enumerate(options, 1):
@@ -316,7 +334,9 @@ def _get_options(workout_param: dict) -> str:
 
 def _get_units() -> str:
     """A helper function to get the units.
-    :returns: A string, either 'pounds' or 'kilograms'.
+
+    Returns:
+        A string, either 'pounds' or 'kilograms'.
     """
     while True:
         units = Prompt.ask("[P]ounds or [K]ilograms").lower()
@@ -332,7 +352,15 @@ def _get_units() -> str:
     return units
 
 
-def _get_workout_params(workout_type: str) -> dict:
+def _get_workout_params(workout_type: str) -> tuple(str, dict):
+    """Gets the workout parameters from the constants file.
+
+    Args:
+        workout_type: The workout type, either 'ic' or 'abc'.
+
+    Returns:
+        A tuple of the long name, and the dict of parameters.
+    """
     match workout_type:
         case "ic" | "iron cardio":
             return "iron cardio", IRON_CARDIO_PARAMS
@@ -341,6 +369,11 @@ def _get_workout_params(workout_type: str) -> dict:
 
 
 def _print_helper(to_print: list) -> None:
+    """Print out various workout parameters formatted based on longest label.
+
+    Args:
+        to_print: A list of workout parameters.
+    """
     longest_label = len(max(to_print, key=lambda x: len(x[0]))[0])
     for label, value in to_print:
         console.print(f"{label: >{longest_label}}: {value}")
