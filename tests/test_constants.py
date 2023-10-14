@@ -3,7 +3,7 @@ from kettlebells.workouts import Exercise, Workout
 TEST_IC_WORKOUT = Workout(
     **{
         "bodyweight": 90,
-        "units": "kilograms",
+        "units": "kg",
         "variation": "Double Classic + Pullup",
         "time": 30,
         "exercises": [
@@ -55,7 +55,7 @@ TEST_IC_WORKOUT = Workout(
 TEST_BTB_WORKOUT = Workout(
     **{
         "bodyweight": 90,
-        "units": "kilograms",
+        "units": "kg",
         "variation": "2 Clean and Press Ladders + Snatch",
         "time": 30,
         "exercises": [
@@ -69,7 +69,7 @@ TEST_BTB_WORKOUT = Workout(
 TEST_WORKOUT_NO_SWINGS = Workout(
     **{
         "bodyweight": 90,
-        "units": "kilograms",
+        "units": "kg",
         "variation": "Classic + Snatch",
         "time": 20,
         "exercises": [
@@ -113,7 +113,7 @@ TEST_WORKOUT_NO_SWINGS = Workout(
 TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
     **{
         "bodyweight": 90,
-        "units": "kilograms",
+        "units": "kg",
         "variation": "Classic + Pullup",
         "time": 10,
         "exercises": [
@@ -156,7 +156,7 @@ TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
 
 TEST_DATA = {
     "loads": {
-        "units": "kilograms",
+        "units": "kg",
         "bodyweight": 90,
         "light load": 20,
         "medium load": 24,
@@ -167,7 +167,7 @@ TEST_DATA = {
             "date": "2023-09-14",
             "workout": {
                 "bodyweight": 90,
-                "units": "kilograms",
+                "units": "kg",
                 "variation": "Double Classic",
                 "time": 20,
                 "exercises": [
@@ -197,7 +197,7 @@ TEST_DATA = {
     "cached_workouts": [
         {
             "bodyweight": 90,
-            "units": "kilograms",
+            "units": "kg",
             "variation": "Double Classic + Pullup",
             "time": 30,
             "exercises": [

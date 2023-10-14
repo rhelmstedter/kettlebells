@@ -336,14 +336,14 @@ def _get_units() -> str:
     """A helper function to get the units.
 
     Returns:
-        A string, either 'pounds' or 'kilograms'.
+        A string, either 'lbs' or 'kg'.
     """
     while True:
         units = Prompt.ask("[P]ounds or [K]ilograms").lower()
         if units.startswith("p"):
-            units = "pounds"
+            units = "lbs"
         elif units.startswith("k"):
-            units = "kilograms"
+            units = "kg"
         else:
             console.print(":warning: Invalid option", style=WARNING)
             console.print("Please enter P or K", style=SUGGESTION)
@@ -352,7 +352,7 @@ def _get_units() -> str:
     return units
 
 
-def _get_workout_params(workout_type: str) -> tuple(str, dict):
+def _get_workout_params(workout_type: str) -> tuple[str, dict]:
     """Gets the workout parameters from the constants file.
 
     Args:

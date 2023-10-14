@@ -62,7 +62,7 @@ def test_save_workout(database):
         "date": "2023-09-14",
         "workout": {
             "bodyweight": 90,
-            "units": "kilograms",
+            "units": "kg",
             "variation": "Double Classic + Pullup",
             "time": 30,
             "exercises": [

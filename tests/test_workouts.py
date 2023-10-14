@@ -75,7 +75,7 @@ def test_set_loads(units_mock, confirm_mock, int_mock):
     assert actual == expected
 
 
-@pytest.mark.parametrize("response, units", [("p", "pounds"), ("k", "kilograms")])
+@pytest.mark.parametrize("response, units", [("p", "lbs"), ("k", "kg")])
 @mock.patch("kettlebells.workouts.Prompt.ask")
 def test_get_units_good_input(ask_mock, response, units):
     """Test that units are set correctly."""
@@ -145,7 +145,7 @@ def test_custom_workout(
     options_mock.side_effect = [bells, variation]
     int_mock.side_effect = int_responses
     confirm_mock.return_value = "y"
-    units_mock.side_effect = ["kilograms"]
+    units_mock.side_effect = ["kg"]
     actual = create_ic_or_abc(Path(database.name), "ic")
     assert isinstance(actual, Workout)
     assert actual == expected
@@ -166,7 +166,7 @@ def test_custom_btb_workout(
     expected = TEST_BTB_WORKOUT
     options_mock.side_effect = ["2 Clean and Press Ladders + Snatch"]
     int_mock.side_effect = [30, 24, 20]
-    units_mock.return_value = "kilograms"
+    units_mock.return_value = "kg"
     actual = create_btb_workout(Path(database.name))
     assert isinstance(actual, Workout)
     assert actual == expected

@@ -24,7 +24,7 @@ Run the ~init~ command. This creates the database.
 kettlebells init
 #+end_src
 
-Next, run the ~setloads~ command. This sets the units to either pounds or kilograms, the user's bodyweight, and the loads for the light, medium, and heavy kettlebell. This command can be run as needed when the user is ready to move up in load.
+Next, run the ~setloads~ command. This sets the units to either pounds (lbs) or kilograms (kg), the user's bodyweight, and the loads for the light, medium, and heavy kettlebell. This command can be run as needed when the user is ready to move up in load or bodyweight changes.
 
 #+begin_src bash
 kettlebells setloads

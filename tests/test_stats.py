@@ -35,7 +35,7 @@ def test_display_workout_stats_single_bell_pullups(capfd):
     output = capfd.readouterr()[0]
     expected = """Workout Stats
 =============
-Weight Moved: 1,050 kilograms
+Weight Moved: 1,050 kg
   Total Reps: 35
      Density: 105.0 kg/min
 """
@@ -52,7 +52,7 @@ def test_get_all_time_stats(database, capfd):
 ==============
     Total Workouts: 1
         Total Time: 20 mins
-Total Weight Moved: 3,480 kilograms
+Total Weight Moved: 3,480 kg
         Total Reps: 87
    Average Density: 174.0 kg/min"""
     assert actual == expected

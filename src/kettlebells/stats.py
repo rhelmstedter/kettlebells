@@ -34,7 +34,7 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     console.print(f"        Total Time: {total_mins} mins")
     console.print(f"Total Weight Moved: {total_weight_moved:,} {units}")
     console.print(f"        Total Reps: {total_reps:,}")
-    console.print(f"   Average Density: {average_density:.1f} kg/min")
+    console.print(f"   Average Density: {average_density:.1f} {units}/min")
     return dates, weight_per_workout
 
 
