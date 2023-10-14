@@ -58,7 +58,7 @@ def plot_workouts(dates: list[str], weight_per_workout: list[int]) -> None:
     plt.show()
 
 
-def top_ten_workouts(data: dict) -> Table:
+def top_ten_workouts(data: dict, sort: str) -> Table:
     """Get the top ten workouts based on weight moved.
     :param data: A dict of the data from the database.
     :returns: None"""
@@ -69,11 +69,23 @@ def top_ten_workouts(data: dict) -> Table:
         workout = from_dict(Workout, workout_data["workout"])
         workouts.append((date, workout, workout.calc_workout_stats()))
 
-    best_workouts_weight = sorted(
-        workouts, key=lambda x: x[2]["weight moved"], reverse=True
-    )
-    if len(best_workouts_weight) > 10:
-        best_workouts_weight = best_workouts_weight[:10]
+    match sort:
+        case "weight-moved":
+            title = "Weight Moved"
+            workouts = sorted(
+                workouts, key=lambda x: x[2]["weight moved"], reverse=True
+            )
+        case "reps":
+            title = "Reps"
+            workouts = sorted(workouts, key=lambda x: x[2]["reps"], reverse=True)
+        case "density":
+            title = "Density"
+            workouts = sorted(workouts, key=lambda x: x[2]["density"], reverse=True)
+        case "time":
+            title = "Time"
+            workouts = sorted(workouts, key=lambda x: x[1].time, reverse=True)
+    if len(workouts) > 10:
+        workouts = workouts[:10]
 
     columns = [
         ("Date", "green"),
@@ -84,10 +96,10 @@ def top_ten_workouts(data: dict) -> Table:
         ("Reps", "blue"),
         ("Density (kg/min)", "blue"),
     ]
-    top_ten_table = Table(title="Best Workouts by Weight Moved")
+    top_ten_table = Table(title=f"Top Ten Workouts by {title}")
     for col, style in columns:
         top_ten_table.add_column(col, style=style, justify="right")
-    for date, workout, stats in best_workouts_weight:
+    for date, workout, stats in workouts:
         top_ten_table.add_row(
             date,
             workout.workout_type.title(),

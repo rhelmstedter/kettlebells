@@ -182,10 +182,18 @@ def stats(
 @cli.command()
 def best(
     ctx: typer.Context,
+    sort: Annotated[
+        str,
+        typer.Option(
+            "--sort",
+            "-s",
+            help="Sort the table. Possible arguments: weight moved, reps, density."
+        ),
+    ] = "weight moved",
 ) -> None:
     """Display a table of the top ten workouts in database."""
     data = read_database(KETTLEBELLS_DB)
-    console.print(top_ten_workouts(data))
+    console.print(top_ten_workouts(data, sort))
 
 
 if __name__ == "__main__":

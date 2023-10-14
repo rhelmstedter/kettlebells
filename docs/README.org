@@ -150,6 +150,13 @@ kettlebells stats --plot
 
 *** best
 The ~best~ command displays the top ten workout based on the weight moved.
+
 #+begin_src bash
 kettlebells best
 #+end_src
+
+Pass the optional `--sort` command and to sort by the following options:
++ weight-moved (default)
++ reps
++ density
++ time
