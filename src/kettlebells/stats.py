@@ -63,8 +63,6 @@ def top_ten_workouts(data: dict) -> Table:
     :param data: A dict of the data from the database.
     :returns: None"""
     units = data["loads"]["units"]
-    if units.startswith("k"):
-        units = "kg"
     workouts = []
     for workout_data in data["saved_workouts"]:
         date = workout_data["date"]
@@ -79,6 +77,7 @@ def top_ten_workouts(data: dict) -> Table:
 
     columns = [
         ("Date", "green"),
+        ("Workout Type", "magenta"),
         ("Variation", "magenta"),
         ("Time (mins)", "magenta"),
         (f"Weight Moved ({units})", "blue"),
@@ -91,6 +90,7 @@ def top_ten_workouts(data: dict) -> Table:
     for date, workout, stats in best_workouts_weight:
         top_ten_table.add_row(
             date,
+            workout.workout_type.title(),
             workout.variation,
             f"{workout.time}",
             f"{stats['weight moved']:,}",

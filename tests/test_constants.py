@@ -62,7 +62,7 @@ TEST_BTB_WORKOUT = Workout(
             Exercise(**{"name": "Clean and Press", "load": 24, "sets": 2, "reps": 20}),
             Exercise(**{"name": "Snatch", "load": 20, "sets": 1, "reps": 100}),
         ],
-        "workout_type": "btb",
+        "workout_type": "back to basics",
     },
 )
 

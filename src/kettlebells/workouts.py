@@ -5,7 +5,7 @@ from random import choice, choices
 from rich.prompt import Confirm, IntPrompt, Prompt
 
 from .console import console
-from .constants import ABC_PARAMS, BTB, IRON_CARDIO_PARAMS, SUGGESTION, WARNING
+from .constants import ABC_PARAMS, BTB_PARAMS, IRON_CARDIO_PARAMS, SUGGESTION, WARNING
 from .database import read_database
 
 
@@ -36,7 +36,7 @@ class Workout:
             swings = [e for e in self.exercises if "Swings" in e.name]
             if swings:
                 display_params.append(("Swings", swings[0].reps))
-        elif self.workout_type == "btb":
+        elif self.workout_type == "back to basics":
             second_block = self.exercises[-1]
             display_params.append(
                 ("Clean and Press Load", f"{self.exercises[0].load} {self.units}")
@@ -274,7 +274,8 @@ def create_btb_workout(db_path: Path) -> Workout:
     """
     data = read_database(db_path)
     bodyweight = data["loads"]["bodyweight"]
-    variation = _get_options(BTB)
+    workout_type, workout_params = _get_workout_params("btb")
+    variation = _get_options(workout_params)
     if "Double Front Squat" in variation:
         second_block = "double front squats"
     else:
@@ -284,8 +285,8 @@ def create_btb_workout(db_path: Path) -> Workout:
     console.print("Enter the weight used for the...")
     c_and_p_load = IntPrompt.ask(f"clean and press (in {units})")
     second_block_load = IntPrompt.ask(f"{second_block} (in {units})")
-    c_and_p = BTB[variation]["exercises"][0]
-    second_block_exercise = BTB[variation]["exercises"][1]
+    c_and_p = workout_params[variation]["exercises"][0]
+    second_block_exercise = workout_params[variation]["exercises"][1]
     exercises = [
         Exercise(
             name=c_and_p["name"],
@@ -306,7 +307,7 @@ def create_btb_workout(db_path: Path) -> Workout:
         variation=variation,
         time=time,
         exercises=exercises,
-        workout_type="btb",
+        workout_type=workout_type,
     )
 
 
@@ -362,10 +363,12 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
         A tuple of the long name, and the dict of parameters.
     """
     match workout_type:
-        case "ic" | "iron cardio":
+        case "ic":
             return "iron cardio", IRON_CARDIO_PARAMS
-        case "abc" | "Armor Building Complex":
+        case "abc":
             return "armor building complex", ABC_PARAMS
+        case "btb":
+            return "back to basics", BTB_PARAMS
 
 
 def _print_helper(to_print: list) -> None:

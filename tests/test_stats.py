@@ -65,4 +65,4 @@ def test_top_ten_workouts(database):
     table = top_ten_workouts(data)
     assert table.title == "Best Workouts by Weight Moved"
     assert len(table.rows) == 1
-    assert len(table.columns) == 6
+    assert len(table.columns) == 7

@@ -86,7 +86,7 @@ ABC_PARAMS = {
     },
 }
 
-BTB = {
+BTB_PARAMS = {
     "2 Clean and Press Ladders + Snatch": {
         "exercises": [
             {
