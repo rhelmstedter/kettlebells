@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kettlebells"
-version = "0.2.8"
+version = "0.2.9"
 description = "A CLI tool to create, save, and track progress of kettlebell workouts."
 authors = ["Russell Helmstedter <rhelmstedter@gmail.com>"]
 readme = "README.org"

@@ -189,7 +189,7 @@ def best(
             "-s",
             help="Sort the table. Possible arguments: weight moved, reps, density."
         ),
-    ] = "weight moved",
+    ] = "weight-moved",
 ) -> None:
     """Display a table of the top ten workouts in database."""
     data = read_database(KETTLEBELLS_DB)

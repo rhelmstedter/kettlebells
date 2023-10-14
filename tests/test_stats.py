@@ -63,6 +63,6 @@ def test_top_ten_workouts(database):
     """Test the table object created by top_ten_workouts."""
     data = read_database(Path(database.name))
     table = top_ten_workouts(data, "weight-moved")
-    assert table.title == "Best Workouts by Weight Moved"
+    assert table.title == "Top Ten Workouts by Weight Moved"
     assert len(table.rows) == 1
     assert len(table.columns) == 7
