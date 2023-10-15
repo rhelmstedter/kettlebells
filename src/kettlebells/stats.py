@@ -27,14 +27,16 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     weight_per_workout = [stat["weight moved"] for stat in stats]
     total_weight_moved = sum(weight_per_workout)
     total_reps = sum(stat["reps"] for stat in stats)
-    average_density = mean(stat["density"] for stat in stats)
+    average_weight_density = mean(stat["weight density"] for stat in stats)
+    average_rep_density = mean(stat["rep density"] for stat in stats)
     console.print("\nAll Time Stats")
     console.print("==============", style="green")
-    console.print(f"    Total Workouts: {len(stats):,}")
-    console.print(f"        Total Time: {total_mins} mins")
-    console.print(f"Total Weight Moved: {total_weight_moved:,} {units}")
-    console.print(f"        Total Reps: {total_reps:,}")
-    console.print(f"   Average Density: {average_density:.1f} {units}/min")
+    console.print(f"     Total Workouts: {len(stats):,}")
+    console.print(f"         Total Time: {total_mins} mins")
+    console.print(f" Total Weight Moved: {total_weight_moved:,} {units}")
+    console.print(f"         Total Reps: {total_reps:,}")
+    console.print(f"Mean Weight Density: {average_weight_density:.1f} {units}/min")
+    console.print(f"   Mean Rep Density: {average_rep_density:.1f} reps/min")
     return dates, weight_per_workout
 
 
@@ -80,7 +82,7 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
             workouts = sorted(workouts, key=lambda x: x[2]["reps"], reverse=True)
         case "density":
             title = "Density"
-            workouts = sorted(workouts, key=lambda x: x[2]["density"], reverse=True)
+            workouts = sorted(workouts, key=lambda x: x[2]["weight density"], reverse=True)
         case "time":
             title = "Time"
             workouts = sorted(workouts, key=lambda x: x[1].time, reverse=True)
@@ -94,7 +96,8 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
         ("Time (mins)", "magenta"),
         (f"Weight Moved ({units})", "blue"),
         ("Reps", "blue"),
-        ("Density (kg/min)", "blue"),
+        ("Weight Density (kg/min)", "blue"),
+        ("Rep Density (reps/min)", "blue"),
     ]
     top_ten_table = Table(title=f"Top Ten Workouts by {title}")
     for col, style in columns:
@@ -107,6 +110,7 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
             f"{workout.time}",
             f"{stats['weight moved']:,}",
             f"{stats['reps']}",
-            f"{stats['density']:.1f}",
+            f"{stats['weight density']:.1f}",
+            f"{stats['rep density']:.1f}",
         )
     return top_ten_table

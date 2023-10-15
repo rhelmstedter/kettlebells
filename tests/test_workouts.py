@@ -20,6 +20,7 @@ from .test_constants import (
     TEST_CUSTOM_WORKOUT,
     TEST_IC_WORKOUT,
     TEST_WORKOUT_NO_SWINGS,
+    TEST_WORKOUT_SINGLE_BELL_PULLUPS,
 )
 
 POSSIBLE_SWINGS = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150]
@@ -60,6 +61,50 @@ def test_display_workout_no_swings(capfd):
     assert "Time: " in output
     assert "Load: " in output
     assert "Swings: " not in output
+
+
+@pytest.mark.parametrize(
+    "workout, stats",
+    [
+        (
+            TEST_IC_WORKOUT,
+            {
+                "weight moved": 6840,
+                "reps": 140,
+                "weight density": 228,
+                "rep density": 4.7,
+            },
+        ),
+        (
+            TEST_WORKOUT_NO_SWINGS,
+            {
+                "weight moved": 1536,
+                "reps": 64,
+                "weight density": 76.8,
+                "rep density": 3.2,
+            },
+        ),
+    ],
+)
+def test_calc_workout_stats(workout, stats):
+    """Test workout stats are calculated correctly."""
+    actual = workout.calc_workout_stats()
+    expected = stats
+    assert actual == expected
+
+
+def test_display_workout_stats_single_bell_pullups(capfd):
+    """Test workout stats are displayed correctly."""
+    TEST_WORKOUT_SINGLE_BELL_PULLUPS.display_workout_stats()
+    output = capfd.readouterr()[0]
+    expected = """Workout Stats
+=============
+  Weight Moved: 1,050 kg
+    Total Reps: 35
+Weight Density: 105.0 kg/min
+   Rep Density: 3.5 reps/min
+"""
+    assert expected in output
 
 
 @mock.patch("kettlebells.workouts.IntPrompt.ask")

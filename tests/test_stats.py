@@ -1,45 +1,7 @@
 from pathlib import Path
 
-import pytest
-
 from kettlebells.database import read_database
 from kettlebells.stats import get_all_time_stats, top_ten_workouts
-
-from .test_constants import (
-    TEST_IC_WORKOUT,
-    TEST_WORKOUT_NO_SWINGS,
-    TEST_WORKOUT_SINGLE_BELL_PULLUPS,
-)
-
-
-@pytest.mark.parametrize(
-    "workout, stats",
-    [
-        (TEST_IC_WORKOUT, {"weight moved": 6840, "reps": 140, "density": 228}),
-        (
-            TEST_WORKOUT_NO_SWINGS,
-            {"weight moved": 1536, "reps": 64, "density": 76.8},
-        ),
-    ],
-)
-def test_calc_workout_stats(workout, stats):
-    """Test workout stats are calculated correctly."""
-    actual = workout.calc_workout_stats()
-    expected = stats
-    assert actual == expected
-
-
-def test_display_workout_stats_single_bell_pullups(capfd):
-    """Test workout stats are displayed correctly."""
-    TEST_WORKOUT_SINGLE_BELL_PULLUPS.display_workout_stats()
-    output = capfd.readouterr()[0]
-    expected = """Workout Stats
-=============
-Weight Moved: 1,050 kg
-  Total Reps: 35
-     Density: 105.0 kg/min
-"""
-    assert expected in output
 
 
 def test_get_all_time_stats(database, capfd):
@@ -50,11 +12,12 @@ def test_get_all_time_stats(database, capfd):
     output = capfd.readouterr()[0]
     expected_output = """\nAll Time Stats
 ==============
-    Total Workouts: 1
-        Total Time: 20 mins
-Total Weight Moved: 3,480 kg
-        Total Reps: 87
-   Average Density: 174.0 kg/min"""
+     Total Workouts: 1
+         Total Time: 20 mins
+ Total Weight Moved: 3,480 kg
+         Total Reps: 87
+Mean Weight Density: 174.0 kg/min
+   Mean Rep Density: 4.3 reps/min"""
     assert actual == expected
     assert expected_output in output
 
@@ -65,4 +28,4 @@ def test_top_ten_workouts(database):
     table = top_ten_workouts(data, "weight-moved")
     assert table.title == "Top Ten Workouts by Weight Moved"
     assert len(table.rows) == 1
-    assert len(table.columns) == 7
+    assert len(table.columns) == 8

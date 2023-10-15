@@ -83,7 +83,8 @@ class Workout:
         stats = {
             "weight moved": weight_moved,
             "reps": total_reps,
-            "density": round(weight_moved / self.time, 1),
+            "weight density": round(weight_moved / self.time, 1),
+            "rep density": round(total_reps / self.time, 1),
         }
         return stats
 
@@ -99,7 +100,8 @@ class Workout:
         stats_to_print = [
             ("Weight Moved", f"{stats.get('weight moved'):,} {self.units}"),
             ("Total Reps", f"{stats.get('reps')}"),
-            ("Density", f"{stats.get('density')} kg/min"),
+            ("Weight Density", f"{stats.get('weight density')} kg/min"),
+            ("Rep Density", f"{stats.get('rep density')} reps/min"),
         ]
         _print_helper(stats_to_print)
 
@@ -348,6 +350,8 @@ def create_custom_workout(db_path: Path) -> Workout:
         load = IntPrompt.ask(f"Load in {units}")
         sets = IntPrompt.ask("Number of sets")
         reps = IntPrompt.ask("Reps per set")
+        if "Dip" in name or "Pull-up" in name:
+            load += bodyweight
         exercises.append(Exercise(name, load, sets, reps))
     return Workout(bodyweight, units, variation, time, exercises, workout_type)
 
