@@ -334,7 +334,11 @@ def create_custom_workout(db_path: Path) -> Workout:
     bodyweight = data["loads"]["bodyweight"]
     units = data["loads"]["units"]
     workout_type = Prompt.ask("Type of workout")
+    if not workout_type:
+        workout_type = "custom"
     variation = Prompt.ask("Variation")
+    if not variation:
+        variation = "custom"
     time = IntPrompt.ask("Duration (mins)")
     console.print("Exercises\n")
     exercises = []

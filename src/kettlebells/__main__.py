@@ -1,5 +1,5 @@
 import sys
-from datetime import date, datetime
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
@@ -14,7 +14,6 @@ from .constants import (
     DATE_FORMAT,
     KETTLEBELLS_DB,
     KETTLEBELLS_HOME,
-    SUGGESTION,
     WARNING,
 )
 from .database import (
@@ -177,7 +176,7 @@ def best(
         typer.Option(
             "--sort",
             "-s",
-            help="Sort the table. Possible arguments: weight moved, reps, density."
+            help="Sort the table. Possible arguments: weight moved, reps, density.",
         ),
     ] = "weight-moved",
 ) -> None:
@@ -197,15 +196,15 @@ def _get_date() -> str:
             "Enter the date of the workout (YYYY-MM-DD), or press enter for today"
         )
         if not workout_date:
-            workout_date = date.today().strftime(DATE_FORMAT)
+            workout_date = datetime.now().strftime(DATE_FORMAT)
         try:
             datetime.strptime(workout_date, DATE_FORMAT)
             break
         except ValueError:
-            console.print(
-                ":warning: {workout_date} not a valid date.", style=WARNING
-            )
+            console.print(":warning: {workout_date} not a valid date.", style=WARNING)
             continue
+    return workout_date
+
 
 if __name__ == "__main__":
     cli()
