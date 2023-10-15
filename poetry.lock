@@ -131,6 +131,24 @@ files = [
 ]
 
 [[package]]
+name = "iterfzf"
+version = "1.0.0.42.0"
+description = "Pythonic interface to fzf"
+optional = false
+python-versions = ">= 3.8"
+files = [
+    {file = "iterfzf-1.0.0.42.0-py3-none-macosx_10_7_x86_64.macosx_10_9_x86_64.whl", hash = "sha256:7b84398a6779cf6ccbaa89653fc662a88c2783c37546e24ba458ef3a60338400"},
+    {file = "iterfzf-1.0.0.42.0-py3-none-macosx_11_0_arm64.whl", hash = "sha256:c597833186dea99a57a6538c9a1c047584cbdfd8c38c2cf22b0ff33106fd9592"},
+    {file = "iterfzf-1.0.0.42.0-py3-none-manylinux_1_2_aarch64.manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:87e080870765a7a0310004cbd17d82245811fcc87ab389c5b5b176fb43f035f5"},
+    {file = "iterfzf-1.0.0.42.0-py3-none-manylinux_1_2_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:cd2bb6c3c629c3ea22bec92c5b613778b4803c35413c017b639a090d8c5c8bc5"},
+    {file = "iterfzf-1.0.0.42.0-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:833b509b13699aeef286c593d3f78b1a1a62c996a8b0dc7a3220e58ae40e9124"},
+    {file = "iterfzf-1.0.0.42.0-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:bbc9a33f0d41fa9786b3b53fa5dbc2e966940f0819c27c4d8c73cac50cbd0529"},
+    {file = "iterfzf-1.0.0.42.0-py3-none-win_amd64.whl", hash = "sha256:1582c7c5c8c4c6030199a8c3f8fd4995a4f6ca219fc0e1193fccfd95469acbd3"},
+    {file = "iterfzf-1.0.0.42.0-py3-none-win_arm64.whl", hash = "sha256:7f8b7a2f588813fbcc4f4ac6dcb50548e9e25122a46847ff84aa4cc3b6fe7885"},
+    {file = "iterfzf-1.0.0.42.0.tar.gz", hash = "sha256:2ff532b5c279001eea3eee60d47aeb5ee2c2cb3221ea3bcca6b481fba76491c1"},
+]
+
+[[package]]
 name = "markdown-it-py"
 version = "3.0.0"
 description = "Python port of markdown-it. Markdown parsing, done right!"
@@ -325,4 +343,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "cf628e4e47b067bbd5e046a1550bfb3f863646d497d84836dff41b62b77ac93c"
+content-hash = "1aa6ee089d4bddd630a1b0b9979c153e29348a1fdc595b1e045639ceb0e8ab3f"

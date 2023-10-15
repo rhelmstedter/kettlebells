@@ -3,9 +3,17 @@ from pathlib import Path
 from random import choice, choices
 
 from rich.prompt import Confirm, IntPrompt, Prompt
+from iterfzf import iterfzf
 
 from .console import console
-from .constants import ABC_PARAMS, BTB_PARAMS, IRON_CARDIO_PARAMS, SUGGESTION, WARNING
+from .constants import (
+    ABC_PARAMS,
+    BTB_PARAMS,
+    IRON_CARDIO_PARAMS,
+    SUGGESTION,
+    WARNING,
+    EXERCISES,
+)
 from .database import read_database
 
 
@@ -171,6 +179,7 @@ def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
     """
     data = read_database(db_path)
     bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
     workout_type, workout_params = _get_workout_params(workout_type)
     bells = _get_options(workout_params["bells"])
     if bells == "Double Bells":
@@ -178,7 +187,6 @@ def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
     elif bells == "Single Bell":
         variation = _get_options(workout_params["singlebell variations"])
     time = IntPrompt.ask("How long was your workout (in minutes)")
-    units = _get_units()
     load = IntPrompt.ask(f"What weight did you use (in {units})")
     sets = IntPrompt.ask("How many sets did you complete?")
     exercises = []
@@ -274,6 +282,7 @@ def create_btb_workout(db_path: Path) -> Workout:
     """
     data = read_database(db_path)
     bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
     workout_type, workout_params = _get_workout_params("btb")
     variation = _get_options(workout_params)
     if "Double Front Squat" in variation:
@@ -281,7 +290,6 @@ def create_btb_workout(db_path: Path) -> Workout:
     else:
         second_block = "snatch"
     time = IntPrompt.ask("How long was your workout (in minutes)")
-    units = _get_units()
     console.print("Enter the weight used for the...")
     c_and_p_load = IntPrompt.ask(f"clean and press (in {units})")
     second_block_load = IntPrompt.ask(f"{second_block} (in {units})")
@@ -311,14 +319,48 @@ def create_btb_workout(db_path: Path) -> Workout:
     )
 
 
-def _get_options(workout_param: dict) -> str:
+def create_custom_workout(db_path: Path) -> Workout:
+    """Create a custom workout.
+
+    Args:
+        db_path: The path to the database.
+
+    Returns:
+        A custom workout object built by the user.
+    """
+    data = read_database(db_path)
+    bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
+    workout_type = Prompt.ask("Type of workout")
+    variation = Prompt.ask("Variation")
+    time = IntPrompt.ask("Duration")
+    console.print("Exercises\n")
+    exercises = []
+    while True:
+        exercise = iterfzf(EXERCISES, multi=False)
+        match exercise:
+            case "Other":
+                name = Prompt.ask("Name of exercise").title()
+            case "Done":
+                break
+            case _:
+                name = exercise
+        load = IntPrompt.ask(f"Load in {units}")
+        sets = IntPrompt.ask("Number of sets")
+        reps = IntPrompt.ask("Reps per set")
+        exercises.append(Exercise(name, load, sets, reps))
+    return Workout(bodyweight, units, variation, time, exercises, workout_type)
+
+
+def _get_options(options: dict | list) -> str:
     """Select options for a given workout parameter.
     Args:
         workout_param: options for a given workout parameter.
     Returns:
         A string consisting of the workout parameter choosen by the user.
     """
-    options = list(workout_param.keys())
+    if isinstance(options, dict):
+        options = list(options.keys())
     for i, option in enumerate(options, 1):
         console.print(f"    [{i}] {option}")
     while True:

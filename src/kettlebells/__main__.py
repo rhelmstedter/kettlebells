@@ -30,6 +30,7 @@ from .workouts import (
     Workout,
     create_btb_workout,
     create_ic_or_abc,
+    create_custom_workout,
     random_ic_or_abc,
     set_loads,
 )
@@ -120,25 +121,14 @@ def done(
             workout = create_ic_or_abc(KETTLEBELLS_DB, workout_type)
         case "btb":
             workout = create_btb_workout(KETTLEBELLS_DB)
+        case "custom":
+            workout = create_custom_workout(KETTLEBELLS_DB)
         case _:
             workout = from_dict(Workout, data["cached_workouts"][-1])
             console.print("Last workout generated:\n")
     workout.display_workout()
     if Confirm.ask("Save this workout?"):
-        while True:
-            workout_date = Prompt.ask(
-                "Enter the date of the workout (YYYY-MM-DD), or press enter for today"
-            )
-            if not workout_date:
-                workout_date = date.today().strftime(DATE_FORMAT)
-            try:
-                datetime.strptime(workout_date, DATE_FORMAT)
-                break
-            except ValueError:
-                console.print(
-                    ":warning: {workout_date} not a valid date.", style=WARNING
-                )
-                continue
+        workout_date = _get_date()
         save_workout(KETTLEBELLS_DB, workout_date, workout)
         print()
         workout.display_workout_stats()
@@ -195,6 +185,27 @@ def best(
     data = read_database(KETTLEBELLS_DB)
     console.print(top_ten_workouts(data, sort))
 
+
+def _get_date() -> str:
+    """A helper function to get the date of a workout.
+
+    Returns:
+        A str of the date formatted as YYYY-MM-DD.
+    """
+    while True:
+        workout_date = Prompt.ask(
+            "Enter the date of the workout (YYYY-MM-DD), or press enter for today"
+        )
+        if not workout_date:
+            workout_date = date.today().strftime(DATE_FORMAT)
+        try:
+            datetime.strptime(workout_date, DATE_FORMAT)
+            break
+        except ValueError:
+            console.print(
+                ":warning: {workout_date} not a valid date.", style=WARNING
+            )
+            continue
 
 if __name__ == "__main__":
     cli()
