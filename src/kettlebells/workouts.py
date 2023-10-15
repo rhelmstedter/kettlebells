@@ -333,7 +333,7 @@ def create_custom_workout(db_path: Path) -> Workout:
     units = data["loads"]["units"]
     workout_type = Prompt.ask("Type of workout")
     variation = Prompt.ask("Variation")
-    time = IntPrompt.ask("Duration")
+    time = IntPrompt.ask("Duration (mins)")
     console.print("Exercises\n")
     exercises = []
     while True:

@@ -8,13 +8,19 @@ from kettlebells.workouts import (
     Workout,
     _get_options,
     _get_units,
+    create_btb_workout,
+    create_custom_workout,
     create_ic_or_abc,
     random_ic_or_abc,
-    create_btb_workout,
     set_loads,
 )
 
-from .test_constants import TEST_IC_WORKOUT, TEST_WORKOUT_NO_SWINGS, TEST_BTB_WORKOUT
+from .test_constants import (
+    TEST_BTB_WORKOUT,
+    TEST_CUSTOM_WORKOUT,
+    TEST_IC_WORKOUT,
+    TEST_WORKOUT_NO_SWINGS,
+)
 
 POSSIBLE_SWINGS = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150]
 
@@ -168,5 +174,25 @@ def test_custom_btb_workout(
     int_mock.side_effect = [30, 24, 20]
     units_mock.return_value = "kg"
     actual = create_btb_workout(Path(database.name))
+    assert isinstance(actual, Workout)
+    assert actual == expected
+
+
+@mock.patch("kettlebells.workouts.Prompt.ask")
+@mock.patch("kettlebells.workouts.iterfzf")
+@mock.patch("kettlebells.workouts.IntPrompt.ask")
+def test_create_custom_workout(
+    int_mock,
+    fzf_mock,
+    prompt_mock,
+    database,
+):
+    """Test creating a custom iron cardio or abc workout works as intended."""
+    expected = TEST_CUSTOM_WORKOUT
+    prompt_mock.side_effect = ["custom", "custom"]
+    fzf_mock.side_effect = ["Turkish Get-up", "TRX T", "Done"]
+    # int_mocks = [time, load1, sets1, reps1, load2, sets2, reps3]
+    int_mock.side_effect = [30, 24, 1, 6, 0, 3, 8]
+    actual = create_custom_workout(Path(database.name))
     assert isinstance(actual, Workout)
     assert actual == expected
