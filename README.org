@@ -1,4 +1,4 @@
-# Created 2023-10-14 Sat 15:50
+# Created 2023-10-15 Sun 16:28
 #+options: toc:t
 #+title: kettlebells
 #+author: Russell Helmstedter
@@ -98,6 +98,7 @@ The ~done~ command saves the most recently generated workout to the database. Th
 - ic
 - abc
 - btb
+- custom
 
 
 When run with no argument, the ~done~ command will attempt to use the most recently generated random workout. To save a custom workout, add the workout type as an argument. For example, to save a custom Armor Building Complex workout use an argument of ~abc~.
@@ -127,6 +128,21 @@ The program options are:
 | 3 ladders   | 10 sets of 5 Double Front Squats |
 | 5 ladders   | 10 sets of 5 Double Front Squats |
 |-------------+----------------------------------|
+
+**** custom
+When the ~done~ run is run with the `custom` argument, allows the user to save a custom workout. Custom exercises need a ~workout_type~ and a ~variation~. The default is ~custom~. Exercises can be chosen via a fuzzy finder. Select ~Other~ to add a custom exercise. Select ~Done~ when finished adding all the exercises.
+
+#+begin_src
+kettlebells done custom
+#+end_src
+
+***** Reps and Loads for Custom Exercises
+Unilateral exercises such as the single arm press (simply "Press" in the program) should have the reps doubled. For example, if the set and rep scheme is 3 sets of 8 single arm presses on the left and right arm, that should be saved as 16 reps per set for that exercise.
+
+When the stats are calculated, any exercise that has "Double" in it gets multiplied by 2. So Double Pressing a pair of 24 kg kettlebells results in 48 kg per rep. If using uneven sized bells, use the average weight of the two bells rounded to the nearest integer.
+
+***** Suggested Use for Complexes
+Consider a workout out like the [[https://www.youtube.com/watch?v=nHPfglRCp6M&t=13s][8 - 5 - 3 Rep Scheme]] from Pat Flynn. The ~workout_type~ would be "complex", the ~variation~ would be "8-5-3 Rep Scheme". Technically, a set consists of 8 Goblet Squats, 5 Start Stop Swings, 3 Push-ups. Then you would repeat this for 5 rounds. However, in ~kettlebells~ the user will add each exercise separately. So the Goblet Squat would be 5 sets of 8. The Start Stop Swing would be 5 sets of 5, and the Push-up would be 5 sets of 3.
 
 *** last
 The ~last~ command displays the last saved workout and calculates the amount of weight moved, the total reps, and the pace (sec/rep).
