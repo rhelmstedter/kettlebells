@@ -338,7 +338,7 @@ def create_custom_workout(db_path: Path) -> Workout:
         workout_type = "custom"
     variation = Prompt.ask("Variation")
     if not variation:
-        variation = "custom"
+        variation = "Custom"
     time = IntPrompt.ask("Duration (mins)")
     exercises = []
     while True:
