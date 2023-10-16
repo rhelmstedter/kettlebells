@@ -54,7 +54,7 @@ class Workout:
             )
         else:
             for exercise in self.exercises:
-                console.print(exercise.name.title())
+                console.print(exercise.name)
                 console.print(
                     f"    {exercise.sets} sets of {exercise.reps} reps with {exercise.load} {self.units}"
                 )
@@ -197,7 +197,7 @@ def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
             exercises.append(
                 Exercise(
                     name=exercise[0],
-                    load=bodyweight,
+                    load=int(0.96 * bodyweight),
                     sets=sets // 2,
                     reps=exercise[1],
                 )
@@ -206,7 +206,7 @@ def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
             exercises.append(
                 Exercise(
                     name=exercise[0],
-                    load=bodyweight,
+                    load=int(0.96 * bodyweight),
                     sets=sets,
                     reps=exercise[1],
                 )
@@ -340,7 +340,6 @@ def create_custom_workout(db_path: Path) -> Workout:
     if not variation:
         variation = "custom"
     time = IntPrompt.ask("Duration (mins)")
-    console.print("Exercises\n")
     exercises = []
     while True:
         exercise = iterfzf(EXERCISES, multi=False)
@@ -351,11 +350,12 @@ def create_custom_workout(db_path: Path) -> Workout:
                 break
             case _:
                 name = exercise
-        load = IntPrompt.ask(f"Load in {units}")
-        sets = IntPrompt.ask("Number of sets")
-        reps = IntPrompt.ask("Reps per set")
+        console.print(exercise)
+        load = IntPrompt.ask(f"    Load in {units}")
+        sets = IntPrompt.ask("     Number of sets")
+        reps = IntPrompt.ask("     Reps per set")
         if "Dip" in name or "Pull-up" in name:
-            load += bodyweight
+            load += int(0.96 * bodyweight)
         exercises.append(Exercise(name, load, sets, reps))
     return Workout(bodyweight, units, variation, time, exercises, workout_type)
 
