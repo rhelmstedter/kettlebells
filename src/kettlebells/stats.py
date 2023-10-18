@@ -52,11 +52,12 @@ def plot_workouts(dates: list[str], weight_per_workout: list[int]) -> None:
     plt.date_form("Y-m-d")
     plt.plot(dates, weight_per_workout, marker="hd", color=foreground_color)
     plt.ticks_color(foreground_color)
-    plt.plotsize(100, 30)
+    plt.plotsize(70, 20)
     plt.canvas_color(background_color)
     plt.axes_color(background_color)
     plt.title("Weight Moved Per Workout")
     plt.xlabel("Date")
+    plt.ylim(lower=0)
     plt.show()
 
 
