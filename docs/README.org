@@ -33,7 +33,7 @@ kettlebells setloads
 ** Commands
 *** workout
 The work out command generates a random workout. The current options are:
-+ ~iron-cardio~
++ ~ic~ (iron cardio)
 + ~abc~
 
 **** iron-cardio
@@ -44,26 +44,26 @@ kettlebells workout ic
 
 Iron cardio workouts are built from the following parameters:
 
-|------------------------+-------------------------|
-| Parameter              | Options                 |
-|------------------------+-------------------------|
-| *Single Bell Variations* | Classic                 |
-|                        | Classic + Pullup        |
-|                        | Classic + Snatch        |
-|------------------------+-------------------------|
-| *Double Bell Variations* | Double Classic          |
-|                        | Double Classic + Pullup |
-|------------------------+-------------------------|
-| *TIMES*                  | 30 mins                 |
-|                        | 20 mins                 |
-|                        | 10 mins                 |
-|------------------------+-------------------------|
-| *LOADS*                  | heavy                   |
-|                        | medium                  |
-|                        | light                   |
-|------------------------+-------------------------|
-| *SWINGS*                 | 0 - 150                 |
-|------------------------+-------------------------|
+|------------------------+--------------------------|
+| Parameter              | Options                  |
+|------------------------+--------------------------|
+| *Single Bell Variations* | Classic                  |
+|                        | Classic + Pull-up        |
+|                        | Classic + Snatch         |
+|------------------------+--------------------------|
+| *Double Bell Variations* | Double Classic           |
+|                        | Double Classic + Pull-up |
+|------------------------+--------------------------|
+| *TIMES*                  | 30 mins                  |
+|                        | 20 mins                  |
+|                        | 10 mins                  |
+|------------------------+--------------------------|
+| *LOADS*                  | heavy                    |
+|                        | medium                   |
+|                        | light                    |
+|------------------------+--------------------------|
+| *SWINGS*                 | 0 - 150                  |
+|------------------------+--------------------------|
 
 **** abc
 The workout command with an argument of ~abc~ will generate a random armor building complex workout.
@@ -145,14 +145,14 @@ When the stats are calculated, any exercise that has "Double" in it gets multipl
 Consider a workout out like the [[https://www.youtube.com/watch?v=nHPfglRCp6M&t=13s][8 - 5 - 3 Rep Scheme]] from Pat Flynn. The ~workout_type~ would be "complex", the ~variation~ would be "8-5-3 Rep Scheme". Technically, a set consists of 8 Goblet Squats, 5 Start Stop Swings, 3 Push-ups. Then you would repeat this for 5 rounds. However, in ~kettlebells~ the user will add each exercise separately. So the Goblet Squat would be 5 sets of 8. The Start Stop Swing would be 5 sets of 5, and the Push-up would be 5 sets of 3.
 
 *** last
-The ~last~ command displays the last saved workout and calculates the amount of weight moved, the total reps, and the pace (sec/rep).
+The ~last~ command displays the last saved workout and calculates the stats for it.
 
 #+begin_src bash
 kettlebells last
 #+end_src
 
 *** stats
-The ~stats~ command displays the aggregated weight moved, number of reps, and pace for all workout in the database.
+The ~stats~ command displays the aggregated workout count, time, weight moved, number of reps, and density for all workout in the database.
 
 #+begin_src bash
 kettlebells stats
@@ -171,7 +171,7 @@ The ~best~ command displays the top ten workout based on the weight moved.
 kettlebells best
 #+end_src
 
-Pass the optional `--sort` command and to sort by the following options:
+Pass the optional ~--sort~ command and to sort by the following options:
 + weight-moved (default)
 + reps
 + density
