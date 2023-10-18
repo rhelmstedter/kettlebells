@@ -53,11 +53,18 @@ class Workout:
                 (f"{second_block.name} Load", f"{second_block.load} {self.units}")
             )
         else:
+            exercises = []
             for exercise in self.exercises:
-                console.print(exercise.name)
-                console.print(
-                    f"    {exercise.sets} sets of {exercise.reps} reps with {exercise.load} {self.units}"
+                exercises.append(
+                    (
+                        exercise.name,
+                        f"{exercise.sets} X {exercise.reps} with {exercise.load} {self.units}",
+                    )
                 )
+            _print_helper(display_params)
+            console.print("Exercises")
+            console.print("---------", style="green")
+            _print_helper(exercises)
             return
         _print_helper(display_params)
 
