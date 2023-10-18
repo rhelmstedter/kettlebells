@@ -74,7 +74,7 @@ class Workout:
                 load = exercise.load * 2
             else:
                 load = exercise.load
-            if "and" in exercise.name.lower():
+            if "clean and press" == exercise.name.lower():
                 reps = 2 * exercise.reps * exercise.sets
             else:
                 reps = exercise.reps * exercise.sets
@@ -351,7 +351,7 @@ def create_custom_workout(db_path: Path) -> Workout:
             case _:
                 name = exercise
         console.print(exercise)
-        load = IntPrompt.ask(f"    Load in {units}")
+        load = IntPrompt.ask(f"   Load in {units}")
         sets = IntPrompt.ask("     Number of sets")
         reps = IntPrompt.ask("     Reps per set")
         if "Dip" in name or "Pull-up" in name:
