@@ -86,7 +86,7 @@ def test_save_workout(database):
                 },
                 {
                     "name": "Pullup",
-                    "load": 90,
+                    "load": 86,
                     "sets": 20,
                     "reps": 1,
                 },

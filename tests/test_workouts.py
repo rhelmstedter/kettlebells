@@ -69,9 +69,9 @@ def test_display_workout_no_swings(capfd):
         (
             TEST_IC_WORKOUT,
             {
-                "weight moved": 6840,
+                "weight moved": 6760,
                 "reps": 140,
-                "weight density": 228,
+                "weight density": 225.3,
                 "rep density": 4.7,
             },
         ),
@@ -179,7 +179,7 @@ def test_get_options_bad_input(ask_mock):
 @mock.patch("kettlebells.workouts.Confirm")
 @mock.patch("kettlebells.workouts._get_units")
 @mock.patch("kettlebells.workouts._get_options")
-def test_custom_workout(
+def test_custom_ic_workout(
     options_mock,
     units_mock,
     confirm_mock,

@@ -34,7 +34,7 @@ TEST_IC_WORKOUT = Workout(
             Exercise(
                 **{
                     "name": "Pullup",
-                    "load": 90,
+                    "load": 86,
                     "sets": 20,
                     "reps": 1,
                 },
