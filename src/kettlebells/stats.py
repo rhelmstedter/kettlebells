@@ -92,28 +92,14 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
         workout = from_dict(Workout, workout_data["workout"])
         workouts.append((date, workout, workout.calc_workout_stats()))
 
-    match sort:
-        case "weight-moved":
-            title = "Weight Moved"
-            workouts = sorted(
-                workouts, key=lambda x: x[2]["weight moved"], reverse=True
-            )
-        case "reps":
-            title = "Reps"
-            workouts = sorted(workouts, key=lambda x: x[2]["reps"], reverse=True)
-        case "weight-density":
-            title = "Weight Density"
-            workouts = sorted(
-                workouts, key=lambda x: x[2]["weight density"], reverse=True
-            )
-        case "rep-density":
-            title = "Rep Density"
-            workouts = sorted(
-                workouts, key=lambda x: x[2]["rep density"], reverse=True
-            )
-        case "time":
-            title = "Time"
-            workouts = sorted(workouts, key=lambda x: x[1].time, reverse=True)
+    sort = sort.replace('-', ' ')
+    if sort == "time":
+        workouts = sorted(workouts, key=lambda x: x[1].time, reverse=True)
+    else:
+        workouts = sorted(
+            workouts, key=lambda x: x[2][sort], reverse=True
+        )
+
     if len(workouts) > 10:
         workouts = workouts[:10]
 
@@ -127,9 +113,10 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
         ("Weight Density (kg/min)", "blue"),
         ("Rep Density (reps/min)", "blue"),
     ]
-    top_ten_table = Table(title=f"Top Ten Workouts by {title}")
+    top_ten_table = Table(title=f"Top Ten Workouts by {sort.title()}")
     for col, style in columns:
         top_ten_table.add_column(col, style=style, justify="right")
+
     for date, workout, stats in workouts:
         top_ten_table.add_row(
             date,
