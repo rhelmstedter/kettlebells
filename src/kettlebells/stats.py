@@ -30,7 +30,7 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
         workout = from_dict(Workout, workout_data["workout"])
         stats.append(workout.calc_workout_stats())
         workouts.append(workout)
-    total_mins = sum(workout.time for workout in workouts)
+    hours, mins = divmod(sum(workout.time for workout in workouts), 60)
     weight_per_workout = [stat["weight moved"] for stat in stats]
     total_weight_moved = sum(weight_per_workout)
     total_reps = sum(stat["reps"] for stat in stats)
@@ -39,7 +39,7 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     console.print("\nAll Time Stats")
     console.print("==============", style="green")
     console.print(f"     Total Workouts: {len(stats):,}")
-    console.print(f"         Total Time: {total_mins} mins")
+    console.print(f"         Total Time: {hours:02} hours {mins:02} mins")
     console.print(f" Total Weight Moved: {total_weight_moved:,} {units}")
     console.print(f"         Total Reps: {total_reps:,}")
     console.print(f"Mean Weight Density: {average_weight_density:.1f} {units}/min")
@@ -61,7 +61,7 @@ def plot_workouts(dates: list[str], weight_per_workout: list[int]) -> None:
 
     plt.date_form("y-m-d")
     plt.plot(x_axis, weight_per_workout, marker="hd")
-    plt.plotsize(70, 20)
+    plt.plotsize(90, 30)
     # plt.ticks_color(foreground_color)
     # plt.canvas_color()
     # plt.axes_color()
