@@ -101,10 +101,15 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
         case "reps":
             title = "Reps"
             workouts = sorted(workouts, key=lambda x: x[2]["reps"], reverse=True)
-        case "density":
-            title = "Density"
+        case "weight-density":
+            title = "Weight Density"
             workouts = sorted(
                 workouts, key=lambda x: x[2]["weight density"], reverse=True
+            )
+        case "rep-density":
+            title = "Rep Density"
+            workouts = sorted(
+                workouts, key=lambda x: x[2]["rep density"], reverse=True
             )
         case "time":
             title = "Time"

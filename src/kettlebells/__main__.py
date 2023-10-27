@@ -86,7 +86,7 @@ def setloads(ctx: typer.Context) -> None:
 def workout(
     ctx: typer.Context,
     workout_type: Annotated[
-        str, typer.Argument(help="Possible workouts are ic or abc")
+        str, typer.Argument(help="Possible workouts are ic or abc.")
     ],
 ) -> None:
     """Create a random iron cardio or armor building complex workout."""
@@ -101,7 +101,7 @@ def done(
     ctx: typer.Context,
     workout_type: Annotated[
         Optional[str],
-        typer.Argument(help="Possible workouts are ic, abc, or btb."),
+        typer.Argument(help="Possible workouts are ic, abc, btb, or custom."),
     ] = None,
 ) -> None:
     """Save a kettlebell workout.
@@ -185,7 +185,7 @@ def best(
         typer.Option(
             "--sort",
             "-s",
-            help="Sort the table. Possible arguments: weight moved, reps, density.",
+            help="Sort the table. Possible arguments: weight-moved, reps, weight-density, rep-density.",
         ),
     ] = "weight-moved",
 ) -> None:
