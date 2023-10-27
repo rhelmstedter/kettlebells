@@ -171,6 +171,7 @@ def stats(
     data = read_database(KETTLEBELLS_DB)
     dates, weight_per_workout = get_all_time_stats(data)
     if plot:
+        console.print()
         plot_workouts(dates, weight_per_workout)
     if calendar:
         print_calendar(data, year)
