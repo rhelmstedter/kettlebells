@@ -81,7 +81,7 @@ class Workout:
                 load = exercise.load * 2
             else:
                 load = exercise.load
-            if "clean and press" == exercise.name.lower():
+            if "clean and press" in exercise.name.lower():
                 reps = 2 * exercise.reps * exercise.sets
             else:
                 reps = exercise.reps * exercise.sets
