@@ -11,7 +11,7 @@ from rich.table import Table
 from rich.text import Text
 
 from .console import console
-from .workouts import Workout
+from .workouts import Workout, _print_helper
 from .constants import DATE_FORMAT
 
 
@@ -30,7 +30,8 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
         workout = from_dict(Workout, workout_data["workout"])
         stats.append(workout.calc_workout_stats())
         workouts.append(workout)
-    hours, mins = divmod(sum(workout.time for workout in workouts), 60)
+    days, remaining_mins = divmod(sum(workout.time for workout in workouts), 60 * 24)
+    hours, mins = divmod(remaining_mins, 60)
     weight_per_workout = [stat["weight moved"] for stat in stats]
     total_weight_moved = sum(weight_per_workout)
     total_reps = sum(stat["reps"] for stat in stats)
@@ -38,12 +39,15 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     average_rep_density = mean(stat["rep density"] for stat in stats)
     console.print("\nAll Time Stats")
     console.print("==============", style="green")
-    console.print(f"     Total Workouts: {len(stats):,}")
-    console.print(f"         Total Time: {hours:02} hours {mins:02} mins")
-    console.print(f" Total Weight Moved: {total_weight_moved:,} {units}")
-    console.print(f"         Total Reps: {total_reps:,}")
-    console.print(f"Mean Weight Density: {average_weight_density:.1f} {units}/min")
-    console.print(f"   Mean Rep Density: {average_rep_density:.1f} reps/min")
+    stats_to_print = [
+        ("Total Workouts", f"{len(stats):,}"),
+        ("Total Time", f"{days} days {hours:02} hours {mins:02} mins"),
+        (" Total Weight Moved", f"{total_weight_moved:,} {units}"),
+        ("Total Reps", f"{total_reps:,}"),
+        ("Mean Weight Density", f"{average_weight_density:.1f} {units}/min"),
+        ("Mean Rep Density", f"{average_rep_density:.1f} reps/min"),
+    ]
+    _print_helper(stats_to_print)
     return dates, weight_per_workout
 
 
