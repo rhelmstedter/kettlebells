@@ -164,6 +164,12 @@ To plot the weight moved per workout, use the ~--plot~ flag.
 kettlebells stats --plot
 #+end_src
 
+To display a calendar of all workouts in a given year, use the ~--calendar~ flag and pass the year as the argument (defaults to current year if no argument is passed).
+
+#+begin_src bash
+kettlebells stats --calendar 2023
+#+end_src
+
 *** best
 The ~best~ command displays the top ten workout based on the weight moved.
 

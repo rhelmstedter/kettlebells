@@ -1,4 +1,4 @@
-# Created 2023-10-17 Tue 21:39
+# Created 2023-10-27 Fri 11:20
 #+options: toc:t
 #+title: kettlebells
 #+author: Russell Helmstedter
@@ -162,6 +162,12 @@ To plot the weight moved per workout, use the ~--plot~ flag.
 
 #+begin_src bash
 kettlebells stats --plot
+#+end_src
+
+To display a calendar of all workouts in a given year, use the ~--calendar~ flag and pass the year as the argument (defaults to current year if no argument is passed).
+
+#+begin_src bash
+kettlebells stats --calendar 2023
 #+end_src
 
 *** best
