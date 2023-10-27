@@ -10,12 +10,7 @@ from typing_extensions import Annotated
 
 from . import __version__
 from .console import console
-from .constants import (
-    DATE_FORMAT,
-    KETTLEBELLS_DB,
-    KETTLEBELLS_HOME,
-    WARNING,
-)
+from .constants import DATE_FORMAT, KETTLEBELLS_DB, KETTLEBELLS_HOME, WARNING
 from .database import (
     cache_workout,
     confirm_loads,
@@ -24,12 +19,12 @@ from .database import (
     save_workout,
     write_database,
 )
-from .stats import get_all_time_stats, plot_workouts, top_ten_workouts
+from .stats import get_all_time_stats, plot_workouts, print_calendar, top_ten_workouts
 from .workouts import (
     Workout,
     create_btb_workout,
-    create_ic_or_abc,
     create_custom_workout,
+    create_ic_or_abc,
     random_ic_or_abc,
     set_loads,
 )
@@ -160,12 +155,25 @@ def stats(
         is_flag=True,
         is_eager=True,
     ),
+    calendar: bool = typer.Option(
+        False,
+        "--calendar",
+        "-c",
+        is_flag=True,
+        is_eager=True,
+    ),
+    year: Annotated[
+        Optional[int],
+        typer.Argument(help="Enter the year, or leave blank for current year."),
+    ] = datetime.today().year,
 ) -> None:
     """Display stats from all workouts in database."""
     data = read_database(KETTLEBELLS_DB)
     dates, weight_per_workout = get_all_time_stats(data)
     if plot:
         plot_workouts(dates, weight_per_workout)
+    if calendar:
+        print_calendar(data, year)
 
 
 @cli.command()
