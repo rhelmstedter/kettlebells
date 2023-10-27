@@ -175,9 +175,9 @@ BTB_PARAMS = {
 
 EXERCISES = [
     "Ab Wheel",
+    "Banded Hip Thrust",
     "Bent Over Row",
     "Bent Press",
-    "Banded Hip Thrust",
     "Bodyweight Row",
     "Bodyweight Squat",
     "Bulgarian Goat Bag Swing",
@@ -199,6 +199,7 @@ EXERCISES = [
     "Front Squat",
     "Goblet Squat",
     "Half-kneeling Press",
+    "Hanging Leg Raise",
     "Hip Thrust",
     "Jerk",
     "Other",
@@ -218,6 +219,7 @@ EXERCISES = [
     "TRX T",
     "TRX Y",
     "Thruster",
+    "Toes to Bar",
     "Turkish Get-up",
     "Weighted Dip",
     "Weighted Pull-up",
