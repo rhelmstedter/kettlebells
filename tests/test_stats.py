@@ -13,7 +13,7 @@ def test_get_all_time_stats(database, capfd):
     expected_output = """\nAll Time Stats
 ==============
      Total Workouts: 1
-         Total Time: 20 mins
+         Total Time: 0 days 00 hours 20 mins
  Total Weight Moved: 3,480 kg
          Total Reps: 87
 Mean Weight Density: 174.0 kg/min
