@@ -180,5 +180,6 @@ kettlebells best
 Pass the optional ~--sort~ command and to sort by the following options:
 + weight-moved (default)
 + reps
-+ density
++ weight-density
++ rep-density
 + time
