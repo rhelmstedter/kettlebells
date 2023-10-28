@@ -188,10 +188,16 @@ kettlebells stats
 #+end_src
 
 **** plot
-To display a line plot of the weight moved per workout, use the ~--plot line~ option. Add a horizontal line at the median with ~--median~ or at the mean with  ~--average~.
+To display a line plot of the weight moved per workout, use the ~--plot line~ option. Add a line at the median with ~--median~ or at the mean with ~--average~.
 
 #+begin_src bash
 kettlebells stats --plot line
+#+end_src
+
+To display a horizontal bar plot grouped by month, use the ~--plot bar~ option.
+
+#+begin_src bash
+kettlebells stats --plot bar
 #+end_src
 
 To display an event plot of the current year, use the ~--plot event~ option.
@@ -202,7 +208,7 @@ kettlebells stats --plot event
 
 
 **** calendar
-To display a calendar of all workouts in a given year, use the ~--calendar~ flag and pass the year as the argument (defaults to current year if no argument is passed).
+To display a calendar of workouts in a given year, use the ~--calendar~ flag and pass the year as the argument (defaults to current year if no argument is passed).
 
 #+begin_src bash
 kettlebells stats --calendar 2023
