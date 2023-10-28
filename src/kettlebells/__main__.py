@@ -25,6 +25,7 @@ from .workouts import (
     create_btb_workout,
     create_custom_workout,
     create_ic_or_abc,
+    create_perfect_workout,
     random_ic_or_abc,
     set_loads,
 )
@@ -101,7 +102,7 @@ def done(
     ctx: typer.Context,
     workout_type: Annotated[
         Optional[str],
-        typer.Argument(help="Possible workouts are ic, abc, btb, or custom."),
+        typer.Argument(help="Possible workouts are ic, abc, btb, pw, or custom."),
     ] = None,
 ) -> None:
     """Save a kettlebell workout.
@@ -117,6 +118,8 @@ def done(
             workout = create_btb_workout(KETTLEBELLS_DB)
         case "custom":
             workout = create_custom_workout(KETTLEBELLS_DB)
+        case "pw":
+            workout = create_perfect_workout(KETTLEBELLS_DB)
         case _:
             workout = from_dict(Workout, data["cached_workouts"][-1])
             console.print("Last workout generated:\n")

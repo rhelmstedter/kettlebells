@@ -173,6 +173,117 @@ BTB_PARAMS = {
     },
 }
 
+PW_PARAMS = {
+    "Original": {
+        "exercises": [
+            {
+                "name": "Half-kneeling Press",
+                "sets": 3,
+                "reps": 16,
+            },
+            {
+                "name": "Hanging Leg Raise",
+                "sets": 3,
+                "reps": 8,
+                "load": 0,
+            },
+            {
+                "name": "Banded Hip Thrust",
+                "sets": 3,
+                "reps": 15,
+            },
+            {
+                "name": "Bulgarian Goat Bag Swing",
+                "sets": 3,
+                "reps": 8,
+            },
+            {
+                "name": "Goblet Squat",
+                "sets": 1,
+                "reps": 8,
+            },
+            {
+                "name": "Broomstick Overhead Sqaut",
+                "sets": 1,
+                "reps": 8,
+                "load": 0,
+            },
+        ],
+    },
+    "Indoor": {
+        "exercises": [
+            {
+                "name": "Half-kneeling Press",
+                "sets": 3,
+                "reps": 16,
+            },
+            {
+                "name": "Hanging Leg Raise",
+                "sets": 3,
+                "reps": 8,
+                "load": 0,
+            },
+            {
+                "name": "Hip Thrust",
+                "sets": 1,
+                "reps": 120,
+            },
+            {
+                "name": "Clam Shell",
+                "sets": 1,
+                "reps": 120,
+            },
+            {
+                "name": "Goblet Squat",
+                "sets": 1,
+                "reps": 8,
+            },
+            {
+                "name": "Broomstick Overhead Sqaut",
+                "sets": 1,
+                "reps": 8,
+                "load": 0,
+            },
+        ],
+    },
+    "The Bull": {
+        "exercises": [
+            {
+                "name": "Half-kneeling Press",
+                "sets": 3,
+                "reps": 16,
+            },
+            {
+                "name": "Hanging Leg Raise",
+                "sets": 3,
+                "reps": 8,
+                "load": 0,
+            },
+            {
+                "name": "Banded Hip Thrust",
+                "sets": 3,
+                "reps": 8,
+            },
+            {
+                "name": "Bent Over Row",
+                "sets": 3,
+                "reps": 16,
+            },
+            {
+                "name": "Goblet Squat",
+                "sets": 1,
+                "reps": 8,
+            },
+            {
+                "name": "Broomstick Overhead Sqaut",
+                "sets": 1,
+                "reps": 8,
+                "load": 0,
+            },
+        ],
+    },
+}
+
 EXERCISES = [
     "Ab Wheel",
     "Banded Hip Thrust",
@@ -180,6 +291,7 @@ EXERCISES = [
     "Bent Press",
     "Bodyweight Row",
     "Bodyweight Squat",
+    "Broomstick Overhead Squat",
     "Bulgarian Goat Bag Swing",
     "Clean and Press",
     "Clean",

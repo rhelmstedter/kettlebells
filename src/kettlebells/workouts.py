@@ -2,17 +2,19 @@ from dataclasses import dataclass
 from pathlib import Path
 from random import choice, choices
 
-from rich.prompt import Confirm, IntPrompt, Prompt
+from dacite import from_dict
 from iterfzf import iterfzf
+from rich.prompt import Confirm, IntPrompt, Prompt
 
 from .console import console
 from .constants import (
     ABC_PARAMS,
     BTB_PARAMS,
+    EXERCISES,
     IRON_CARDIO_PARAMS,
+    PW_PARAMS,
     SUGGESTION,
     WARNING,
-    EXERCISES,
 )
 from .database import read_database
 
@@ -298,10 +300,10 @@ def create_btb_workout(db_path: Path) -> Workout:
         second_block = "double front squats"
     else:
         second_block = "snatch"
-    time = IntPrompt.ask("How long was your workout (in minutes)")
+    time = IntPrompt.ask("Workout duration (mins)")
     console.print("Enter the weight used for the...")
-    c_and_p_load = IntPrompt.ask(f"clean and press (in {units})")
-    second_block_load = IntPrompt.ask(f"{second_block} (in {units})")
+    c_and_p_load = IntPrompt.ask(f"clean and press ({units})")
+    second_block_load = IntPrompt.ask(f"{second_block} ({units})")
     c_and_p = workout_params[variation]["exercises"][0]
     second_block_exercise = workout_params[variation]["exercises"][1]
     exercises = [
@@ -318,6 +320,39 @@ def create_btb_workout(db_path: Path) -> Workout:
             reps=second_block_exercise["reps"],
         ),
     ]
+    return Workout(
+        bodyweight=bodyweight,
+        units=units,
+        variation=variation,
+        time=time,
+        exercises=exercises,
+        workout_type=workout_type,
+    )
+
+
+def create_perfect_workout(db_path: Path) -> Workout:
+    """Create a Dan John perfect workout.
+
+    Args:
+        db_path: The Path to the database.
+
+    Returns:
+        A workout object.
+
+    """
+    data = read_database(db_path)
+    bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
+    workout_type, workout_params = _get_workout_params("pw")
+    variation = _get_options(workout_params)
+    time = IntPrompt.ask("Workout duration (mins)")
+    console.print("Enter the weight for the...")
+    exercises = []
+    no_load_exercises = ["Broomstick", "Hanging"]
+    for exercise in workout_params[variation]["exercises"]:
+        if not any(x in exercise["name"] for x in no_load_exercises):
+            exercise["load"] = IntPrompt.ask(f"  {exercise['name']}")
+        exercises.append(from_dict(Exercise, exercise))
     return Workout(
         bodyweight=bodyweight,
         units=units,
@@ -353,14 +388,14 @@ def create_custom_workout(db_path: Path) -> Workout:
         match exercise:
             case "Other":
                 name = Prompt.ask("Name of exercise").title()
-            case "Done":
+            case "Done" | None:
                 break
             case _:
                 name = exercise
         console.print(exercise)
-        load = IntPrompt.ask(f"   Load in {units}")
-        sets = IntPrompt.ask("     Number of sets")
-        reps = IntPrompt.ask("     Reps per set")
+        load = IntPrompt.ask(f"  Load in {units}")
+        sets = IntPrompt.ask("  Number of sets")
+        reps = IntPrompt.ask("  Reps per set")
         if "Dip" in name or "Pull-up" in name:
             load += int(0.96 * bodyweight)
         exercises.append(Exercise(name, load, sets, reps))
@@ -414,7 +449,7 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
     """Gets the workout parameters from the constants file.
 
     Args:
-        workout_type: The workout type, either 'ic' or 'abc'.
+        workout_type: The workout type: ic, abc, btb, or pw.
 
     Returns:
         A tuple of the long name, and the dict of parameters.
@@ -426,6 +461,8 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
             return "armor building complex", ABC_PARAMS
         case "btb":
             return "back to basics", BTB_PARAMS
+        case "pw":
+            return "perfect workout", PW_PARAMS
 
 
 def _print_helper(to_print: list) -> None:
