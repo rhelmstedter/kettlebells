@@ -1,4 +1,5 @@
 import calendar
+from collections import defaultdict
 from datetime import datetime
 from statistics import mean, median
 
@@ -64,34 +65,53 @@ def plot_workouts(
         dates: A list of the dates stored as a string.
         weight_per_workout: A list of the weight moved per workout.
     """
-    x_axis = []
-    for date in dates:
-        year, month, day = date.split("-")
-        x_axis.append("-".join((year[-2:], month, day)))
+    match plot_type:
+        case "event":
+            x_axis = []
+            for date in dates:
+                year, month, day = date.split("-")
+                x_axis.append("-".join((year[-2:], month, day)))
+            plt.date_form("y-m-d")
+            plt.plotsize(130, 20)
+            plt.title("Workouts Across the Year")
+            plt.xlabel("Months")
+            year = str(datetime.today().year)[-2:]
+            plt.xlim(f"{year}-01-01", f"{year}-12-31")
+            plt.event_plot(x_axis, marker="hd")
+            ticks = [f"23-{m}-01" for m in range(1, 13)]
+            xlabels = [calendar.month_abbr[m] for m in range(1, 13)]
+            plt.xticks(ticks, xlabels)
+        case "line":
+            x_axis = []
+            for date in dates:
+                year, month, day = date.split("-")
+                x_axis.append("-".join((year[-2:], month, day)))
+            if show_median:
+                plt.hline(median(weight_per_workout), "green")
+            elif show_average:
+                plt.hline(mean(weight_per_workout), "green")
+            plt.date_form("y-m-d")
+            plt.plotsize(90, 30)
+            plt.title("Weight Moved Per Workout")
+            plt.plot(x_axis, weight_per_workout, marker="hd")
+            plt.ylim(lower=0)
+            plt.xlabel("Date")
+        case "bar":
+            data = defaultdict(int)
+            for date, weight in zip(dates, weight_per_workout):
+                year, month, _ = date.split("-")
+                month = calendar.month_abbr[int(month)]
+                data["-".join((month, year[-2:]))] += weight
+            if show_median:
+                plt.vline(median(data.values()), "green")
+            elif show_average:
+                plt.vline(mean(data.values()), "green")
+            plt.plotsize(90, 30)
+            plt.title("Weight Moved by Month")
+            plt.bar(data.keys(), data.values(), orientation="h")
+            plt.xlabel("Weight Moved")
 
-    plt.xlabel("Date")
-    plt.date_form("y-m-d")
-
-    if plot_type == "event":
-        plt.plotsize(130, 20)
-        plt.title("Workouts Across the Year")
-        year = str(datetime.today().year)[-2:]
-        plt.xlim(f"{year}-01-01", f"{year}-12-31")
-        plt.event_plot(x_axis, marker="hd")
-        ticks = [f"23-{m}-01" for m in range(1, 13)]
-        xlabels = [calendar.month_abbr[m] for m in range(1, 13)]
-        plt.xticks(ticks, xlabels)
-    elif plot_type == "line":
-        if show_median:
-            plt.hline(median(weight_per_workout), "grey")
-        elif show_average:
-            plt.hline(mean(weight_per_workout), "grey")
-        plt.plotsize(90, 30)
-        plt.title("Weight Moved Per Workout")
-        plt.plot(x_axis, weight_per_workout, marker="hd")
-        plt.ylim(lower=0)
-
-    plt.clear_color()
+    plt.theme("pro")
     console.print()
     plt.show()
 
