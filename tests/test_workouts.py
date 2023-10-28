@@ -11,6 +11,7 @@ from kettlebells.workouts import (
     create_btb_workout,
     create_custom_workout,
     create_ic_or_abc,
+    create_perfect_workout,
     random_ic_or_abc,
     set_loads,
 )
@@ -19,6 +20,7 @@ from .test_constants import (
     TEST_BTB_WORKOUT,
     TEST_CUSTOM_WORKOUT,
     TEST_IC_WORKOUT,
+    TEST_PERFECT_WORKOUT,
     TEST_WORKOUT_NO_SWINGS,
     TEST_WORKOUT_SINGLE_BELL_PULLUPS,
 )
@@ -206,19 +208,38 @@ def test_custom_ic_workout(
 @mock.patch("kettlebells.workouts.Confirm")
 @mock.patch("kettlebells.workouts._get_units")
 @mock.patch("kettlebells.workouts._get_options")
-def test_custom_btb_workout(
+def test_btb_workout(
     options_mock,
     units_mock,
     confirm_mock,
     int_mock,
     database,
 ):
-    """Test creating a custom iron cardio or abc workout works as intended."""
+    """Test creating a back to basics workout works as intended."""
     expected = TEST_BTB_WORKOUT
-    options_mock.side_effect = ["2 Clean and Press Ladders + Snatch"]
+    options_mock.side_effect = ["2 C&P Ladders + Snatch"]
     int_mock.side_effect = [30, 24, 20]
     units_mock.return_value = "kg"
     actual = create_btb_workout(Path(database.name))
+    assert isinstance(actual, Workout)
+    assert actual == expected
+
+
+@mock.patch("kettlebells.workouts.IntPrompt.ask")
+@mock.patch("kettlebells.workouts._get_units")
+@mock.patch("kettlebells.workouts._get_options")
+def test_perfect_workout(
+    options_mock,
+    units_mock,
+    int_mock,
+    database,
+):
+    """Test creating a perfect."""
+    expected = TEST_PERFECT_WORKOUT
+    options_mock.side_effect = ["The Bull"]
+    int_mock.side_effect = [10, 20, 90, 20, 20]
+    units_mock.return_value = "kg"
+    actual = create_perfect_workout(Path(database.name))
     assert isinstance(actual, Workout)
     assert actual == expected
 

@@ -87,7 +87,7 @@ ABC_PARAMS = {
 }
 
 BTB_PARAMS = {
-    "2 Clean and Press Ladders + Snatch": {
+    "2 C&P Ladders + Snatch": {
         "exercises": [
             {
                 "name": "Clean and Press",
@@ -101,7 +101,7 @@ BTB_PARAMS = {
             },
         ],
     },
-    "3 Clean and Press Ladders + Snatch": {
+    "3 C&P Ladders + Snatch": {
         "exercises": [
             {
                 "name": "Clean and Press",
@@ -115,7 +115,7 @@ BTB_PARAMS = {
             },
         ],
     },
-    "5 Clean and Press Ladders + Snatch": {
+    "5 C&P Ladders + Snatch": {
         "exercises": [
             {
                 "name": "Clean and Press",
@@ -129,7 +129,7 @@ BTB_PARAMS = {
             },
         ],
     },
-    "2 Clean and Press Ladders + Double Front Squat": {
+    "2 C&P Ladders + Squats": {
         "exercises": [
             {
                 "name": "Clean and Press",
@@ -143,7 +143,7 @@ BTB_PARAMS = {
             },
         ],
     },
-    "3 Clean and Press Ladders + Double Front Squat": {
+    "3 C&P Ladders + Squats": {
         "exercises": [
             {
                 "name": "Clean and Press",
@@ -157,7 +157,7 @@ BTB_PARAMS = {
             },
         ],
     },
-    "5 Clean and Press Ladders + Double Front Squat": {
+    "5 C&P Ladders + Squats": {
         "exercises": [
             {
                 "name": "Clean and Press",
@@ -262,7 +262,7 @@ PW_PARAMS = {
             {
                 "name": "Banded Hip Thrust",
                 "sets": 3,
-                "reps": 8,
+                "reps": 15,
             },
             {
                 "name": "Bent Over Row",

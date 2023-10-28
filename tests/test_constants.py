@@ -56,13 +56,72 @@ TEST_BTB_WORKOUT = Workout(
     **{
         "bodyweight": 90,
         "units": "kg",
-        "variation": "2 Clean and Press Ladders + Snatch",
+        "variation": "2 C&P Ladders + Snatch",
         "time": 30,
         "exercises": [
             Exercise(**{"name": "Clean and Press", "load": 24, "sets": 2, "reps": 20}),
             Exercise(**{"name": "Snatch", "load": 20, "sets": 1, "reps": 100}),
         ],
         "workout_type": "back to basics",
+    },
+)
+TEST_PERFECT_WORKOUT = Workout(
+    **{
+        "bodyweight": 90,
+        "units": "kg",
+        "variation": "The Bull",
+        "time": 10,
+        "exercises": [
+            Exercise(
+                **{
+                    "name": "Half-kneeling Press",
+                    "load": 20,
+                    "sets": 3,
+                    "reps": 16,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Hanging Leg Raise",
+                    "load": 0,
+                    "sets": 3,
+                    "reps": 8,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Banded Hip Thrust",
+                    "load": 90,
+                    "sets": 3,
+                    "reps": 15,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Bent Over Row",
+                    "load": 20,
+                    "sets": 3,
+                    "reps": 16,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Goblet Squat",
+                    "load": 20,
+                    "sets": 1,
+                    "reps": 8,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Broomstick Overhead Sqaut",
+                    "load": 0,
+                    "sets": 1,
+                    "reps": 8,
+                },
+            ),
+        ],
+        "workout_type": "perfect workout",
     },
 )
 TEST_CUSTOM_WORKOUT = Workout(

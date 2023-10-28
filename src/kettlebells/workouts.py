@@ -296,7 +296,7 @@ def create_btb_workout(db_path: Path) -> Workout:
     units = data["loads"]["units"]
     workout_type, workout_params = _get_workout_params("btb")
     variation = _get_options(workout_params)
-    if "Double Front Squat" in variation:
+    if "Squat" in variation:
         second_block = "double front squats"
     else:
         second_block = "snatch"
