@@ -61,17 +61,33 @@ def test_setloads(write_mock, read_mock, loads_mock):
 @mock.patch("kettlebells.__main__.initialize_database")
 def test_init(init_mock):
     """Test init command calls initialize_database."""
-    runner.invoke(cli, ["init"])
+    result = runner.invoke(cli, ["init"])
+    assert result.exit_code == 0
     init_mock.assert_called_once()
 
 
-@mock.patch("kettlebells.__main__.read_database")
 @mock.patch("kettlebells.__main__.top_ten_workouts")
-def test_best(best_mock, read_mock):
-    "Test best command calls read_database and top_ten_workouts." ""
-    runner.invoke(cli, ["best"])
+def test_stats_best(best_mock):
+    """Test stats command with best flag calls read_database and top_ten_workouts."""
+    result = runner.invoke(cli, ["stats", "-b"])
+    assert result.exit_code == 0
     best_mock.assert_called_once()
-    read_mock.assert_called_once()
+
+
+@mock.patch("kettlebells.__main__.plot_workouts")
+def test_stats_plot(plot_mock):
+    """Test stats command with plot flag."""
+    result = runner.invoke(cli, ["stats", "-p", "line"])
+    assert result.exit_code == 0
+    plot_mock.assert_called_once()
+
+
+@mock.patch("kettlebells.__main__.print_calendar")
+def test_stats_calendar(cal_mock):
+    """Test stats command with calendar flag."""
+    result = runner.invoke(cli, ["stats", "-c", 2023])
+    assert result.exit_code == 0
+    cal_mock.assert_called_once()
 
 
 @mock.patch("kettlebells.__main__.read_database")

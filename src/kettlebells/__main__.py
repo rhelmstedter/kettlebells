@@ -185,6 +185,23 @@ def stats(
             is_flag=True,
         ),
     ] = False,
+    best: Annotated[
+        bool,
+        typer.Option(
+            "--best",
+            "-b",
+            help="Show the top ten workouts in a table.",
+            is_flag=True,
+        ),
+    ] = None,
+    sort: Annotated[
+        str,
+        typer.Option(
+            "--sort",
+            "-s",
+            help="Sort the best table. Possible arguments: weight-moved, reps, weight-density, rep-density.",
+        ),
+    ] = "weight-moved",
 ) -> None:
     """Display stats from all workouts in database."""
     data = read_database(KETTLEBELLS_DB)
@@ -193,23 +210,10 @@ def stats(
         plot_workouts(dates, weight_per_workout, plot, median, average)
     if calendar:
         print_calendar(data, calendar)
-
-
-@cli.command()
-def best(
-    ctx: typer.Context,
-    sort: Annotated[
-        str,
-        typer.Option(
-            "--sort",
-            "-s",
-            help="Sort the table. Possible arguments: weight-moved, reps, weight-density, rep-density.",
-        ),
-    ] = "weight-moved",
-) -> None:
-    """Display a table of the top ten workouts in database."""
-    data = read_database(KETTLEBELLS_DB)
-    console.print(top_ten_workouts(data, sort))
+    if best:
+        if sort is None:
+            sort = "weight-moved"
+        console.print(top_ten_workouts(data, sort))
 
 
 def _get_date() -> str:
