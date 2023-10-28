@@ -107,7 +107,7 @@ def random(
 
 
 @cli.command()
-def done(
+def save(
     ctx: typer.Context,
     workout_type: Annotated[
         str,

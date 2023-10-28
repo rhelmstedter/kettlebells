@@ -1,4 +1,4 @@
-# Created 2023-10-28 Sat 16:48
+# Created 2023-10-28 Sat 16:55
 #+options: toc:t
 #+title: kettlebells
 #+author: Russell Helmstedter
@@ -93,9 +93,8 @@ kettlebells workout abc
 | *SWINGS*                 | 0 - 100                    |
 |--------------------------+----------------------------|
 
-
-*** done
-The ~done~ command saves workouts to the database. The current options are:
+*** save
+The ~save~ command saves workouts to the database. The current options are:
 - ic
 - abc
 - btb
@@ -103,18 +102,18 @@ The ~done~ command saves workouts to the database. The current options are:
 - custom
 
 
-When run with no option, the ~done~ command will attempt to use the most recently generated random workout. Otherwise, use the ~--workout-type~ option, e.g.:
+When run with no option, the ~save~ command will attempt to use the most recently generated random workout. Otherwise, use the ~--workout-type~ option, e.g.:
 
 #+begin_src
-kettlebells done --workout-type abc
+kettlebells save --workout-type abc
 #+end_src
 
 **** btb
 
-The done command with an argument of ~btb~ will allows the user to save a Back to Basics Workout. These workouts are constructed based on The Pat Flynn Show episode with Dan John [[https://patflynnshow.libsyn.com/the-best-kettlebell-program-for-beginners-the-btbkp][The BEST Kettlebell Program for GEGINNERS | THE BTBKP]]. The choices are ladders of 2-3-5 clean and presses followed by either snatches or double front squats. The warm up and cool exercises are not included in the workout.
+The save command with an ~--workout-type~ of ~btb~ allows the user to save a Back to Basics Workout. These workouts are constructed based on The Pat Flynn Show episode with Dan John [[https://patflynnshow.libsyn.com/the-best-kettlebell-program-for-beginners-the-btbkp][The BEST Kettlebell Program for GEGINNERS | THE BTBKP]]. The choices are ladders of 2-3-5 clean and presses followed by either snatches or double front squats. The warm up and cool exercises are not included in the workout.
 
 #+begin_src
-kettlebells done --workout-type btb
+kettlebells save --workout-type btb
 #+end_src
 
 The program options are:
@@ -133,10 +132,10 @@ The program options are:
 
 **** pw
 
-The done command with an argument of ~pw~ saves versions of [[https://youtu.be/aHQLx_HhFqo?si=b68xBn41-tcGDVJE][Dan John's Perfect Workout]]. While in the video Dan does hip thrusts until it burns, for ease of recording the workout, ~kettlebells~ offers a prescribed number of 15 reps for the hip thrust.
+The save command with a ~--workout-type~ option of ~pw~ saves versions of [[https://youtu.be/aHQLx_HhFqo?si=b68xBn41-tcGDVJE][Dan John's Perfect Workout]]. While in the video Dan does hip thrusts until it burns, for ease of recording the workout, ~kettlebells~ offers a prescribed number of 15 reps for the hip thrust.
 
 #+begin_src
-kettlebells done --workout-type pw
+kettlebells save --workout-type pw
 #+end_src
 
 The program options are:
@@ -163,10 +162,10 @@ The program options are:
 |-----------+------------------------------------------+------+---------|
 
 **** custom
-When the ~done~ run is run with the `custom` argument, allows the user to save a custom workout. Custom exercises need a ~workout_type~ and a ~variation~. The default is ~custom~. Exercises can be chosen via a fuzzy finder. Select ~Other~ to add a custom exercise. Select ~Done~ or press escape when finished adding all the exercises.
+When the ~save~ command is run with the a ~--workout-type~ of custom, allows the user to save a custom workout. Custom exercises need a ~workout_type~ and a ~variation~. The default is ~custom~. Exercises can be chosen via a fuzzy finder. Select ~Other~ to add a custom exercise. Select ~Done~ or press escape when finished adding all the exercises.
 
 #+begin_src
-kettlebells done --workout-type custom
+kettlebells save --workout-type custom
 #+end_src
 
 ***** Reps and Loads for Custom Exercises

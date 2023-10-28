@@ -17,11 +17,11 @@ def test_version():
 
 
 @mock.patch("kettlebells.__main__.Confirm.ask")
-def test_done_without_save(confirm_mock, database):
+def test_save_without_save(confirm_mock, database):
     """Test workout not saved renders correctly."""
     confirm_mock.return_value = ""
     with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
-        result = runner.invoke(cli, ["done"])
+        result = runner.invoke(cli, ["save"])
         assert "Last workout generated:" in result.stdout
         assert "Workout not saved." in result.stdout
 
@@ -29,13 +29,13 @@ def test_done_without_save(confirm_mock, database):
 @mock.patch("kettlebells.__main__.Confirm.ask")
 @mock.patch("kettlebells.__main__.Prompt.ask")
 @mock.patch("kettlebells.__main__.save_workout")
-def test_done_with_save(save_mock, prompt_mock, confirm_mock, database):
-    """Test the done command prints out renders the last workout generated and the stats."""
+def test_save(save_mock, prompt_mock, confirm_mock, database):
+    """Test the save command prints out renders the last workout generated and the stats."""
     confirm_mock.return_value = True
     prompt_mock.side_effect = ["2023-09-12"]
 
     with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
-        result = runner.invoke(cli, ["done"])
+        result = runner.invoke(cli, ["save"])
         assert "Workout Stats" in result.stdout
         save_mock.assert_called_once()
 
