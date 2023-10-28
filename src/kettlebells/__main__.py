@@ -92,7 +92,7 @@ def setloads(ctx: typer.Context) -> None:
 
 
 @cli.command()
-def workout(
+def random(
     ctx: typer.Context,
     workout_type: Annotated[
         str,

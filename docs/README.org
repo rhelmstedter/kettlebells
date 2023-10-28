@@ -33,15 +33,15 @@ kettlebells setloads
 #+end_src
 
 ** Commands
-*** workout
+*** random
 The work out command generates a random workout. The current options are:
-+ ~ic~ (iron cardio)
-+ ~abc~
++ ~ic~ (Iron Cardio)
++ ~abc~ (Armor Build Complex)
 
 **** iron-cardio
-The ~workout~ command with an argument of ~ic~, generates a random iron cardio workout.
+The ~random~ command with an argument of ~ic~, generates a random iron cardio workout.
 #+begin_src bash
-kettlebells workout ic
+kettlebells random --workout-type ic
 #+end_src
 
 Iron cardio workouts are built from the following parameters:
@@ -103,10 +103,10 @@ The ~done~ command saves workouts to the database. The current options are:
 + custom
 
 
-When run with no argument, the ~done~ command will attempt to use the most recently generated random workout. To save a custom workout, add the workout type as an argument. For example, to save a custom Armor Building Complex workout use an argument of ~abc~.
+When run with no option, the ~done~ command will attempt to use the most recently generated random workout. Otherwise, use the ~--workout-type~ option, e.g.:
 
 #+begin_src
-kettlebells done abc
+kettlebells done --workout-type abc
 #+end_src
 
 **** btb
@@ -114,7 +114,7 @@ kettlebells done abc
 The done command with an argument of ~btb~ will allows the user to save a Back to Basics Workout. These workouts are constructed based on The Pat Flynn Show episode with Dan John [[https://patflynnshow.libsyn.com/the-best-kettlebell-program-for-beginners-the-btbkp][The BEST Kettlebell Program for GEGINNERS | THE BTBKP]]. The choices are ladders of 2-3-5 clean and presses followed by either snatches or double front squats. The warm up and cool exercises are not included in the workout.
 
 #+begin_src
-kettlebells done btb
+kettlebells done --workout-type btb
 #+end_src
 
 The program options are:
@@ -134,6 +134,10 @@ The program options are:
 **** pw
 
 The done command with an argument of ~pw~ saves versions of [[https://youtu.be/aHQLx_HhFqo?si=b68xBn41-tcGDVJE][Dan John's Perfect Workout]]. While in the video Dan does hip thrusts until it burns, for ease of recording the workout, ~kettlebells~ offers a prescribed number of 15 reps for the hip thrust.
+
+#+begin_src
+kettlebells done --workout-type pw
+#+end_src
 
 The program options are:
 
@@ -162,7 +166,7 @@ The program options are:
 When the ~done~ run is run with the `custom` argument, allows the user to save a custom workout. Custom exercises need a ~workout_type~ and a ~variation~. The default is ~custom~. Exercises can be chosen via a fuzzy finder. Select ~Other~ to add a custom exercise. Select ~Done~ or press escape when finished adding all the exercises.
 
 #+begin_src
-kettlebells done custom
+kettlebells done --workout-type custom
 #+end_src
 
 ***** Reps and Loads for Custom Exercises
