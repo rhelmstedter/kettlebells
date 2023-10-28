@@ -15,6 +15,7 @@ rich = "^13.5.2"
 plotext = "^5.2.8"
 dacite = "^1.8.1"
 iterfzf = "^1.0.0.42.0"
+trogon = "^0.5.0"
 
 [tool.poetry.dev-dependencies]
 

@@ -1,11 +1,12 @@
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 import typer
 from dacite import from_dict
 from rich.prompt import Confirm, Prompt
+from trogon import Trogon
+from typer.main import get_group
 from typing_extensions import Annotated
 
 from . import __version__
@@ -33,6 +34,12 @@ from .workouts import (
 cli = typer.Typer(add_completion=False)
 
 
+@cli.command()
+def tui(ctx: typer.Context):
+    Trogon(get_group(cli), click_context=ctx).run()
+
+
+@cli.command()
 def report_version(display: bool) -> None:
     """Print version and exit."""
     if display:
@@ -64,6 +71,7 @@ def init(
         "-f",
         is_flag=True,
         is_eager=True,
+        help="This will overwrite the existing database.",
     ),
 ) -> None:
     """Initializes the kettlebells database."""
@@ -87,7 +95,8 @@ def setloads(ctx: typer.Context) -> None:
 def workout(
     ctx: typer.Context,
     workout_type: Annotated[
-        str, typer.Argument(help="Possible workouts are ic or abc.")
+        str,
+        typer.Option("--workout-type", "-w", help="Possible workouts: ic or abc."),
     ],
 ) -> None:
     """Create a random iron cardio or armor building complex workout."""
@@ -101,8 +110,12 @@ def workout(
 def done(
     ctx: typer.Context,
     workout_type: Annotated[
-        Optional[str],
-        typer.Argument(help="Possible workouts are ic, abc, btb, pw, or custom."),
+        str,
+        typer.Option(
+            "--workout-type",
+            "-w",
+            help="Possible workouts are ic, abc, btb, pw, or custom.",
+        ),
     ] = None,
 ) -> None:
     """Save a kettlebell workout.
