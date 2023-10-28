@@ -1,6 +1,6 @@
 import calendar
 from datetime import datetime
-from statistics import mean
+from statistics import mean, median
 
 import plotext as plt
 from dacite import from_dict
@@ -51,7 +51,13 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     return dates, weight_per_workout
 
 
-def plot_workouts(dates: list[str], weight_per_workout: list[int]) -> None:
+def plot_workouts(
+    dates: list[str],
+    weight_per_workout: list[int],
+    plot_type: str,
+    show_median: bool,
+    show_average: bool,
+) -> None:
     """Plot weight moved per workout.
 
     Args:
@@ -63,16 +69,30 @@ def plot_workouts(dates: list[str], weight_per_workout: list[int]) -> None:
         year, month, day = date.split("-")
         x_axis.append("-".join((year[-2:], month, day)))
 
-    plt.date_form("y-m-d")
-    plt.plot(x_axis, weight_per_workout, marker="hd")
-    plt.plotsize(90, 30)
-    # plt.ticks_color(foreground_color)
-    # plt.canvas_color()
-    # plt.axes_color()
-    plt.title("Weight Moved Per Workout")
     plt.xlabel("Date")
-    plt.ylim(lower=0)
+    plt.date_form("y-m-d")
+
+    if plot_type == "event":
+        plt.plotsize(130, 20)
+        plt.title("Workouts Across the Year")
+        year = str(datetime.today().year)[-2:]
+        plt.xlim(f"{year}-01-01", f"{year}-12-31")
+        plt.event_plot(x_axis, marker="hd")
+        ticks = [f"23-{m}-01" for m in range(1, 13)]
+        xlabels = [calendar.month_abbr[m] for m in range(1, 13)]
+        plt.xticks(ticks, xlabels)
+    elif plot_type == "line":
+        if show_median:
+            plt.hline(median(weight_per_workout), "grey")
+        elif show_average:
+            plt.hline(mean(weight_per_workout), "grey")
+        plt.plotsize(90, 30)
+        plt.title("Weight Moved Per Workout")
+        plt.plot(x_axis, weight_per_workout, marker="hd")
+        plt.ylim(lower=0)
+
     plt.clear_color()
+    console.print()
     plt.show()
 
 
@@ -92,13 +112,11 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
         workout = from_dict(Workout, workout_data["workout"])
         workouts.append((date, workout, workout.calc_workout_stats()))
 
-    sort = sort.replace('-', ' ')
+    sort = sort.replace("-", " ")
     if sort == "time":
         workouts = sorted(workouts, key=lambda x: x[1].time, reverse=True)
     else:
-        workouts = sorted(
-            workouts, key=lambda x: x[2][sort], reverse=True
-        )
+        workouts = sorted(workouts, key=lambda x: x[2][sort], reverse=True)
 
     if len(workouts) > 10:
         workouts = workouts[:10]

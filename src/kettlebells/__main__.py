@@ -148,33 +148,48 @@ def last(ctx: typer.Context) -> None:
 @cli.command()
 def stats(
     ctx: typer.Context,
-    plot: bool = typer.Option(
-        False,
-        "--plot",
-        "-p",
-        is_flag=True,
-        is_eager=True,
-    ),
-    calendar: bool = typer.Option(
-        False,
-        "--calendar",
-        "-c",
-        is_flag=True,
-        is_eager=True,
-    ),
-    year: Annotated[
-        Optional[int],
-        typer.Argument(help="Enter the year, or leave blank for current year."),
-    ] = datetime.today().year,
+    plot: Annotated[
+        str,
+        typer.Option(
+            "--plot",
+            "-p",
+            help="Possible plots: line, event.",
+        ),
+    ] = None,
+    calendar: Annotated[
+        int,
+        typer.Option(
+            "--calendar",
+            "-c",
+            help="The year (YYYY) to display.",
+        ),
+    ] = None,
+    median: Annotated[
+        bool,
+        typer.Option(
+            "--median",
+            "-m",
+            help="A horizontal line at the median weight per workout.",
+            is_flag=True,
+        ),
+    ] = False,
+    average: Annotated[
+        bool,
+        typer.Option(
+            "--average",
+            "-a",
+            help="A horizontal line at the mean weight per workout.",
+            is_flag=True,
+        ),
+    ] = False,
 ) -> None:
     """Display stats from all workouts in database."""
     data = read_database(KETTLEBELLS_DB)
     dates, weight_per_workout = get_all_time_stats(data)
     if plot:
-        console.print()
-        plot_workouts(dates, weight_per_workout)
+        plot_workouts(dates, weight_per_workout, plot, median, average)
     if calendar:
-        print_calendar(data, year)
+        print_calendar(data, calendar)
 
 
 @cli.command()
