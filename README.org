@@ -1,4 +1,4 @@
-# Created 2023-10-29 Sun 09:47
+# Created 2023-10-29 Sun 15:22
 #+options: toc:t
 #+title: kettlebells
 #+author: Russell Helmstedter
@@ -181,6 +181,13 @@ The ~last~ command displays the last saved workout and calculates the stats for 
 
 #+begin_src bash
 kettlebells last
+#+end_src
+
+*** view
+Use the ~view~ command to search for previous workouts by date. If you have [[https://github.com/BurntSushi/ripgrep#installation][ripgrep]] installed, use the ~--preview~ flag to view more information about the workout based on the date.
+
+#+begin_src bash
+kettlebells view --preview
 #+end_src
 
 *** stats

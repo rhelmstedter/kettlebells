@@ -183,6 +183,13 @@ The ~last~ command displays the last saved workout and calculates the stats for 
 kettlebells last
 #+end_src
 
+*** view
+Use the ~view~ command to search for previous workouts by date. If you have [[https://github.com/BurntSushi/ripgrep#installation][ripgrep]] installed, use the ~--preview~ flag to view more information about the workout based on the date.
+
+#+begin_src bash
+kettlebells view --preview
+#+end_src
+
 *** stats
 The ~stats~ command displays the aggregated workout count, time, weight moved, number of reps, and density for all workout in the database.
 
