@@ -29,12 +29,12 @@ class Exercise:
 
 @dataclass
 class Workout:
-    bodyweight: int
-    units: str
+    workout_type: str
     variation: str
     time: int
+    units: str
+    bodyweight: int
     exercises: list[Exercise]
-    workout_type: str
 
     def display_workout(self) -> None:
         """Print a workout to the console."""
@@ -169,17 +169,17 @@ def random_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
         )
         exercises.append(swings)
     return Workout(
-        bodyweight=data["loads"]["bodyweight"],
-        units=units,
+        workout_type=workout_type,
         variation=variation,
         time=time,
+        units=units,
+        bodyweight=data["loads"]["bodyweight"],
         exercises=exercises,
-        workout_type=workout_type,
     )
 
 
 def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
-    """Create a custom Workout Object.
+    """Create a random ic or abc Workout.
 
     Args:
         db_path: The Path object to the database.
@@ -240,12 +240,12 @@ def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
             )
         )
     return Workout(
-        bodyweight=bodyweight,
-        units=units,
+        workout_type=workout_type,
         variation=variation,
         time=time,
+        units=units,
+        bodyweight=bodyweight,
         exercises=exercises,
-        workout_type=workout_type,
     )
 
 
@@ -321,12 +321,12 @@ def create_btb_workout(db_path: Path) -> Workout:
         ),
     ]
     return Workout(
-        bodyweight=bodyweight,
-        units=units,
+        workout_type=workout_type,
         variation=variation,
         time=time,
+        units=units,
+        bodyweight=bodyweight,
         exercises=exercises,
-        workout_type=workout_type,
     )
 
 
@@ -354,12 +354,12 @@ def create_perfect_workout(db_path: Path) -> Workout:
             exercise["load"] = IntPrompt.ask(f"  {exercise['name']}")
         exercises.append(from_dict(Exercise, exercise))
     return Workout(
-        bodyweight=bodyweight,
-        units=units,
+        workout_type=workout_type,
         variation=variation,
         time=time,
+        units=units,
+        bodyweight=bodyweight,
         exercises=exercises,
-        workout_type=workout_type,
     )
 
 
@@ -399,7 +399,7 @@ def create_custom_workout(db_path: Path) -> Workout:
         if "Dip" in name or "Pull-up" in name:
             load += int(0.96 * bodyweight)
         exercises.append(Exercise(name, load, sets, reps))
-    return Workout(bodyweight, units, variation, time, exercises, workout_type)
+    return Workout(workout_type, variation, time, units, bodyweight, exercises)
 
 
 def _get_options(options: dict | list) -> str:

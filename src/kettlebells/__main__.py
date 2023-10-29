@@ -4,6 +4,7 @@ from pathlib import Path
 
 import typer
 from dacite import from_dict
+from iterfzf import iterfzf
 from rich.prompt import Confirm, Prompt
 from trogon import Trogon
 from typer.main import get_group
@@ -161,6 +162,43 @@ def save(
         workout.display_workout_stats()
     else:
         console.print("Workout not saved.")
+
+
+@cli.command()
+def view(
+    ctx: typer.Context,
+    preview: Annotated[
+        bool,
+        typer.Option(
+            "--preview",
+            "-p",
+            help="A horizontal line at the median weight per workout.",
+            is_flag=True,
+        ),
+    ] = False,
+) -> None:
+    """Display stats from most recent workout in database."""
+    data = read_database(KETTLEBELLS_DB)
+    data = {w["date"]: from_dict(Workout, w["workout"]) for w in data["saved_workouts"]}
+    if preview:
+        date = iterfzf(
+            data.keys(),
+            multi=False,
+            preview="rg {} " + str(KETTLEBELLS_HOME) + " -A 6 -I",
+        )
+    else:
+        date = iterfzf(
+            data.keys(),
+            multi=False,
+        )
+    if date:
+        workout = data[date]
+        console.print(
+            f"\nDate: [green]{datetime.strptime(date, DATE_FORMAT):%b %d, %Y}\n"
+        )
+        workout.display_workout()
+        print()
+        workout.display_workout_stats()
 
 
 @cli.command()
