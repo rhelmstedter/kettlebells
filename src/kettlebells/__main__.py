@@ -11,7 +11,13 @@ from typing_extensions import Annotated
 
 from . import __version__
 from .console import console
-from .constants import DATE_FORMAT, KETTLEBELLS_DB, KETTLEBELLS_HOME, WARNING
+from .constants import (
+    DATE_FORMAT,
+    KETTLEBELLS_DB,
+    KETTLEBELLS_HOME,
+    WARNING,
+    SUGGESTION,
+)
 from .database import (
     cache_workout,
     confirm_loads,
@@ -114,7 +120,7 @@ def save(
         typer.Option(
             "--workout-type",
             "-w",
-            help="Possible workouts are ic, abc, btb, pw, or custom.",
+            help="Possible workout-types: ic, abc, btb, pw, or custom.",
         ),
     ] = None,
 ) -> None:
@@ -133,9 +139,20 @@ def save(
             workout = create_custom_workout(KETTLEBELLS_DB)
         case "pw":
             workout = create_perfect_workout(KETTLEBELLS_DB)
-        case _:
+        case None:
             workout = from_dict(Workout, data["cached_workouts"][-1])
             console.print("Last workout generated:\n")
+        case _:
+            console.print(
+                f"'{workout_type}' is not an option.",
+                style=WARNING,
+            )
+            console.print(
+                "Try running [underline]kettlebells save --help[/underline]",
+                style=SUGGESTION,
+            )
+            return
+
     workout.display_workout()
     if Confirm.ask("Save this workout?"):
         workout_date = _get_date()

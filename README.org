@@ -1,4 +1,4 @@
-# Created 2023-10-29 Sun 09:17
+# Created 2023-10-29 Sun 09:47
 #+options: toc:t
 #+title: kettlebells
 #+author: Russell Helmstedter
@@ -20,7 +20,7 @@ pipx install kettlebells
 
 * Usage
 ** Initialize
-Run the ~init~ command. This creates the database.
+Run the ~init~ command to create the database.
 
 #+begin_src bash
 kettlebells init
@@ -36,10 +36,10 @@ kettlebells setloads
 *** random
 The work out command generates a random workout. The current options are:
 - ~ic~ (Iron Cardio)
-- ~abc~ (Armor Build Complex)
+- ~abc~ (Armor Building Complex)
 
 **** iron-cardio
-The ~random~ command with an argument of ~ic~, generates a random iron cardio workout.
+The ~random~ command with a workout type of ~ic~, generates a random iron cardio workout.
 #+begin_src bash
 kettlebells random --workout-type ic
 #+end_src
@@ -68,7 +68,7 @@ Iron cardio workouts are built from the following parameters:
 |--------------------------+--------------------------|
 
 **** abc
-The workout command with an argument of ~abc~ will generate a random armor building complex workout.
+The random command with a workout type of ~abc~ will generate a random armor building complex workout.
 
 #+begin_src
 kettlebells workout abc
@@ -102,7 +102,7 @@ The ~save~ command saves workouts to the database. The current options are:
 - custom
 
 
-When run with no option, the ~save~ command will attempt to use the most recently generated random workout. Otherwise, use the ~--workout-type~ option, e.g.:
+When run with no option, the ~save~ command will attempt to use the most recently generated random workout. Otherwise, use the ~--workout-type~ option to manually enter a workout, e.g.:
 
 #+begin_src
 kettlebells save --workout-type abc
@@ -110,7 +110,7 @@ kettlebells save --workout-type abc
 
 **** btb
 
-The save command with an ~--workout-type~ of ~btb~ allows the user to save a Back to Basics Workout. These workouts are constructed based on The Pat Flynn Show episode with Dan John [[https://patflynnshow.libsyn.com/the-best-kettlebell-program-for-beginners-the-btbkp][The BEST Kettlebell Program for GEGINNERS | THE BTBKP]]. The choices are ladders of 2-3-5 clean and presses followed by either snatches or double front squats. The warm up and cool exercises are not included in the workout.
+The save command with a workout type of ~btb~ allows the user to save a Back to Basics Workout. These workouts are constructed based on The Pat Flynn Show episode with Dan John [[https://patflynnshow.libsyn.com/the-best-kettlebell-program-for-beginners-the-btbkp][The BEST Kettlebell Program for GEGINNERS | THE BTBKP]]. The choices are ladders of 2-3-5 clean and presses followed by either snatches or double front squats. The warm up and cool exercises are not included in the workout.
 
 #+begin_src
 kettlebells save --workout-type btb
@@ -132,7 +132,7 @@ The program options are:
 
 **** pw
 
-The save command with a ~--workout-type~ option of ~pw~ saves versions of [[https://youtu.be/aHQLx_HhFqo?si=b68xBn41-tcGDVJE][Dan John's Perfect Workout]]. While in the video Dan does hip thrusts until it burns, for ease of recording the workout, ~kettlebells~ offers a prescribed number of 15 reps for the hip thrust.
+The save command with a workout type of ~pw~ saves versions of [[https://youtu.be/aHQLx_HhFqo?si=b68xBn41-tcGDVJE][Dan John's Perfect Workout]]. While in the video Dan does hip thrusts until it burns, for ease of recording the workout, ~kettlebells~ offers a set number of reps for the hip thrust.
 
 #+begin_src
 kettlebells save --workout-type pw
@@ -145,7 +145,7 @@ The program options are:
 |------------+------------------------------------------+------+---------|
 | *Original* | Half-kneeling Press                      |    3 |       8 |
 |            | Hanging Leg Raise                        |    3 |       8 |
-|            | Banded Hip Thrust                        |    3 |       8 |
+|            | Banded Hip Thrust                        |    3 |      15 |
 |            | Bulgarian Goat Bag Swing                 |    3 |       8 |
 |            | Goblet Squat / Broomstick Overhead Squat |    1 |       8 |
 |------------+------------------------------------------+------+---------|
@@ -156,22 +156,22 @@ The program options are:
 |------------+------------------------------------------+------+---------|
 | *The Bull* | Half-kneeling Press                      |    3 |       8 |
 |            | Hanging Leg Raise                        |    3 |       8 |
-|            | Banded Hip Thrust                        |    3 |       8 |
+|            | Banded Hip Thrust                        |    3 |      15 |
 |            | Bent Over Rows                           |    3 |       8 |
 |            | Goblet Squat / Broomstick Overhead Squat |    1 |       8 |
 |------------+------------------------------------------+------+---------|
 
 **** custom
-When the ~save~ command is run with the a ~--workout-type~ of custom, allows the user to save a custom workout. Custom exercises need a ~workout_type~ and a ~variation~. The default is ~custom~. Exercises can be chosen via a fuzzy finder. Select ~Other~ to add a custom exercise. Select ~Done~ or press escape when finished adding all the exercises.
+When the ~save~ command is run with the  workout type of custom, allows the user to save a custom workout. Custom exercises need a ~workout_type~ and a ~variation~. The default is ~custom~. Exercises are chosen via a [[https://github.com/dahlia/iterfzf][iterfzf]]. Select ~Other~ to add a custom exercise. Select ~Done~ or press escape when finished adding all the exercises.
 
 #+begin_src
 kettlebells save --workout-type custom
 #+end_src
 
 ***** Reps and Loads for Custom Exercises
-Unilateral exercises such as the single arm overhead press (simply "Press" in the program) should have the reps doubled. For example, if the set and rep scheme is 3 sets of 8 single arm presses on the left and right arm, that should be saved as 16 reps per set for that exercise.
+Unilateral exercises such as the single arm overhead press (simply "Press" in the program) should have the reps doubled. For example, if the set and rep scheme is 3 sets of 8 single arm overhead presses on the left and right arm, that should be saved as 16 reps per set for that exercise.
 
-When the stats are calculated, any exercise that has "Double" in it gets multiplied by 2. So Double Pressing a pair of 24 kg kettlebells should be saved as a load of 24 kg, but the calculations will result in 48 kg per rep. If using uneven sized bells, use the average weight of the two bells rounded to the nearest integer.
+When the stats are calculated, any exercise that has "Double" in it has the load multiplied by 2. So Double Pressing a pair of 24 kg kettlebells should be saved as a load of 24 kg, but the calculations will result in 48 kg per rep. If using uneven sized bells, use the average weight of the two bells rounded to the nearest integer.
 
 ***** Suggested Use for Complexes
 Consider a workout out like the [[https://www.youtube.com/watch?v=nHPfglRCp6M&t=13s][8 - 5 - 3 Rep Scheme]] from Pat Flynn. The ~workout_type~ would be "complex", the ~variation~ would be "8-5-3 Rep Scheme". Technically, a set consists of 8 Goblet Squats, 5 Start Stop Swings, 3 Push-ups. Then you would repeat this for 5 rounds. However, in ~kettlebells~ the user will add each exercise separately. So the Goblet Squat would be 5 sets of 8. The Start Stop Swing would be 5 sets of 5, and the Push-up would be 5 sets of 3.
@@ -211,7 +211,7 @@ kettlebells stats --plot event
 
 
 **** calendar
-To display a calendar of workouts in a given year, use the ~--calendar~ flag and pass the year as the argument (defaults to current year if no argument is passed).
+To display a calendar of workouts in a given year, use the ~--calendar~ flag and pass the year as the argument.
 
 #+begin_src bash
 kettlebells stats --calendar 2023
