@@ -140,26 +140,31 @@ kettlebells save --workout-type pw
 
 The program options are:
 
-|-----------+------------------------------------------+------+---------|
-| Variation | Exercises                                | Sets |    Reps |
-|-----------+------------------------------------------+------+---------|
-| Original  | Half-kneeling Press                      |    3 |       8 |
-|           | Hanging Leg Raise                        |    3 |       8 |
-|           | Banded Hip Thrust                        |    3 |       8 |
-|           | Bulgarian Goat Bag Swing                 |    3 |       8 |
-|           | Goblet Squat / Broomstick Overhead Squat |    1 |       8 |
-|-----------+------------------------------------------+------+---------|
-| Indoor    | Half-kneeling Press                      |    3 |       8 |
-|           | Child's Pose                             |    3 | 20 secs |
-|           | Hip Thrust / Clam Shell (15, 14, 13...)  |    1 |     120 |
-|           | Goblet Squat / Broomstick Overhead Squat |    1 |       8 |
-|-----------+------------------------------------------+------+---------|
-| The Bull  | Half-kneeling Press                      |    3 |       8 |
-|           | Hanging Leg Raise                        |    3 |       8 |
-|           | Banded Hip Thrust                        |    3 |       8 |
-|           | Bent Over Rows                           |    3 |       8 |
-|           | Goblet Squat / Broomstick Overhead Squat |    1 |       8 |
-|-----------+------------------------------------------+------+---------|
+|------------+------------------------------------------+------+---------|
+| Variation  | Exercises                                | Sets |    Reps |
+|------------+------------------------------------------+------+---------|
+| *Original*   | Half-kneeling Press                      |    3 |       8 |
+|            | Hanging Leg Raise                        |    3 |       8 |
+|            | Banded Hip Thrust                        |    3 |       8 |
+|            | Bulgarian Goat Bag Swing                 |    3 |       8 |
+|            | Goblet Squat / Broomstick Overhead Squat |    1 |       8 |
+|------------+------------------------------------------+------+---------|
+| *Indoor*     | Half-kneeling Press                      |    3 |       8 |
+|            | Child's Pose                             |    3 | 20 secs |
+|            | Hip Thrust / Clam Shell (15, 14, 13...)  |    1 |     120 |
+|            | Goblet Squat / Broomstick Overhead Squat |    1 |       8 |
+|------------+------------------------------------------+------+---------|
+| *The Bull* | Half-kneeling Press                      |    3 |       8 |
+|            | Hanging Leg Raise                        |    3 |       8 |
+|            | Banded Hip Thrust                        |    3 |       8 |
+|            | Bent Over Rows                           |    3 |       8 |
+|            | Goblet Squat / Broomstick Overhead Squat |    1 |       8 |
+|            |                                          |      |         |
+|            |                                          |      |         |
+|            |                                          |      |         |
+|            |                                          |      |         |
+|            |                                          |      |         |
+|------------+------------------------------------------+------+---------|
 
 **** custom
 When the ~save~ command is run with the a ~--workout-type~ of custom, allows the user to save a custom workout. Custom exercises need a ~workout_type~ and a ~variation~. The default is ~custom~. Exercises can be chosen via a fuzzy finder. Select ~Other~ to add a custom exercise. Select ~Done~ or press escape when finished adding all the exercises.
