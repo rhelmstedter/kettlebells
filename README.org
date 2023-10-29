@@ -159,11 +159,6 @@ The program options are:
 |            | Banded Hip Thrust                        |    3 |       8 |
 |            | Bent Over Rows                           |    3 |       8 |
 |            | Goblet Squat / Broomstick Overhead Squat |    1 |       8 |
-|            |                                          |      |         |
-|            |                                          |      |         |
-|            |                                          |      |         |
-|            |                                          |      |         |
-|            |                                          |      |         |
 |------------+------------------------------------------+------+---------|
 
 **** custom
