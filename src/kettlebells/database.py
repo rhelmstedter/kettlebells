@@ -56,7 +56,7 @@ def write_database(db_path: Path, data: dict) -> None:
     :returns: None
     """
     with open(db_path, "w") as db:
-        json.dump(data, db)
+        json.dump(data, db, indent=4)
 
 
 def confirm_loads(db_path: Path) -> None:
