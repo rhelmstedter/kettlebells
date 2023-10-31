@@ -4,7 +4,7 @@ from pathlib import Path
 
 WARNING = "red"
 SUGGESTION = "yellow"
-
+FZF_DEFAULT_OPTS = "--height 13 --layout=reverse --border rounded --margin=2%,5%,10%,2%"
 KETTLEBELLS_HOME = Path().home() / ".kettlebells"
 KETTLEBELLS_DB = KETTLEBELLS_HOME / "kettlebells_db.json"
 

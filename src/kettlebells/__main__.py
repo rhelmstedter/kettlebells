@@ -1,6 +1,7 @@
 import sys
 from datetime import datetime
 from pathlib import Path
+from os import environ
 
 import typer
 from dacite import from_dict
@@ -14,6 +15,7 @@ from . import __version__
 from .console import console
 from .constants import (
     DATE_FORMAT,
+    FZF_DEFAULT_OPTS,
     KETTLEBELLS_DB,
     KETTLEBELLS_HOME,
     WARNING,
@@ -180,11 +182,12 @@ def view(
     """Display stats from most recent workout in database."""
     data = read_database(KETTLEBELLS_DB)
     data = {w["date"]: from_dict(Workout, w["workout"]) for w in data["saved_workouts"]}
+    environ["FZF_DEFAULT_OPTS"] = FZF_DEFAULT_OPTS
     if preview:
         date = iterfzf(
             data.keys(),
             multi=False,
-            preview="rg {} " + str(KETTLEBELLS_HOME) + " -A 6 -I",
+            preview="rg {} " + str(KETTLEBELLS_HOME) + """ -A 20 -I """,
         )
     else:
         date = iterfzf(

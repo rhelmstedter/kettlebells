@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 from random import choice, choices
+from os import environ
 
 from dacite import from_dict
 from iterfzf import iterfzf
@@ -11,6 +12,7 @@ from .constants import (
     ABC_PARAMS,
     BTB_PARAMS,
     EXERCISES,
+    FZF_DEFAULT_OPTS,
     IRON_CARDIO_PARAMS,
     PW_PARAMS,
     SUGGESTION,
@@ -383,6 +385,7 @@ def create_custom_workout(db_path: Path) -> Workout:
         variation = "Custom"
     time = IntPrompt.ask("Duration (mins)")
     exercises = []
+    environ["FZF_DEFAULT_OPTS"] = FZF_DEFAULT_OPTS
     while True:
         exercise = iterfzf(EXERCISES, multi=False)
         match exercise:
