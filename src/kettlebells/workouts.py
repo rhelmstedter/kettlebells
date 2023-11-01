@@ -199,40 +199,29 @@ def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
         variation = _get_options(workout_params["doublebell variations"])
     elif bells == "Single Bell":
         variation = _get_options(workout_params["singlebell variations"])
-    time = IntPrompt.ask("How long was your workout (in minutes)")
-    load = IntPrompt.ask(f"What weight did you use (in {units})")
+    time = IntPrompt.ask("How long was your workout (mins)")
+    load = IntPrompt.ask(f"What weight did you use ({units})")
     sets = IntPrompt.ask("How many sets did you complete?")
     exercises = []
-    for exercise in workout_params["exercises"][variation]:
-        if bells == "Single Bell" and exercise[0] == "Pullup":
-            exercises.append(
-                Exercise(
-                    name=exercise[0],
-                    load=int(0.96 * bodyweight),
-                    sets=sets // 2,
-                    reps=exercise[1],
-                )
+    for exercise, reps in workout_params["exercises"][variation]:
+        if variation == "Double Traveling 2s":
+            sets = sets + sets // 3
+        if bells == "Single Bell" and exercise == "Pullup":
+            load = int(0.96 * bodyweight)
+            sets = sets // 2
+        elif bells == "Double Bells" and exercise == "Pullup":
+            load = int(0.96 * bodyweight)
+        exercises.append(
+            Exercise(
+                name=exercise,
+                load=load,
+                sets=sets,
+                reps=reps,
             )
-        elif bells == "Double Bells" and exercise[0] == "Pullup":
-            exercises.append(
-                Exercise(
-                    name=exercise[0],
-                    load=int(0.96 * bodyweight),
-                    sets=sets,
-                    reps=exercise[1],
-                )
-            )
-        else:
-            exercises.append(
-                Exercise(
-                    name=exercise[0],
-                    load=load,
-                    sets=sets,
-                    reps=exercise[1],
-                )
-            )
+        )
     if Confirm.ask("Did you swing"):
         swings = IntPrompt.ask("How many swings")
+        load = IntPrompt.ask(f"What weight did you use ({units})")
         exercises.append(
             Exercise(
                 name="Swings",

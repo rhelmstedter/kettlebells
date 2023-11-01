@@ -173,7 +173,7 @@ def test_get_options_bad_input(ask_mock):
             "Double Bells",
             "Double Classic + Pullup",
             True,
-            [30, 28, 20, 60],
+            [30, 28, 20, 60, 28],
         ),
     ],
 )

@@ -13,8 +13,9 @@ DATE_FORMAT = "%Y-%m-%d"
 IRON_CARDIO_PARAMS = {
     "bells": {"Single Bell": 4 / 6, "Double Bells": 2 / 6},
     "doublebell variations": {
-        "Double Classic": 4 / 6,
+        "Double Classic": 3 / 6,
         "Double Classic + Pullup": 2 / 6,
+        "Double Traveling 2s": 1 / 6,
     },
     "singlebell variations": {
         "Classic": 3 / 6,
@@ -56,6 +57,11 @@ IRON_CARDIO_PARAMS = {
             ("Double Press", 1),
             ("Double Front Squat", 1),
             ("Pullup", 1),
+        ],
+        "Double Traveling 2s": [
+            ("Double Clean", 1),
+            ("Double Press", 1),
+            ("Double Front Squat", 1),
         ],
     },
 }
