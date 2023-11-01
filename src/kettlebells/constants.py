@@ -18,9 +18,10 @@ IRON_CARDIO_PARAMS = {
         "Double Traveling 2s": 1 / 6,
     },
     "singlebell variations": {
-        "Classic": 3 / 6,
-        "Classic + Pullup": 2 / 6,
-        "Classic + Snatch": 1 / 6,
+        "Classic": 6 / 12,
+        "Classic + Pullup": 3 / 12,
+        "Classic + Snatch": 2 / 12,
+        "Traveling 2s": 1 / 12,
     },
     "times": {
         30: 1 / 6,
@@ -47,6 +48,7 @@ IRON_CARDIO_PARAMS = {
             ("Front Squat", 1),
             ("Snatch", 1),
         ],
+        "Traveling 2s": [("Clean", 1), ("Press", 1), ("Front Squat", 1)],
         "Double Classic": [
             ("Double Clean", 1),
             ("Double Press", 1),
