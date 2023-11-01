@@ -91,11 +91,11 @@ def plot_workouts(
             elif show_average:
                 plt.hline(mean(weight_per_workout), "green")
             plt.date_form("y-m-d")
-            plt.plotsize(90, 30)
             plt.title("Weight Moved Per Workout")
-            plt.plot(x_axis, weight_per_workout, marker="hd")
-            plt.ylim(lower=0)
             plt.xlabel("Date")
+            plt.ylim(lower=0)
+            plt.plotsize(90, 30)
+            plt.plot(x_axis, weight_per_workout, marker="hd")
         case "bar":
             data = defaultdict(int)
             for date, weight in zip(dates, weight_per_workout):
@@ -106,10 +106,10 @@ def plot_workouts(
                 plt.vline(median(data.values()), "green")
             elif show_average:
                 plt.vline(mean(data.values()), "green")
-            plt.plotsize(90, 30)
             plt.title("Weight Moved by Month")
-            plt.bar(data.keys(), data.values(), orientation="h")
             plt.xlabel("Weight Moved")
+            plt.plotsize(90, 30)
+            plt.bar(data.keys(), data.values(), orientation="h")
 
     plt.theme("pro")
     console.print()
