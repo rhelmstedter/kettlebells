@@ -20,6 +20,7 @@ from .test_constants import (
     TEST_BTB_WORKOUT,
     TEST_CUSTOM_WORKOUT,
     TEST_IC_WORKOUT,
+    TEST_DOUBLE_TRAVELING_2S_WORKOUT,
     TEST_PERFECT_WORKOUT,
     TEST_WORKOUT_NO_SWINGS,
     TEST_WORKOUT_SINGLE_BELL_PULLUPS,
@@ -167,13 +168,20 @@ def test_get_options_bad_input(ask_mock):
 @pytest.mark.parametrize(
     "workout, bells, variation, confirm, int_responses",
     [
-        # int responses are time, load, sets, swings
+        # int responses are time, load, sets, swings count, swing load
         (
             TEST_IC_WORKOUT,
             "Double Bells",
             "Double Classic + Pullup",
             True,
             [30, 28, 20, 60, 28],
+        ),
+        (
+            TEST_DOUBLE_TRAVELING_2S_WORKOUT,
+            "Double Bells",
+            "Double Traveling 2s",
+            True,
+            [29, 28, 12, 50, 28],
         ),
     ],
 )
@@ -237,7 +245,7 @@ def test_perfect_workout(
     """Test creating a perfect."""
     expected = TEST_PERFECT_WORKOUT
     options_mock.side_effect = ["The Bull"]
-    int_mock.side_effect = [10, 20, 90, 20, 20]
+    int_mock.side_effect = [10, 20, 24, 20, 20]
     units_mock.return_value = "kg"
     actual = create_perfect_workout(Path(database.name))
     assert isinstance(actual, Workout)

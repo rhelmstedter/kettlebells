@@ -203,9 +203,9 @@ def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
     load = IntPrompt.ask(f"What weight did you use ({units})")
     sets = IntPrompt.ask("How many sets did you complete?")
     exercises = []
+    if variation == "Double Traveling 2s":
+        sets = sets + sets // 3
     for exercise, reps in workout_params["exercises"][variation]:
-        if variation == "Double Traveling 2s":
-            sets = sets + sets // 3
         if bells == "Single Bell" and exercise == "Pullup":
             load = int(0.96 * bodyweight)
             sets = sets // 2

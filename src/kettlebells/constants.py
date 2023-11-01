@@ -266,9 +266,9 @@ PW_PARAMS = {
                 "load": 0,
             },
             {
-                "name": "Banded Hip Thrust",
+                "name": "Bulgarian Goat Bag Swing",
                 "sets": 3,
-                "reps": 15,
+                "reps": 8,
             },
             {
                 "name": "Bent Over Row",

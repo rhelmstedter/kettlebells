@@ -52,6 +52,50 @@ TEST_IC_WORKOUT = Workout(
     }
 )
 
+TEST_DOUBLE_TRAVELING_2S_WORKOUT = Workout(
+    **{
+        "bodyweight": 90,
+        "units": "kg",
+        "variation": "Double Traveling 2s",
+        "time": 29,
+        "exercises": [
+            Exercise(
+                **{
+                    "name": "Double Clean",
+                    "load": 28,
+                    "sets": 16,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Double Press",
+                    "load": 28,
+                    "sets": 16,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Double Front Squat",
+                    "load": 28,
+                    "sets": 16,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Swings",
+                    "load": 28,
+                    "sets": 1,
+                    "reps": 50,
+                },
+            ),
+        ],
+        "workout_type": "iron cardio",
+    }
+)
+
 TEST_BTB_WORKOUT = Workout(
     **{
         "bodyweight": 90,
@@ -90,10 +134,10 @@ TEST_PERFECT_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Banded Hip Thrust",
-                    "load": 90,
+                    "name": "Bulgarian Goat Bag Swing",
+                    "load": 24,
                     "sets": 3,
-                    "reps": 15,
+                    "reps": 8,
                 },
             ),
             Exercise(
