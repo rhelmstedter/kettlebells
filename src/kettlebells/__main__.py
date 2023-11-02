@@ -1,7 +1,7 @@
 import sys
 from datetime import datetime
-from pathlib import Path
 from os import environ
+from pathlib import Path
 
 import typer
 from dacite import from_dict
@@ -18,8 +18,8 @@ from .constants import (
     FZF_DEFAULT_OPTS,
     KETTLEBELLS_DB,
     KETTLEBELLS_HOME,
-    WARNING,
     SUGGESTION,
+    WARNING,
 )
 from .database import (
     cache_workout,
@@ -154,7 +154,6 @@ def save(
                 "Try running [underline]kettlebells save --help[/underline]",
                 style=SUGGESTION,
             )
-            return
 
     workout.display_workout()
     if Confirm.ask("Save this workout?"):
