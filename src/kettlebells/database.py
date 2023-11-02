@@ -11,10 +11,12 @@ from .constants import DATE_FORMAT, SUGGESTION, WARNING
 
 def initialize_database(kettlebells_home: Path, db_path: Path, force: bool) -> None:
     """Creates the home directory and the JSON database.
-    :param kettlebells_home: The home directory for the kettlebells database.
-    :param db_path: The Path to the database.
-    :param force: If True, overwrites the existing database with a blank one.
-    :returns: None
+
+    Args:
+        kettlebells_home: The home directory for the kettlebells database.
+        db_path: The Path to the database.
+        force: If True, overwrites the existing database with a blank one.
+
     """
     if kettlebells_home.is_dir() and force:
         pass
@@ -35,8 +37,13 @@ def initialize_database(kettlebells_home: Path, db_path: Path, force: bool) -> N
 
 def read_database(db_path: Path) -> json:
     """Read from the data base.
-    :param db_path: The Path to the database.
-    :returns: A json object of the data.
+
+    Args:
+        db_path: The Path to the database.
+
+    Returns:
+        A json object of the data.
+
     """
     if not db_path.is_file():
         console.print(":warning: Could not find kettlebells database.", style=WARNING)
@@ -61,8 +68,10 @@ def write_database(db_path: Path, data: dict) -> None:
 
 def confirm_loads(db_path: Path) -> None:
     """Checks if the loads have been set in the database.
-    :param db_path: The Path to the database.
-    :returns: None
+
+    Args:
+        db_path: The Path to the database.
+
     """
     data = read_database(db_path)
     if not data["loads"]:
@@ -76,9 +85,11 @@ def confirm_loads(db_path: Path) -> None:
 
 def cache_workout(db_path: Path, workout) -> None:
     """Cache last 10 generated workout.
-    :param db_path: The Path to the database.
-    :param workout: Workout object to be stored in the cache.
-    :returns: None
+
+    Args:
+        db_path: The Path to the database.
+        workout: Workout object to be stored in the cache.
+
     """
     data = read_database(db_path)
     cache = deque(data["cached_workouts"], maxlen=1)
@@ -89,10 +100,12 @@ def cache_workout(db_path: Path, workout) -> None:
 
 def save_workout(db_path: Path, workout_date: str, workout) -> None:
     """Save a workout in the database.
-    :param db_path: The Path to the database.
-    :param workout_date: The date of the workout.
-     n:param workout: Workout object to be stored in the database.
-    :returns: None
+
+    Args:
+        db_path: The Path to the database.
+        workout_date: The date of the workout.
+        workout: Workout object to be stored in the database.
+
     """
     data = read_database(db_path)
     data["saved_workouts"].append({"date": workout_date, "workout": asdict(workout)})
