@@ -34,10 +34,12 @@ from .workouts import (
     Workout,
     create_btb_workout,
     create_custom_workout,
+    create_giant_workout,
     create_ic_or_abc,
     create_perfect_workout,
     random_ic_or_abc,
     set_loads,
+    set_program_loads,
 )
 
 cli = typer.Typer(add_completion=False)
@@ -92,11 +94,24 @@ def init(
 
 
 @cli.command()
-def setloads(ctx: typer.Context) -> None:
+def setloads(
+    ctx: typer.Context,
+    program: bool = typer.Option(
+        False,
+        "--program",
+        "-p",
+        is_flag=True,
+        is_eager=True,
+        help="Add a load for a special program.",
+    ),
+) -> None:
     """Set units and loads for workouts."""
-    loads = set_loads()
     data = read_database(KETTLEBELLS_DB)
-    data["loads"] = loads
+    if program:
+        data["loads"] = set_program_loads(data["loads"])
+    else:
+        loads = set_loads()
+        data["loads"] = loads
     write_database(KETTLEBELLS_DB, data)
 
 
@@ -142,6 +157,8 @@ def save(
             workout = create_custom_workout(KETTLEBELLS_DB)
         case "pw":
             workout = create_perfect_workout(KETTLEBELLS_DB)
+        case "giant":
+            workout = create_giant_workout(KETTLEBELLS_DB)
         case None:
             workout = from_dict(Workout, data["cached_workouts"][-1])
             console.print("Last workout generated:\n")

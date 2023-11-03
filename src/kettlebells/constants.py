@@ -292,6 +292,23 @@ PW_PARAMS = {
     },
 }
 
+THE_GIANT_PARAMS = {
+    "The Giant 1.0": {
+        "W1D1": 5,
+        "W1D2": 6,
+        "W1D3": 4,
+        "W2D1": 5,
+        "W2D3": 6,
+        "W2D2": 4,
+        "W3D1": 5,
+        "W3D2": 6,
+        "W3D3": 4,
+        "W4D1": 5,
+        "W4D2": 6,
+        "W4D3": 4,
+    },
+}
+
 EXERCISES = [
     "Ab Wheel",
     "Banded Hip Thrust",

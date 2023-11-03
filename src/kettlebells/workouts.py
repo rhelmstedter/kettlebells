@@ -14,11 +14,12 @@ from .constants import (
     EXERCISES,
     FZF_DEFAULT_OPTS,
     IRON_CARDIO_PARAMS,
+    THE_GIANT_PARAMS,
     PW_PARAMS,
     SUGGESTION,
     WARNING,
 )
-from .database import read_database
+from .database import read_database, write_database
 
 
 @dataclass
@@ -272,6 +273,20 @@ def set_loads() -> dict:
     return loads
 
 
+def set_program_loads(loads: dict) -> dict:
+    """Creates a dictionary containing the units and kettlebell weights and body weight
+    of the user.
+
+    Returns:
+        The loads dictionary with an added item of the program and load.
+
+    """
+    program = Prompt.ask("Enter the name of the program").lower()
+    program_load = IntPrompt.ask(f"Enter the weight for the {program.title()}")
+    loads[program] = program_load
+    return loads
+
+
 def create_btb_workout(db_path: Path) -> Workout:
     """Create a back to basics kettelbell workout.
 
@@ -348,6 +363,49 @@ def create_perfect_workout(db_path: Path) -> Workout:
         workout_type=workout_type,
         variation=variation,
         time=time,
+        units=units,
+        bodyweight=bodyweight,
+        exercises=exercises,
+    )
+
+
+def create_giant_workout(db_path: Path) -> Workout:
+    """Create a The Giant workout.
+
+    Args:
+        db_path: The path to the database.
+
+    Returns:
+        The Giant workout object built by the user.
+    """
+    data = read_database(db_path)
+    bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
+    workout_type, workout_params = _get_workout_params("giant")
+    program = _get_options(workout_params)
+    try:
+        load = data["loads"]["the giant"]
+    except KeyError:
+        console.print("Could not find load for The Giant in the database.", WARNING)
+        console.print(
+            "Try running [underline]kettlebells setloads -p[/underline]", SUGGESTION
+        )
+    week = Prompt.ask("Enter the week")
+    day = Prompt.ask("Enter the day")
+    variation = f"W{week}D{day}"
+    sets = IntPrompt.ask("Number of sets")
+    exercises = [
+        Exercise(
+            name="Double Clean and Press",
+            load=load,
+            sets=sets,
+            reps=workout_params[program][variation],
+        )
+    ]
+    return Workout(
+        workout_type=program,
+        variation=variation,
+        time=30,
         units=units,
         bodyweight=bodyweight,
         exercises=exercises,
@@ -455,6 +513,8 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
             return "back to basics", BTB_PARAMS
         case "pw":
             return "perfect workout", PW_PARAMS
+        case "giant":
+            return "the giant", THE_GIANT_PARAMS
 
 
 def _print_helper(to_print: list) -> None:
