@@ -109,7 +109,5 @@ def save_workout(db_path: Path, workout_date: str, workout) -> None:
     """
     data = read_database(db_path)
     data["saved_workouts"].append({"date": workout_date, "workout": asdict(workout)})
-    data["saved_workouts"] = sorted(
-        data["saved_workouts"], key=lambda x: datetime.strptime(x["date"], DATE_FORMAT)
-    )
+    data["saved_workouts"] = sorted(data["saved_workouts"], key=lambda x: datetime.strptime(x["date"], DATE_FORMAT))
     write_database(db_path, data)

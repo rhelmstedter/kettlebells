@@ -1,7 +1,7 @@
 from dataclasses import dataclass
+from os import environ
 from pathlib import Path
 from random import choice, choices
-from os import environ
 
 from dacite import from_dict
 from iterfzf import iterfzf
@@ -14,12 +14,12 @@ from .constants import (
     EXERCISES,
     FZF_DEFAULT_OPTS,
     IRON_CARDIO_PARAMS,
-    THE_GIANT_PARAMS,
     PW_PARAMS,
     SUGGESTION,
+    THE_GIANT_PARAMS,
     WARNING,
 )
-from .database import read_database, write_database
+from .database import read_database
 
 
 @dataclass
@@ -51,12 +51,8 @@ class Workout:
                 display_params.append(("Swings", swings[0].reps))
         elif self.workout_type == "back to basics":
             second_block = self.exercises[-1]
-            display_params.append(
-                ("Clean and Press Load", f"{self.exercises[0].load} {self.units}")
-            )
-            display_params.append(
-                (f"{second_block.name} Load", f"{second_block.load} {self.units}")
-            )
+            display_params.append(("Clean and Press Load", f"{self.exercises[0].load} {self.units}"))
+            display_params.append((f"{second_block.name} Load", f"{second_block.load} {self.units}"))
         else:
             exercises = []
             for exercise in self.exercises:
@@ -159,9 +155,7 @@ def random_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
     units = loads["units"]
     exercises = []
     for exercise in workout_params["exercises"][variation]:
-        exercises.append(
-            Exercise(name=exercise[0], load=load, sets=0, reps=exercise[1])
-        )
+        exercises.append(Exercise(name=exercise[0], load=load, sets=0, reps=exercise[1]))
 
     if swings:
         swings = Exercise(
@@ -266,9 +260,7 @@ def set_loads() -> dict:
         console.clear()
         for label, value in loads.items():
             console.print(f"{label.title()}: {value}")
-        if Confirm.ask(
-            "Are these loads correct? If you confirm, they will be used to generate workouts."
-        ):
+        if Confirm.ask("Are these loads correct? If you confirm, they will be used to generate workouts."):
             break
     return loads
 
@@ -387,9 +379,7 @@ def create_giant_workout(db_path: Path) -> Workout:
         load = data["loads"]["the giant"]
     except KeyError:
         console.print("Could not find load for The Giant in the database.", WARNING)
-        console.print(
-            "Try running [underline]kettlebells setloads -p[/underline]", SUGGESTION
-        )
+        console.print("Try running [underline]kettlebells setloads -p[/underline]", SUGGESTION)
     week = Prompt.ask("Enter the week")
     day = Prompt.ask("Enter the day")
     variation = f"W{week}D{day}"
@@ -469,9 +459,7 @@ def _get_options(options: dict | list) -> str:
             return options[selection - 1]
         except (IndexError, TypeError):
             console.print(":warning: Not a valid option.", style=WARNING)
-            console.print(
-                "Enter a number between 1 and {max(options) + 1}.", style=SUGGESTION
-            )
+            console.print("Enter a number between 1 and {max(options) + 1}.", style=SUGGESTION)
             continue
 
 

@@ -12,8 +12,8 @@ from rich.table import Table
 from rich.text import Text
 
 from .console import console
-from .workouts import Workout, _print_helper
 from .constants import DATE_FORMAT
+from .workouts import Workout, _print_helper
 
 
 def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
@@ -192,9 +192,7 @@ def print_calendar(data: dict, year: int):
             padding=0,
         )
         for week_day in cal.iterweekdays():
-            table.add_column(
-                "{:.3}".format(calendar.day_name[week_day]), justify="right"
-            )
+            table.add_column("{:.3}".format(calendar.day_name[week_day]), justify="right")
         month_days = cal.monthdayscalendar(year, month)
         for weekdays in month_days:
             days = []

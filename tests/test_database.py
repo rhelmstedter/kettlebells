@@ -2,9 +2,8 @@ import json
 from dataclasses import asdict
 from pathlib import Path
 
-import pytest
-
 import kettlebells.database as db
+import pytest
 
 from .test_constants import TEST_DATA, TEST_IC_WORKOUT
 

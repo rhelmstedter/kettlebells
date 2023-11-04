@@ -2,7 +2,6 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
-
 from kettlebells.constants import IRON_CARDIO_PARAMS
 from kettlebells.workouts import (
     Workout,
@@ -19,8 +18,8 @@ from kettlebells.workouts import (
 from .test_constants import (
     TEST_BTB_WORKOUT,
     TEST_CUSTOM_WORKOUT,
-    TEST_IC_WORKOUT,
     TEST_DOUBLE_TRAVELING_2S_WORKOUT,
+    TEST_IC_WORKOUT,
     TEST_PERFECT_WORKOUT,
     TEST_WORKOUT_NO_SWINGS,
     TEST_WORKOUT_SINGLE_BELL_PULLUPS,

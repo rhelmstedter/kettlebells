@@ -212,9 +212,7 @@ def view(
         )
     if date:
         workout = data[date]
-        console.print(
-            f"\nDate: [green]{datetime.strptime(date, DATE_FORMAT):%b %d, %Y}\n"
-        )
+        console.print(f"\nDate: [green]{datetime.strptime(date, DATE_FORMAT):%b %d, %Y}\n")
         workout.display_workout()
         print()
         workout.display_workout_stats()
@@ -227,9 +225,7 @@ def last(ctx: typer.Context) -> None:
     last_workout = data["saved_workouts"][-1]
     workout_date = last_workout["date"]
     workout = from_dict(Workout, last_workout["workout"])
-    console.print(
-        f"\nDate: [green]{datetime.strptime(workout_date, DATE_FORMAT):%b %d, %Y}\n"
-    )
+    console.print(f"\nDate: [green]{datetime.strptime(workout_date, DATE_FORMAT):%b %d, %Y}\n")
     workout.display_workout()
     print()
     workout.display_workout_stats()
@@ -310,9 +306,7 @@ def _get_date() -> str:
         A str of the date formatted as YYYY-MM-DD.
     """
     while True:
-        workout_date = Prompt.ask(
-            "Enter the date of the workout (YYYY-MM-DD), or press enter for today"
-        )
+        workout_date = Prompt.ask("Enter the date of the workout (YYYY-MM-DD), or press enter for today")
         if not workout_date:
             workout_date = datetime.now().strftime(DATE_FORMAT)
         try:

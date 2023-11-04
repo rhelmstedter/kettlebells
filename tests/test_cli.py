@@ -1,11 +1,10 @@
 from pathlib import Path
 from unittest import mock
 
-from typer.testing import CliRunner
-
 import kettlebells.__main__
 from kettlebells.__init__ import __version__
 from kettlebells.__main__ import cli
+from typer.testing import CliRunner
 
 runner = CliRunner()
 
