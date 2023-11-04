@@ -52,6 +52,49 @@ TEST_IC_WORKOUT = Workout(
     }
 )
 
+TEST_SINGLE_TRAVELING_2S_WORKOUT = Workout(
+    **{
+        "bodyweight": 90,
+        "units": "kg",
+        "variation": "Traveling 2s",
+        "time": 10,
+        "exercises": [
+            Exercise(
+                **{
+                    "name": "Clean",
+                    "load": 20,
+                    "sets": 13,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Press",
+                    "load": 20,
+                    "sets": 13,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Front Squat",
+                    "load": 20,
+                    "sets": 13,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Swings",
+                    "load": 20,
+                    "sets": 1,
+                    "reps": 100,
+                },
+            ),
+        ],
+        "workout_type": "iron cardio",
+    }
+)
 TEST_DOUBLE_TRAVELING_2S_WORKOUT = Workout(
     **{
         "bodyweight": 90,
@@ -181,6 +224,18 @@ TEST_CUSTOM_WORKOUT = Workout(
         "workout_type": "custom",
     },
 )
+TEST_GIANT_WORKOUT = Workout(
+    **{
+        "bodyweight": 90,
+        "units": "kg",
+        "variation": "W1D1",
+        "workout_type": "The Giant 1.0",
+        "time": 30,
+        "exercises": [
+            Exercise(**{"name": "Double Clean and Press", "load": 24, "sets": 10, "reps": 5}),
+        ],
+    },
+)
 
 
 TEST_WORKOUT_NO_SWINGS = Workout(
@@ -278,6 +333,7 @@ TEST_DATA = {
         "light load": 20,
         "medium load": 24,
         "heavy load": 28,
+        "the giant": 24,
     },
     "saved_workouts": [
         {

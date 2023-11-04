@@ -164,7 +164,7 @@ def save(
             console.print("Last workout generated:\n")
         case _:
             console.print(
-                f"'{workout_type}' is not an option.",
+                f"'{workout_type.strip()}' is not an option.",
                 style=WARNING,
             )
             console.print(

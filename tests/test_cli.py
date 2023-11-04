@@ -6,6 +6,8 @@ from kettlebells.__init__ import __version__
 from kettlebells.__main__ import cli
 from typer.testing import CliRunner
 
+from .test_constants import TEST_IC_WORKOUT
+
 runner = CliRunner()
 
 
@@ -23,6 +25,13 @@ def test_save_without_save(confirm_mock, database):
         result = runner.invoke(cli, ["save"])
         assert "Last workout generated:" in result.stdout
         assert "Workout not saved." in result.stdout
+
+
+def test_save_bad_input(database):
+    """Test workout not saved renders correctly."""
+    with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
+        result = runner.invoke(cli, ["save", "-w asdf"])
+        assert "'asdf' is not an option" in result.stdout
 
 
 @mock.patch("kettlebells.__main__.Confirm.ask")
@@ -43,6 +52,15 @@ def test_last(database):
     """Test the last command reads the last saved session and displays the date and stats."""
     with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
         result = runner.invoke(cli, ["last"])
+        assert "Date: Sep 14, 2023" in result.stdout
+
+
+@mock.patch("kettlebells.__main__.iterfzf")
+def test_view(iterfzf_mock, database):
+    """Test the view command."""
+    iterfzf_mock.return_value = "2023-09-14"
+    with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
+        result = runner.invoke(cli, ["view"])
         assert "Date: Sep 14, 2023" in result.stdout
 
 
@@ -96,3 +114,15 @@ def test_stats(stats_mock, read_mock):
     runner.invoke(cli, ["stats"])
     read_mock.assert_called_once()
     stats_mock.assert_called_once()
+
+
+@mock.patch("kettlebells.__main__.confirm_loads")
+@mock.patch("kettlebells.__main__.random_ic_or_abc")
+@mock.patch("kettlebells.__main__.cache_workout")
+def test_random(cache_mock, workout_mock, confirm_mock):
+    """Test getting the stats"""
+    workout_mock.return_value = TEST_IC_WORKOUT
+    runner.invoke(cli, ["random", '-w ic'])
+    workout_mock.assert_called_once()
+    cache_mock.assert_called_once()
+    confirm_mock.assert_called_once()

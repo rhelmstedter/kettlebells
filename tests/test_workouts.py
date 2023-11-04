@@ -9,18 +9,22 @@ from kettlebells.workouts import (
     _get_units,
     create_btb_workout,
     create_custom_workout,
+    create_giant_workout,
     create_ic_or_abc,
     create_perfect_workout,
     random_ic_or_abc,
     set_loads,
+    set_program_loads,
 )
 
 from .test_constants import (
     TEST_BTB_WORKOUT,
     TEST_CUSTOM_WORKOUT,
     TEST_DOUBLE_TRAVELING_2S_WORKOUT,
+    TEST_GIANT_WORKOUT,
     TEST_IC_WORKOUT,
     TEST_PERFECT_WORKOUT,
+    TEST_SINGLE_TRAVELING_2S_WORKOUT,
     TEST_WORKOUT_NO_SWINGS,
     TEST_WORKOUT_SINGLE_BELL_PULLUPS,
 )
@@ -51,6 +55,17 @@ def test_display_workout(workout, capfd):
     assert "Variation: " in output
     assert "Time: " in output
     assert "Load: " in output
+
+
+def test_display_custom_workout(capfd):
+    """Test a custom workout is displayed correctly in the console."""
+    TEST_CUSTOM_WORKOUT.display_workout()
+    output = capfd.readouterr()[0]
+    assert TEST_CUSTOM_WORKOUT.workout_type.upper() in output
+    assert "=" * len(TEST_CUSTOM_WORKOUT.workout_type) in output
+    assert "Variation: " in output
+    assert "Time: " in output
+    assert "Exercises" in output
 
 
 def test_display_workout_no_swings(capfd):
@@ -182,6 +197,13 @@ def test_get_options_bad_input(ask_mock):
             True,
             [29, 28, 12, 50, 28],
         ),
+        (
+            TEST_SINGLE_TRAVELING_2S_WORKOUT,
+            "Single Bell",
+            "Traveling 2s",
+            True,
+            [10, 20, 10, 100, 20],
+        ),
     ],
 )
 @mock.patch("kettlebells.workouts.IntPrompt.ask")
@@ -269,3 +291,38 @@ def test_create_custom_workout(
     actual = create_custom_workout(Path(database.name))
     assert isinstance(actual, Workout)
     assert actual == expected
+
+
+@mock.patch("kettlebells.workouts.Prompt.ask")
+@mock.patch("kettlebells.workouts.IntPrompt.ask")
+def test_set_progam_loads(int_mock, prompt_mock):
+    """Test if setting program loads addes to loads dict."""
+    prompt_mock.side_effect = ["the giant"]
+    int_mock.side_effect = [24]
+    loads = {
+        "units": "kg",
+        "bodyweight": 90,
+        "light load": 20,
+        "medium load": 24,
+        "heavy load": 28,
+    }
+    expected = {
+        "units": "kg",
+        "bodyweight": 90,
+        "light load": 20,
+        "medium load": 24,
+        "heavy load": 28,
+        "the giant": 24,
+    }
+    actual = set_program_loads(loads)
+    assert actual == expected
+
+
+@mock.patch("kettlebells.workouts.Prompt.ask")
+@mock.patch("kettlebells.workouts.IntPrompt.ask")
+def test_create_giant_workout(int_mock, prompt_mock, database):
+    """Test creating a giant workout."""
+    prompt_mock.side_effect = ["1", "1"]
+    int_mock.side_effect = [1, 10]
+    actual = create_giant_workout(Path(database.name))
+    assert actual == TEST_GIANT_WORKOUT

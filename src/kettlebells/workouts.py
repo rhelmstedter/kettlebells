@@ -261,8 +261,7 @@ def set_loads() -> dict:
         for label, value in loads.items():
             console.print(f"{label.title()}: {value}")
         if Confirm.ask("Are these loads correct? If you confirm, they will be used to generate workouts."):
-            break
-    return loads
+            return loads
 
 
 def set_program_loads(loads: dict) -> dict:
