@@ -438,7 +438,7 @@ def create_custom_workout(db_path: Path) -> Workout:
         if "Dip" in name or "Pull-up" in name:
             load += int(0.96 * bodyweight)
         exercises.append(Exercise(name, load, sets, reps))
-    return Workout(workout_type, variation, time, units, bodyweight, exercises)
+    return Workout(workout_type, variation.title(), time, units, bodyweight, exercises)
 
 
 def _get_options(options: dict | list) -> str:

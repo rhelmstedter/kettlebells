@@ -256,16 +256,19 @@ def test_perfect_workout(
     assert actual == expected
 
 
+@pytest.mark.parametrize("workout_type, variation", [("custom", "custom"), (None, None)])
 @mock.patch("kettlebells.workouts.iterfzf")
 def test_create_custom_workout(
     fzf_mock,
+    workout_type,
+    variation,
     int_mock,
     prompt_mock,
     database,
 ):
-    """Test creating a custom iron cardio or abc workout works as intended."""
+    """Test creating a custom workout works as intended."""
     expected = TEST_CUSTOM_WORKOUT
-    prompt_mock.side_effect = ["custom", "custom"]
+    prompt_mock.side_effect = [workout_type, variation]
     fzf_mock.side_effect = ["Turkish Get-up", "TRX T", "Done"]
     # int_mocks = [time, load1, sets1, reps1, load2, sets2, reps3]
     int_mock.side_effect = [30, 24, 1, 6, 0, 3, 8]

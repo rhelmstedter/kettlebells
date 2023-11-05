@@ -215,7 +215,7 @@ TEST_CUSTOM_WORKOUT = Workout(
     **{
         "bodyweight": 90,
         "units": "kg",
-        "variation": "custom",
+        "variation": "Custom",
         "time": 30,
         "exercises": [
             Exercise(**{"name": "Turkish Get-up", "load": 24, "sets": 1, "reps": 6}),
