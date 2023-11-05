@@ -1,7 +1,11 @@
 from pathlib import Path
+from unittest import mock
+
+import plotext as plt
+import pytest
 
 from kettlebells.database import read_database
-from kettlebells.stats import get_all_time_stats, top_ten_workouts
+from kettlebells.stats import get_all_time_stats, plot_workouts, top_ten_workouts
 
 
 def test_get_all_time_stats(database, capfd):
@@ -29,3 +33,23 @@ def test_top_ten_workouts(database):
     assert table.title == "Top Ten Workouts by Weight Moved"
     assert len(table.rows) == 1
     assert len(table.columns) == 8
+
+
+@pytest.mark.parametrize(
+    "title, x_label, plot_size, plot_type, median, average",
+    [
+        ("Workouts Across the Year", "Months", (130, 20), "event", False, False),
+        ("Weight Moved Per Workout", "Date", (90, 30), "line", True, False),
+        ("Weight Moved by Month", "Weight Moved", (90, 30), "bar", False, True),
+    ],
+)
+@mock.patch("kettlebells.stats.plt")
+def test_event_plot(plt_mock, title, x_label, plot_size, plot_type, median, average):
+    plot_workouts(["2023-02-01"], [2300], plot_type, median, average)
+    plt_mock.title.assert_called_once_with(title)
+    plt_mock.xlabel.assert_called_once_with(x_label)
+    plt_mock.plotsize.assert_called_once_with(*plot_size)
+    if median:
+        plt_mock.hline.assert_called_once()
+    if average:
+        plt_mock.vline.assert_called_once()
