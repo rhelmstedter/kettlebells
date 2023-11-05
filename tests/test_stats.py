@@ -5,7 +5,7 @@ import plotext as plt
 import pytest
 
 from kettlebells.database import read_database
-from kettlebells.stats import get_all_time_stats, plot_workouts, top_ten_workouts
+from kettlebells.stats import get_all_time_stats, plot_workouts, top_ten_workouts, print_calendar, _get_dates
 
 
 def test_get_all_time_stats(database, capfd):
@@ -53,3 +53,10 @@ def test_event_plot(plt_mock, title, x_label, plot_size, plot_type, median, aver
         plt_mock.hline.assert_called_once()
     if average:
         plt_mock.vline.assert_called_once()
+
+
+def test_dates_in_cal(database, capfd):
+    data = read_database(Path(database.name))
+    actual = _get_dates(data)
+    expected = [(14, 9, 2023)]
+    assert actual == expected

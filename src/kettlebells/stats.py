@@ -178,11 +178,7 @@ def print_calendar(data: dict, year: int):
 
     """
     cal = calendar.Calendar()
-    workout_dates = []
-    for workout in data["saved_workouts"]:
-        workout_date = datetime.strptime(workout["date"], DATE_FORMAT)
-        workout_dates.append((workout_date.day, workout_date.month, workout_date.year))
-
+    workout_dates = _get_dates(data)
     month_tables = []
     for month in range(1, 13):
         table = Table(
@@ -211,3 +207,11 @@ def print_calendar(data: dict, year: int):
     console.print(columns, justify="center")
     console.rule(style="magenta")
     console.print()
+
+
+def _get_dates(data: dict) -> list[tuple[int]]:
+    workout_dates = []
+    for workout in data["saved_workouts"]:
+        workout_date = datetime.strptime(workout["date"], DATE_FORMAT)
+        workout_dates.append((workout_date.day, workout_date.month, workout_date.year))
+    return workout_dates
