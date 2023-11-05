@@ -171,6 +171,7 @@ def save(
                 "Try running [underline]kettlebells save --help[/underline]",
                 style=SUGGESTION,
             )
+            return
 
     workout.display_workout()
     if Confirm.ask("Save this workout?"):

@@ -1,5 +1,6 @@
 from pathlib import Path
 from unittest import mock
+import pytest
 
 from .test_constants import TEST_IC_WORKOUT
 from typer.testing import CliRunner
@@ -25,6 +26,23 @@ def test_save_without_save(confirm_mock, database):
         result = runner.invoke(cli, ["save"])
         assert "Last workout generated:" in result.stdout
         assert "Workout not saved." in result.stdout
+
+
+@pytest.mark.parametrize(
+    "func, option",
+    [
+        ("create_ic_or_abc", "ic"),
+        ("create_btb_workout", "btb"),
+        ("create_custom_workout", "custom"),
+        ("create_perfect_workout", "pw"),
+        ("create_giant_workout", "giant"),
+        ("from_dict", None),
+    ],
+)
+def test_matching(func, option):
+    with mock.patch("kettlebells.__main__." + func) as save_mock:
+        runner.invoke(cli, ["save", "--workout-type", option])
+        save_mock.assert_called_once()
 
 
 def test_save_bad_input(database):
@@ -122,7 +140,7 @@ def test_stats(stats_mock, read_mock):
 def test_random(cache_mock, workout_mock, confirm_mock):
     """Test getting the stats"""
     workout_mock.return_value = TEST_IC_WORKOUT
-    runner.invoke(cli, ["random", '-w ic'])
+    runner.invoke(cli, ["random", "-w ic"])
     workout_mock.assert_called_once()
     cache_mock.assert_called_once()
     confirm_mock.assert_called_once()
