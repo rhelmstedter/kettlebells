@@ -1,11 +1,9 @@
 from pathlib import Path
 from unittest import mock
 
-import plotext as plt
 import pytest
-
 from kettlebells.database import read_database
-from kettlebells.stats import get_all_time_stats, plot_workouts, top_ten_workouts, print_calendar, _get_dates
+from kettlebells.stats import _get_dates, get_all_time_stats, plot_workouts, print_calendar, top_ten_workouts
 
 
 def test_get_all_time_stats(database, capfd):

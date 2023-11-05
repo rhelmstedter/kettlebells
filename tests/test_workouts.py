@@ -124,9 +124,6 @@ Weight Density: 105.0 kg/min
     assert expected in output
 
 
-@mock.patch("kettlebells.workouts.IntPrompt.ask")
-@mock.patch("kettlebells.workouts.Confirm")
-@mock.patch("kettlebells.workouts._get_units")
 def test_set_loads(units_mock, confirm_mock, int_mock):
     """Test that setting the loads in the database works."""
     expected = {
@@ -144,11 +141,10 @@ def test_set_loads(units_mock, confirm_mock, int_mock):
 
 
 @pytest.mark.parametrize("response, units", [("p", "lbs"), ("k", "kg")])
-@mock.patch("kettlebells.workouts.Prompt.ask")
-def test_get_units_good_input(ask_mock, response, units):
+def test_get_units_good_input(response, units, prompt_mock):
     """Test that units are set correctly."""
     expected = units
-    ask_mock.side_effect = [response]
+    prompt_mock.side_effect = [response]
     actual = _get_units()
     assert actual == expected
 
@@ -160,20 +156,18 @@ def test_get_units_good_input(ask_mock, response, units):
         (IRON_CARDIO_PARAMS["singlebell variations"], 3, "Classic + Snatch"),
     ],
 )
-@mock.patch("kettlebells.workouts.IntPrompt.ask")
-def test_get_options(ask_mock, workout_param, response, option):
+def test_get_options(workout_param, response, option, int_mock):
     """Test the options for workout parameters are valid."""
     expected = option
-    ask_mock.side_effect = [response]
+    int_mock.side_effect = [response]
     actual = _get_options(workout_param)
     assert actual == expected
 
 
-@mock.patch("kettlebells.workouts.IntPrompt.ask")
-def test_get_options_bad_input(ask_mock):
+def test_get_options_bad_input(int_mock):
     """Test bad index results in infinite loop."""
     try:
-        ask_mock.side_effect = [10, 20, "k"]
+        int_mock.side_effect = [10, 20, "k"]
         _get_options(IRON_CARDIO_PARAMS["bells"])
     except StopIteration:
         pass
@@ -206,20 +200,16 @@ def test_get_options_bad_input(ask_mock):
         ),
     ],
 )
-@mock.patch("kettlebells.workouts.IntPrompt.ask")
-@mock.patch("kettlebells.workouts.Confirm")
-@mock.patch("kettlebells.workouts._get_units")
-@mock.patch("kettlebells.workouts._get_options")
 def test_custom_ic_workout(
-    options_mock,
-    units_mock,
-    confirm_mock,
-    int_mock,
     workout,
     bells,
     variation,
     confirm,
     int_responses,
+    options_mock,
+    units_mock,
+    confirm_mock,
+    int_mock,
     database,
 ):
     """Test creating a custom iron cardio or abc workout works as intended."""
@@ -233,10 +223,6 @@ def test_custom_ic_workout(
     assert actual == expected
 
 
-@mock.patch("kettlebells.workouts.IntPrompt.ask")
-@mock.patch("kettlebells.workouts.Confirm")
-@mock.patch("kettlebells.workouts._get_units")
-@mock.patch("kettlebells.workouts._get_options")
 def test_btb_workout(
     options_mock,
     units_mock,
@@ -247,16 +233,13 @@ def test_btb_workout(
     """Test creating a back to basics workout works as intended."""
     expected = TEST_BTB_WORKOUT
     options_mock.side_effect = ["2 C&P Ladders + Snatch"]
-    int_mock.side_effect = [30, 24, 20]
+    int_mock.side_effect = [30, 24, 20]  # time, load, sets
     units_mock.return_value = "kg"
     actual = create_btb_workout(Path(database.name))
     assert isinstance(actual, Workout)
     assert actual == expected
 
 
-@mock.patch("kettlebells.workouts.IntPrompt.ask")
-@mock.patch("kettlebells.workouts._get_units")
-@mock.patch("kettlebells.workouts._get_options")
 def test_perfect_workout(
     options_mock,
     units_mock,
@@ -266,19 +249,17 @@ def test_perfect_workout(
     """Test creating a perfect."""
     expected = TEST_PERFECT_WORKOUT
     options_mock.side_effect = ["The Bull"]
-    int_mock.side_effect = [10, 20, 24, 20, 20]
+    int_mock.side_effect = [10, 20, 24, 20, 20]  # time, press, BGBS, Row, GS
     units_mock.return_value = "kg"
     actual = create_perfect_workout(Path(database.name))
     assert isinstance(actual, Workout)
     assert actual == expected
 
 
-@mock.patch("kettlebells.workouts.Prompt.ask")
 @mock.patch("kettlebells.workouts.iterfzf")
-@mock.patch("kettlebells.workouts.IntPrompt.ask")
 def test_create_custom_workout(
-    int_mock,
     fzf_mock,
+    int_mock,
     prompt_mock,
     database,
 ):
@@ -293,8 +274,6 @@ def test_create_custom_workout(
     assert actual == expected
 
 
-@mock.patch("kettlebells.workouts.Prompt.ask")
-@mock.patch("kettlebells.workouts.IntPrompt.ask")
 def test_set_progam_loads(int_mock, prompt_mock):
     """Test if setting program loads addes to loads dict."""
     prompt_mock.side_effect = ["the giant"]
@@ -318,8 +297,6 @@ def test_set_progam_loads(int_mock, prompt_mock):
     assert actual == expected
 
 
-@mock.patch("kettlebells.workouts.Prompt.ask")
-@mock.patch("kettlebells.workouts.IntPrompt.ask")
 def test_create_giant_workout(int_mock, prompt_mock, database):
     """Test creating a giant workout."""
     prompt_mock.side_effect = ["1", "1"]

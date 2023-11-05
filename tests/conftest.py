@@ -21,3 +21,28 @@ def database():
     with open(database.name, "w") as db:
         json.dump(TEST_DATA, db)
     return database
+
+
+@pytest.fixture()
+def prompt_mock(mocker):
+    yield mocker.patch("kettlebells.workouts.Prompt.ask")
+
+
+@pytest.fixture()
+def int_mock(mocker):
+    yield mocker.patch("kettlebells.workouts.IntPrompt.ask")
+
+
+@pytest.fixture()
+def confirm_mock(mocker):
+    yield mocker.patch("kettlebells.workouts.Confirm")
+
+
+@pytest.fixture()
+def units_mock(mocker):
+    yield mocker.patch("kettlebells.workouts._get_units")
+
+
+@pytest.fixture()
+def options_mock(mocker):
+    yield mocker.patch("kettlebells.workouts._get_options")
