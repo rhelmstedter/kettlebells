@@ -142,14 +142,14 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
         workouts = workouts[:10]
 
     columns = [
-        ("Date", "green"),
-        ("Workout Type", "magenta"),
-        ("Variation", "magenta"),
-        ("Time (mins)", "magenta"),
-        (f"Weight Moved ({units})", "blue"),
-        ("Reps", "blue"),
-        ("Weight Density (kg/min)", "blue"),
-        ("Rep Density (reps/min)", "blue"),
+        ("Date\n", "green"),
+        ("Workout Type\n", "magenta"),
+        ("Variation\n", "magenta"),
+        ("Time\n(mins)", "magenta"),
+        (f"Weight Moved\n({units})", "blue"),
+        ("Reps\n", "blue"),
+        ("Weight Density\n(kg/min)", "blue"),
+        ("Rep Density\n(reps/min)", "blue"),
     ]
     top_ten_table = Table(title=f"Top Ten Workouts by {sort.title()}")
     for col, style in columns:
