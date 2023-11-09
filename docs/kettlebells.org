@@ -55,5 +55,9 @@ CLOSED: [2023-10-14 Sat 15:18]
 CLOSED: [2023-11-07 Tue 17:49]
 Also see [[rethink the workout object][rethink the workout object]] section for ideas. Perhaps I should move the constants into the database when it initializes. That would allow users to add their own exercises or whatever on top of all the current constants.
 
-** TODO Add a program viewer
+** TODO Add a program viewer (filter?)
 It would be nice to see all the workouts of a certain type. Something like ~kettlebells filter dfw~. This would return a list of all of the DFW workouts from the datebase. Perhaps in a table of some kind.
+
+After listening to the [[https://www.youtube.com/watch?v=TLd_kXilVUM][Birth of Iron Cardio]] podcast episode, it would also be nice to be able to compare individual workouts.
+
+The question becomes, how to include the data in a way that is easy to read.
