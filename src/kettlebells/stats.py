@@ -5,6 +5,7 @@ from statistics import mean, median
 
 import plotext as plt
 from dacite import from_dict
+from iterfzf import iterfzf
 from rich import box
 from rich.align import Align
 from rich.columns import Columns
@@ -12,7 +13,7 @@ from rich.table import Table
 from rich.text import Text
 
 from .console import console
-from .constants import DATE_FORMAT
+from .constants import DATE_FORMAT, KETTLEBELLS_HOME
 from .workouts import Workout, _print_helper
 
 
@@ -148,7 +149,7 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
         ("Time\n(mins)", "magenta"),
         (f"Weight Moved\n({units})", "blue"),
         ("Reps\n", "blue"),
-        ("Weight Density\n(kg/min)", "blue"),
+        (f"Weight Density\n({units}/min)", "blue"),
         ("Rep Density\n(reps/min)", "blue"),
     ]
     top_ten_table = Table(title=f"Top Ten Workouts by {sort.title()}")
@@ -167,6 +168,84 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
             f"{stats['rep density']:.1f}",
         )
     return top_ten_table
+
+
+def filter_by_program(data: dict) -> Table:
+    """Get the top ten workouts based on weight moved.
+
+    Args:
+        data: A dict of the data from the database.
+        sort: A str of which parameter to sort the table by.
+
+    Returns: A rich Table of the top ten workouts.
+    """
+    programs = {w['workout']['workout_type'] for w in data['saved_workouts']}
+    program = iterfzf(
+        programs,
+        multi=False,
+    )
+    units = data["loads"]["units"]
+    workouts = []
+    for workout_data in data["saved_workouts"]:
+        date = workout_data["date"]
+        workout = from_dict(Workout, workout_data["workout"])
+        load = [exercise.load for exercise in workout.exercises]
+        if len(set(load)) == 1:
+            load = load[0]
+        else:
+            load = "Varied"
+        if workout.workout_type == program:
+            workouts.append((date, workout, load, workout.calc_workout_stats()))
+
+    columns = [
+        ("Date\n", "green"),
+        ("Workout Type\n", "magenta"),
+        ("Variation\n", "magenta"),
+        ("Time\n(mins)", "magenta"),
+        (f"load\n({units})", "blue"),
+        (f"Weight Moved\n({units})", "blue"),
+        ("Reps\n", "blue"),
+        (f"Weight Density\n({units}/min)", "blue"),
+        ("Rep Density\n(reps/min)", "blue"),
+    ]
+    program_table = Table(title=program.title())
+    for col, style in columns:
+        program_table.add_column(col, style=style, justify="right")
+
+    for date, workout, load, stats in workouts:
+        program_table.add_row(
+            date,
+            workout.workout_type.title(),
+            workout.variation,
+            f"{workout.time}",
+            f"{load}",
+            f"{stats['weight moved']:,}",
+            f"{stats['reps']}",
+            f"{stats['weight density']:.1f}",
+            f"{stats['rep density']:.1f}",
+        )
+    return program_table
+
+
+def retrieve_workout(data: dict, preview: bool) -> None:
+    data = {w["date"]: from_dict(Workout, w["workout"]) for w in data["saved_workouts"]}
+    if preview:
+        date = iterfzf(
+            data.keys(),
+            multi=False,
+            preview="rg {} " + str(KETTLEBELLS_HOME) + """ -A 20 -I """,
+        )
+    else:
+        date = iterfzf(
+            data.keys(),
+            multi=False,
+        )
+    if date:
+        workout = data[date]
+        console.print(f"\nDate: [green]{datetime.strptime(date, DATE_FORMAT):%b %d, %Y}\n")
+        workout.display_workout()
+        print()
+        workout.display_workout_stats()
 
 
 def print_calendar(data: dict, year: int):

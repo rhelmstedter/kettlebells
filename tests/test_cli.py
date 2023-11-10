@@ -1,13 +1,14 @@
 from pathlib import Path
 from unittest import mock
-import pytest
 
-from .test_constants import TEST_IC_WORKOUT
+import pytest
 from typer.testing import CliRunner
 
 import kettlebells.__main__
 from kettlebells.__init__ import __version__
 from kettlebells.__main__ import cli
+
+from .test_constants import TEST_IC_WORKOUT
 
 runner = CliRunner()
 
@@ -73,7 +74,7 @@ def test_last(database):
         assert "Date: Sep 14, 2023" in result.stdout
 
 
-@mock.patch("kettlebells.__main__.iterfzf")
+@mock.patch("kettlebells.stats.iterfzf")
 def test_view(iterfzf_mock, database):
     """Test the view command."""
     iterfzf_mock.return_value = "2023-09-14"

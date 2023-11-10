@@ -5,7 +5,6 @@ from pathlib import Path
 
 import typer
 from dacite import from_dict
-from iterfzf import iterfzf
 from rich.prompt import Confirm, Prompt
 from trogon import Trogon
 from typer.main import get_group
@@ -13,34 +12,16 @@ from typing_extensions import Annotated
 
 from . import __version__
 from .console import console
-from .constants import (
-    DATE_FORMAT,
-    FZF_DEFAULT_OPTS,
-    KETTLEBELLS_DB,
-    KETTLEBELLS_HOME,
-    SUGGESTION,
-    WARNING,
-)
-from .database import (
-    cache_workout,
-    confirm_loads,
-    initialize_database,
-    read_database,
-    save_workout,
-    write_database,
-)
-from .stats import get_all_time_stats, plot_workouts, print_calendar, top_ten_workouts
-from .workouts import (
-    Workout,
-    create_btb_workout,
-    create_custom_workout,
-    create_giant_workout,
-    create_ic_or_abc,
-    create_perfect_workout,
-    random_ic_or_abc,
-    set_loads,
-    set_program_loads,
-)
+from .constants import (DATE_FORMAT, FZF_DEFAULT_OPTS, KETTLEBELLS_DB,
+                        KETTLEBELLS_HOME, SUGGESTION, WARNING)
+from .database import (cache_workout, confirm_loads, initialize_database,
+                       read_database, save_workout, write_database)
+from .stats import (filter_by_program, get_all_time_stats, plot_workouts,
+                    print_calendar, retrieve_workout, top_ten_workouts)
+from .workouts import (Workout, create_btb_workout, create_custom_workout,
+                       create_giant_workout, create_ic_or_abc,
+                       create_perfect_workout, random_ic_or_abc, set_loads,
+                       set_program_loads)
 
 cli = typer.Typer(add_completion=False)
 
@@ -191,32 +172,27 @@ def view(
         typer.Option(
             "--preview",
             "-p",
-            help="A horizontal line at the median weight per workout.",
+            help="Display a preview of workouts in database.",
+            is_flag=True,
+        ),
+    ] = False,
+    program: Annotated[
+        bool,
+        typer.Option(
+            "--program",
+            "-P",
+            help="Filter out workouts of a certain program.",
             is_flag=True,
         ),
     ] = False,
 ) -> None:
     """Display stats from most recent workout in database."""
     data = read_database(KETTLEBELLS_DB)
-    data = {w["date"]: from_dict(Workout, w["workout"]) for w in data["saved_workouts"]}
     environ["FZF_DEFAULT_OPTS"] = FZF_DEFAULT_OPTS
-    if preview:
-        date = iterfzf(
-            data.keys(),
-            multi=False,
-            preview="rg {} " + str(KETTLEBELLS_HOME) + """ -A 20 -I """,
-        )
-    else:
-        date = iterfzf(
-            data.keys(),
-            multi=False,
-        )
-    if date:
-        workout = data[date]
-        console.print(f"\nDate: [green]{datetime.strptime(date, DATE_FORMAT):%b %d, %Y}\n")
-        workout.display_workout()
-        print()
-        workout.display_workout_stats()
+    if program:
+        console.print(filter_by_program(data))
+        return
+    retrieve_workout(data, preview)
 
 
 @cli.command()
