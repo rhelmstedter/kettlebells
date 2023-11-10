@@ -83,6 +83,15 @@ def test_view(iterfzf_mock, database):
         assert "Date: Sep 14, 2023" in result.stdout
 
 
+@mock.patch("kettlebells.__main__.filter_by_program")
+def test_view_program(filter_mock, database):
+    """Test the view -program command."""
+    filter_mock.return_value = "2023-09-14"
+    with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
+        runner.invoke(cli, ["view", "-P"])
+        filter_mock.assert_called_once()
+
+
 @mock.patch("kettlebells.__main__.set_loads")
 @mock.patch("kettlebells.__main__.read_database")
 @mock.patch("kettlebells.__main__.write_database")

@@ -2,24 +2,35 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
+from dacite import from_dict
+
 from kettlebells.database import read_database
-from kettlebells.stats import _get_dates, get_all_time_stats, plot_workouts, print_calendar, top_ten_workouts
+from kettlebells.stats import (
+    _get_dates,
+    filter_by_program,
+    get_all_time_stats,
+    plot_workouts,
+    print_calendar,
+    retrieve_workout,
+    top_ten_workouts,
+)
+from kettlebells.workouts import Workout
 
 
 def test_get_all_time_stats(database, capfd):
     """Test that get_all_time_stats returns the dates and stats from the test database."""
-    expected = (["2023-09-14"], [3480])
+    expected = (["2023-09-12", "2023-09-14"], [3456, 3480])
     data = read_database(Path(database.name))
     actual = get_all_time_stats(data)
     output = capfd.readouterr()[0]
     expected_output = """\nAll Time Stats
 ==============
-     Total Workouts: 1
-         Total Time: 0 days 00 hours 20 mins
- Total Weight Moved: 3,480 kg
-         Total Reps: 87
-Mean Weight Density: 174.0 kg/min
-   Mean Rep Density: 4.3 reps/min"""
+     Total Workouts: 2
+         Total Time: 0 days 00 hours 40 mins
+ Total Weight Moved: 6,936 kg
+         Total Reps: 159
+Mean Weight Density: 173.4 kg/min
+   Mean Rep Density: 4.0 reps/min"""
     assert actual == expected
     assert expected_output in output
 
@@ -29,8 +40,30 @@ def test_top_ten_workouts(database):
     data = read_database(Path(database.name))
     table = top_ten_workouts(data, "weight-moved")
     assert table.title == "Top Ten Workouts by Weight Moved"
-    assert len(table.rows) == 1
+    assert len(table.rows) == 2
     assert len(table.columns) == 8
+
+
+@mock.patch("kettlebells.stats.iterfzf")
+def test_filter_by_program(fzf_mock, database):
+    """Test the table object created by filter_by_program."""
+    data = read_database(Path(database.name))
+    fzf_mock.return_value = "Dry Fighting Weight"
+    table = filter_by_program(data)
+    assert table.title == "Dry Fighting Weight"
+    assert len(table.rows) == 1
+    assert len(table.columns) == 9
+
+
+@mock.patch("kettlebells.stats.iterfzf")
+def test_retrieve_workout(fzf_mock, database):
+    """Test the table object created by filter_by_program."""
+    data = read_database(Path(database.name))
+    expected = from_dict(Workout, data["saved_workouts"][1]["workout"])
+    fzf_mock.return_value = "2023-09-14"
+    date, actual = retrieve_workout(data, False)
+    assert actual == expected
+    assert date == "2023-09-14"
 
 
 @pytest.mark.parametrize(
@@ -56,5 +89,5 @@ def test_event_plot(plt_mock, title, x_label, plot_size, plot_type, median, aver
 def test_dates_in_cal(database, capfd):
     data = read_database(Path(database.name))
     actual = _get_dates(data)
-    expected = [(14, 9, 2023)]
+    expected = [(12, 9, 2023), (14, 9, 2023)]
     assert actual == expected

@@ -227,7 +227,7 @@ def filter_by_program(data: dict) -> Table:
     return program_table
 
 
-def retrieve_workout(data: dict, preview: bool) -> None:
+def retrieve_workout(data: dict, preview: bool) -> tuple[str, Workout] | None:
     data = {w["date"]: from_dict(Workout, w["workout"]) for w in data["saved_workouts"]}
     if preview:
         date = iterfzf(
@@ -242,10 +242,8 @@ def retrieve_workout(data: dict, preview: bool) -> None:
         )
     if date:
         workout = data[date]
-        console.print(f"\nDate: [green]{datetime.strptime(date, DATE_FORMAT):%b %d, %Y}\n")
-        workout.display_workout()
-        print()
-        workout.display_workout_stats()
+        return date, workout
+    return
 
 
 def print_calendar(data: dict, year: int):

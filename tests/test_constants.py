@@ -337,6 +337,30 @@ TEST_DATA = {
     },
     "saved_workouts": [
         {
+            "date": "2023-09-12",
+            "workout": {
+                "bodyweight": 90,
+                "units": "kg",
+                "variation": "W1D1",
+                "time": 20,
+                "exercises": [
+                    {
+                        "name": "Double Clean and Press",
+                        "load": 24,
+                        "sets": 8,
+                        "reps": 3,
+                    },
+                    {
+                        "name": "Double Front Squat",
+                        "load": 24,
+                        "sets": 8,
+                        "reps": 3,
+                    },
+                ],
+                "workout_type": "Dry Fighting Weight",
+            },
+        },
+        {
             "date": "2023-09-14",
             "workout": {
                 "bodyweight": 90,
