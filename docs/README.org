@@ -192,6 +192,12 @@ Use the ~view~ command to search for previous workouts by date. If you have [[ht
 kettlebells view --preview
 #+end_src
 
+Use the ~--Program~ flag to filter workouts based on a certain workout_type.
+
+#+begin_src bash
+kettlebells view --Program
+#+end_src
+
 *** stats
 The ~stats~ command displays the aggregated workout count, time, weight moved, number of reps, and density for all workout in the database.
 
