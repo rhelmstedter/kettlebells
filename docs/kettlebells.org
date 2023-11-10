@@ -51,6 +51,7 @@ One idea I just had, offer the movements described as suggestions, but always ha
 ** DONE add improved help text
 CLOSED: [2023-10-14 Sat 15:18]
 ** TODO add a command for descriptions of workouts
+** TODO add links to exercise tutorials
 ** DONE add a way to create custom workouts
 CLOSED: [2023-11-07 Tue 17:49]
 Also see [[rethink the workout object][rethink the workout object]] section for ideas. Perhaps I should move the constants into the database when it initializes. That would allow users to add their own exercises or whatever on top of all the current constants.
