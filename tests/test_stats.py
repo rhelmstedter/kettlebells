@@ -2,7 +2,6 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
-from dacite import from_dict
 
 from kettlebells.database import read_database
 from kettlebells.stats import (
@@ -59,7 +58,7 @@ def test_filter_by_program(fzf_mock, database):
 def test_retrieve_workout(fzf_mock, database):
     """Test the table object created by filter_by_program."""
     data = read_database(Path(database.name))
-    expected = from_dict(Workout, data["saved_workouts"][1]["workout"])
+    expected = Workout(**data["saved_workouts"][1]["workout"])
     fzf_mock.return_value = "2023-09-14"
     date, actual = retrieve_workout(data, False)
     assert actual == expected

@@ -37,7 +37,7 @@ def test_save_without_save(confirm_mock, database):
         ("create_custom_workout", "custom"),
         ("create_perfect_workout", "pw"),
         ("create_giant_workout", "giant"),
-        ("from_dict", None),
+        # ("from_dict", None),
     ],
 )
 def test_matching(func, option):

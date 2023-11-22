@@ -4,7 +4,6 @@ from datetime import datetime
 from statistics import mean, median
 
 import plotext as plt
-from dacite import from_dict
 from iterfzf import iterfzf
 from rich import box
 from rich.align import Align
@@ -29,7 +28,7 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     for workout_data in data["saved_workouts"]:
         date = workout_data["date"]
         dates.append(date)
-        workout = from_dict(Workout, workout_data["workout"])
+        workout = Workout(**workout_data["workout"])
         stats.append(workout.calc_workout_stats())
         workouts.append(workout)
     days, remaining_mins = divmod(sum(workout.time for workout in workouts), 60 * 24)
@@ -130,7 +129,7 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
     workouts = []
     for workout_data in data["saved_workouts"]:
         date = workout_data["date"]
-        workout = from_dict(Workout, workout_data["workout"])
+        workout = Workout(**workout_data["workout"])
         workouts.append((date, workout, workout.calc_workout_stats()))
 
     sort = sort.replace("-", " ")
@@ -188,7 +187,7 @@ def filter_by_program(data: dict) -> Table:
     workouts = []
     for workout_data in data["saved_workouts"]:
         date = workout_data["date"]
-        workout = from_dict(Workout, workout_data["workout"])
+        workout = Workout(**workout_data["workout"])
         load = [exercise.load for exercise in workout.exercises]
         if len(set(load)) == 1:
             load = load[0]
@@ -228,7 +227,7 @@ def filter_by_program(data: dict) -> Table:
 
 
 def retrieve_workout(data: dict, preview: bool) -> tuple[str, Workout] | None:
-    data = {w["date"]: from_dict(Workout, w["workout"]) for w in data["saved_workouts"]}
+    data = {w["date"]: Workout(**w["workout"]) for w in data["saved_workouts"]}
     if preview:
         date = iterfzf(
             data.keys(),

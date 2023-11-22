@@ -4,7 +4,7 @@ from os import environ
 from pathlib import Path
 
 import typer
-from dacite import from_dict
+
 from rich.prompt import Confirm, Prompt
 from trogon import Trogon
 from typer.main import get_group
@@ -154,7 +154,7 @@ def save(
         case "giant":
             workout = create_giant_workout(KETTLEBELLS_DB)
         case None:
-            workout = from_dict(Workout, data["cached_workouts"][-1])
+            workout = Workout(**data["cached_workouts"][-1])
             console.print("Last workout generated:\n")
         case _:
             console.print(
@@ -220,7 +220,7 @@ def last(ctx: typer.Context) -> None:
     data = read_database(KETTLEBELLS_DB)
     last_workout = data["saved_workouts"][-1]
     workout_date = last_workout["date"]
-    workout = from_dict(Workout, last_workout["workout"])
+    workout = Workout(**last_workout["workout"])
     console.print(f"\nDate: [green]{datetime.strptime(workout_date, DATE_FORMAT):%b %d, %Y}\n")
     workout.display_workout()
     print()

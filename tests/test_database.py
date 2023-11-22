@@ -1,5 +1,4 @@
 import json
-from dataclasses import asdict
 from pathlib import Path
 
 import kettlebells.database as db
@@ -105,4 +104,4 @@ def test_cache_workout(database):
     db.cache_workout(Path(database.name), TEST_IC_WORKOUT)
     data = json.load(open(database.name))
     assert len(data["cached_workouts"]) == 1
-    assert data["cached_workouts"][-1] == asdict(TEST_IC_WORKOUT)
+    assert data["cached_workouts"][-1] == TEST_IC_WORKOUT.model_dump()

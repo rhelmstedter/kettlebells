@@ -1,10 +1,9 @@
-from dataclasses import dataclass
 from os import environ
 from pathlib import Path
 from random import choice, choices
 
-from dacite import from_dict
 from iterfzf import iterfzf
+from pydantic import BaseModel
 from rich.prompt import Confirm, IntPrompt, Prompt
 
 from .console import console
@@ -22,16 +21,14 @@ from .constants import (
 from .database import read_database
 
 
-@dataclass
-class Exercise:
+class Exercise(BaseModel):
     name: str
     load: int
     sets: int
     reps: int
 
 
-@dataclass
-class Workout:
+class Workout(BaseModel):
     workout_type: str
     variation: str
     time: int
@@ -349,7 +346,7 @@ def create_perfect_workout(db_path: Path) -> Workout:
     for exercise in workout_params[variation]["exercises"]:
         if not any(x in exercise["name"] for x in no_load_exercises):
             exercise["load"] = IntPrompt.ask(f"  {exercise['name']}")
-        exercises.append(from_dict(Exercise, exercise))
+        exercises.append(Exercise(**exercise))
     return Workout(
         workout_type=workout_type,
         variation=variation,
@@ -437,8 +434,15 @@ def create_custom_workout(db_path: Path) -> Workout:
         reps = IntPrompt.ask("  Reps per set")
         if "Dip" in name or "Pull-up" in name:
             load += int(0.96 * bodyweight)
-        exercises.append(Exercise(name, load, sets, reps))
-    return Workout(workout_type, variation.title(), time, units, bodyweight, exercises)
+        exercises.append(Exercise(name=name, load=load, sets=sets, reps=reps))
+    return Workout(
+        workout_type=workout_type,
+        variation=variation.title(),
+        time=time,
+        units=units,
+        bodyweight=bodyweight,
+        exercises=exercises,
+    )
 
 
 def _get_options(options: dict | list) -> str:

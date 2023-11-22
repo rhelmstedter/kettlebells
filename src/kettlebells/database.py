@@ -1,7 +1,6 @@
 import json
 import sys
 from collections import deque
-from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
 
@@ -93,7 +92,7 @@ def cache_workout(db_path: Path, workout) -> None:
     """
     data = read_database(db_path)
     cache = deque(data["cached_workouts"], maxlen=1)
-    cache.append(asdict(workout))
+    cache.append(workout.model_dump())
     data["cached_workouts"] = list(cache)
     write_database(db_path, data)
 
@@ -108,6 +107,6 @@ def save_workout(db_path: Path, workout_date: str, workout) -> None:
 
     """
     data = read_database(db_path)
-    data["saved_workouts"].append({"date": workout_date, "workout": asdict(workout)})
+    data["saved_workouts"].append({"date": workout_date, "workout": workout.model_dump()})
     data["saved_workouts"] = sorted(data["saved_workouts"], key=lambda x: datetime.strptime(x["date"], DATE_FORMAT))
     write_database(db_path, data)
