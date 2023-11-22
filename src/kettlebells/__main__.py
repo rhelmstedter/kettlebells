@@ -4,7 +4,6 @@ from os import environ
 from pathlib import Path
 
 import typer
-
 from rich.prompt import Confirm, Prompt
 from trogon import Trogon
 from typer.main import get_group

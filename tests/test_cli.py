@@ -1,12 +1,11 @@
 from pathlib import Path
 from unittest import mock
 
-import pytest
-from typer.testing import CliRunner
-
 import kettlebells.__main__
+import pytest
 from kettlebells.__init__ import __version__
 from kettlebells.__main__ import cli
+from typer.testing import CliRunner
 
 from .test_constants import TEST_IC_WORKOUT
 
