@@ -14,12 +14,13 @@ from .console import console
 from .constants import DATE_FORMAT, FZF_DEFAULT_OPTS, KETTLEBELLS_DB, KETTLEBELLS_HOME, SUGGESTION, WARNING
 from .database import cache_workout, confirm_loads, initialize_database, read_database, save_workout, write_database
 from .stats import (
-    filter_by_program,
+    view_program,
     get_all_time_stats,
     plot_workouts,
     print_calendar,
     retrieve_workout,
     top_ten_workouts,
+    filter_by_program,
 )
 from .workouts import (
     Workout,
@@ -201,7 +202,10 @@ def view(
     """Display stats from most recent workout in database."""
     data = read_database(KETTLEBELLS_DB)
     if program:
-        console.print(filter_by_program(data))
+        data, program = filter_by_program(data)
+        table = view_program(data, program)
+        console.print(table)
+        get_all_time_stats(data, program)
         return
     try:
         date, workout = retrieve_workout(data, preview)

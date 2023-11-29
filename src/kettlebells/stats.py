@@ -3,6 +3,7 @@ from collections import defaultdict
 from datetime import datetime
 from statistics import mean, median
 
+import pandas as pd
 import plotext as plt
 from iterfzf import iterfzf
 from rich import box
@@ -16,7 +17,7 @@ from .constants import DATE_FORMAT, KETTLEBELLS_HOME
 from .workouts import Workout, _print_helper
 
 
-def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
+def get_all_time_stats(data: dict, program: str | None = None) -> tuple[list[str], list[int]]:
     """Print stats from all workout in the database.
     :data: A dict of the data in the database.
     :returns: Lists of both dates and weight moved per workout.
@@ -38,12 +39,17 @@ def get_all_time_stats(data: dict) -> tuple[list[str], list[int]]:
     total_reps = sum(stat["reps"] for stat in stats)
     average_weight_density = mean(stat["weight density"] for stat in stats)
     average_rep_density = mean(stat["rep density"] for stat in stats)
-    console.print("\nAll Time Stats")
-    console.print("==============", style="green")
+    if program:
+        title = f"{program.title()} Stats"
+    else:
+        title = "All Time Stats"
+    console.print()
+    console.print(title)
+    console.print("=" * len(title), style="green")
     stats_to_print = [
         ("Total Workouts", f"{len(stats):,}"),
         ("Total Time", f"{days} days {hours:02} hours {mins:02} mins"),
-        (" Total Weight Moved", f"{total_weight_moved:,} {units}"),
+        ("Total Weight Moved", f"{total_weight_moved:,} {units}"),
         ("Total Reps", f"{total_reps:,}"),
         ("Mean Weight Density", f"{average_weight_density:.1f} {units}/min"),
         ("Mean Rep Density", f"{average_rep_density:.1f} reps/min"),
@@ -169,20 +175,30 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
     return top_ten_table
 
 
-def filter_by_program(data: dict) -> Table:
-    """Get the top ten workouts based on weight moved.
-
-    Args:
-        data: A dict of the data from the database.
-        sort: A str of which parameter to sort the table by.
-
-    Returns: A rich Table of the top ten workouts.
-    """
-    programs = {w['workout']['workout_type'] for w in data['saved_workouts']}
+def filter_by_program(data: dict) -> tuple[dict, str]:
+    programs = {w["workout"]["workout_type"] for w in data["saved_workouts"]}
     program = iterfzf(
         programs,
         multi=False,
     )
+    workouts = []
+    for workout_data in data["saved_workouts"]:
+        workout_type = workout_data["workout"]['workout_type']
+        if workout_type == program:
+            workouts.append(workout_data)
+    data["saved_workouts"] = workouts
+    return data, program
+
+
+def view_program(data: dict, program: str) -> Table:
+    """Create a table based on a program.
+
+    Args:
+        data: A dict of the data from the database.
+        program: The name of a workout program.
+
+    Returns: A rich Table of the workouts from a program.
+    """
     units = data["loads"]["units"]
     workouts = []
     for workout_data in data["saved_workouts"]:
@@ -193,8 +209,7 @@ def filter_by_program(data: dict) -> Table:
             load = load[0]
         else:
             load = "Varied"
-        if workout.workout_type == program:
-            workouts.append((date, workout, load, workout.calc_workout_stats()))
+        workouts.append((date, workout, load, workout.calc_workout_stats()))
 
     columns = [
         ("Date\n", "green"),
@@ -243,6 +258,17 @@ def retrieve_workout(data: dict, preview: bool) -> tuple[str, Workout] | None:
         workout = data[date]
         return date, workout
     return
+
+
+def table_to_df(rich_table: Table) -> pd.DataFrame:
+    """Convert a rich.Table obj into a pandas.DataFrame obj with any rich formatting removed from the values.
+    Args:
+        rich_table (Table): A rich Table that should be populated by the DataFrame values.
+    Returns:
+        DataFrame: A pandas DataFrame with the Table data as its values."""
+
+    table_data = {x.header.strip(): [Text.from_markup(y).plain for y in x.cells] for x in rich_table.columns}
+    return pd.DataFrame(table_data)
 
 
 def print_calendar(data: dict, year: int):
