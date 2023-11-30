@@ -11,6 +11,7 @@ from kettlebells.stats import (
     retrieve_workout,
     top_ten_workouts,
     view_program,
+    filter_by_program,
 )
 from kettlebells.workouts import Workout
 
@@ -42,15 +43,26 @@ def test_top_ten_workouts(database):
     assert len(table.columns) == 8
 
 
-# @mock.patch("kettlebells.stats.iterfzf")
-# def test_filter_by_program(fzf_mock, database):
-#     """Test the table object created by filter_by_program."""
-#     data = read_database(Path(database.name))
-#     fzf_mock.return_value = "Dry Fighting Weight"
-#     table = view_program(data, "Dry Fighting Weight")
-#     assert table.title == "Dry Fighting Weight"
-#     assert len(table.rows) == 1
-#     assert len(table.columns) == 9
+@mock.patch("kettlebells.stats.iterfzf")
+def test_filter_by_program(fzf_mock, database):
+    """Test the table object created by filter_by_program."""
+    data = read_database(Path(database.name))
+    data["saved_workouts"].pop(0)
+    fzf_mock.return_value = "Dry Fighting Weight"
+
+    filtered_data, program = filter_by_program(data)
+    assert program == "Dry Fighting Weight"
+    assert filtered_data == data
+
+
+def test_view_program(database):
+    """Test the table object created by filter_by_program."""
+    data = read_database(Path(database.name))
+    data["saved_workouts"].pop(0)
+    table = view_program(data, "Dry Fighting Weight")
+    assert table.title == "Dry Fighting Weight"
+    assert len(table.rows) == 1
+    assert len(table.columns) == 9
 
 
 @mock.patch("kettlebells.stats.iterfzf")
