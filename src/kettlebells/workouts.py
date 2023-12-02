@@ -428,11 +428,11 @@ def create_custom_workout(db_path: Path) -> Workout:
                 break
             case _:
                 name = exercise
-        console.print(exercise)
+        console.print(name)
         load = IntPrompt.ask(f"  Load in {units}")
         sets = IntPrompt.ask("  Number of sets")
         reps = IntPrompt.ask("  Reps per set")
-        if "Dip" in name or "Pull-up" in name:
+        if name in ["Dip", "Pullup", "Chinup"]:
             load += int(0.96 * bodyweight)
         exercises.append(Exercise(name=name, load=load, sets=sets, reps=reps))
     return Workout(
