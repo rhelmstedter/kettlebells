@@ -10,6 +10,7 @@ from .console import console
 from .constants import (
     ABC_PARAMS,
     BTB_PARAMS,
+    EASY_STRENGTH_PARAMS,
     EXERCISES,
     FZF_DEFAULT_OPTS,
     IRON_CARDIO_PARAMS,
@@ -357,6 +358,33 @@ def create_perfect_workout(db_path: Path) -> Workout:
     )
 
 
+def create_easy_strength_workout(db_path: Path, workout_type: str) -> Workout:
+    """Create an Easy Strength workout.
+
+    Args:
+        db_path: The Path to the database.
+
+    Returns:
+        A workout object.
+
+    """
+    data = read_database(db_path)
+    bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
+    workout_type, workout_params = _get_workout_params(workout_type)
+    variation = _get_options(workout_params)
+    time = IntPrompt.ask("Workout duration (mins)")
+    exercises = [Exercise(**exercise) for exercise in workout_params[variation]["exercises"]]
+    return Workout(
+        workout_type=workout_type,
+        variation=variation,
+        time=time,
+        units=units,
+        bodyweight=bodyweight,
+        exercises=exercises,
+    )
+
+
 def create_giant_workout(db_path: Path) -> Workout:
     """Create a The Giant workout.
 
@@ -506,6 +534,8 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
             return "perfect workout", PW_PARAMS
         case "giant":
             return "the giant", THE_GIANT_PARAMS
+        case "es":
+            return "easy strength", EASY_STRENGTH_PARAMS
 
 
 def _print_helper(to_print: list) -> None:

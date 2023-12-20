@@ -309,6 +309,95 @@ THE_GIANT_PARAMS = {
     },
 }
 
+EASY_STRENGTH_PARAMS = {
+    "regular": {
+        "exercises": [
+            {
+                "name": "Goblet Squat",
+                "sets": 1,
+                "reps": 10,
+                "load": 28,
+            },
+            {
+                "name": "Swing",
+                "sets": 4,
+                "reps": 15,
+                "load": 28,
+            },
+            {
+                "name": "Swing",
+                "sets": 1,
+                "reps": 10,
+                "load": 28,
+            },
+            {
+                "name": "Double Press",
+                "sets": 2,
+                "reps": 5,
+                "load": 28,
+            },
+            {
+                "name": "Bent Over Row",
+                "sets": 2,
+                "reps": 10,
+                "load": 28,
+            },
+            {
+                "name": "Single Leg Deadlift",
+                "sets": 2,
+                "reps": 10,
+                "load": 28,
+            },
+            {
+                "name": "Ab Wheel",
+                "sets": 1,
+                "reps": 10,
+                "load": 0,
+            },
+        ],
+    },
+    "light": {
+        "exercises": [
+            {
+                "name": "Goblet Squat",
+                "sets": 1,
+                "reps": 10,
+                "load": 24,
+            },
+            {
+                "name": "Swing",
+                "sets": 3,
+                "reps": 15,
+                "load": 24,
+            },
+            {
+                "name": "Press",
+                "sets": 1,
+                "reps": 20,
+                "load": 24,
+            },
+            {
+                "name": "Bent Over Row",
+                "sets": 1,
+                "reps": 20,
+                "load": 24,
+            },
+            {
+                "name": "Single Leg Deadlift",
+                "sets": 1,
+                "reps": 20,
+                "load": 24,
+            },
+            {
+                "name": "Ab Wheel",
+                "sets": 1,
+                "reps": 10,
+                "load": 0,
+            },
+        ],
+    },
+}
+
 EXERCISES = [
     "Ab Wheel",
     "Banded Hip Thrust",

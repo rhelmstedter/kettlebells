@@ -14,18 +14,19 @@ from .console import console
 from .constants import DATE_FORMAT, FZF_DEFAULT_OPTS, KETTLEBELLS_DB, KETTLEBELLS_HOME, SUGGESTION, WARNING
 from .database import cache_workout, confirm_loads, initialize_database, read_database, save_workout, write_database
 from .stats import (
-    view_program,
+    filter_by_program,
     get_all_time_stats,
     plot_workouts,
     print_calendar,
     retrieve_workout,
     top_ten_workouts,
-    filter_by_program,
+    view_program,
 )
 from .workouts import (
     Workout,
     create_btb_workout,
     create_custom_workout,
+    create_easy_strength_workout,
     create_giant_workout,
     create_ic_or_abc,
     create_perfect_workout,
@@ -153,6 +154,8 @@ def save(
             workout = create_perfect_workout(KETTLEBELLS_DB)
         case "giant":
             workout = create_giant_workout(KETTLEBELLS_DB)
+        case "es":
+            workout = create_easy_strength_workout(KETTLEBELLS_DB, workout_type)
         case None:
             workout = Workout(**data["cached_workouts"][-1])
             console.print("Last workout generated:\n")
@@ -312,7 +315,7 @@ def _get_date() -> str:
             datetime.strptime(workout_date, DATE_FORMAT)
             break
         except ValueError:
-            console.print(":warning: {workout_date} not a valid date.", style=WARNING)
+            console.print(f":warning: {workout_date} not a valid date.", style=WARNING)
             continue
     return workout_date
 
