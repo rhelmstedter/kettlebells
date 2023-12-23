@@ -320,20 +320,14 @@ EASY_STRENGTH_PARAMS = {
             },
             {
                 "name": "Swing",
-                "sets": 4,
+                "sets": 5,
                 "reps": 15,
                 "load": 28,
             },
             {
-                "name": "Swing",
-                "sets": 1,
-                "reps": 10,
-                "load": 28,
-            },
-            {
-                "name": "Double Press",
-                "sets": 2,
-                "reps": 5,
+                "name": "Double Clean and Press",
+                "sets": 3,
+                "reps": 3,
                 "load": 28,
             },
             {
@@ -366,7 +360,7 @@ EASY_STRENGTH_PARAMS = {
             },
             {
                 "name": "Swing",
-                "sets": 3,
+                "sets": 4,
                 "reps": 15,
                 "load": 24,
             },

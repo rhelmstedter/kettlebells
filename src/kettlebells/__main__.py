@@ -202,7 +202,7 @@ def view(
         ),
     ] = False,
 ) -> None:
-    """Display stats from most recent workout in database."""
+    """Display stats of a given workout or program."""
     data = read_database(KETTLEBELLS_DB)
     if program:
         data, program = filter_by_program(data)
@@ -241,7 +241,7 @@ def stats(
         typer.Option(
             "--plot",
             "-p",
-            help="Possible plots: line, event.",
+            help="Possible plots: line, event, bar.",
         ),
     ] = None,
     calendar: Annotated[
@@ -257,7 +257,7 @@ def stats(
         typer.Option(
             "--median",
             "-m",
-            help="A horizontal line at the median weight per workout.",
+            help="A horizontal line at the median weight per workout. Use in conjunction with --plot.",
             is_flag=True,
         ),
     ] = False,
@@ -266,7 +266,7 @@ def stats(
         typer.Option(
             "--average",
             "-a",
-            help="A horizontal line at the mean weight per workout.",
+            help="A horizontal line at the mean weight per workout. Use in conjunction with --plot.",
             is_flag=True,
         ),
     ] = False,

@@ -13,7 +13,7 @@ from rich.table import Table
 from rich.text import Text
 
 from .console import console
-from .constants import DATE_FORMAT, KETTLEBELLS_HOME
+from .constants import DATE_FORMAT, KETTLEBELLS_HOME, SUGGESTION, WARNING
 from .workouts import Workout, _print_helper
 
 
@@ -116,6 +116,12 @@ def plot_workouts(
             plt.xlabel("Weight Moved")
             plt.plotsize(90, 30)
             plt.bar(data.keys(), data.values(), orientation="h")
+        case _:
+            console.print(f":warning: {plot_type} not a valid plot.", style=WARNING)
+            console.print(
+                "Try running [underline]kettlebells stats --help[/underline] to see available plots", style=SUGGESTION
+            )
+            return
 
     plt.theme("pro")
     console.print()
@@ -183,7 +189,7 @@ def filter_by_program(data: dict) -> tuple[dict, str]:
     )
     workouts = []
     for workout_data in data["saved_workouts"]:
-        workout_type = workout_data["workout"]['workout_type']
+        workout_type = workout_data["workout"]["workout_type"]
         if workout_type == program:
             workouts.append(workout_data)
     data["saved_workouts"] = workouts

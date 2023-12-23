@@ -375,9 +375,10 @@ def create_easy_strength_workout(db_path: Path, workout_type: str) -> Workout:
     variation = _get_options(workout_params)
     time = IntPrompt.ask("Workout duration (mins)")
     exercises = [Exercise(**exercise) for exercise in workout_params[variation]["exercises"]]
+    variation = IntPrompt.ask("What day of Easy Strength is this")
     return Workout(
         workout_type=workout_type,
-        variation=variation,
+        variation=f"{variation:0>2}",
         time=time,
         units=units,
         bodyweight=bodyweight,
