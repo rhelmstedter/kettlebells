@@ -360,7 +360,7 @@ EASY_STRENGTH_PARAMS = {
             },
             {
                 "name": "Swing",
-                "sets": 4,
+                "sets": 3,
                 "reps": 15,
                 "load": 24,
             },
