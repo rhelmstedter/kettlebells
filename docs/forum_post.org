@@ -1,0 +1,448 @@
+=============
+Day: 01
+     Time: 24 mins
+
+       Goblet Squat: 1 X 10 with 28 kg
+              Swing: 5 X 10 with 24 kg
+       Double Press: 3 X 3 with 28 kg
+             Chinup: 3 X 3 with 84 kg
+Single Leg Deadlift: 3 X 6 with 28 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 02
+     Time: 23 mins
+
+       Goblet Squat: 1 X 10 with 28 kg
+              Swing: 5 X 10 with 28 kg
+       Double Press: 3 X 3 with 28 kg
+             Chinup: 3 X 3 with 82 kg
+Single Leg Deadlift: 3 X 6 with 28 kg
+
+=============
+Day: 03
+     Time: 17 mins
+
+       Goblet Squat: 1 X 10 with 28 kg
+              Swing: 5 X 10 with 28 kg
+       Double Press: 3 X 3 with 28 kg
+             Chinup: 3 X 3 with 82 kg
+Single Leg Deadlift: 3 X 6 with 28 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 04
+     Time: 11 mins
+
+       Goblet Squat: 1 X 10 with 24 kg
+              Swing: 3 X 15 with 24 kg
+              Press: 1 X 20 with 24 kg
+             Pullup: 3 X 1 with 82 kg
+Single Leg Deadlift: 1 X 20 with 20 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 05
+     Time: 19 mins
+
+              Swing: 5 X 10 with 28 kg
+       Goblet Squat: 1 X 10 with 28 kg
+       Double Press: 3 X 3 with 28 kg
+             Chinup: 3 X 3 with 82 kg
+Single Leg Deadlift: 3 X 6 with 28 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 06
+     Time: 20 mins
+
+              Swing: 1 X 15 with 28 kg
+              Swing: 4 X 10 with 28 kg
+       Goblet Squat: 1 X 10 with 28 kg
+       Double Press: 3 X 3 with 28 kg
+             Chinup: 3 X 3 with 82 kg
+Single Leg Deadlift: 3 X 6 with 28 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 07
+     Time: 21 mins
+
+              Swing: 2 X 15 with 28 kg
+              Swing: 3 X 10 with 28 kg
+       Goblet Squat: 1 X 10 with 28 kg
+       Double Press: 3 X 3 with 28 kg
+             Chinup: 3 X 3 with 82 kg
+Single Leg Deadlift: 3 X 6 with 28 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 08
+     Time: 17 mins
+
+       Goblet Squat: 1 X 10 with 28 kg
+              Swing: 2 X 15 with 28 kg
+              Swing: 3 X 10 with 28 kg
+       Double Press: 3 X 3 with 28 kg
+             Chinup: 3 X 3 with 82 kg
+Single Leg Deadlift: 3 X 6 with 28 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 09
+     Time: 11 mins
+
+       Goblet Squat: 1 X 10 with 24 kg
+              Swing: 3 X 15 with 24 kg
+              Press: 1 X 20 with 24 kg
+             Pullup: 3 X 1 with 82 kg
+Single Leg Deadlift: 1 X 20 with 24 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 10
+     Time: 9 mins
+
+       Goblet Squat: 1 X 10 with 24 kg
+              Swing: 3 X 15 with 24 kg
+              Press: 1 X 20 with 24 kg
+             Pullup: 3 X 1 with 82 kg
+Single Leg Deadlift: 1 X 20 with 24 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 11
+     Time: 20 mins
+
+       Goblet Squat: 1 X 10 with 28 kg
+              Swing: 4 X 15 with 28 kg
+              Swing: 1 X 10 with 28 kg
+       Double Press: 2 X 5 with 28 kg
+      Bent Over Row: 3 X 6 with 28 kg
+Single Leg Deadlift: 2 X 10 with 28 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 12
+     Time: 16 mins
+
+       Goblet Squat: 1 X 10 with 28 kg
+              Swing: 3 X 15 with 28 kg
+       Double Press: 2 X 5 with 28 kg
+      Bent Over Row: 2 X 10 with 28 kg
+Single Leg Deadlift: 2 X 10 with 28 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 13
+     Time: 17 mins
+
+       Goblet Squat: 1 X 10 with 28 kg
+              Swing: 4 X 15 with 28 kg
+              Swing: 1 X 10 with 28 kg
+       Double Press: 2 X 5 with 28 kg
+      Bent Over Row: 2 X 10 with 28 kg
+Single Leg Deadlift: 2 X 10 with 28 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 14
+     Time: 10 mins
+
+       Goblet Squat: 1 X 10 with 24 kg
+              Swing: 3 X 15 with 24 kg
+              Press: 1 X 20 with 24 kg
+      Bent Over Row: 1 X 20 with 24 kg
+Single Leg Deadlift: 1 X 20 with 24 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 15
+     Time: 17 mins
+
+       Goblet Squat: 1 X 10 with 28 kg
+              Swing: 5 X 10 with 28 kg
+       Double Press: 2 X 5 with 28 kg
+      Bent Over Row: 2 X 10 with 28 kg
+Single Leg Deadlift: 2 X 10 with 28 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 16
+     Time: 24 mins
+
+          Goblet Squat: 1 X 10 with 28 kg
+                 Swing: 5 X 15 with 28 kg
+Double Clean and Press: 3 X 3 with 28 kg
+         Bent Over Row: 2 X 10 with 28 kg
+   Single Leg Deadlift: 2 X 10 with 28 kg
+              Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 17
+     Time: 22 mins
+
+          Goblet Squat: 1 X 10 with 28 kg
+                 Swing: 5 X 15 with 28 kg
+Double Clean and Press: 3 X 3 with 28 kg
+         Bent Over Row: 2 X 10 with 28 kg
+   Single Leg Deadlift: 2 X 10 with 28 kg
+              Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 18
+     Time: 10 mins
+
+       Goblet Squat: 1 X 10 with 24 kg
+              Swing: 3 X 15 with 24 kg
+              Press: 1 X 20 with 24 kg
+      Bent Over Row: 1 X 20 with 24 kg
+Single Leg Deadlift: 1 X 20 with 24 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 19
+     Time: 20 mins
+
+          Goblet Squat: 1 X 10 with 28 kg
+                 Swing: 5 X 15 with 28 kg
+Double Clean and Press: 3 X 3 with 28 kg
+         Bent Over Row: 2 X 10 with 28 kg
+   Single Leg Deadlift: 2 X 10 with 28 kg
+              Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 20
+     Time: 19 mins
+
+          Goblet Squat: 1 X 10 with 28 kg
+                 Swing: 5 X 15 with 28 kg
+Double Clean and Press: 3 X 3 with 28 kg
+         Bent Over Row: 2 X 10 with 28 kg
+   Single Leg Deadlift: 2 X 10 with 28 kg
+              Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 21
+     Time: 21 mins
+
+          Goblet Squat: 1 X 10 with 28 kg
+                 Swing: 5 X 15 with 28 kg
+Double Clean and Press: 3 X 3 with 28 kg
+         Bent Over Row: 2 X 10 with 28 kg
+   Single Leg Deadlift: 2 X 10 with 28 kg
+              Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 22
+     Time: 21 mins
+
+          Goblet Squat: 1 X 10 with 28 kg
+                 Swing: 5 X 15 with 28 kg
+Double Clean and Press: 3 X 3 with 28 kg
+         Bent Over Row: 3 X 6 with 32 kg
+   Single Leg Deadlift: 3 X 6 with 32 kg
+              Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 23
+     Time: 12 mins
+
+       Goblet Squat: 1 X 10 with 24 kg
+              Swing: 3 X 15 with 24 kg
+              Press: 1 X 20 with 24 kg
+      Bent Over Row: 1 X 20 with 24 kg
+Single Leg Deadlift: 1 X 20 with 24 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 24
+     Time: 21 mins
+
+          Goblet Squat: 1 X 10 with 28 kg
+                 Swing: 5 X 15 with 28 kg
+Double Clean and Press: 3 X 3 with 28 kg
+         Bent Over Row: 3 X 6 with 32 kg
+   Single Leg Deadlift: 3 X 6 with 32 kg
+              Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 25
+     Time: 11 mins
+
+       Goblet Squat: 1 X 10 with 24 kg
+              Swing: 3 X 15 with 24 kg
+              Press: 1 X 20 with 24 kg
+      Bent Over Row: 1 X 20 with 24 kg
+Single Leg Deadlift: 1 X 20 with 24 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 26
+     Time: 18 mins
+
+          Goblet Squat: 1 X 10 with 28 kg
+                 Swing: 5 X 15 with 28 kg
+Double Clean and Press: 3 X 3 with 28 kg
+         Bent Over Row: 3 X 6 with 32 kg
+   Single Leg Deadlift: 3 X 6 with 32 kg
+              Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 27
+     Time: 26 mins
+
+          Goblet Squat: 1 X 10 with 28 kg
+                 Swing: 5 X 10 with 32 kg
+Double Clean and Press: 2 X 5 with 28 kg
+         Bent Over Row: 2 X 10 with 32 kg
+   Single Leg Deadlift: 2 X 10 with 32 kg
+              Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 28
+     Time: 9 mins
+
+       Goblet Squat: 1 X 10 with 24 kg
+              Swing: 3 X 15 with 24 kg
+       Double Press: 1 X 10 with 24 kg
+      Bent Over Row: 1 X 20 with 24 kg
+Single Leg Deadlift: 1 X 20 with 24 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 29
+     Time: 21 mins
+
+          Goblet Squat: 2 X 5 with 32 kg
+                 Swing: 1 X 15 with 32 kg
+                 Swing: 4 X 10 with 32 kg
+          Double Press: 1 X 1 with 32 kg
+Double Clean and Press: 3 X 3 with 28 kg
+         Bent Over Row: 2 X 10 with 32 kg
+   Single Leg Deadlift: 2 X 10 with 32 kg
+              Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 30
+     Time: 9 mins
+
+       Goblet Squat: 1 X 10 with 24 kg
+              Swing: 3 X 15 with 24 kg
+       Double Press: 1 X 10 with 24 kg
+      Bent Over Row: 1 X 20 with 24 kg
+Single Leg Deadlift: 1 X 20 with 24 kg
+           Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 31
+     Time: 18 mins
+
+      Goblet Squat: 1 X 10 with 32 kg
+             Swing: 2 X 15 with 32 kg
+             Swing: 3 X 10 with 32 kg
+            Chinup: 3 X 3 with 83 kg
+Double Front Squat: 3 X 3 with 28 kg
+               Dip: 2 X 5 with 83 kg
+          Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 32
+     Time: 18 mins
+
+      Goblet Squat: 1 X 10 with 32 kg
+             Swing: 2 X 15 with 32 kg
+             Swing: 3 X 10 with 32 kg
+            Chinup: 3 X 3 with 83 kg
+Double Front Squat: 3 X 3 with 28 kg
+               Dip: 2 X 5 with 83 kg
+          Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 33
+     Time: 8 mins
+
+      Goblet Squat: 1 X 10 with 24 kg
+             Swing: 3 X 15 with 24 kg
+            Pushup: 1 X 10 with 0 kg
+Double Front Squat: 1 X 10 with 20 kg
+     Bent Over Row: 1 X 20 with 24 kg
+          Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 34
+     Time: 21 mins
+
+      Goblet Squat: 1 X 10 with 32 kg
+             Swing: 4 X 15 with 32 kg
+             Swing: 1 X 10 with 32 kg
+               Dip: 3 X 3 with 93 kg
+Double Front Squat: 3 X 3 with 28 kg
+     Bent Over Row: 2 X 10 with 32 kg
+          Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 35
+     Time: 18 mins
+
+      Goblet Squat: 1 X 10 with 32 kg
+             Swing: 5 X 15 with 32 kg
+               Dip: 2 X 5 with 93 kg
+Double Front Squat: 2 X 5 with 28 kg
+     Bent Over Row: 2 X 10 with 32 kg
+          Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 36
+     Time: 10 mins
+
+      Goblet Squat: 1 X 10 with 24 kg
+             Swing: 3 X 15 with 24 kg
+               Dip: 1 X 10 with 83 kg
+Double Front Squat: 1 X 10 with 24 kg
+     Bent Over Row: 1 X 20 with 24 kg
+          Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 37
+     Time: 22 mins
+
+      Goblet Squat: 1 X 10 with 32 kg
+             Swing: 5 X 15 with 32 kg
+               Dip: 3 X 3 with 95 kg
+Double Front Squat: 2 X 5 with 28 kg
+     Bent Over Row: 2 X 10 with 32 kg
+          Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 38
+     Time: 8 mins
+
+      Goblet Squat: 1 X 10 with 24 kg
+             Swing: 3 X 15 with 24 kg
+               Dip: 1 X 10 with 83 kg
+Double Front Squat: 1 X 10 with 24 kg
+     Bent Over Row: 1 X 20 with 24 kg
+          Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 39
+     Time: 16 mins
+
+      Goblet Squat: 1 X 10 with 32 kg
+             Swing: 5 X 15 with 32 kg
+               Dip: 2 X 5 with 95 kg
+Double Front Squat: 2 X 5 with 28 kg
+     Bent Over Row: 2 X 10 with 32 kg
+          Ab Wheel: 1 X 10 with 0 kg
+
+=============
+Day: 40
+     Time: 16 mins
+
+      Goblet Squat: 1 X 10 with 32 kg
+             Swing: 5 X 15 with 32 kg
+               Dip: 2 X 5 with 95 kg
+Double Front Squat: 2 X 5 with 28 kg
+     Bent Over Row: 2 X 10 with 32 kg
+          Ab Wheel: 1 X 10 with 0 kg
