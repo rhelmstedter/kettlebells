@@ -201,12 +201,21 @@ def view(
             is_flag=True,
         ),
     ] = False,
+    display_workout: Annotated[
+        bool,
+        typer.Option(
+            "--display_workout",
+            "-d",
+            help="Display individual workouts in a program.",
+            is_flag=True,
+        ),
+    ] = False,
 ) -> None:
     """Display stats of a given workout or program."""
     data = read_database(KETTLEBELLS_DB)
     if program:
         data, program = filter_by_program(data)
-        table = view_program(data, program)
+        table = view_program(data, program, display_workout)
         console.print(table)
         get_all_time_stats(data, program)
         return

@@ -196,7 +196,7 @@ def filter_by_program(data: dict) -> tuple[dict, str]:
     return data, program
 
 
-def view_program(data: dict, program: str) -> Table:
+def view_program(data: dict, program: str, display_workout: bool) -> Table:
     """Create a table based on a program.
 
     Args:
@@ -216,6 +216,8 @@ def view_program(data: dict, program: str) -> Table:
         else:
             load = "Varied"
         workouts.append((date, workout, load, workout.calc_workout_stats()))
+        if display_workout:
+            workout.display_workout()
 
     columns = [
         ("Date\n", "green"),
