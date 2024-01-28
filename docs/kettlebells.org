@@ -1,24 +1,23 @@
 #+title: kettlebells
 
-* Issues
-** DONE update readme for workout commmand
+* DONE update readme for workout commmand
 CLOSED: [2023-10-03 Tue 19:20]
 There are no more flags, just arguments that are passed in and then altered as needed in the ~workouts~ module.
-** DONE Expand to more workouts than just iron cardio
+* DONE Expand to more workouts than just iron cardio
 CLOSED: [2023-10-03 Tue 19:20]
 I would love to add other workouts like DFW or the Back to Basics (C&P Ladders with snatches or double front squats).
 
 Originally, I thought I would make separate classes for each type of workout (e.g., iron cardio, ABC, DFW). Now, I think I should have a single class with an added attribute ~Workout.workout_type~. This is the way.
 
 I added another attribute called ~Workout.reps~. This solves all of the problems for now. Next up is to build a random ABC workout. There are less options to choose from than iron cardio so it should go smoothly.
-** DONE add a sort option for ~best~ command
+* DONE add a sort option for ~best~ command
 CLOSED: [2023-10-14 Sat 15:48]
-** DONE identify when to use workout instead of session
+* DONE identify when to use workout instead of session
 CLOSED: [2023-10-01 Sun 15:42]
-** DONE refactor functions into methods
+* DONE refactor functions into methods
 CLOSED: [2023-10-06 Fri 15:58]
 ~calc_session_stats~ and ~display_session_stats~ should be refactored into methods for the ~Workout~ object. One barrier is controlling for bodyweight. Currently, bodyweight is stored globally in the database under the key "loads". Perhaps, it makes sense to add bodyweight at an attribute for the ~Workout~ object. This way, when the global bodyweight changes, stats for any given session don't.
-** DONE rethink the workout object
+* DONE rethink the workout object
 CLOSED: [2023-10-09 Mon 21:44]
 Currently reps are stored as a int for each ~Workout~. Maybe it makes more sense to store reps as a dict with each exercise as the key and the reps per set as the value. E.g., a classic iron cardio rep scheme would be:
 
@@ -48,13 +47,13 @@ Although, I'm not sure I have to be explicit. In other words, users could add wh
 
 One idea I just had, offer the movements described as suggestions, but always have an "other" option that users can type in.
 
-** DONE add improved help text
+* DONE add improved help text
 CLOSED: [2023-10-14 Sat 15:18]
-** DONE add a way to create custom workouts
+* DONE add a way to create custom workouts
 CLOSED: [2023-11-07 Tue 17:49]
 Also see [[rethink the workout object][rethink the workout object]] section for ideas. Perhaps I should move the constants into the database when it initializes. That would allow users to add their own exercises or whatever on top of all the current constants.
 
-** DONE Add a program viewer (filter?)
+* DONE Add a program viewer (filter?)
 CLOSED: [2023-11-29 Wed 19:42]
 It would be nice to see all the workouts of a certain type. Something like ~kettlebells filter dfw~. This would return a list of all of the DFW workouts from the datebase. Perhaps in a table of some kind.
 
@@ -62,11 +61,13 @@ After listening to the [[https://www.youtube.com/watch?v=TLd_kXilVUM][Birth of I
 
 The question becomes, how to include the data in a way that is easy to read.
 
-** TODO add a command for descriptions of workouts
-** TODO add links to exercise tutorials
-** TODO add function make an easy strength template
+* TODO add a command for descriptions of workouts
+* TODO add links to exercise tutorials
+* TODO add function make an easy strength template
 I would like to create a command that lets me build a template for my easy strength workouts. That way I don't have to keep updating the app in order each time I change the workout slightly.
-*** Questions
+** Questions
 - Should it be saved in the database?
 - How will I create new templates vs edit existing ones?
 - Are there other programs that would benefit from this (e.g., DFW)?
+* TODO add a time constriction to program viewer
+Currently if you view a program you get the workouts from all time. It would be nice to be able to enter a start date and an ending date.
