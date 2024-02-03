@@ -452,6 +452,7 @@ def create_set_based_workout(db_path: Path, workout_type: str) -> Workout:
     except KeyError:
         console.print(f"Could not find load for {workout_type} in the database.", WARNING)
         console.print("Try running [underline]kettlebells setloads -p[/underline]", SUGGESTION)
+        return
     week = Prompt.ask("Enter the week")
     day = Prompt.ask("Enter the day")
     variation = f"W{week}D{day}"
