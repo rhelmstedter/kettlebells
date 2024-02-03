@@ -237,6 +237,66 @@ TEST_GIANT_WORKOUT = Workout(
     },
 )
 
+TEST_WOLF_WORKOUT = Workout(
+    **{
+        "bodyweight": 90,
+        "units": "kg",
+        "variation": "W1D1",
+        "workout_type": "The Wolf",
+        "time": 12,
+        "exercises": [
+            Exercise(
+                **{
+                    "name": "Snatch",
+                    "load": 16,
+                    "sets": 3,
+                    "reps": 10,
+                }
+            ),
+            Exercise(
+                **{
+                    "name": "Double Front Squat",
+                    "load": 16,
+                    "sets": 3,
+                    "reps": 5,
+                }
+            ),
+            Exercise(
+                **{
+                    "name": "Double Press",
+                    "load": 16,
+                    "sets": 3,
+                    "reps": 5,
+                }
+            ),
+            Exercise(
+                **{
+                    "name": "Double Front Squat",
+                    "load": 16,
+                    "sets": 3,
+                    "reps": 5,
+                }
+            ),
+            Exercise(
+                **{
+                    "name": "Double Clean",
+                    "load": 16,
+                    "sets": 3,
+                    "reps": 5,
+                }
+            ),
+            Exercise(
+                **{
+                    "name": "Double Front Squat",
+                    "load": 16,
+                    "sets": 3,
+                    "reps": 5,
+                }
+            ),
+        ],
+    },
+)
+
 
 TEST_WORKOUT_NO_SWINGS = Workout(
     **{
@@ -334,6 +394,7 @@ TEST_DATA = {
         "medium load": 24,
         "heavy load": 28,
         "the giant": 24,
+        "the wolf": 16,
     },
     "saved_workouts": [
         {

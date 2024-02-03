@@ -2,6 +2,7 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
+
 from kettlebells.constants import IRON_CARDIO_PARAMS
 from kettlebells.workouts import (
     Workout,
@@ -9,10 +10,10 @@ from kettlebells.workouts import (
     _get_units,
     create_btb_workout,
     create_custom_workout,
-    create_set_based_workout,
-    create_time_based_workout,
     create_ic_or_abc,
     create_perfect_workout,
+    create_set_based_workout,
+    create_time_based_workout,
     random_ic_or_abc,
     set_loads,
     set_program_loads,
@@ -26,6 +27,7 @@ from .test_constants import (
     TEST_IC_WORKOUT,
     TEST_PERFECT_WORKOUT,
     TEST_SINGLE_TRAVELING_2S_WORKOUT,
+    TEST_WOLF_WORKOUT,
     TEST_WORKOUT_NO_SWINGS,
     TEST_WORKOUT_SINGLE_BELL_PULLUPS,
 )
@@ -305,5 +307,13 @@ def test_create_giant_workout(int_mock, prompt_mock, database):
     """Test creating a giant workout."""
     prompt_mock.side_effect = ["1", "1"]
     int_mock.side_effect = [1, 10]
-    actual = create_set_based_workout(Path(database.name), "giant")
+    actual = create_time_based_workout(Path(database.name), "giant")
     assert actual == TEST_GIANT_WORKOUT
+
+
+def test_create_wolf_workout(int_mock, prompt_mock, database):
+    """Test creating a wolf workout."""
+    prompt_mock.side_effect = ["1", "1"]
+    int_mock.side_effect = [1, 12]
+    actual = create_set_based_workout(Path(database.name), "wolf")
+    assert actual == TEST_WOLF_WORKOUT
