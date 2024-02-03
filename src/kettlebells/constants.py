@@ -294,20 +294,105 @@ PW_PARAMS = {
 
 THE_GIANT_PARAMS = {
     "The Giant 1.0": {
-        "W1D1": 5,
-        "W1D2": 6,
-        "W1D3": 4,
-        "W2D1": 5,
-        "W2D2": 6,
-        "W2D3": 4,
-        "W3D1": 5,
-        "W3D2": 6,
-        "W3D3": 4,
-        "W4D1": 5,
-        "W4D2": 6,
-        "W4D3": 4,
+        "W1D1": [
+            {
+                "name": "Double Clean and Press",
+                "load": 0,
+                "sets": 0,
+                "reps": 5,
+            },
+        ],
+        "W1D2": [
+            {
+                "name": "Double Clean and Press",
+                "load": 0,
+                "sets": 0,
+                "reps": 6,
+            },
+        ],
+        "W1D3": [
+            {
+                "name": "Double Clean and Press",
+                "load": 0,
+                "sets": 0,
+                "reps": 4,
+            },
+        ],
+        "W2D1": [
+            {
+                "name": "Double Clean and Press",
+                "load": 0,
+                "sets": 0,
+                "reps": 5,
+            },
+        ],
+        "W2D2": [
+            {
+                "name": "Double Clean and Press",
+                "load": 0,
+                "sets": 0,
+                "reps": 6,
+            },
+        ],
+        "W2D3": [
+            {
+                "name": "Double Clean and Press",
+                "load": 0,
+                "sets": 0,
+                "reps": 4,
+            },
+        ],
+        "W3D1": [
+            {
+                "name": "Double Clean and Press",
+                "load": 0,
+                "sets": 0,
+                "reps": 5,
+            },
+        ],
+        "W3D2": [
+            {
+                "name": "Double Clean and Press",
+                "load": 0,
+                "sets": 0,
+                "reps": 6,
+            },
+        ],
+        "W3D3": [
+            {
+                "name": "Double Clean and Press",
+                "load": 0,
+                "sets": 0,
+                "reps": 4,
+            },
+        ],
+        "W4D1": [
+            {
+                "name": "Double Clean and Press",
+                "load": 0,
+                "sets": 0,
+                "reps": 5,
+            },
+        ],
+        "W4D2": [
+            {
+                "name": "Double Clean and Press",
+                "load": 0,
+                "sets": 0,
+                "reps": 6,
+            },
+        ],
+        "W4D3": [
+            {
+                "name": "Double Clean and Press",
+                "load": 0,
+                "sets": 0,
+                "reps": 4,
+            },
+        ],
     },
 }
+
 
 EASY_STRENGTH_PARAMS = {
     "regular": {

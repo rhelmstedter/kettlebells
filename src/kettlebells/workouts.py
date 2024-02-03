@@ -391,37 +391,34 @@ def create_easy_strength_workout(db_path: Path, workout_type: str) -> Workout:
     )
 
 
-def create_giant_workout(db_path: Path) -> Workout:
-    """Create a The Giant workout.
+def create_program_workout(db_path: Path, workout_type: str) -> Workout:
+    """Create a workout based on program.
 
     Args:
         db_path: The path to the database.
 
     Returns:
-        The Giant workout object built by the user.
+        The workout object for a given day of a program.
     """
     data = read_database(db_path)
     bodyweight = data["loads"]["bodyweight"]
     units = data["loads"]["units"]
-    workout_type, workout_params = _get_workout_params("giant")
+    workout_type, workout_params = _get_workout_params(workout_type)
     program = _get_options(workout_params)
     try:
-        load = data["loads"]["the giant"]
+        load = data["loads"][workout_type]
     except KeyError:
-        console.print("Could not find load for The Giant in the database.", WARNING)
+        console.print(f"Could not find load for {workout_type} in the database.", WARNING)
         console.print("Try running [underline]kettlebells setloads -p[/underline]", SUGGESTION)
     week = Prompt.ask("Enter the week")
     day = Prompt.ask("Enter the day")
     variation = f"W{week}D{day}"
     sets = IntPrompt.ask("Number of sets")
-    exercises = [
-        Exercise(
-            name="Double Clean and Press",
-            load=load,
-            sets=sets,
-            reps=workout_params[program][variation],
-        )
-    ]
+    exercises = []
+    for exercise in workout_params[program][variation]:
+        exercise["sets"] = sets
+        exercise["load"] = load
+        exercises.append(Exercise(**exercise))
     return Workout(
         workout_type=program,
         variation=variation,
@@ -540,6 +537,8 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
             return "perfect workout", PW_PARAMS
         case "giant":
             return "the giant", THE_GIANT_PARAMS
+        case "wolf":
+            return "the wolf", THE_GIANT_PARAMS
         case "es":
             return "easy strength", EASY_STRENGTH_PARAMS
 

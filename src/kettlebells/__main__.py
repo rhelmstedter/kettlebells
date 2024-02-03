@@ -27,7 +27,7 @@ from .workouts import (
     create_btb_workout,
     create_custom_workout,
     create_easy_strength_workout,
-    create_giant_workout,
+    create_program_workout,
     create_ic_or_abc,
     create_perfect_workout,
     random_ic_or_abc,
@@ -152,8 +152,8 @@ def save(
             workout = create_custom_workout(KETTLEBELLS_DB)
         case "pw":
             workout = create_perfect_workout(KETTLEBELLS_DB)
-        case "giant":
-            workout = create_giant_workout(KETTLEBELLS_DB)
+        case "giant" | "wolf":
+            workout = create_program_workout(KETTLEBELLS_DB, workout_type)
         case "es":
             workout = create_easy_strength_workout(KETTLEBELLS_DB, workout_type)
         case None:

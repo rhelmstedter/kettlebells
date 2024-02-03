@@ -35,7 +35,7 @@ def test_save_without_save(confirm_mock, database):
         ("create_btb_workout", "btb"),
         ("create_custom_workout", "custom"),
         ("create_perfect_workout", "pw"),
-        ("create_giant_workout", "giant"),
+        ("create_program_workout", "giant"),
         # ("from_dict", None),
     ],
 )
