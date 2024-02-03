@@ -73,10 +73,11 @@ ABC_PARAMS = {
     "doublebell variations": {"Armor Building Complex": 1},
     "singlebell variations": {"Armor Building Complex 2.0": 1},
     "times": {
-        25: 1 / 6,
-        20: 2 / 6,
-        15: 2 / 6,
-        10: 1 / 6,
+        30: 1 / 10,
+        25: 3 / 10,
+        20: 3 / 10,
+        15: 2 / 10,
+        10: 1 / 10,
     },
     "loads": {
         "heavy load": 2 / 6,
