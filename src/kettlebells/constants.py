@@ -393,6 +393,587 @@ THE_GIANT_PARAMS = {
     },
 }
 
+THE_WOLF_PARAMS = {
+    "The Wolf": {
+        "W1D1": [
+            {
+                "name": "Snatch",
+                "load": 0,
+                "sets": 3,
+                "reps": 10,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+        ],
+        "W1D2": [
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+        ],
+        "W1D3": [
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+        ],
+        "W2D1": [
+            {
+                "name": "Snatch",
+                "load": 0,
+                "sets": 4,
+                "reps": 10,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+        ],
+        "W2D2": [
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+        ],
+        "W2D3": [
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+        ],
+        "W3D1": [
+            {
+                "name": "Snatch",
+                "load": 0,
+                "sets": 5,
+                "reps": 10,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+        ],
+        "W3D2": [
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+        ],
+        "W3D3": [
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+        ],
+        "W4D1": [
+            {
+                "name": "Snatch",
+                "load": 0,
+                "sets": 3,
+                "reps": 10,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+        ],
+        "W4D2": [
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+        ],
+        "W4D3": [
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 3,
+                "reps": 5,
+            },
+        ],
+        "W5D1": [
+            {
+                "name": "Snatch",
+                "load": 0,
+                "sets": 4,
+                "reps": 10,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+        ],
+        "W5D2": [
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+        ],
+        "W5D3": [
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 4,
+                "reps": 5,
+            },
+        ],
+        "W6D1": [
+            {
+                "name": "Snatch",
+                "load": 0,
+                "sets": 5,
+                "reps": 10,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+        ],
+        "W6D2": [
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+        ],
+        "W6D3": [
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Press",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Clean",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+            {
+                "name": "Double Front Squat",
+                "load": 0,
+                "sets": 5,
+                "reps": 5,
+            },
+        ],
+    },
+}
+
 
 EASY_STRENGTH_PARAMS = {
     "regular": {
