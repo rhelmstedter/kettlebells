@@ -59,7 +59,7 @@ def test_view_program(database):
     """Test the table object created by filter_by_program."""
     data = read_database(Path(database.name))
     data["saved_workouts"].pop(0)
-    table = view_program(data, "Dry Fighting Weight")
+    table = view_program(data, "Dry Fighting Weight", False)
     assert table.title == "Dry Fighting Weight"
     assert len(table.rows) == 1
     assert len(table.columns) == 9
