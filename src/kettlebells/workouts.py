@@ -17,6 +17,7 @@ from .constants import (
     PW_PARAMS,
     SUGGESTION,
     THE_GIANT_PARAMS,
+    THE_WOLF_PARAMS,
     WARNING,
 )
 from .database import read_database
@@ -391,11 +392,12 @@ def create_easy_strength_workout(db_path: Path, workout_type: str) -> Workout:
     )
 
 
-def create_program_workout(db_path: Path, workout_type: str) -> Workout:
-    """Create a workout based on program.
+def create_time_based_workout(db_path: Path, workout_type: str) -> Workout:
+    """Create a workout based on a given amount of time. E.g., The Giant.
 
     Args:
         db_path: The path to the database.
+        workout_type: The name of the program.
 
     Returns:
         The workout object for a given day of a program.
@@ -413,6 +415,7 @@ def create_program_workout(db_path: Path, workout_type: str) -> Workout:
     week = Prompt.ask("Enter the week")
     day = Prompt.ask("Enter the day")
     variation = f"W{week}D{day}"
+    time = 30
     sets = IntPrompt.ask("Number of sets")
     exercises = []
     for exercise in workout_params[program][variation]:
@@ -422,7 +425,45 @@ def create_program_workout(db_path: Path, workout_type: str) -> Workout:
     return Workout(
         workout_type=program,
         variation=variation,
-        time=30,
+        time=time,
+        units=units,
+        bodyweight=bodyweight,
+        exercises=exercises,
+    )
+
+
+def create_set_based_workout(db_path: Path, workout_type: str) -> Workout:
+    """Create a workout based on a given number of sets.
+
+    Args:
+        db_path: The path to the database.
+        workout_type: The name of the program.
+
+    Returns:
+        The workout object for a given day of a program.
+    """
+    data = read_database(db_path)
+    bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
+    workout_type, workout_params = _get_workout_params(workout_type)
+    program = _get_options(workout_params)
+    try:
+        load = data["loads"][workout_type]
+    except KeyError:
+        console.print(f"Could not find load for {workout_type} in the database.", WARNING)
+        console.print("Try running [underline]kettlebells setloads -p[/underline]", SUGGESTION)
+    week = Prompt.ask("Enter the week")
+    day = Prompt.ask("Enter the day")
+    variation = f"W{week}D{day}"
+    time = IntPrompt.ask("How long was your workout (mins)")
+    exercises = []
+    for exercise in workout_params[program][variation]:
+        exercise["load"] = load
+        exercises.append(Exercise(**exercise))
+    return Workout(
+        workout_type=program,
+        variation=variation,
+        time=time,
         units=units,
         bodyweight=bodyweight,
         exercises=exercises,
@@ -538,7 +579,7 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
         case "giant":
             return "the giant", THE_GIANT_PARAMS
         case "wolf":
-            return "the wolf", THE_GIANT_PARAMS
+            return "the wolf", THE_WOLF_PARAMS
         case "es":
             return "easy strength", EASY_STRENGTH_PARAMS
 

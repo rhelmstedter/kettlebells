@@ -27,9 +27,10 @@ from .workouts import (
     create_btb_workout,
     create_custom_workout,
     create_easy_strength_workout,
-    create_program_workout,
     create_ic_or_abc,
     create_perfect_workout,
+    create_set_based_workout,
+    create_time_based_workout,
     random_ic_or_abc,
     set_loads,
     set_program_loads,
@@ -152,8 +153,10 @@ def save(
             workout = create_custom_workout(KETTLEBELLS_DB)
         case "pw":
             workout = create_perfect_workout(KETTLEBELLS_DB)
-        case "giant" | "wolf":
-            workout = create_program_workout(KETTLEBELLS_DB, workout_type)
+        case "giant":
+            workout = create_time_based_workout(KETTLEBELLS_DB, workout_type)
+        case "wolf":
+            workout = create_set_based_workout(KETTLEBELLS_DB, workout_type)
         case "es":
             workout = create_easy_strength_workout(KETTLEBELLS_DB, workout_type)
         case None:

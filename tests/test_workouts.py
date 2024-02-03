@@ -9,7 +9,8 @@ from kettlebells.workouts import (
     _get_units,
     create_btb_workout,
     create_custom_workout,
-    create_program_workout,
+    create_set_based_workout,
+    create_time_based_workout,
     create_ic_or_abc,
     create_perfect_workout,
     random_ic_or_abc,
@@ -304,5 +305,5 @@ def test_create_giant_workout(int_mock, prompt_mock, database):
     """Test creating a giant workout."""
     prompt_mock.side_effect = ["1", "1"]
     int_mock.side_effect = [1, 10]
-    actual = create_program_workout(Path(database.name), "giant")
+    actual = create_set_based_workout(Path(database.name), "giant")
     assert actual == TEST_GIANT_WORKOUT
