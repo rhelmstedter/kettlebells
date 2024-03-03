@@ -84,7 +84,7 @@ def plot_workouts(
             year = str(datetime.today().year)[-2:]
             plt.xlim(f"{year}-01-01", f"{year}-12-31")
             plt.event_plot(x_axis, marker="hd")
-            ticks = [f"23-{m}-01" for m in range(1, 13)]
+            ticks = [f"{year}-{m}-01" for m in range(1, 13)]
             xlabels = [calendar.month_abbr[m] for m in range(1, 13)]
             plt.xticks(ticks, xlabels)
         case "line":
