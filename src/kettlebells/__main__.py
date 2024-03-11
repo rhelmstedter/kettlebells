@@ -31,6 +31,7 @@ from .workouts import (
     create_perfect_workout,
     create_set_based_workout,
     create_time_based_workout,
+    create_workout_generator_workout,
     random_ic_or_abc,
     set_loads,
     set_program_loads,
@@ -116,7 +117,7 @@ def random(
     ctx: typer.Context,
     workout_type: Annotated[
         str,
-        typer.Option("--workout-type", "-w", help="Possible workouts: ic or abc."),
+        typer.Option("--workout-type", "-w", help="Possible workout types: ic or abc."),
     ],
 ) -> None:
     """Create a random iron cardio or armor building complex workout."""
@@ -134,7 +135,7 @@ def save(
         typer.Option(
             "--workout-type",
             "-w",
-            help="Possible workout-types: ic, abc, btb, pw, or custom.",
+            help="Possible workout-types: ic, abc, btb, es, pw, wolf, or custom.",
         ),
     ] = None,
 ) -> None:
@@ -159,6 +160,8 @@ def save(
             workout = create_set_based_workout(KETTLEBELLS_DB, workout_type)
         case "es":
             workout = create_easy_strength_workout(KETTLEBELLS_DB, workout_type)
+        case "wg":
+            workout = create_workout_generator_workout(KETTLEBELLS_DB, workout_type)
         case None:
             workout = Workout(**data["cached_workouts"][-1])
             console.print("Last workout generated:\n")

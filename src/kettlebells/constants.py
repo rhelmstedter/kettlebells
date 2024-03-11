@@ -975,6 +975,15 @@ THE_WOLF_PARAMS = {
     },
 }
 
+WORKOUT_GENERATOR_PARAMS = {
+    "3 X 8": {},
+    "3 X 10": {},
+    "3 X 12": {},
+    "30/30 For 30": {
+        "time": 30,
+        "sets": 6,
+    },
+}
 
 EASY_STRENGTH_PARAMS = {
     "regular": {

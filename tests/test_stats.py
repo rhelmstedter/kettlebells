@@ -2,16 +2,15 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
-
 from kettlebells.database import read_database
 from kettlebells.stats import (
     _get_dates,
+    filter_by_program,
     get_all_time_stats,
     plot_workouts,
     retrieve_workout,
     top_ten_workouts,
     view_program,
-    filter_by_program,
 )
 from kettlebells.workouts import Workout
 

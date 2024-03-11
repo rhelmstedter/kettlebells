@@ -19,6 +19,7 @@ from .constants import (
     THE_GIANT_PARAMS,
     THE_WOLF_PARAMS,
     WARNING,
+    WORKOUT_GENERATOR_PARAMS,
 )
 from .database import read_database
 
@@ -116,8 +117,9 @@ class Workout(BaseModel):
 def random_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
     """Create a random workout based on workout_type.
 
-    Params:
-        db_path - The Path to the database.
+    Args:
+        db_path:  The Path to the database.
+        workout_type:  Either ic or abc.
     Returns:
         A Workout object with randomly generated parameters.
     """
@@ -471,6 +473,56 @@ def create_set_based_workout(db_path: Path, workout_type: str) -> Workout:
     )
 
 
+def create_workout_generator_workout(db_path: Path, workout_type: str) -> Workout:
+    """Create a workout based on the Dan John Workout Generator.
+
+    Args:
+        db_path: The path to the database.
+        workout_type: The workout_type "wg".
+
+    Returns:
+        A custom workout object built by the user.
+    """
+    data = read_database(db_path)
+    bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
+    workout_type, workout_params = _get_workout_params(workout_type)
+    variation = _get_options(workout_params)
+    if workout_params[variation].get("time"):
+        time = workout_params[variation]["time"]
+    else:
+        time = IntPrompt.ask("Duration (mins)")
+    exercises = []
+    environ["FZF_DEFAULT_OPTS"] = FZF_DEFAULT_OPTS
+    while True:
+        exercise = iterfzf(EXERCISES, multi=False)
+        match exercise:
+            case "Other":
+                name = Prompt.ask("Name of exercise").title()
+            case "Done" | None:
+                break
+            case _:
+                name = exercise
+        console.print(name)
+        load = IntPrompt.ask(f"  Load in {units}")
+        sets = workout_params[variation]["sets"]
+        if workout_params[variation].get("reps"):
+            reps = workout_params[variation]["reps"]
+        else:
+            reps = IntPrompt.ask("  Average Reps per set")
+        if name in ["Dip", "Pullup", "Chinup"]:
+            load += int(0.96 * bodyweight)
+        exercises.append(Exercise(name=name, load=load, sets=sets, reps=reps))
+    return Workout(
+        workout_type=workout_type,
+        variation=variation.title(),
+        time=time,
+        units=units,
+        bodyweight=bodyweight,
+        exercises=exercises,
+    )
+
+
 def create_custom_workout(db_path: Path) -> Workout:
     """Create a custom workout.
 
@@ -583,6 +635,8 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
             return "the wolf", THE_WOLF_PARAMS
         case "es":
             return "easy strength", EASY_STRENGTH_PARAMS
+        case "wg":
+            return "workout generator", WORKOUT_GENERATOR_PARAMS
 
 
 def _print_helper(to_print: list) -> None:
