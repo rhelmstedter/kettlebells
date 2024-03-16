@@ -1130,7 +1130,18 @@ EXERCISES = [
     "Thruster",
     "Toes to Bar",
     "Turkish Get-up",
-    "Weighted Dip",
-    "Weighted Pullup",
     "Windmill",
 ]
+
+
+BODYWEIGHT_FACTORS = {
+    "Bodyweight Row": 0.5,
+    "Chinup": 0.96,
+    "Dip": 0.96,
+    "Pike Pushup": 0.64,
+    "Pullup": 0.96,
+    "Pushup": 0.64,
+    "TRX Advanced Row": 0.64,
+    "TRX Pushup": 0.5,
+    "TRX Row": 0.3,
+}

@@ -20,6 +20,7 @@ from .constants import (
     THE_WOLF_PARAMS,
     WARNING,
     WORKOUT_GENERATOR_PARAMS,
+    BODYWEIGHT_FACTORS,
 )
 from .database import read_database
 
@@ -203,10 +204,9 @@ def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
         sets = sets + sets // 3
     for exercise, reps in workout_params["exercises"][variation]:
         if bells == "Single Bell" and exercise == "Pullup":
-            load = int(0.96 * bodyweight)
             sets = sets // 2
-        elif bells == "Double Bells" and exercise == "Pullup":
-            load = int(0.96 * bodyweight)
+        if exercise == "Pullup":
+            load = _add_bodyweight_factor(bodyweight, exercise)
         exercises.append(
             Exercise(
                 name=exercise,
@@ -380,8 +380,7 @@ def create_easy_strength_workout(db_path: Path, workout_type: str) -> Workout:
     exercises = []
     for exercise in workout_params[variation]["exercises"]:
         exercise = Exercise(**exercise)
-        if exercise.name in ["Dip", "Pullup", "Chinup"]:
-            exercise.load += int(0.96 * bodyweight)
+        exercise.load += _add_bodyweight_factor(bodyweight, exercise.name)
         exercises.append(exercise)
     variation = IntPrompt.ask("What day of Easy Strength is this")
     return Workout(
@@ -493,16 +492,10 @@ def create_workout_generator_workout(db_path: Path, workout_type: str) -> Workou
     else:
         time = IntPrompt.ask("Duration (mins)")
     exercises = []
-    environ["FZF_DEFAULT_OPTS"] = FZF_DEFAULT_OPTS
     while True:
-        exercise = iterfzf(EXERCISES, multi=False)
-        match exercise:
-            case "Other":
-                name = Prompt.ask("Name of exercise").title()
-            case "Done" | None:
-                break
-            case _:
-                name = exercise
+        name = _get_exercise()
+        if not name:
+            break
         console.print(name)
         load = IntPrompt.ask(f"  Load in {units}")
         sets = workout_params[variation]["sets"]
@@ -510,8 +503,7 @@ def create_workout_generator_workout(db_path: Path, workout_type: str) -> Workou
             reps = workout_params[variation]["reps"]
         else:
             reps = IntPrompt.ask("  Average Reps per set")
-        if name in ["Dip", "Pullup", "Chinup"]:
-            load += int(0.96 * bodyweight)
+        load += _add_bodyweight_factor(bodyweight, name)
         exercises.append(Exercise(name=name, load=load, sets=sets, reps=reps))
     return Workout(
         workout_type=workout_type,
@@ -521,6 +513,10 @@ def create_workout_generator_workout(db_path: Path, workout_type: str) -> Workou
         bodyweight=bodyweight,
         exercises=exercises,
     )
+
+
+def _add_bodyweight_factor(bodyweight, name):
+    return int(BODYWEIGHT_FACTORS.get(name, 0) * bodyweight)
 
 
 def create_custom_workout(db_path: Path) -> Workout:
@@ -543,22 +539,15 @@ def create_custom_workout(db_path: Path) -> Workout:
         variation = "Custom"
     time = IntPrompt.ask("Duration (mins)")
     exercises = []
-    environ["FZF_DEFAULT_OPTS"] = FZF_DEFAULT_OPTS
     while True:
-        exercise = iterfzf(EXERCISES, multi=False)
-        match exercise:
-            case "Other":
-                name = Prompt.ask("Name of exercise").title()
-            case "Done" | None:
-                break
-            case _:
-                name = exercise
+        name = _get_exercise()
+        if not name:
+            break
         console.print(name)
         load = IntPrompt.ask(f"  Load in {units}")
         sets = IntPrompt.ask("  Number of sets")
         reps = IntPrompt.ask("  Reps per set")
-        if name in ["Dip", "Pullup", "Chinup"]:
-            load += int(0.96 * bodyweight)
+        load += _add_bodyweight_factor(bodyweight, name)
         exercises.append(Exercise(name=name, load=load, sets=sets, reps=reps))
     return Workout(
         workout_type=workout_type,
@@ -649,3 +638,15 @@ def _print_helper(to_print: list) -> None:
     for label, value in to_print:
         console.print(f"{label: >{longest_label}}: {value}")
     console.print()
+
+
+def _get_exercise() -> str | None:
+    environ["FZF_DEFAULT_OPTS"] = FZF_DEFAULT_OPTS
+    exercise = iterfzf(EXERCISES, multi=False)
+    match exercise:
+        case "Other":
+            return Prompt.ask("Name of exercise").title()
+        case "Done" | None:
+            return
+        case _:
+            return exercise
