@@ -63,11 +63,14 @@ The question becomes, how to include the data in a way that is easy to read.
 
 * TODO add a command for descriptions of workouts
 * TODO add links to exercise tutorials
-* TODO add function make an easy strength template
+* DONE add function make an easy strength template
+CLOSED: [2024-03-16 Sat 09:54]
 I would like to create a command that lets me build a template for my easy strength workouts. That way I don't have to keep updating the app in order each time I change the workout slightly.
 ** Questions
 - Should it be saved in the database?
 - How will I create new templates vs edit existing ones?
 - Are there other programs that would benefit from this (e.g., DFW)?
-* TODO add a time constriction to program viewer
+* TODO add a time restriction to program viewer
 Currently if you view a program you get the workouts from all time. It would be nice to be able to enter a start date and an ending date.
+* DONE handle bodyweight exercises
+CLOSED: [2024-03-16 Sat 09:54]
