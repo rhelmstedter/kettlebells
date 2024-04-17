@@ -20,6 +20,7 @@ from .constants import (
     THE_WOLF_PARAMS,
     WARNING,
     WORKOUT_GENERATOR_PARAMS,
+    WORKOUT_ROP_PARAMS,
     BODYWEIGHT_FACTORS,
 )
 from .database import read_database
@@ -499,15 +500,55 @@ def create_workout_generator_workout(db_path: Path, workout_type: str) -> Workou
         console.print(name)
         load = IntPrompt.ask(f"  Load in {units}")
         sets = workout_params[variation]["sets"]
-        if workout_params[variation].get("reps"):
-            reps = workout_params[variation]["reps"]
-        else:
-            reps = IntPrompt.ask("  Average Reps per set")
+        reps = IntPrompt.ask("  (Average) Reps per set")
         load += _add_bodyweight_factor(bodyweight, name)
         exercises.append(Exercise(name=name, load=load, sets=sets, reps=reps))
     return Workout(
         workout_type=workout_type,
         variation=variation.title(),
+        time=time,
+        units=units,
+        bodyweight=bodyweight,
+        exercises=exercises,
+    )
+
+
+def create_rite_of_passage_workout(db_path: Path) -> Workout:
+    """Create a Rite of Passage workout.
+
+    Args:
+        db_path: The Path to the database.
+
+    Returns:
+        A workout object.
+    """
+    data = read_database(db_path)
+    bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
+    workout_type, workout_params = _get_workout_params("rop")
+    variation = _get_options(workout_params)
+    time = IntPrompt.ask("Workout duration (mins)")
+    exercises = []
+    while True:
+        name = _get_options(workout_params[variation]["exercises"])
+        if name.lower() == "done":
+            break
+        load = IntPrompt.ask(f"  Load in {units}")
+        if name in ["Swing", "Snatch"]:
+            sets = IntPrompt.ask("  Number of sets")
+            reps = IntPrompt.ask("  Number of reps")
+        else:
+            sets = IntPrompt.ask("  Number of ladders")
+            rungs = IntPrompt.ask("  Number of rungs")
+            reps = rungs * (rungs + 1) // 2
+        if name.lower() == "clean and press":
+            reps *= 2
+        exercise = Exercise(name=name, load=load, sets=sets, reps=reps)
+        exercise.load += _add_bodyweight_factor(bodyweight, exercise.name)
+        exercises.append(exercise)
+    return Workout(
+        workout_type=workout_type,
+        variation=f"{variation:0>2}",
         time=time,
         units=units,
         bodyweight=bodyweight,
@@ -626,6 +667,8 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
             return "easy strength", EASY_STRENGTH_PARAMS
         case "wg":
             return "workout generator", WORKOUT_GENERATOR_PARAMS
+        case "rop":
+            return "rite of passage", WORKOUT_ROP_PARAMS
 
 
 def _print_helper(to_print: list) -> None:

@@ -32,6 +32,7 @@ from .workouts import (
     create_set_based_workout,
     create_time_based_workout,
     create_workout_generator_workout,
+    create_rite_of_passage_workout,
     random_ic_or_abc,
     set_loads,
     set_program_loads,
@@ -135,7 +136,7 @@ def save(
         typer.Option(
             "--workout-type",
             "-w",
-            help="Possible workout-types: ic, abc, btb, es, pw, wolf, or custom.",
+            help="Possible workout-types: ic, abc, btb, es, pw, wolf, wg, rop, or custom.",
         ),
     ] = None,
 ) -> None:
@@ -162,6 +163,8 @@ def save(
             workout = create_easy_strength_workout(KETTLEBELLS_DB, workout_type)
         case "wg":
             workout = create_workout_generator_workout(KETTLEBELLS_DB, workout_type)
+        case "rop":
+            workout = create_rite_of_passage_workout(KETTLEBELLS_DB)
         case None:
             workout = Workout(**data["cached_workouts"][-1])
             console.print("Last workout generated:\n")

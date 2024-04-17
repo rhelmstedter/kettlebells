@@ -976,9 +976,15 @@ THE_WOLF_PARAMS = {
 }
 
 WORKOUT_GENERATOR_PARAMS = {
-    "3 X 8": {},
-    "3 X 10": {},
-    "3 X 12": {},
+    "3 X 8": {
+        "sets": 3,
+    },
+    "3 X 10": {
+        "sets": 3,
+    },
+    "3 X 12": {
+        "sets": 3,
+    },
     "30/30 For 30": {
         "time": 30,
         "sets": 6,
@@ -1068,6 +1074,32 @@ EASY_STRENGTH_PARAMS = {
     },
 }
 
+WORKOUT_ROP_PARAMS = {
+    "Heavy": {
+        "exercises": [
+            "Clean and Press",
+            "Pullup",
+            "Swing",
+            "Done",
+        ],
+    },
+    "Medium": {
+        "exercises": [
+            "Clean and Press",
+            "Pullup",
+            "Swing",
+            "Done",
+        ],
+    },
+    "Light": {
+        "exercises": [
+            "Clean and Press",
+            "Pullup",
+            "Snatch",
+            "Done",
+        ],
+    },
+}
 EXERCISES = [
     "Ab Wheel",
     "Arch Body Leg Lift",

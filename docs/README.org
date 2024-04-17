@@ -102,6 +102,7 @@ The ~save~ command saves workouts to the database. The current options are:
 + abc
 + btb
 + pw
++ rop
 + wolf
 + custom
 
@@ -164,6 +165,14 @@ The program options are:
 |           | Bent Over Rows                           |    3 |       8 |
 |           | Goblet Squat / Broomstick Overhead Squat |    1 |       8 |
 |-----------+------------------------------------------+------+---------|
+
+**** rop
+
+The save command with a workout type of ~rop~ saves versions of Pavel Tsatsouline's rite of passage program from [[https://www.amazon.com/Enter-Kettlebell-Strength-Secret-Supermen/dp/1942812132][Enter The Kettlebell]]. The clean and press and pullups are calculated as ladders, while the swings and snatches are straight sets.
+
+#+begin_src
+kettlebells save --workout-type rop
+#+end_src
 
 **** wolf
 The save command with a workout type of ~wolf~ saves workouts from the free program [[https://chasingstrength.com/reports/double-kettlebell-complex/][The Wolf]] from [[https://chasingstrength.com][Geoff Neupert]]. This is a gasser for sure.
