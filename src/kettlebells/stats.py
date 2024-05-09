@@ -19,8 +19,13 @@ from .workouts import Workout, _print_helper
 
 def get_all_time_stats(data: dict, program: str | None = None) -> tuple[list[str], list[int]]:
     """Print stats from all workout in the database.
-    :data: A dict of the data in the database.
-    :returns: Lists of both dates and weight moved per workout.
+
+    Args:
+        data: A dict of the data in the database.
+        program: A str of the program to filter by.
+
+    Returns:
+        tuple: Lists of both dates and weight moved per workout.
     """
     units = data["loads"]["units"]
     dates = []
@@ -135,7 +140,8 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
         data: A dict of the data from the database.
         sort: A str of which parameter to sort the table by.
 
-    Returns: A rich Table of the top ten workouts.
+    Returns:
+        Table: A rich Table of the top ten workouts.
     """
     units = data["loads"]["units"]
     workouts = []
@@ -182,6 +188,12 @@ def top_ten_workouts(data: dict, sort: str) -> Table:
 
 
 def filter_by_program(data: dict) -> tuple[dict, str]:
+    """Filter the workouts by program.
+    Args:
+        data: A dict of the data from the database.
+
+    Returns: A tuple of the filtered data and the program name.
+    """
     programs = {w["workout"]["workout_type"] for w in data["saved_workouts"]}
     program = iterfzf(
         programs,
@@ -270,8 +282,10 @@ def retrieve_workout(data: dict, preview: bool) -> tuple[str, Workout] | None:
 
 def table_to_df(rich_table: Table) -> pd.DataFrame:
     """Convert a rich.Table obj into a pandas.DataFrame obj with any rich formatting removed from the values.
+
     Args:
         rich_table (Table): A rich Table that should be populated by the DataFrame values.
+
     Returns:
         DataFrame: A pandas DataFrame with the Table data as its values."""
 
