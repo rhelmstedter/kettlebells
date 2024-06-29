@@ -9,19 +9,21 @@ from rich.prompt import Confirm, IntPrompt, Prompt
 from .console import console
 from .constants import (
     ABC_PARAMS,
+    ABFB_PARAMS,
+    BODYWEIGHT_FACTORS,
     BTB_PARAMS,
     EASY_STRENGTH_PARAMS,
     EXERCISES,
     FZF_DEFAULT_OPTS,
     IRON_CARDIO_PARAMS,
+    POUNDS_TO_KILOS_RATE,
     PW_PARAMS,
+    ROP_PARAMS,
     SUGGESTION,
     THE_GIANT_PARAMS,
     THE_WOLF_PARAMS,
     WARNING,
     WORKOUT_GENERATOR_PARAMS,
-    WORKOUT_ROP_PARAMS,
-    BODYWEIGHT_FACTORS,
 )
 from .database import read_database
 
@@ -473,12 +475,11 @@ def create_set_based_workout(db_path: Path, workout_type: str) -> Workout:
     )
 
 
-def create_workout_generator_workout(db_path: Path, workout_type: str) -> Workout:
+def create_workout_generator_workout(db_path: Path) -> Workout:
     """Create a workout based on the Dan John Workout Generator.
 
     Args:
         db_path: The path to the database.
-        workout_type: The workout_type "wg".
 
     Returns:
         A custom workout object built by the user.
@@ -486,7 +487,7 @@ def create_workout_generator_workout(db_path: Path, workout_type: str) -> Workou
     data = read_database(db_path)
     bodyweight = data["loads"]["bodyweight"]
     units = data["loads"]["units"]
-    workout_type, workout_params = _get_workout_params(workout_type)
+    workout_type, workout_params = _get_workout_params("wg")
     variation = _get_options(workout_params)
     if workout_params[variation].get("time"):
         time = workout_params[variation]["time"]
@@ -600,6 +601,46 @@ def create_custom_workout(db_path: Path) -> Workout:
     )
 
 
+def create_abf_barbell_workout(db_path: Path) -> Workout:
+    """Create an Amor Building Formula Barbell workout.
+
+    Args:
+        db_path: The path to the database.
+
+    Returns:
+        A workout object built by the user.
+    """
+    data = read_database(db_path)
+    bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
+    workout_type, workout_param = _get_workout_params("abfb")
+    variation = _get_options(workout_param["variations"])
+    time = IntPrompt.ask("Duration (mins)")
+    exercises = []
+    if variation == "Program Three":
+        squat_reps = IntPrompt.ask("Reps per set for front squat")
+    for exercise in workout_param["exercises"]:
+        print(exercise)
+        sets_left = workout_param["exercises"][exercise]["sets"]
+        while sets_left > 0:
+            load = IntPrompt.ask("  Load in lbs")
+            sets = IntPrompt.ask("  Number of sets at this load")
+            reps = workout_param["exercises"][exercise]["reps"]
+            sets_left -= sets
+            load = convert_pounds_to_kilos(load)
+            exercises.append(Exercise(name=exercise, load=load, sets=sets, reps=reps))
+            if variation == "Program Three" and exercise == "Clean and Press":
+                exercises.append(Exercise(name="Front Squat", load=load, sets=sets, reps=squat_reps))
+    return Workout(
+        workout_type=workout_type,
+        variation=variation.title(),
+        time=time,
+        units=units,
+        bodyweight=bodyweight,
+        exercises=exercises,
+    )
+
+
 def _get_options(options: dict | list) -> str:
     """Select options for a given workout parameter.
     Args:
@@ -668,7 +709,14 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
         case "wg":
             return "workout generator", WORKOUT_GENERATOR_PARAMS
         case "rop":
-            return "rite of passage", WORKOUT_ROP_PARAMS
+            return "rite of passage", ROP_PARAMS
+        case "abfb":
+            return "armor building formula barbell", ABFB_PARAMS
+
+
+def convert_pounds_to_kilos(load: int) -> int:
+    """Convert a load in pounds to kilograms."""
+    return round(load * POUNDS_TO_KILOS_RATE, 0)
 
 
 def _print_helper(to_print: list) -> None:

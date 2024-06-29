@@ -24,6 +24,7 @@ from .stats import (
 )
 from .workouts import (
     Workout,
+    create_abf_barbell_workout,
     create_btb_workout,
     create_custom_workout,
     create_easy_strength_workout,
@@ -162,9 +163,11 @@ def save(
         case "es":
             workout = create_easy_strength_workout(KETTLEBELLS_DB, workout_type)
         case "wg":
-            workout = create_workout_generator_workout(KETTLEBELLS_DB, workout_type)
+            workout = create_workout_generator_workout(KETTLEBELLS_DB)
         case "rop":
             workout = create_rite_of_passage_workout(KETTLEBELLS_DB)
+        case "abfb":
+            workout = create_abf_barbell_workout(KETTLEBELLS_DB)
         case None:
             workout = Workout(**data["cached_workouts"][-1])
             console.print("Last workout generated:\n")

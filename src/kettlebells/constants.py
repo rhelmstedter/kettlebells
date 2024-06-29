@@ -7,8 +7,8 @@ SUGGESTION = "yellow"
 FZF_DEFAULT_OPTS = "--height 13 --layout=reverse --border rounded --margin=2%,5%,10%,2%"
 KETTLEBELLS_HOME = Path().home() / ".kettlebells"
 KETTLEBELLS_DB = KETTLEBELLS_HOME / "kettlebells_db.json"
-
 DATE_FORMAT = "%Y-%m-%d"
+POUNDS_TO_KILOS_RATE = 0.45359237
 
 IRON_CARDIO_PARAMS = {
     "bells": {"Single Bell": 4 / 6, "Double Bells": 2 / 6},
@@ -991,6 +991,20 @@ WORKOUT_GENERATOR_PARAMS = {
     },
 }
 
+ABFB_PARAMS = {
+    "variations": ["Program One", "Program Two", "Program Three"],
+    "exercises": {
+        "Clean and Press": {
+            "reps": 8,
+            "sets": 5,
+        },
+        "Curls": {
+            "reps": 8,
+            "sets": 5,
+        },
+    },
+}
+
 EASY_STRENGTH_PARAMS = {
     "regular": {
         "exercises": [
@@ -1074,7 +1088,7 @@ EASY_STRENGTH_PARAMS = {
     },
 }
 
-WORKOUT_ROP_PARAMS = {
+ROP_PARAMS = {
     "Heavy": {
         "exercises": [
             "Clean and Press",
@@ -1100,6 +1114,8 @@ WORKOUT_ROP_PARAMS = {
         ],
     },
 }
+
+
 EXERCISES = [
     "Ab Wheel",
     "Arch Body Leg Lift",
@@ -1114,6 +1130,7 @@ EXERCISES = [
     "Chinup",
     "Clean and Press",
     "Clean",
+    "Curl",
     "Deadlift",
     "Dip",
     "Done",
