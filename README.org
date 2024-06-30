@@ -1,4 +1,4 @@
-# Created 2024-04-16 Tue 18:41
+# Created 2024-06-30 Sun 12:06
 #+options: toc:t
 #+title: kettlebells
 #+author: Russell Helmstedter
@@ -10,12 +10,14 @@
 kettlebells is a CLI designed to create, save, and track the progress of kettlebell workouts. The inspiration for this project came from [[https://www.chroniclesofstrength.com/what-strength-aerobics-are-and-how-to-use-them-w-brett-jones/][Pat Flynn's conversation with Bret Jones]]. (For a more detailed look at Iron Cardio, go checkout the [[https://strongandfit.com/products/iron-cardio-by-brett-jones][Iron Cardio Book]] by Bret Jones.) After starting an [[https://github.com/rhelmstedter/iron-cardio][initial project]] that focused only on iron cardio, I wanted to be able to add more. This is essentially a fork of the iron-cardio project designed to add various workouts such as the armor building complex, and dry fighting weight.
 
 As of version 0.2.1, the way workouts are constructed has completely changed. This will allow users to construct their own custom workouts in the future. It will also allow the stats to keep track of how many reps of each type of exercise have been done.
+
 * Installation
 Use [[https://github.com/pypa/pipx][pipx]].
 
 #+begin_src bash
 pipx install kettlebells
 #+end_src
+
 * Usage
 ** Initialize
 Run the ~init~ command to create the database.
@@ -29,11 +31,13 @@ Next, run the ~setloads~ command. This sets the units to either pounds (lbs) or 
 #+begin_src bash
 kettlebells setloads
 #+end_src
+
 ** Commands
 *** random
 The work out command generates a random workout. The current options are:
 - ~ic~ (Iron Cardio)
 - ~abc~ (Armor Building Complex)
+
 **** iron-cardio
 The ~random~ command with a workout type of ~ic~, generates a random iron cardio workout.
 #+begin_src bash
@@ -64,11 +68,12 @@ Iron cardio workouts are built from the following parameters:
 |--------------------------+--------------------------|
 | *SWINGS*                 | 0 - 150                  |
 |--------------------------+--------------------------|
+
 **** abc
 The random command with a workout type of ~abc~ will generate a random armor building complex workout.
 
-#+begin_src
-kettlebells workout abc
+#+begin_src bash
+kettlebells random --workout-type abc
 #+end_src
 
 |--------------------------+----------------------------|
@@ -90,27 +95,36 @@ kettlebells workout abc
 |--------------------------+----------------------------|
 | *SWINGS*                 | 0 - 100                    |
 |--------------------------+----------------------------|
+
 *** save
 The ~save~ command saves workouts to the database. The current options are:
-- ic
-- abc
-- btb
-- pw
-- rop
-- wolf
-- custom
-
+- [[iron-cardio][ic]]
+- [[abc][abc]]
+- [[abfb][abfb]]
+- [[btb][btb]]
+- [[pw][pw]]
+- [[rop][rop]]
+- [[wolf][wolf]]
+- [[custom][custom]]
 
 When run with no option, the ~save~ command will attempt to use the most recently generated random workout. Otherwise, use the ~--workout-type~ option to manually enter a workout, e.g.:
 
-#+begin_src
+#+begin_src bash
 kettlebells save --workout-type abc
 #+end_src
+
+**** abfb
+When the ~save~ command is run with the workout type of ~abfb~, an armor building formula barbell workout is saved. Currently, the user can choose from variations of Program One, Program Two, and Program Three.
+
+#+begin_src bash
+kettlebells save --workout-type abfb
+#+end_src
+
 **** btb
 
 The save command with a workout type of ~btb~ allows the user to save a Back to Basics Workout. These workouts are constructed based on The Pat Flynn Show episode with Dan John [[https://patflynnshow.libsyn.com/the-best-kettlebell-program-for-beginners-the-btbkp][The BEST Kettlebell Program for GEGINNERS | THE BTBKP]]. The choices are ladders of 2-3-5 clean and presses followed by either snatches or double front squats. The warm up and cool exercises are not included in the workout.
 
-#+begin_src
+#+begin_src bash
 kettlebells save --workout-type btb
 #+end_src
 
@@ -127,11 +141,12 @@ The program options are:
 | 3 ladders   | 10 sets of 5 Double Front Squats |
 | 5 ladders   | 10 sets of 5 Double Front Squats |
 |-------------+----------------------------------|
+
 **** pw
 
 The save command with a workout type of ~pw~ saves versions of [[https://youtu.be/aHQLx_HhFqo?si=b68xBn41-tcGDVJE][Dan John's Perfect Workout]]. While in the video Dan does hip thrusts until it burns, for ease of recording the workout, ~kettlebells~ offers a set number of reps for the hip thrust.
 
-#+begin_src
+#+begin_src bash
 kettlebells save --workout-type pw
 #+end_src
 
@@ -157,33 +172,44 @@ The program options are:
 |            | Bent Over Rows                           |    3 |       8 |
 |            | Goblet Squat / Broomstick Overhead Squat |    1 |       8 |
 |------------+------------------------------------------+------+---------|
+
 **** rop
 
 The save command with a workout type of ~rop~ saves versions of Pavel Tsatsouline's rite of passage program from [[https://www.amazon.com/Enter-Kettlebell-Strength-Secret-Supermen/dp/1942812132][Enter The Kettlebell]]. The clean and press and pullups are calculated as ladders, while the swings and snatches are straight sets.
 
-#+begin_src
+#+begin_src bash
 kettlebells save --workout-type rop
 #+end_src
+
 **** wolf
 The save command with a workout type of ~wolf~ saves workouts from the free program [[https://chasingstrength.com/reports/double-kettlebell-complex/][The Wolf]] from [[https://chasingstrength.com][Geoff Neupert]]. This is a gasser for sure.
-**** custom
-When the ~save~ command is run with the  workout type of custom, allows the user to save a custom workout. Custom exercises need a ~workout_type~ and a ~variation~. The default is ~custom~. Exercises are chosen via a [[https://github.com/dahlia/iterfzf][iterfzf]]. Select ~Other~ to add a custom exercise. Select ~Done~ or press escape when finished adding all the exercises.
 
-#+begin_src
+#+begin_src bash
+kettlebells save --workout-type wolf
+#+end_src
+
+**** custom
+When the ~save~ command is run with the workout type of ~custom~, the user can save a custom workout. Custom workouts need a ~workout_type~ and a ~variation~. The default is ~custom~. Exercises are chosen via [[https://github.com/dahlia/iterfzf][iterfzf]]. Select ~Other~ to add a custom exercise. Select ~Done~ or press escape when finished adding all the exercises.
+
+#+begin_src bash
 kettlebells save --workout-type custom
 #+end_src
+
 ***** Reps and Loads for Custom Exercises
 Unilateral exercises such as the single arm overhead press (simply "Press" in the program) should have the reps doubled. For example, if the set and rep scheme is 3 sets of 8 single arm overhead presses on the left and right arm, that should be saved as 16 reps per set for that exercise.
 
 When the stats are calculated, any exercise that has "Double" in it has the load multiplied by 2. So Double Pressing a pair of 24 kg kettlebells should be saved as a load of 24 kg, but the calculations will result in 48 kg per rep. If using uneven sized bells, use the average weight of the two bells rounded to the nearest integer.
+
 ***** Suggested Use for Complexes
 Consider a workout out like the [[https://www.youtube.com/watch?v=nHPfglRCp6M&t=13s][8 - 5 - 3 Rep Scheme]] from Pat Flynn. The ~workout_type~ would be "complex", the ~variation~ would be "8-5-3 Rep Scheme". Technically, a set consists of 8 Goblet Squats, 5 Start Stop Swings, 3 Push-ups. Then you would repeat this for 5 rounds. However, in ~kettlebells~ the user will add each exercise separately. So the Goblet Squat would be 5 sets of 8. The Start Stop Swing would be 5 sets of 5, and the Push-up would be 5 sets of 3.
+
 *** last
 The ~last~ command displays the last saved workout and calculates the stats for it.
 
 #+begin_src bash
 kettlebells last
 #+end_src
+
 *** view
 Use the ~view~ command to search for previous workouts by date. If you have [[https://github.com/BurntSushi/ripgrep#installation][ripgrep]] installed, use the ~--preview~ flag to view more information about the workout based on the date.
 
@@ -196,12 +222,14 @@ Use the ~--Program~ flag to filter workouts based on a certain workout_type.
 #+begin_src bash
 kettlebells view --Program
 #+end_src
+
 *** stats
 The ~stats~ command displays the aggregated workout count, time, weight moved, number of reps, and density for all workout in the database.
 
 #+begin_src bash
 kettlebells stats
 #+end_src
+
 **** plot
 To display a line plot of the weight moved per workout, use the ~--plot line~ option. Add a line at the median with ~--median~ or at the mean with ~--average~.
 
@@ -220,12 +248,15 @@ To display an event plot of the current year, use the ~--plot event~ option.
 #+begin_src bash
 kettlebells stats --plot event
 #+end_src
+
+
 **** calendar
 To display a calendar of workouts in a given year, use the ~--calendar~ flag and pass the year as the argument.
 
 #+begin_src bash
 kettlebells stats --calendar 2023
 #+end_src
+
 **** best
 The ~best~ command displays the top ten workout based on the weight moved.
 

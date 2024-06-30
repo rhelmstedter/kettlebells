@@ -72,8 +72,8 @@ Iron cardio workouts are built from the following parameters:
 **** abc
 The random command with a workout type of ~abc~ will generate a random armor building complex workout.
 
-#+begin_src
-kettlebells workout abc
+#+begin_src bash
+kettlebells random --workout-type abc
 #+end_src
 
 |------------------------+----------------------------|
@@ -98,26 +98,33 @@ kettlebells workout abc
 
 *** save
 The ~save~ command saves workouts to the database. The current options are:
-+ ic
-+ abc
-+ btb
-+ pw
-+ rop
-+ wolf
-+ custom
-
+- [[iron-cardio][ic]]
+- [[abc][abc]]
+- [[abfb][abfb]]
+- [[btb][btb]]
+- [[pw][pw]]
+- [[rop][rop]]
+- [[wolf][wolf]]
+- [[custom][custom]]
 
 When run with no option, the ~save~ command will attempt to use the most recently generated random workout. Otherwise, use the ~--workout-type~ option to manually enter a workout, e.g.:
 
-#+begin_src
+#+begin_src bash
 kettlebells save --workout-type abc
+#+end_src
+
+**** abfb
+When the ~save~ command is run with the workout type of ~abfb~, an armor building formula barbell workout is saved. Currently, the user can choose from variations of Program One, Program Two, and Program Three.
+
+#+begin_src bash
+kettlebells save --workout-type abfb
 #+end_src
 
 **** btb
 
 The save command with a workout type of ~btb~ allows the user to save a Back to Basics Workout. These workouts are constructed based on The Pat Flynn Show episode with Dan John [[https://patflynnshow.libsyn.com/the-best-kettlebell-program-for-beginners-the-btbkp][The BEST Kettlebell Program for GEGINNERS | THE BTBKP]]. The choices are ladders of 2-3-5 clean and presses followed by either snatches or double front squats. The warm up and cool exercises are not included in the workout.
 
-#+begin_src
+#+begin_src bash
 kettlebells save --workout-type btb
 #+end_src
 
@@ -139,7 +146,7 @@ The program options are:
 
 The save command with a workout type of ~pw~ saves versions of [[https://youtu.be/aHQLx_HhFqo?si=b68xBn41-tcGDVJE][Dan John's Perfect Workout]]. While in the video Dan does hip thrusts until it burns, for ease of recording the workout, ~kettlebells~ offers a set number of reps for the hip thrust.
 
-#+begin_src
+#+begin_src bash
 kettlebells save --workout-type pw
 #+end_src
 
@@ -170,17 +177,21 @@ The program options are:
 
 The save command with a workout type of ~rop~ saves versions of Pavel Tsatsouline's rite of passage program from [[https://www.amazon.com/Enter-Kettlebell-Strength-Secret-Supermen/dp/1942812132][Enter The Kettlebell]]. The clean and press and pullups are calculated as ladders, while the swings and snatches are straight sets.
 
-#+begin_src
+#+begin_src bash
 kettlebells save --workout-type rop
 #+end_src
 
 **** wolf
 The save command with a workout type of ~wolf~ saves workouts from the free program [[https://chasingstrength.com/reports/double-kettlebell-complex/][The Wolf]] from [[https://chasingstrength.com][Geoff Neupert]]. This is a gasser for sure.
 
-**** custom
-When the ~save~ command is run with the  workout type of custom, allows the user to save a custom workout. Custom exercises need a ~workout_type~ and a ~variation~. The default is ~custom~. Exercises are chosen via a [[https://github.com/dahlia/iterfzf][iterfzf]]. Select ~Other~ to add a custom exercise. Select ~Done~ or press escape when finished adding all the exercises.
+#+begin_src bash
+kettlebells save --workout-type wolf
+#+end_src
 
-#+begin_src
+**** custom
+When the ~save~ command is run with the workout type of ~custom~, the user can save a custom workout. Custom workouts need a ~workout_type~ and a ~variation~. The default is ~custom~. Exercises are chosen via [[https://github.com/dahlia/iterfzf][iterfzf]]. Select ~Other~ to add a custom exercise. Select ~Done~ or press escape when finished adding all the exercises.
+
+#+begin_src bash
 kettlebells save --workout-type custom
 #+end_src
 
