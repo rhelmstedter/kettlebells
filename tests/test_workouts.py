@@ -2,11 +2,13 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
+
 from kettlebells.constants import IRON_CARDIO_PARAMS
 from kettlebells.workouts import (
     Workout,
     _get_options,
     _get_units,
+    create_abf_barbell_workout,
     create_btb_workout,
     create_custom_workout,
     create_ic_or_abc,
@@ -19,6 +21,7 @@ from kettlebells.workouts import (
 )
 
 from .test_constants import (
+    TEST_ABFB,
     TEST_BTB_WORKOUT,
     TEST_CUSTOM_WORKOUT,
     TEST_DOUBLE_TRAVELING_2S_WORKOUT,
@@ -221,6 +224,36 @@ def test_custom_ic_workout(
     confirm_mock.return_value = "y"
     units_mock.side_effect = ["kg"]
     actual = create_ic_or_abc(Path(database.name), "ic")
+    assert isinstance(actual, Workout)
+    assert actual == expected
+
+
+def test_abfb(
+    options_mock,
+    units_mock,
+    confirm_mock,
+    int_mock,
+    database,
+):
+    """Test creating a armor building formula barbell workout."""
+    expected = TEST_ABFB
+    options_mock.side_effect = ["Program Three"]
+    int_mock.side_effect = [
+        32,  # time
+        1,  # squat reps
+        45,  # load
+        1,  # sets at ^ load
+        65,  # load
+        1,  # sets at ^ load
+        95,  # load
+        3,  # sets at ^ load
+        45,  # load
+        2,  # sets at ^ load
+        55,  # load
+        3,  # sets at ^ load
+    ]
+    units_mock.side_effect = ["kg"]
+    actual = create_abf_barbell_workout(Path(database.name))
     assert isinstance(actual, Workout)
     assert actual == expected
 

@@ -298,6 +298,83 @@ TEST_WOLF_WORKOUT = Workout(
 )
 
 
+TEST_ABFB = Workout(
+    **{
+        "bodyweight": 90,
+        "units": "kg",
+        "variation": "Program Three",
+        "time": 32,
+        "exercises": [
+            Exercise(
+                **{
+                    "name": "Clean and Press",
+                    "load": 20,
+                    "sets": 1,
+                    "reps": 8,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Front Squat",
+                    "load": 20,
+                    "sets": 1,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Clean and Press",
+                    "load": 29,
+                    "sets": 1,
+                    "reps": 8,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Front Squat",
+                    "load": 29,
+                    "sets": 1,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Clean and Press",
+                    "load": 43,
+                    "sets": 3,
+                    "reps": 8,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Front Squat",
+                    "load": 43,
+                    "sets": 3,
+                    "reps": 1,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Curl",
+                    "load": 20,
+                    "sets": 2,
+                    "reps": 8,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Curl",
+                    "load": 25,
+                    "sets": 3,
+                    "reps": 8,
+                },
+            ),
+        ],
+        "workout_type": "armor building formula barbell",
+    }
+)
+
+
 TEST_WORKOUT_NO_SWINGS = Workout(
     **{
         "bodyweight": 90,

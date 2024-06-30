@@ -998,7 +998,7 @@ ABFB_PARAMS = {
             "reps": 8,
             "sets": 5,
         },
-        "Curls": {
+        "Curl": {
             "reps": 8,
             "sets": 5,
         },
