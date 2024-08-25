@@ -620,6 +620,7 @@ def create_abf_barbell_workout(db_path: Path) -> Workout:
     if variation == "Program Three":
         squat_reps = IntPrompt.ask("Reps per set for front squat")
     for exercise in workout_param["exercises"]:
+        print()
         print(exercise)
         sets_left = workout_param["exercises"][exercise]["sets"]
         while sets_left > 0:
@@ -631,6 +632,7 @@ def create_abf_barbell_workout(db_path: Path) -> Workout:
             exercises.append(Exercise(name=exercise, load=load, sets=sets, reps=reps))
             if variation == "Program Three" and exercise == "Clean and Press":
                 exercises.append(Exercise(name="Front Squat", load=load, sets=sets, reps=squat_reps))
+    print()
     return Workout(
         workout_type=workout_type,
         variation=variation.title(),
