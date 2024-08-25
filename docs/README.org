@@ -33,74 +33,12 @@ kettlebells setloads
 #+end_src
 
 ** Commands
-*** random
-The work out command generates a random workout. The current options are:
-+ ~ic~ (Iron Cardio)
-+ ~abc~ (Armor Building Complex)
-
-**** iron-cardio
-The ~random~ command with a workout type of ~ic~, generates a random iron cardio workout.
-#+begin_src bash
-kettlebells random --workout-type ic
-#+end_src
-
-Iron cardio workouts are built from the following parameters:
-
-|------------------------+--------------------------|
-| Parameter              | Options                  |
-|------------------------+--------------------------|
-| *Single Bell Variations* | Classic                  |
-|                        | Classic + Pull-up        |
-|                        | Classic + Snatch         |
-|                        | Traveling 2s             |
-|------------------------+--------------------------|
-| *Double Bell Variations* | Double Classic           |
-|                        | Double Classic + Pull-up |
-|                        | Double Traveling 2s      |
-|------------------------+--------------------------|
-| *TIMES*                  | 30 mins                  |
-|                        | 20 mins                  |
-|                        | 10 mins                  |
-|------------------------+--------------------------|
-| *LOADS*                  | heavy                    |
-|                        | medium                   |
-|                        | light                    |
-|------------------------+--------------------------|
-| *SWINGS*                 | 0 - 150                  |
-|------------------------+--------------------------|
-
-**** abc
-The random command with a workout type of ~abc~ will generate a random armor building complex workout.
-
-#+begin_src bash
-kettlebells random --workout-type abc
-#+end_src
-
-|------------------------+----------------------------|
-| Parameter              | Options                    |
-|------------------------+----------------------------|
-| *Single Bell Variations* | Armor Building Complex 2.0 |
-|------------------------+----------------------------|
-| *Double Bell Variations* | Armor Building Complex     |
-|------------------------+----------------------------|
-| *TIMES*                  | 30 mins                    |
-|                        | 25 mins                    |
-|                        | 20 mins                    |
-|                        | 15 mins                    |
-|                        | 10 mins                    |
-|------------------------+----------------------------|
-| *LOADS*                  | heavy                      |
-|                        | medium                     |
-|                        | light                      |
-|------------------------+----------------------------|
-| *SWINGS*                 | 0 - 100                    |
-|------------------------+----------------------------|
-
 *** save
 The ~save~ command saves workouts to the database. The current options are:
 - [[iron-cardio][ic]]
 - [[abc][abc]]
 - [[abfb][abfb]]
+- [[abf][abf]]
 - [[btb][btb]]
 - [[pw][pw]]
 - [[rop][rop]]
@@ -118,6 +56,13 @@ When the ~save~ command is run with the workout type of ~abfb~, an armor buildin
 
 #+begin_src bash
 kettlebells save --workout-type abfb
+#+end_src
+
+**** abf
+When the ~save~ command is run with the workout type of ~abf~, an armor building formula workout is saved. This program alternates between the armor building complex and double kettlebell press. See the [[https://danjohnuniversity.com/bookstore][Dan Jon Bookstore]] for more details
+
+#+begin_src bash
+kettlebells save --workout-type abf
 #+end_src
 
 **** btb
@@ -203,6 +148,69 @@ When the stats are calculated, any exercise that has "Double" in it has the load
 ***** Suggested Use for Complexes
 Consider a workout out like the [[https://www.youtube.com/watch?v=nHPfglRCp6M&t=13s][8 - 5 - 3 Rep Scheme]] from Pat Flynn. The ~workout_type~ would be "complex", the ~variation~ would be "8-5-3 Rep Scheme". Technically, a set consists of 8 Goblet Squats, 5 Start Stop Swings, 3 Push-ups. Then you would repeat this for 5 rounds. However, in ~kettlebells~ the user will add each exercise separately. So the Goblet Squat would be 5 sets of 8. The Start Stop Swing would be 5 sets of 5, and the Push-up would be 5 sets of 3.
 
+*** random
+The work out command generates a random workout. The current options are:
++ ~ic~ (Iron Cardio)
++ ~abc~ (Armor Building Complex)
+
+**** iron-cardio
+The ~random~ command with a workout type of ~ic~, generates a random iron cardio workout.
+#+begin_src bash
+kettlebells random --workout-type ic
+#+end_src
+
+Iron cardio workouts are built from the following parameters:
+
+|------------------------+--------------------------|
+| Parameter              | Options                  |
+|------------------------+--------------------------|
+| *Single Bell Variations* | Classic                  |
+|                        | Classic + Pull-up        |
+|                        | Classic + Snatch         |
+|                        | Traveling 2s             |
+|------------------------+--------------------------|
+| *Double Bell Variations* | Double Classic           |
+|                        | Double Classic + Pull-up |
+|                        | Double Traveling 2s      |
+|------------------------+--------------------------|
+| *TIMES*                  | 30 mins                  |
+|                        | 20 mins                  |
+|                        | 10 mins                  |
+|------------------------+--------------------------|
+| *LOADS*                  | heavy                    |
+|                        | medium                   |
+|                        | light                    |
+|------------------------+--------------------------|
+| *SWINGS*                 | 0 - 150                  |
+|------------------------+--------------------------|
+
+**** abc
+The random command with a workout type of ~abc~ will generate a random armor building complex workout.
+
+#+begin_src bash
+kettlebells random --workout-type abc
+#+end_src
+
+|------------------------+----------------------------|
+| Parameter              | Options                    |
+|------------------------+----------------------------|
+| *Single Bell Variations* | Armor Building Complex 2.0 |
+|------------------------+----------------------------|
+| *Double Bell Variations* | Armor Building Complex     |
+|------------------------+----------------------------|
+| *TIMES*                  | 30 mins                    |
+|                        | 25 mins                    |
+|                        | 20 mins                    |
+|                        | 15 mins                    |
+|                        | 10 mins                    |
+|------------------------+----------------------------|
+| *LOADS*                  | heavy                      |
+|                        | medium                     |
+|                        | light                      |
+|------------------------+----------------------------|
+| *SWINGS*                 | 0 - 100                    |
+|------------------------+----------------------------|
+
 *** last
 The ~last~ command displays the last saved workout and calculates the stats for it.
 
@@ -248,7 +256,6 @@ To display an event plot of the current year, use the ~--plot event~ option.
 #+begin_src bash
 kettlebells stats --plot event
 #+end_src
-
 
 **** calendar
 To display a calendar of workouts in a given year, use the ~--calendar~ flag and pass the year as the argument.
