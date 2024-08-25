@@ -9,6 +9,7 @@ from rich.prompt import Confirm, IntPrompt, Prompt
 from .console import console
 from .constants import (
     ABC_PARAMS,
+    ABF_PARAMS,
     ABFB_PARAMS,
     BODYWEIGHT_FACTORS,
     BTB_PARAMS,
@@ -181,7 +182,7 @@ def random_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
 
 
 def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
-    """Create a random ic or abc Workout.
+    """Create an ic or abc Workout.
 
     Args:
         db_path: The Path object to the database.
@@ -643,6 +644,46 @@ def create_abf_barbell_workout(db_path: Path) -> Workout:
     )
 
 
+def create_abf_workout(db_path: Path) -> Workout:
+    """Create an armor building formula Workout.
+
+    Args:
+        db_path: The Path object to the database.
+
+    Returns:
+        A Workout object created by the user.
+    """
+    data = read_database(db_path)
+    bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
+    workout_type, workout_params = _get_workout_params("abf")
+    variation = _get_options(workout_params)
+    time = IntPrompt.ask("How long was your workout (mins)")
+    load = IntPrompt.ask(f"What weight did you use ({units})")
+    if variation == "Armor Building Complex":
+        sets = IntPrompt.ask("How many rounds of ABC did you complete?")
+    exercises = []
+    for exercise, reps in workout_params[variation]:
+        if variation == "Double Press":
+            sets = IntPrompt.ask(f"How many sets of {reps} reps did you complete")
+        exercises.append(
+            Exercise(
+                name=exercise,
+                load=load,
+                sets=sets,
+                reps=reps,
+            )
+        )
+    return Workout(
+        workout_type=workout_type,
+        variation=variation,
+        time=time,
+        units=units,
+        bodyweight=bodyweight,
+        exercises=exercises,
+    )
+
+
 def _get_options(options: dict | list) -> str:
     """Select options for a given workout parameter.
     Args:
@@ -714,6 +755,8 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
             return "rite of passage", ROP_PARAMS
         case "abfb":
             return "armor building formula barbell", ABFB_PARAMS
+        case "abf":
+            return "armor building formula", ABF_PARAMS
 
 
 def convert_pounds_to_kilos(load: int) -> int:

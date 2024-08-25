@@ -11,7 +11,7 @@ from kettlebells.workouts import (
     create_abf_barbell_workout,
     create_btb_workout,
     create_custom_workout,
-    create_ic_or_abc,
+    random_ic_or_abc,
     create_perfect_workout,
     create_set_based_workout,
     create_time_based_workout,
@@ -223,7 +223,7 @@ def test_custom_ic_workout(
     int_mock.side_effect = int_responses
     confirm_mock.return_value = "y"
     units_mock.side_effect = ["kg"]
-    actual = create_ic_or_abc(Path(database.name), "ic")
+    actual = random_ic_or_abc(Path(database.name), "ic")
     assert isinstance(actual, Workout)
     assert actual == expected
 

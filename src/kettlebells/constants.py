@@ -1005,6 +1005,17 @@ ABFB_PARAMS = {
     },
 }
 
+ABF_PARAMS = {
+    "Armor Building Complex": ABC_PARAMS["exercises"]["Armor Building Complex"],
+    "Double Press": [
+        ("Double Press", 2),
+        ("Double Press", 3),
+        ("Double Press", 5),
+        ("Double Press", 10),
+    ],
+}
+
+
 EASY_STRENGTH_PARAMS = {
     "regular": {
         "exercises": [
