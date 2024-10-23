@@ -12,10 +12,10 @@ from kettlebells.workouts import (
     create_btb_workout,
     create_custom_workout,
     random_ic_or_abc,
+    create_ic_or_abc,
     create_perfect_workout,
     create_set_based_workout,
     create_time_based_workout,
-    random_ic_or_abc,
     set_loads,
     set_program_loads,
     create_easy_strength_workout,
@@ -187,54 +187,55 @@ def test_get_options_bad_input(int_mock):
         pass
 
 
-# @pytest.mark.parametrize(
-#     "workout, bells, variation, confirm, int_responses",
-#     [
-#         # int responses are time, load, sets, swings count, swing load
-#         (
-#             TEST_IC_WORKOUT,
-#             "Double Bells",
-#             "Double Classic + Pullup",
-#             True,
-#             [30, 28, 20, 60, 28],
-#         ),
-#         (
-#             TEST_DOUBLE_TRAVELING_2S_WORKOUT,
-#             "Double Bells",
-#             "Double Traveling 2s",
-#             True,
-#             [29, 28, 12, 50, 28],
-#         ),
-#         (
-#             TEST_SINGLE_TRAVELING_2S_WORKOUT,
-#             "Single Bell",
-#             "Traveling 2s",
-#             True,
-#             [10, 20, 10, 100, 20],
-#         ),
-#     ],
-# )
-# def test_custom_ic_workout(
-#     workout,
-#     bells,
-#     variation,
-#     confirm,
-#     int_responses,
-#     options_mock,
-#     units_mock,
-#     confirm_mock,
-#     int_mock,
-#     database,
-# ):
-#     """Test creating a custom iron cardio or abc workout works as intended."""
-#     expected = workout
-#     options_mock.side_effect = [bells, variation]
-#     int_mock.side_effect = int_responses
-#     units_mock.side_effect = ["kg"]
-#     confirm_mock.return_value = "y"
-#     actual = random_ic_or_abc(Path(database.name), "ic")
-#     assert isinstance(actual, Workout)
-#     assert actual == expected
+@pytest.mark.parametrize(
+    "test_workout, bells, variation, confirm, int_responses",
+    [
+        # int responses are time, load, sets, swings count, swing load
+        (
+            TEST_IC_WORKOUT,
+            "Double Bells",
+            "Double Classic + Pullup",
+            True,
+            [30, 28, 20, 60, 28],
+        ),
+        (
+            TEST_DOUBLE_TRAVELING_2S_WORKOUT,
+            "Double Bells",
+            "Double Traveling 2s",
+            True,
+            [29, 28, 12, 50, 28],
+        ),
+        (
+            TEST_SINGLE_TRAVELING_2S_WORKOUT,
+            "Single Bell",
+            "Traveling 2s",
+            True,
+            [10, 20, 10, 100, 20],
+        ),
+    ],
+)
+def test_custom_ic_workout(
+    test_workout,
+    bells,
+    variation,
+    confirm,
+    int_responses,
+    options_mock,
+    units_mock,
+    confirm_mock,
+    int_mock,
+    database,
+):
+    """Test creating a custom iron cardio or abc workout works as intended."""
+    expected = test_workout
+    options_mock.side_effect = [bells, variation]
+    int_mock.side_effect = int_responses
+    units_mock.side_effect = ["kg"]
+    confirm_mock.return_value = "y"
+    actual = create_ic_or_abc(Path(database.name), "ic")
+    assert actual == expected
+
+
 
 
 def test_easy_strength_workout(
