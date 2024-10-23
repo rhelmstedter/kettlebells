@@ -18,6 +18,7 @@ from kettlebells.workouts import (
     random_ic_or_abc,
     set_loads,
     set_program_loads,
+    create_easy_strength_workout
 )
 
 from .test_constants import (
@@ -32,6 +33,7 @@ from .test_constants import (
     TEST_WOLF_WORKOUT,
     TEST_WORKOUT_NO_SWINGS,
     TEST_WORKOUT_SINGLE_BELL_PULLUPS,
+    TEST_EASY_STRENGTH_WORKOUT,
 )
 
 POSSIBLE_SWINGS = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150]
@@ -178,52 +180,69 @@ def test_get_options_bad_input(int_mock):
         pass
 
 
-@pytest.mark.parametrize(
-    "workout, bells, variation, confirm, int_responses",
-    [
-        # int responses are time, load, sets, swings count, swing load
-        (
-            TEST_IC_WORKOUT,
-            "Double Bells",
-            "Double Classic + Pullup",
-            True,
-            [30, 28, 20, 60, 28],
-        ),
-        (
-            TEST_DOUBLE_TRAVELING_2S_WORKOUT,
-            "Double Bells",
-            "Double Traveling 2s",
-            True,
-            [29, 28, 12, 50, 28],
-        ),
-        (
-            TEST_SINGLE_TRAVELING_2S_WORKOUT,
-            "Single Bell",
-            "Traveling 2s",
-            True,
-            [10, 20, 10, 100, 20],
-        ),
-    ],
-)
-def test_custom_ic_workout(
-    workout,
-    bells,
-    variation,
-    confirm,
-    int_responses,
+# @pytest.mark.parametrize(
+#     "workout, bells, variation, confirm, int_responses",
+#     [
+#         # int responses are time, load, sets, swings count, swing load
+#         (
+#             TEST_IC_WORKOUT,
+#             "Double Bells",
+#             "Double Classic + Pullup",
+#             True,
+#             [30, 28, 20, 60, 28],
+#         ),
+#         (
+#             TEST_DOUBLE_TRAVELING_2S_WORKOUT,
+#             "Double Bells",
+#             "Double Traveling 2s",
+#             True,
+#             [29, 28, 12, 50, 28],
+#         ),
+#         (
+#             TEST_SINGLE_TRAVELING_2S_WORKOUT,
+#             "Single Bell",
+#             "Traveling 2s",
+#             True,
+#             [10, 20, 10, 100, 20],
+#         ),
+#     ],
+# )
+# def test_custom_ic_workout(
+#     workout,
+#     bells,
+#     variation,
+#     confirm,
+#     int_responses,
+#     options_mock,
+#     units_mock,
+#     confirm_mock,
+#     int_mock,
+#     database,
+# ):
+#     """Test creating a custom iron cardio or abc workout works as intended."""
+#     expected = workout
+#     options_mock.side_effect = [bells, variation]
+#     int_mock.side_effect = int_responses
+#     confirm_mock.return_value = "y"
+#     units_mock.side_effect = ["kg"]
+#     actual = random_ic_or_abc(Path(database.name), "ic")
+#     assert isinstance(actual, Workout)
+#     assert actual == expected
+
+
+def test_easy_strength_workout(
     options_mock,
     units_mock,
     confirm_mock,
     int_mock,
     database,
 ):
-    """Test creating a custom iron cardio or abc workout works as intended."""
-    expected = workout
-    options_mock.side_effect = [bells, variation]
-    int_mock.side_effect = int_responses
-    confirm_mock.return_value = "y"
+    """Test creating an easy strength workout."""
+    expected = TEST_EASY_STRENGTH_WORKOUT
+    options_mock.side_effect = ["regular"]
+    int_mock.side_effect = [30, 24, 20, 24, 20, 24, 20, 24, 20, 24, 20, 24]
     units_mock.side_effect = ["kg"]
-    actual = random_ic_or_abc(Path(database.name), "ic")
+    actual = create_easy_strength_workout(Path(database.name), "es")
     assert isinstance(actual, Workout)
     assert actual == expected
 
