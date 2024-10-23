@@ -465,6 +465,33 @@ TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
     }
 )
 
+TEST_WORKOUT_GENERATOR_WORKOUT = Workout(
+    **{
+        "bodyweight": 90,
+        "units": "kg",
+        "variation": "3 X 10",
+        "time": 40,
+        "exercises": [
+            Exercise(
+                **{
+                    "name": "Deadlift",
+                    "sets": 3,
+                    "reps": 10,
+                    "load": 100,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Bench Press",
+                    "sets": 3,
+                    "reps": 10,
+                    "load": 80,
+                },
+            ),
+        ],
+        "workout_type": "workout generator",
+    }
+)
 TEST_EASY_STRENGTH_WORKOUT = Workout(
     **{
         "bodyweight": 90,
@@ -522,6 +549,42 @@ TEST_EASY_STRENGTH_WORKOUT = Workout(
             ),
         ],
         "workout_type": "easy strength",
+    }
+)
+
+TEST_ROP_WORKOUT = Workout(
+    **{
+        "bodyweight": 90,
+        "units": "kg",
+        "variation": "Medium",
+        "time": 45,
+        "exercises": [
+            Exercise(
+                **{
+                    "name": "Clean and Press",
+                    "sets": 5,
+                    "reps": 12,
+                    "load": 28,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Pullup",
+                    "sets": 5,
+                    "reps": 6,
+                    "load": 86,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Swing",
+                    "sets": 5,
+                    "reps": 10,
+                    "load": 28,
+                },
+            ),
+        ],
+        "workout_type": "rite of passage",
     }
 )
 TEST_DATA = {

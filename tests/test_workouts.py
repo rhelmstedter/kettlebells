@@ -18,7 +18,9 @@ from kettlebells.workouts import (
     random_ic_or_abc,
     set_loads,
     set_program_loads,
-    create_easy_strength_workout
+    create_easy_strength_workout,
+    create_workout_generator_workout,
+    create_rite_of_passage_workout,
 )
 
 from .test_constants import (
@@ -34,6 +36,8 @@ from .test_constants import (
     TEST_WORKOUT_NO_SWINGS,
     TEST_WORKOUT_SINGLE_BELL_PULLUPS,
     TEST_EASY_STRENGTH_WORKOUT,
+    TEST_WORKOUT_GENERATOR_WORKOUT,
+    TEST_ROP_WORKOUT,
 )
 
 POSSIBLE_SWINGS = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150]
@@ -247,6 +251,40 @@ def test_easy_strength_workout(
     assert actual == expected
 
 
+@mock.patch("kettlebells.workouts.iterfzf")
+def test_workout_generator_workout(
+    fzf_mock,
+    options_mock,
+    units_mock,
+    confirm_mock,
+    int_mock,
+    database,
+):
+    """Test creating a workout generator workout."""
+    expected = TEST_WORKOUT_GENERATOR_WORKOUT
+    int_mock.side_effect = [40, 100, 10, 80, 10]
+    options_mock.side_effect = ["3 X 10"]
+    fzf_mock.side_effect = ["Deadlift", "Bench Press", "Done"]
+    units_mock.side_effect = ["kg"]
+    actual = create_workout_generator_workout(Path(database.name))
+    assert actual == expected
+
+
+def test_rop_workout(
+    options_mock,
+    units_mock,
+    int_mock,
+    database,
+):
+    """Test creating a rite of passage workout."""
+    expected = TEST_ROP_WORKOUT
+    options_mock.side_effect = ["Medium", "Clean and Press", "Pullup", "Swing", "Done"]
+    int_mock.side_effect = [45, 28, 5, 3, 0, 5, 3, 28, 5, 10]
+    units_mock.side_effect = ["kg"]
+    actual = create_rite_of_passage_workout(Path(database.name))
+    assert actual == expected
+
+
 def test_abfb(
     options_mock,
     units_mock,
@@ -310,7 +348,9 @@ def test_perfect_workout(
     assert actual == expected
 
 
-@pytest.mark.parametrize("workout_type, variation", [("custom", "custom"), (None, None)])
+@pytest.mark.parametrize(
+    "workout_type, variation", [("custom", "custom"), (None, None)]
+)
 @mock.patch("kettlebells.workouts.iterfzf")
 def test_create_custom_workout(
     fzf_mock,
