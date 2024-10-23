@@ -552,6 +552,84 @@ TEST_EASY_STRENGTH_WORKOUT = Workout(
     }
 )
 
+TEST_ABF_PRESS_WORKOUT = Workout(
+    **{
+        "bodyweight": 90,
+        "units": "kg",
+        "variation": "Double Press",
+        "time": 30,
+        "exercises": [
+            Exercise(
+                **{
+                    "name": "Double Press",
+                    "sets": 5,
+                    "reps": 2,
+                    "load": 20,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Double Press",
+                    "sets": 5,
+                    "reps": 3,
+                    "load": 20,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Double Press",
+                    "sets": 5,
+                    "reps": 5,
+                    "load": 20,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Double Press",
+                    "sets": 5,
+                    "reps": 10,
+                    "load": 20,
+                },
+            ),
+        ],
+        "workout_type": "armor building formula",
+    }
+)
+TEST_ABF_ABC_WORKOUT = Workout(
+    **{
+        "bodyweight": 90,
+        "units": "kg",
+        "variation": "Armor Building Complex",
+        "time": 30,
+        "exercises": [
+            Exercise(
+                **{
+                    "name": "Double Clean",
+                    "sets": 30,
+                    "reps": 2,
+                    "load": 20,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Double Press",
+                    "sets": 30,
+                    "reps": 1,
+                    "load": 20,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Double Front Squat",
+                    "sets": 30,
+                    "reps": 3,
+                    "load": 20,
+                },
+            ),
+        ],
+        "workout_type": "armor building formula",
+    }
+)
 TEST_ROP_WORKOUT = Workout(
     **{
         "bodyweight": 90,

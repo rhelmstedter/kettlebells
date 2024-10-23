@@ -21,10 +21,12 @@ from kettlebells.workouts import (
     create_easy_strength_workout,
     create_workout_generator_workout,
     create_rite_of_passage_workout,
+    create_abf_workout,
 )
 
 from .test_constants import (
     TEST_ABFB,
+    TEST_ABF_PRESS_WORKOUT,
     TEST_BTB_WORKOUT,
     TEST_CUSTOM_WORKOUT,
     TEST_DOUBLE_TRAVELING_2S_WORKOUT,
@@ -38,6 +40,7 @@ from .test_constants import (
     TEST_EASY_STRENGTH_WORKOUT,
     TEST_WORKOUT_GENERATOR_WORKOUT,
     TEST_ROP_WORKOUT,
+    TEST_ABF_ABC_WORKOUT,
 )
 
 POSSIBLE_SWINGS = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150]
@@ -227,8 +230,8 @@ def test_get_options_bad_input(int_mock):
 #     expected = workout
 #     options_mock.side_effect = [bells, variation]
 #     int_mock.side_effect = int_responses
-#     confirm_mock.return_value = "y"
 #     units_mock.side_effect = ["kg"]
+#     confirm_mock.return_value = "y"
 #     actual = random_ic_or_abc(Path(database.name), "ic")
 #     assert isinstance(actual, Workout)
 #     assert actual == expected
@@ -282,6 +285,39 @@ def test_rop_workout(
     int_mock.side_effect = [45, 28, 5, 3, 0, 5, 3, 28, 5, 10]
     units_mock.side_effect = ["kg"]
     actual = create_rite_of_passage_workout(Path(database.name))
+    assert actual == expected
+
+
+@pytest.mark.parametrize(
+    "test_workout, variation, int_responses",
+    [
+        (
+            TEST_ABF_ABC_WORKOUT,
+            "Armor Building Complex",
+            [30, 20, 30],
+        ),
+        (
+            TEST_ABF_PRESS_WORKOUT,
+            "Double Press",
+            [30, 20, 5, 5, 5, 5],
+        ),
+    ],
+)
+def test_abf_workout(
+    test_workout,
+    variation,
+    int_responses,
+    options_mock,
+    units_mock,
+    int_mock,
+    database,
+):
+    """Test creating a armor building formula workout."""
+    expected = test_workout
+    options_mock.side_effect = [variation]
+    int_mock.side_effect = int_responses
+    units_mock.side_effect = ["kg"]
+    actual = create_abf_workout(Path(database.name))
     assert actual == expected
 
 
