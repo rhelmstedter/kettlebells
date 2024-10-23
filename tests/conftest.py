@@ -17,7 +17,7 @@ def database_home():
 
 @pytest.fixture(scope="function")
 def database():
-    database = NamedTemporaryFile()
+    database = NamedTemporaryFile(delete=False)
     with open(database.name, "w") as db:
         json.dump(TEST_DATA, db)
     return database

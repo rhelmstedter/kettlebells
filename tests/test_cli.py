@@ -111,27 +111,30 @@ def test_init(init_mock):
 
 
 @mock.patch("kettlebells.__main__.top_ten_workouts")
-def test_stats_best(best_mock):
+def test_stats_best(best_mock, database):
     """Test stats command with best flag calls read_database and top_ten_workouts."""
-    result = runner.invoke(cli, ["stats", "-b"])
-    assert result.exit_code == 0
-    best_mock.assert_called_once()
+    with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
+        result = runner.invoke(cli, ["stats", "-b"])
+        assert result.exit_code == 0
+        best_mock.assert_called_once()
 
 
 @mock.patch("kettlebells.__main__.plot_workouts")
-def test_stats_plot(plot_mock):
+def test_stats_plot(plot_mock, database):
     """Test stats command with plot flag."""
-    result = runner.invoke(cli, ["stats", "-p", "line"])
-    assert result.exit_code == 0
-    plot_mock.assert_called_once()
+    with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
+        result = runner.invoke(cli, ["stats", "-p", "line"])
+        assert result.exit_code == 0
+        plot_mock.assert_called_once()
 
 
 @mock.patch("kettlebells.__main__.print_calendar")
-def test_stats_calendar(cal_mock):
+def test_stats_calendar(cal_mock, database):
     """Test stats command with calendar flag."""
-    result = runner.invoke(cli, ["stats", "-c", 2023])
-    assert result.exit_code == 0
-    cal_mock.assert_called_once()
+    with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
+        result = runner.invoke(cli, ["stats", "-c", 2023])
+        assert result.exit_code == 0
+        cal_mock.assert_called_once()
 
 
 @mock.patch("kettlebells.__main__.read_database")

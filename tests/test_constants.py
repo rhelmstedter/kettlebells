@@ -232,7 +232,9 @@ TEST_GIANT_WORKOUT = Workout(
         "workout_type": "The Giant 1.0",
         "time": 30,
         "exercises": [
-            Exercise(**{"name": "Double Clean and Press", "load": 24, "sets": 10, "reps": 5}),
+            Exercise(
+                **{"name": "Double Clean and Press", "load": 24, "sets": 10, "reps": 5}
+            ),
         ],
     },
 )
@@ -463,6 +465,65 @@ TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
     }
 )
 
+TEST_EASY_STRENGTH_WORKOUT = Workout(
+    **{
+        "bodyweight": 90,
+        "units": "kg",
+        "variation": "24",
+        "time": 30,
+        "exercises": [
+            Exercise(
+                **{
+                    "name": "Goblet Squat",
+                    "sets": 1,
+                    "reps": 10,
+                    "load": 32,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Swing",
+                    "sets": 5,
+                    "reps": 15,
+                    "load": 32,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Dip",
+                    "sets": 2,
+                    "reps": 5,
+                    "load": 98,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Double Front Squat",
+                    "sets": 2,
+                    "reps": 5,
+                    "load": 28,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Bent Over Row",
+                    "sets": 2,
+                    "reps": 10,
+                    "load": 32,
+                },
+            ),
+            Exercise(
+                **{
+                    "name": "Ab Wheel",
+                    "sets": 1,
+                    "reps": 10,
+                    "load": 0,
+                },
+            ),
+        ],
+        "workout_type": "easy strength",
+    }
+)
 TEST_DATA = {
     "loads": {
         "units": "kg",
