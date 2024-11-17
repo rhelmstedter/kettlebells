@@ -1,22 +1,22 @@
 
 # Table of Contents
 
-1.  [Installation](#orgce2181e)
-2.  [Usage](#org3ca89f8)
-    1.  [Initialize](#orgd457ee2)
-    2.  [Commands](#orgce3ddd4)
-        1.  [save](#org9e6fcb9)
-        2.  [random](#org4a9d12b)
-        3.  [last](#orgc1e1094)
-        4.  [view](#orgf2d0db9)
-        5.  [stats](#org9cd6295)
+1.  [Installation](#org5bfc676)
+2.  [Usage](#org79dc4b0)
+    1.  [Initialize](#orgdf188a8)
+    2.  [Commands](#orgdd6de2e)
+        1.  [save](#org3a1f051)
+        2.  [random](#orga3e0022)
+        3.  [last](#org1c7d249)
+        4.  [view](#orge6db22d)
+        5.  [stats](#orgde30aef)
 
 kettlebells is a CLI designed to create, save, and track the progress of kettlebell workouts. The inspiration for this project came from [Pat Flynn&rsquo;s conversation with Bret Jones](https://www.chroniclesofstrength.com/what-strength-aerobics-are-and-how-to-use-them-w-brett-jones/). (For a more detailed look at Iron Cardio, go checkout the [Iron Cardio Book](https://strongandfit.com/products/iron-cardio-by-brett-jones) by Bret Jones.) After starting an [initial project](https://github.com/rhelmstedter/iron-cardio) that focused only on iron cardio, I wanted to be able to add more. This is essentially a fork of the iron-cardio project designed to add various workouts such as the armor building complex, and dry fighting weight.
 
 As of version 0.2.1, the way workouts are constructed has completely changed. This will allow users to construct their own custom workouts in the future. It will also allow the stats to keep track of how many reps of each type of exercise have been done.
 
 
-<a id="orgce2181e"></a>
+<a id="org5bfc676"></a>
 
 # Installation
 
@@ -25,12 +25,12 @@ Use [pipx](https://github.com/pypa/pipx).
     pipx install kettlebells
 
 
-<a id="org3ca89f8"></a>
+<a id="org79dc4b0"></a>
 
 # Usage
 
 
-<a id="orgd457ee2"></a>
+<a id="orgdf188a8"></a>
 
 ## Initialize
 
@@ -43,26 +43,27 @@ Next, run the `setloads` command. This sets the units to either pounds (lbs) or 
     kettlebells setloads
 
 
-<a id="orgce3ddd4"></a>
+<a id="orgdd6de2e"></a>
 
 ## Commands
 
 
-<a id="org9e6fcb9"></a>
+<a id="org3a1f051"></a>
 
 ### save
 
 The `save` command saves workouts to the database. The current options are:
 
--   [ic](#org0492ff5)
--   [abc](#org5094d21)
--   [abfb](#org61d2018)
--   [abf](#org6b2eaf4)
--   [btb](#org2a6fe64)
--   [pw](#org6708e76)
--   [rop](#org57d9711)
--   [wolf](#orga9f925f)
--   [custom](#orgda76080)
+-   [ic](#orgb50b706)
+-   [abc](#orgcd91423)
+-   [abfb](#org7c7869d)
+-   [abf](#org467728b)
+-   [btb](#orgffc021a)
+-   dfw
+-   [pw](#org3e69f97)
+-   [rop](#orgcd6cbed)
+-   [wolf](#orgc5b3e39)
+-   [custom](#org2c1e620)
 
 When run with no option, the `save` command will attempt to use the most recently generated random workout. Otherwise, use the `--workout-type` option to manually enter a workout, e.g.:
 
@@ -80,7 +81,13 @@ When run with no option, the `save` command will attempt to use the most recentl
     
         kettlebells save --workout-type abf
 
-3.  btb
+3.  dfw
+
+    When the `save` command is run with the workout type of `dfw`, a dry fighting weight workout is saved. See [the original post](https://www.strongfirst.com/dry-fighting-weight/) for more details
+    
+        kettlebells save --workout-type dfw
+
+4.  btb
 
     The save command with a workout type of `btb` allows the user to save a Back to Basics Workout. These workouts are constructed based on The Pat Flynn Show episode with Dan John [The BEST Kettlebell Program for GEGINNERS | THE BTBKP](https://patflynnshow.libsyn.com/the-best-kettlebell-program-for-beginners-the-btbkp). The choices are ladders of 2-3-5 clean and presses followed by either snatches or double front squats. The warm up and cool exercises are not included in the workout.
     
@@ -102,38 +109,32 @@ When run with no option, the `save` command will attempt to use the most recentl
     <th scope="col" class="org-left">Second Block</th>
     </tr>
     </thead>
-    
     <tbody>
     <tr>
     <td class="org-left">2 ladders</td>
     <td class="org-left">60 Snatches</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">3 ladders</td>
     <td class="org-left">80 Snatches</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">5 ladders</td>
     <td class="org-left">100 Snatches</td>
     </tr>
     </tbody>
-    
     <tbody>
     <tr>
     <td class="org-left">2 ladders</td>
     <td class="org-left">10 sets of 5 Double Front Squats</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">3 ladders</td>
     <td class="org-left">10 sets of 5 Double Front Squats</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">5 ladders</td>
@@ -142,7 +143,7 @@ When run with no option, the `save` command will attempt to use the most recentl
     </tbody>
     </table>
 
-4.  pw
+5.  pw
 
     The save command with a workout type of `pw` saves versions of [Dan John&rsquo;s Perfect Workout](https://youtu.be/aHQLx_HhFqo?si=b68xBn41-tcGDVJE). While in the video Dan does hip thrusts until it burns, for ease of recording the workout, `kettlebells` offers a set number of reps for the hip thrust.
     
@@ -170,7 +171,6 @@ When run with no option, the `save` command will attempt to use the most recentl
     <th scope="col" class="org-right">Reps</th>
     </tr>
     </thead>
-    
     <tbody>
     <tr>
     <td class="org-left"><b>Original</b></td>
@@ -179,14 +179,12 @@ When run with no option, the `save` command will attempt to use the most recentl
     <td class="org-right">8</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">Hanging Leg Raise</td>
     <td class="org-right">3</td>
     <td class="org-right">8</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">&#xa0;</td>
@@ -195,14 +193,12 @@ When run with no option, the `save` command will attempt to use the most recentl
     <td class="org-right">15</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">Bulgarian Goat Bag Swing</td>
     <td class="org-right">3</td>
     <td class="org-right">8</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">&#xa0;</td>
@@ -211,7 +207,6 @@ When run with no option, the `save` command will attempt to use the most recentl
     <td class="org-right">8</td>
     </tr>
     </tbody>
-    
     <tbody>
     <tr>
     <td class="org-left"><b>Indoor</b></td>
@@ -220,14 +215,12 @@ When run with no option, the `save` command will attempt to use the most recentl
     <td class="org-right">8</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">Child&rsquo;s Pose</td>
     <td class="org-right">3</td>
     <td class="org-right">20 secs</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">&#xa0;</td>
@@ -236,7 +229,6 @@ When run with no option, the `save` command will attempt to use the most recentl
     <td class="org-right">120</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">Goblet Squat / Broomstick Overhead Squat</td>
@@ -244,7 +236,6 @@ When run with no option, the `save` command will attempt to use the most recentl
     <td class="org-right">8</td>
     </tr>
     </tbody>
-    
     <tbody>
     <tr>
     <td class="org-left"><b>The Bull</b></td>
@@ -253,14 +244,12 @@ When run with no option, the `save` command will attempt to use the most recentl
     <td class="org-right">8</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">Hanging Leg Raise</td>
     <td class="org-right">3</td>
     <td class="org-right">8</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">&#xa0;</td>
@@ -269,14 +258,12 @@ When run with no option, the `save` command will attempt to use the most recentl
     <td class="org-right">8</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">Bent Over Rows</td>
     <td class="org-right">3</td>
     <td class="org-right">8</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">&#xa0;</td>
@@ -287,19 +274,19 @@ When run with no option, the `save` command will attempt to use the most recentl
     </tbody>
     </table>
 
-5.  rop
+6.  rop
 
     The save command with a workout type of `rop` saves versions of Pavel Tsatsouline&rsquo;s rite of passage program from [Enter The Kettlebell](https://www.amazon.com/Enter-Kettlebell-Strength-Secret-Supermen/dp/1942812132). The clean and press and pullups are calculated as ladders, while the swings and snatches are straight sets.
     
         kettlebells save --workout-type rop
 
-6.  wolf
+7.  wolf
 
     The save command with a workout type of `wolf` saves workouts from the free program [The Wolf](https://chasingstrength.com/reports/double-kettlebell-complex/) from [Geoff Neupert](https://chasingstrength.com). This is a gasser for sure.
     
         kettlebells save --workout-type wolf
 
-7.  custom
+8.  custom
 
     When the `save` command is run with the workout type of `custom`, the user can save a custom workout. Custom workouts need a `workout_type` and a `variation`. The default is `custom`. Exercises are chosen via [iterfzf](https://github.com/dahlia/iterfzf). Select `Other` to add a custom exercise. Select `Done` or press escape when finished adding all the exercises.
     
@@ -316,7 +303,7 @@ When run with no option, the `save` command will attempt to use the most recentl
         Consider a workout out like the [8 - 5 - 3 Rep Scheme](https://www.youtube.com/watch?v=nHPfglRCp6M&t=13s) from Pat Flynn. The `workout_type` would be &ldquo;complex&rdquo;, the `variation` would be &ldquo;8-5-3 Rep Scheme&rdquo;. Technically, a set consists of 8 Goblet Squats, 5 Start Stop Swings, 3 Push-ups. Then you would repeat this for 5 rounds. However, in `kettlebells` the user will add each exercise separately. So the Goblet Squat would be 5 sets of 8. The Start Stop Swing would be 5 sets of 5, and the Push-up would be 5 sets of 3.
 
 
-<a id="org4a9d12b"></a>
+<a id="orga3e0022"></a>
 
 ### random
 
@@ -347,89 +334,75 @@ The work out command generates a random workout. The current options are:
     <th scope="col" class="org-left">Options</th>
     </tr>
     </thead>
-    
     <tbody>
     <tr>
     <td class="org-left"><b>Single Bell Variations</b></td>
     <td class="org-left">Classic</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">Classic + Pull-up</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">Classic + Snatch</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">Traveling 2s</td>
     </tr>
     </tbody>
-    
     <tbody>
     <tr>
     <td class="org-left"><b>Double Bell Variations</b></td>
     <td class="org-left">Double Classic</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">Double Classic + Pull-up</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">Double Traveling 2s</td>
     </tr>
     </tbody>
-    
     <tbody>
     <tr>
     <td class="org-left"><b>TIMES</b></td>
     <td class="org-left">30 mins</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">20 mins</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">10 mins</td>
     </tr>
     </tbody>
-    
     <tbody>
     <tr>
     <td class="org-left"><b>LOADS</b></td>
     <td class="org-left">heavy</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">medium</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">light</td>
     </tr>
     </tbody>
-    
     <tbody>
     <tr>
     <td class="org-left"><b>SWINGS</b></td>
@@ -458,71 +431,60 @@ The work out command generates a random workout. The current options are:
     <th scope="col" class="org-left">Options</th>
     </tr>
     </thead>
-    
     <tbody>
     <tr>
     <td class="org-left"><b>Single Bell Variations</b></td>
     <td class="org-left">Armor Building Complex 2.0</td>
     </tr>
     </tbody>
-    
     <tbody>
     <tr>
     <td class="org-left"><b>Double Bell Variations</b></td>
     <td class="org-left">Armor Building Complex</td>
     </tr>
     </tbody>
-    
     <tbody>
     <tr>
     <td class="org-left"><b>TIMES</b></td>
     <td class="org-left">30 mins</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">25 mins</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">20 mins</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">15 mins</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">10 mins</td>
     </tr>
     </tbody>
-    
     <tbody>
     <tr>
     <td class="org-left"><b>LOADS</b></td>
     <td class="org-left">heavy</td>
     </tr>
     
-    
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">medium</td>
     </tr>
-    
     
     <tr>
     <td class="org-left">&#xa0;</td>
     <td class="org-left">light</td>
     </tr>
     </tbody>
-    
     <tbody>
     <tr>
     <td class="org-left"><b>SWINGS</b></td>
@@ -532,7 +494,7 @@ The work out command generates a random workout. The current options are:
     </table>
 
 
-<a id="orgc1e1094"></a>
+<a id="org1c7d249"></a>
 
 ### last
 
@@ -541,7 +503,7 @@ The `last` command displays the last saved workout and calculates the stats for 
     kettlebells last
 
 
-<a id="orgf2d0db9"></a>
+<a id="orge6db22d"></a>
 
 ### view
 
@@ -554,7 +516,7 @@ Use the `--Program` flag to filter workouts based on a certain workout<sub>type<
     kettlebells view --Program
 
 
-<a id="org9cd6295"></a>
+<a id="orgde30aef"></a>
 
 ### stats
 

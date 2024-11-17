@@ -40,6 +40,7 @@ The ~save~ command saves workouts to the database. The current options are:
 - [[abfb][abfb]]
 - [[abf][abf]]
 - [[btb][btb]]
+- dfw
 - [[pw][pw]]
 - [[rop][rop]]
 - [[wolf][wolf]]
@@ -63,6 +64,13 @@ When the ~save~ command is run with the workout type of ~abf~, an armor building
 
 #+begin_src bash
 kettlebells save --workout-type abf
+#+end_src
+
+**** dfw
+When the ~save~ command is run with the workout type of ~dfw~, a dry fighting weight workout is saved. See [[https://www.strongfirst.com/dry-fighting-weight/][the original post]] for more details
+
+#+begin_src bash
+kettlebells save --workout-type dfw
 #+end_src
 
 **** btb

@@ -436,6 +436,8 @@ def create_time_based_workout(db_path: Path, workout_type: str) -> Workout:
     sets = IntPrompt.ask("Number of sets")
     exercises = []
     for exercise in workout_params[program][variation]:
+        if isinstance(exercise["reps"], list):
+            exercise["reps"] = sum(exercise["reps"])
         exercise["sets"] = sets
         exercise["load"] = load
         exercises.append(Exercise(**exercise))
