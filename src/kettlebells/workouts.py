@@ -12,6 +12,7 @@ from .constants import (
     ABF_PARAMS,
     ABFB_PARAMS,
     BODYWEIGHT_FACTORS,
+    DFW_PARAMS,
     BTB_PARAMS,
     EASY_STRENGTH_PARAMS,
     EXERCISES,
@@ -56,8 +57,12 @@ class Workout(BaseModel):
                 display_params.append(("Swings", swings[0].reps))
         elif self.workout_type == "back to basics":
             second_block = self.exercises[-1]
-            display_params.append(("Clean and Press Load", f"{self.exercises[0].load} {self.units}"))
-            display_params.append((f"{second_block.name} Load", f"{second_block.load} {self.units}"))
+            display_params.append(
+                ("Clean and Press Load", f"{self.exercises[0].load} {self.units}")
+            )
+            display_params.append(
+                (f"{second_block.name} Load", f"{second_block.load} {self.units}")
+            )
         else:
             exercises = []
             for exercise in self.exercises:
@@ -161,7 +166,9 @@ def random_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
     units = loads["units"]
     exercises = []
     for exercise in workout_params["exercises"][variation]:
-        exercises.append(Exercise(name=exercise[0], load=load, sets=0, reps=exercise[1]))
+        exercises.append(
+            Exercise(name=exercise[0], load=load, sets=0, reps=exercise[1])
+        )
 
     if swings:
         swings = Exercise(
@@ -265,13 +272,14 @@ def set_loads() -> dict:
         console.clear()
         for label, value in loads.items():
             console.print(f"{label.title()}: {value}")
-        if Confirm.ask("Are these loads correct? If you confirm, they will be used to generate workouts."):
+        if Confirm.ask(
+            "Are these loads correct? If you confirm, they will be used to generate workouts."
+        ):
             return loads
 
 
 def set_program_loads(loads: dict) -> dict:
-    """Creates a dictionary containing the units and kettlebell weights and body weight
-    of the user.
+    """Adds a program and load to the loads dictionary.
 
     Returns:
         The loads dictionary with an added item of the program and load.
@@ -415,18 +423,26 @@ def create_time_based_workout(db_path: Path, workout_type: str) -> Workout:
     try:
         load = data["loads"][workout_type]
     except KeyError:
-        console.print(f"Could not find load for {workout_type} in the database.", WARNING)
-        console.print("Try running [underline]kettlebells setloads -p[/underline]", SUGGESTION)
+        console.print(
+            f"Could not find load for {workout_type} in the database.", WARNING
+        )
+        console.print(
+            "Try running [underline]kettlebells setloads -p[/underline]", SUGGESTION
+        )
     week = Prompt.ask("Enter the week")
     day = Prompt.ask("Enter the day")
     variation = f"W{week}D{day}"
-    time = 30
+    time = IntPrompt.ask("Workout duration (mins)")
     sets = IntPrompt.ask("Number of sets")
     exercises = []
     for exercise in workout_params[program][variation]:
         exercise["sets"] = sets
         exercise["load"] = load
         exercises.append(Exercise(**exercise))
+    if Confirm.ask("Did you do any auxiliary exercises"):
+        auxiliary_exercises = add_exercises(bodyweight, units)
+        exercises.extend(auxiliary_exercises)
+
     return Workout(
         workout_type=program,
         variation=variation,
@@ -455,8 +471,12 @@ def create_set_based_workout(db_path: Path, workout_type: str) -> Workout:
     try:
         load = data["loads"][workout_type]
     except KeyError:
-        console.print(f"Could not find load for {workout_type} in the database.", WARNING)
-        console.print("Try running [underline]kettlebells setloads -p[/underline]", SUGGESTION)
+        console.print(
+            f"Could not find load for {workout_type} in the database.", WARNING
+        )
+        console.print(
+            "Try running [underline]kettlebells setloads -p[/underline]", SUGGESTION
+        )
         return
     week = Prompt.ask("Enter the week")
     day = Prompt.ask("Enter the day")
@@ -562,6 +582,21 @@ def _add_bodyweight_factor(bodyweight, name):
     return int(BODYWEIGHT_FACTORS.get(name, 0) * bodyweight)
 
 
+def add_exercises(bodyweight, units) -> None:
+    exercises = []
+    while True:
+        name = _get_exercise()
+        if not name:
+            break
+        console.print(name)
+        load = IntPrompt.ask(f"  Load in {units}")
+        sets = IntPrompt.ask("  Number of sets")
+        reps = IntPrompt.ask("  Reps per set")
+        load += _add_bodyweight_factor(bodyweight, name)
+        exercises.append(Exercise(name=name, load=load, sets=sets, reps=reps))
+    return exercises
+
+
 def create_custom_workout(db_path: Path) -> Workout:
     """Create a custom workout.
 
@@ -581,17 +616,8 @@ def create_custom_workout(db_path: Path) -> Workout:
     if not variation:
         variation = "Custom"
     time = IntPrompt.ask("Duration (mins)")
-    exercises = []
-    while True:
-        name = _get_exercise()
-        if not name:
-            break
-        console.print(name)
-        load = IntPrompt.ask(f"  Load in {units}")
-        sets = IntPrompt.ask("  Number of sets")
-        reps = IntPrompt.ask("  Reps per set")
-        load += _add_bodyweight_factor(bodyweight, name)
-        exercises.append(Exercise(name=name, load=load, sets=sets, reps=reps))
+    exercises = add_exercises(bodyweight, units)
+
     return Workout(
         workout_type=workout_type,
         variation=variation.title(),
@@ -632,7 +658,9 @@ def create_abf_barbell_workout(db_path: Path) -> Workout:
             load = convert_pounds_to_kilos(load)
             exercises.append(Exercise(name=exercise, load=load, sets=sets, reps=reps))
             if variation == "Program Three" and exercise == "Clean and Press":
-                exercises.append(Exercise(name="Front Squat", load=load, sets=sets, reps=squat_reps))
+                exercises.append(
+                    Exercise(name="Front Squat", load=load, sets=sets, reps=squat_reps)
+                )
     print()
     return Workout(
         workout_type=workout_type,
@@ -701,7 +729,9 @@ def _get_options(options: dict | list) -> str:
             return options[selection - 1]
         except (IndexError, TypeError):
             console.print(":warning: Not a valid option.", style=WARNING)
-            console.print("Enter a number between 1 and {max(options) + 1}.", style=SUGGESTION)
+            console.print(
+                "Enter a number between 1 and {max(options) + 1}.", style=SUGGESTION
+            )
             continue
 
 
@@ -757,6 +787,8 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
             return "armor building formula barbell", ABFB_PARAMS
         case "abf":
             return "armor building formula", ABF_PARAMS
+        case "dfw":
+            return "dry fighting weight", DFW_PARAMS
 
 
 def convert_pounds_to_kilos(load: int) -> int:

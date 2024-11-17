@@ -11,8 +11,22 @@ from typing_extensions import Annotated
 
 from . import __version__
 from .console import console
-from .constants import DATE_FORMAT, FZF_DEFAULT_OPTS, KETTLEBELLS_DB, KETTLEBELLS_HOME, SUGGESTION, WARNING
-from .database import cache_workout, confirm_loads, initialize_database, read_database, save_workout, write_database
+from .constants import (
+    DATE_FORMAT,
+    FZF_DEFAULT_OPTS,
+    KETTLEBELLS_DB,
+    KETTLEBELLS_HOME,
+    SUGGESTION,
+    WARNING,
+)
+from .database import (
+    cache_workout,
+    confirm_loads,
+    initialize_database,
+    read_database,
+    save_workout,
+    write_database,
+)
 from .stats import (
     filter_by_program,
     get_all_time_stats,
@@ -138,7 +152,7 @@ def save(
         typer.Option(
             "--workout-type",
             "-w",
-            help="Possible workout-types: ic, abc, btb, es, pw, wolf, wg, rop, or custom.",
+            help="Possible workout-types: ic, abc, btb, dfw, es, pw, wolf, wg, rop, or custom.",
         ),
     ] = None,
 ) -> None:
@@ -157,7 +171,7 @@ def save(
             workout = create_custom_workout(KETTLEBELLS_DB)
         case "pw":
             workout = create_perfect_workout(KETTLEBELLS_DB)
-        case "giant":
+        case "giant" | "dfw":
             workout = create_time_based_workout(KETTLEBELLS_DB, workout_type)
         case "wolf":
             workout = create_set_based_workout(KETTLEBELLS_DB, workout_type)

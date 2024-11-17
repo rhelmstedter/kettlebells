@@ -418,7 +418,6 @@ THE_WOLF_PARAMS = {
             {
                 "name": "Double Front Squat",
                 "load": 0,
-                "sets": 3,
                 "reps": 5,
             },
             {
@@ -1126,6 +1125,176 @@ ROP_PARAMS = {
     },
 }
 
+DFW_PARAMS = {
+    "W1D1": [
+        {
+            "name": "Double Clean and Press",
+            "load": 0,
+            "sets": 0,
+            "reps": [1, 2, 3],
+        },
+        {
+            "name": "Double Front Squat",
+            "load": 0,
+            "sets": 0,
+            "reps": [1, 2, 3],
+        },
+    ],
+    "W1D2": [
+        {
+            "name": "Double Clean and Press",
+            "load": 0,
+            "sets": 0,
+            "reps": 1,
+        },
+        {
+            "name": "Double Front Squat",
+            "load": 0,
+            "sets": 0,
+            "reps": 1,
+        },
+    ],
+    "W1D3": [
+        {
+            "name": "Double Clean and Press",
+            "load": 0,
+            "sets": 0,
+            "reps": 2,
+        },
+        {
+            "name": "Double Front Squat",
+            "load": 0,
+            "sets": 0,
+            "reps": 2,
+        },
+    ],
+    "W2D1": [
+        {
+            "name": "Double Clean and Press",
+            "load": 0,
+            "sets": 0,
+            "reps": [1, 2, 3],
+        },
+        {
+            "name": "Double Front Squat",
+            "load": 0,
+            "sets": 0,
+            "reps": [1, 2, 3],
+        },
+    ],
+    "W2D2": [
+        {
+            "name": "Double Clean and Press",
+            "load": 0,
+            "sets": 0,
+            "reps": 1,
+        },
+        {
+            "name": "Double Front Squat",
+            "load": 0,
+            "sets": 0,
+            "reps": 1,
+        },
+    ],
+    "W2D3": [
+        {
+            "name": "Double Clean and Press",
+            "load": 0,
+            "sets": 0,
+            "reps": 3,
+        },
+        {
+            "name": "Double Front Squat",
+            "load": 0,
+            "sets": 0,
+            "reps": 3,
+        },
+    ],
+    "W3D1": [
+        {
+            "name": "Double Clean and Press",
+            "load": 0,
+            "sets": 0,
+            "reps": [1, 2, 3, 4],
+        },
+        {
+            "name": "Double Front Squat",
+            "load": 0,
+            "sets": 0,
+            "reps": [1, 2, 3, 4],
+        },
+    ],
+    "W3D2": [
+        {
+            "name": "Double Clean and Press",
+            "load": 0,
+            "sets": 0,
+            "reps": 2,
+        },
+        {
+            "name": "Double Front Squat",
+            "load": 0,
+            "sets": 0,
+            "reps": 2,
+        },
+    ],
+    "W3D3": [
+        {
+            "name": "Double Clean and Press",
+            "load": 0,
+            "sets": 0,
+            "reps": 3,
+        },
+        {
+            "name": "Double Front Squat",
+            "load": 0,
+            "sets": 0,
+            "reps": 3,
+        },
+    ],
+    "W4D1": [
+        {
+            "name": "Double Clean and Press",
+            "load": 0,
+            "sets": 0,
+            "reps": [1, 2, 3, 4, 5],
+        },
+        {
+            "name": "Double Front Squat",
+            "load": 0,
+            "sets": 0,
+            "reps": [1, 2, 3, 4, 5],
+        },
+    ],
+    "W4D2": [
+        {
+            "name": "Double Clean and Press",
+            "load": 0,
+            "sets": 0,
+            "reps": 2,
+        },
+        {
+            "name": "Double Front Squat",
+            "load": 0,
+            "sets": 0,
+            "reps": 2,
+        },
+    ],
+    "W4D3": [
+        {
+            "name": "Double Clean and Press",
+            "load": 0,
+            "sets": 0,
+            "reps": 2,
+        },
+        {
+            "name": "Double Front Squat",
+            "load": 0,
+            "sets": 0,
+            "reps": 2,
+        },
+    ],
+}
 
 EXERCISES = [
     "Ab Wheel",
