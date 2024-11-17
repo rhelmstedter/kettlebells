@@ -236,8 +236,6 @@ def test_custom_ic_workout(
     assert actual == expected
 
 
-
-
 def test_easy_strength_workout(
     options_mock,
     units_mock,

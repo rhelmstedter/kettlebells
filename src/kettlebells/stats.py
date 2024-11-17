@@ -17,7 +17,9 @@ from .constants import DATE_FORMAT, KETTLEBELLS_HOME, SUGGESTION, WARNING
 from .workouts import Workout, _print_helper
 
 
-def get_all_time_stats(data: dict, program: str | None = None) -> tuple[list[str], list[int]]:
+def get_all_time_stats(
+    data: dict, program: str | None = None
+) -> tuple[list[str], list[int]]:
     """Print stats from all workout in the database.
 
     Args:
@@ -124,7 +126,8 @@ def plot_workouts(
         case _:
             console.print(f":warning: {plot_type} not a valid plot.", style=WARNING)
             console.print(
-                "Try running [underline]kettlebells stats --help[/underline] to see available plots", style=SUGGESTION
+                "Try running [underline]kettlebells stats --help[/underline] to see available plots",
+                style=SUGGESTION,
             )
             return
 
@@ -289,7 +292,10 @@ def table_to_df(rich_table: Table) -> pd.DataFrame:
     Returns:
         DataFrame: A pandas DataFrame with the Table data as its values."""
 
-    table_data = {x.header.strip(): [Text.from_markup(y).plain for y in x.cells] for x in rich_table.columns}
+    table_data = {
+        x.header.strip(): [Text.from_markup(y).plain for y in x.cells]
+        for x in rich_table.columns
+    }
     return pd.DataFrame(table_data)
 
 
@@ -312,7 +318,9 @@ def print_calendar(data: dict, year: int):
             padding=0,
         )
         for week_day in cal.iterweekdays():
-            table.add_column("{:.3}".format(calendar.day_name[week_day]), justify="right")
+            table.add_column(
+                "{:.3}".format(calendar.day_name[week_day]), justify="right"
+            )
         month_days = cal.monthdayscalendar(year, month)
         for weekdays in month_days:
             days = []
