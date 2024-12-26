@@ -29,7 +29,7 @@ from .database import (
 )
 from .stats import (
     filter_by_program,
-    get_all_time_stats,
+    get_all_stats,
     plot_workouts,
     print_calendar,
     retrieve_workout,
@@ -248,7 +248,7 @@ def view(
         data, program = filter_by_program(data)
         table = view_program(data, program, display_workout)
         console.print(table)
-        get_all_time_stats(data, program)
+        get_all_stats(data, program)
         return
     try:
         date, workout = retrieve_workout(data, preview)
@@ -360,9 +360,9 @@ def stats(
     """Display stats from all workouts in database."""
     data = read_database(KETTLEBELLS_DB)
     if year:
-        dates, weight_per_workout = get_all_time_stats(data, start_date=f"{year}-01-01", end_date=f"{year}-12-31")
+        dates, weight_per_workout = get_all_stats(data, start_date=f"{year}-01-01", end_date=f"{year}-12-31")
     else:
-        dates, weight_per_workout = get_all_time_stats(data, start_date=start, end_date=end)
+        dates, weight_per_workout = get_all_stats(data, start_date=start, end_date=end)
     if plot:
         plot_workouts(dates, weight_per_workout, plot, median, average, year)
     if calendar and year:

@@ -6,7 +6,7 @@ from kettlebells.database import read_database
 from kettlebells.stats import (
     _get_dates,
     filter_by_program,
-    get_all_time_stats,
+    get_all_stats,
     plot_workouts,
     retrieve_workout,
     top_ten_workouts,
@@ -19,7 +19,7 @@ def test_get_all_time_stats(database, capfd):
     """Test that get_all_time_stats returns the dates and stats from the test database."""
     expected = (["2023-09-12", "2023-09-14"], [3456, 3480])
     data = read_database(Path(database.name))
-    actual = get_all_time_stats(data)
+    actual = get_all_stats(data)
     output = capfd.readouterr()[0]
     expected_output = """\nAll Time Stats
 ==============

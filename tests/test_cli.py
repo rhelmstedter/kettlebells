@@ -138,7 +138,7 @@ def test_stats_calendar(cal_mock, database):
 
 
 @mock.patch("kettlebells.__main__.read_database")
-@mock.patch("kettlebells.__main__.get_all_time_stats")
+@mock.patch("kettlebells.__main__.get_all_stats")
 def test_stats(stats_mock, read_mock):
     """Test getting the stats"""
     runner.invoke(cli, ["stats"])
