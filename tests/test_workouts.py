@@ -429,10 +429,13 @@ def test_set_progam_loads(int_mock, prompt_mock):
     assert actual == expected
 
 
-def test_create_giant_workout(int_mock, prompt_mock, database):
+@mock.patch("kettlebells.workouts.iterfzf")
+def test_create_giant_workout(iterfzf_mock, int_mock, prompt_mock, confirm_mock, database):
     """Test creating a giant workout."""
+    iterfzf_mock.return_value = None
     prompt_mock.side_effect = ["1", "1"]
-    int_mock.side_effect = [1, 10]
+    int_mock.side_effect = [1, 30, 10]
+    confirm_mock.side_effect = "n"
     actual = create_time_based_workout(Path(database.name), "giant")
     assert actual == TEST_GIANT_WORKOUT
 

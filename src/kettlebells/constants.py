@@ -418,6 +418,7 @@ THE_WOLF_PARAMS = {
             {
                 "name": "Double Front Squat",
                 "load": 0,
+                "sets": 3,
                 "reps": 5,
             },
             {

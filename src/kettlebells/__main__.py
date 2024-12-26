@@ -199,6 +199,8 @@ def save(
             )
             return
 
+    if workout is None:
+        return
     workout.display_workout()
     if Confirm.ask("Save this workout?"):
         workout_date = _get_date()
