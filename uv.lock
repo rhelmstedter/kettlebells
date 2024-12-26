@@ -121,7 +121,7 @@ wheels = [
 
 [[package]]
 name = "kettlebells"
-version = "0.2.33"
+version = "0.2.34"
 source = { editable = "." }
 dependencies = [
     { name = "iterfzf" },
