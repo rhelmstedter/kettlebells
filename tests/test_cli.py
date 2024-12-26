@@ -132,7 +132,7 @@ def test_stats_plot(plot_mock, database):
 def test_stats_calendar(cal_mock, database):
     """Test stats command with calendar flag."""
     with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
-        result = runner.invoke(cli, ["stats", "-c", 2023])
+        result = runner.invoke(cli, ["stats", "-c", "-y", "2023"])
         assert result.exit_code == 0
         cal_mock.assert_called_once()
 

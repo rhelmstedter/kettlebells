@@ -287,15 +287,24 @@ def stats(
             "-p",
             help="Possible plots: line, event, bar.",
         ),
+    ] = "",
+    year: Annotated[
+        int,
+        typer.Option(
+            "--year",
+            "-y",
+            help="Year to display calendar and event plot for.",
+        ),
     ] = None,
     calendar: Annotated[
-        int,
+        bool,
         typer.Option(
             "--calendar",
             "-c",
-            help="The year (YYYY) to display.",
+            help="Highlight days workouts were completed in a calendar.",
+            is_flag=True,
         ),
-    ] = None,
+    ] = False,
     median: Annotated[
         bool,
         typer.Option(
@@ -331,14 +340,33 @@ def stats(
             help="Sort the best table. Possible arguments: weight-moved, reps, weight-density, rep-density.",
         ),
     ] = "weight-moved",
+    start: Annotated[
+        str,
+        typer.Option(
+            "--start",
+            "-s",
+            help="Start date (YYYY-MM-DD).",
+        ),
+    ] = None,
+    end: Annotated[
+        str,
+        typer.Option(
+            "--end",
+            "-e",
+            help="End date (YYYY-MM-DD).",
+        ),
+    ] = None,
 ) -> None:
     """Display stats from all workouts in database."""
     data = read_database(KETTLEBELLS_DB)
-    dates, weight_per_workout = get_all_time_stats(data)
+    if year:
+        dates, weight_per_workout = get_all_time_stats(data, start_date=f"{year}-01-01", end_date=f"{year}-12-31")
+    else:
+        dates, weight_per_workout = get_all_time_stats(data, start_date=start, end_date=end)
     if plot:
-        plot_workouts(dates, weight_per_workout, plot, median, average)
-    if calendar:
-        print_calendar(data, calendar)
+        plot_workouts(dates, weight_per_workout, plot, median, average, year)
+    if calendar and year:
+        print_calendar(data, year)
     if best:
         if sort is None:
             sort = "weight-moved"

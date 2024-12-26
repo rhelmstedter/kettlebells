@@ -17,10 +17,13 @@ from .constants import DATE_FORMAT, KETTLEBELLS_HOME, SUGGESTION, WARNING
 from .workouts import Workout, _print_helper
 
 
-def get_all_time_stats(
-    data: dict, program: str | None = None
+def get_all_stats(
+    data: dict,
+    program: str | None = None,
+    start_date: str | None = None,
+    end_date: str | None = None,
 ) -> tuple[list[str], list[int]]:
-    """Print stats from all workout in the database.
+    """Print stats from all workout in the database between start_date and end_date.
 
     Args:
         data: A dict of the data in the database.
@@ -35,6 +38,14 @@ def get_all_time_stats(
     workouts = []
     for workout_data in data["saved_workouts"]:
         date = workout_data["date"]
+        if start_date and datetime.strptime(date, DATE_FORMAT) < datetime.strptime(
+            start_date, DATE_FORMAT
+        ):
+            continue
+        if end_date and datetime.strptime(date, DATE_FORMAT) > datetime.strptime(
+            end_date, DATE_FORMAT
+        ):
+            continue
         dates.append(date)
         workout = Workout(**workout_data["workout"])
         stats.append(workout.calc_workout_stats())
@@ -48,6 +59,12 @@ def get_all_time_stats(
     average_rep_density = mean(stat["rep density"] for stat in stats)
     if program:
         title = f"{program.title()} Stats"
+    elif start_date and end_date:
+        title = f"Stats from {start_date} to {end_date}"
+    elif start_date:
+        title = f"Stats from {start_date} to Present"
+    elif end_date:
+        title = f"Stats to {end_date}"
     else:
         title = "All Time Stats"
     console.print()
@@ -71,6 +88,7 @@ def plot_workouts(
     plot_type: str,
     show_median: bool,
     show_average: bool,
+    year: int | None = None,
 ) -> None:
     """Plot weight moved per workout.
 
@@ -88,7 +106,10 @@ def plot_workouts(
             plt.plotsize(130, 20)
             plt.title("Workouts Across the Year")
             plt.xlabel("Months")
-            year = str(datetime.today().year)[-2:]
+            if year and len(year) == 4:
+                year = year[-2:]
+            if not year:
+                year = str(datetime.today().year)[-2:]
             plt.xlim(f"{year}-01-01", f"{year}-12-31")
             plt.event_plot(x_axis, marker="hd")
             ticks = [f"{year}-{m}-01" for m in range(1, 13)]
