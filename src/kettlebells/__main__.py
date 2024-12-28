@@ -296,6 +296,30 @@ def stats(
             help="Year to display calendar and event plot for.",
         ),
     ] = None,
+    sort: Annotated[
+        str,
+        typer.Option(
+            "--sort",
+            "-S",
+            help="Sort the best table. Possible arguments: weight-moved, reps, weight-density, rep-density.",
+        ),
+    ] = "weight-moved",
+    start: Annotated[
+        str,
+        typer.Option(
+            "--start",
+            "-s",
+            help="Start date (YYYY-MM-DD).",
+        ),
+    ] = None,
+    end: Annotated[
+        str,
+        typer.Option(
+            "--end",
+            "-e",
+            help="End date (YYYY-MM-DD).",
+        ),
+    ] = None,
     calendar: Annotated[
         bool,
         typer.Option(
@@ -332,46 +356,25 @@ def stats(
             is_flag=True,
         ),
     ] = None,
-    sort: Annotated[
-        str,
-        typer.Option(
-            "--sort",
-            "-s",
-            help="Sort the best table. Possible arguments: weight-moved, reps, weight-density, rep-density.",
-        ),
-    ] = "weight-moved",
-    start: Annotated[
-        str,
-        typer.Option(
-            "--start",
-            "-s",
-            help="Start date (YYYY-MM-DD).",
-        ),
-    ] = None,
-    end: Annotated[
-        str,
-        typer.Option(
-            "--end",
-            "-e",
-            help="End date (YYYY-MM-DD).",
-        ),
-    ] = None,
 ) -> None:
     """Display stats from all workouts in database."""
     data = read_database(KETTLEBELLS_DB)
+    if calendar and not year:
+        year = datetime.now().year
     if year:
         dates, weight_per_workout = get_all_stats(
-            data, start_date=f"{year}-01-01", end_date=f"{year}-12-31"
+            data,
+            start=f"{year}-01-01",
+            end=f"{year}-12-31",
+            year=year,
         )
     else:
-        dates, weight_per_workout = get_all_stats(data, start_date=start, end_date=end)
+        dates, weight_per_workout = get_all_stats(data, start=start, end=end)
     if plot:
         plot_workouts(dates, weight_per_workout, plot, median, average, year)
-    if calendar and year:
+    if calendar:
         print_calendar(data, year)
     if best:
-        if sort is None:
-            sort = "weight-moved"
         console.print(top_ten_workouts(data, sort))
 
 

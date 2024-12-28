@@ -20,14 +20,18 @@ from .workouts import Workout, _print_helper
 def get_all_stats(
     data: dict,
     program: str | None = None,
-    start_date: str | None = None,
-    end_date: str | None = None,
+    start: str | None = None,
+    end: str | None = None,
+    year: int | None = None,
 ) -> tuple[list[str], list[int]]:
     """Print stats from all workout in the database between start_date and end_date.
 
     Args:
         data: A dict of the data in the database.
         program: A str of the program to filter by.
+        start: A str of the start date to filter by.
+        end: A str of the end date to filter by.
+        year: A int of the year to display.
 
     Returns:
         tuple: Lists of both dates and weight moved per workout.
@@ -36,37 +40,46 @@ def get_all_stats(
     dates = []
     stats = []
     workouts = []
+    if start:
+        start_date = datetime.strptime(start, DATE_FORMAT)
+    if end:
+        end_date = datetime.strptime(end, DATE_FORMAT)
     for workout_data in data["saved_workouts"]:
         date = workout_data["date"]
-        if start_date and datetime.strptime(date, DATE_FORMAT) < datetime.strptime(
-            start_date, DATE_FORMAT
-        ):
+        date_obj = datetime.strptime(date, DATE_FORMAT)
+        if start and date_obj < start_date:
             continue
-        if end_date and datetime.strptime(date, DATE_FORMAT) > datetime.strptime(
-            end_date, DATE_FORMAT
-        ):
+        if end and date_obj > end_date:
             continue
         dates.append(date)
         workout = Workout(**workout_data["workout"])
         stats.append(workout.calc_workout_stats())
         workouts.append(workout)
-    days, remaining_mins = divmod(sum(workout.time for workout in workouts), 60 * 24)
-    hours, mins = divmod(remaining_mins, 60)
+
     weight_per_workout = [stat["weight moved"] for stat in stats]
     total_weight_moved = sum(weight_per_workout)
     total_reps = sum(stat["reps"] for stat in stats)
     average_weight_density = mean(stat["weight density"] for stat in stats)
     average_rep_density = mean(stat["rep density"] for stat in stats)
+
+    # Calculate total time
+    days, remaining_mins = divmod(sum(workout.time for workout in workouts), 60 * 24)
+    hours, mins = divmod(remaining_mins, 60)
+
+    # Create title for stats
     if program:
         title = f"{program.title()} Stats"
-    elif start_date and end_date:
-        title = f"Stats from {start_date} to {end_date}"
-    elif start_date:
-        title = f"Stats from {start_date} to Present"
-    elif end_date:
-        title = f"Stats to {end_date}"
+    elif year:
+        title = f"Stats from the year {year}"
+    elif start and end:
+        title = f"Stats from {start} to {end}"
+    elif start:
+        title = f"Stats from {start} to Present"
+    elif end:
+        title = f"Stats to {end}"
     else:
         title = "All Time Stats"
+
     console.print()
     console.print(title)
     console.print("=" * len(title), style="green")
