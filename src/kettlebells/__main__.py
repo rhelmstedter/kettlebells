@@ -360,7 +360,9 @@ def stats(
     """Display stats from all workouts in database."""
     data = read_database(KETTLEBELLS_DB)
     if year:
-        dates, weight_per_workout = get_all_stats(data, start_date=f"{year}-01-01", end_date=f"{year}-12-31")
+        dates, weight_per_workout = get_all_stats(
+            data, start_date=f"{year}-01-01", end_date=f"{year}-12-31"
+        )
     else:
         dates, weight_per_workout = get_all_stats(data, start_date=start, end_date=end)
     if plot:

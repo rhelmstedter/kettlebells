@@ -430,7 +430,9 @@ def test_set_progam_loads(int_mock, prompt_mock):
 
 
 @mock.patch("kettlebells.workouts.iterfzf")
-def test_create_giant_workout(iterfzf_mock, int_mock, prompt_mock, confirm_mock, database):
+def test_create_giant_workout(
+    iterfzf_mock, int_mock, prompt_mock, confirm_mock, database
+):
     """Test creating a giant workout."""
     iterfzf_mock.return_value = None
     prompt_mock.side_effect = ["1", "1"]
