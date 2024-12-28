@@ -83,7 +83,7 @@ class Workout(BaseModel):
         """Calculate the stats for a given workout.
 
         Returns:
-            A dict containing total weight moved, number of reps, and the density.
+            A dict containing total weight moved, reps, weight density and rep density.
         """
         total_reps = 0
         weight_moved = 0
