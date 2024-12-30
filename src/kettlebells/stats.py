@@ -1,4 +1,5 @@
 import calendar
+import sys
 from collections import defaultdict
 from datetime import datetime
 from statistics import mean, median
@@ -298,7 +299,7 @@ def view_program(data: dict, program: str, display_workout: bool) -> Table:
     return program_table
 
 
-def retrieve_workout(data: dict, preview: bool) -> tuple[str, Workout] | None:
+def retrieve_workout(data: dict, preview: bool) -> tuple[str, Workout]:
     data = {w["date"]: Workout(**w["workout"]) for w in data["saved_workouts"]}
     if preview:
         date = iterfzf(
@@ -314,7 +315,7 @@ def retrieve_workout(data: dict, preview: bool) -> tuple[str, Workout] | None:
     if date:
         workout = data[date]
         return date, workout
-    return
+    sys.exit()
 
 
 def table_to_df(rich_table: Table) -> pd.DataFrame:
@@ -333,7 +334,7 @@ def table_to_df(rich_table: Table) -> pd.DataFrame:
     return pd.DataFrame(table_data)
 
 
-def print_calendar(data: dict, year: int):
+def print_calendar(data: dict, year: int | None):
     """Highlight workout days and print a yearly calendar.
 
     Args:

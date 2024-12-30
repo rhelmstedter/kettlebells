@@ -154,7 +154,7 @@ def save(
             "-w",
             help="Possible workout-types: ic, abc, btb, dfw, es, pw, wolf, wg, rop, or custom.",
         ),
-    ] = None,
+    ] = "",
 ) -> None:
     """Save a kettlebell workout.
 
@@ -185,7 +185,7 @@ def save(
             workout = create_abf_barbell_workout(KETTLEBELLS_DB)
         case "abf":
             workout = create_abf_workout(KETTLEBELLS_DB)
-        case None:
+        case "":
             workout = Workout(**data["cached_workouts"][-1])
             console.print("Last workout generated:\n")
         case _:
@@ -245,10 +245,10 @@ def view(
     """Display stats of a given workout or program."""
     data = read_database(KETTLEBELLS_DB)
     if program:
-        data, program = filter_by_program(data)
-        table = view_program(data, program, display_workout)
+        data, program_name = filter_by_program(data)
+        table = view_program(data, program_name, display_workout)
         console.print(table)
-        get_all_stats(data, program)
+        get_all_stats(data, program_name)
         return
     try:
         date, workout = retrieve_workout(data, preview)
@@ -289,7 +289,7 @@ def stats(
         ),
     ] = "",
     year: Annotated[
-        int,
+        int | None,
         typer.Option(
             "--year",
             "-y",
@@ -311,7 +311,7 @@ def stats(
             "-s",
             help="Start date (YYYY-MM-DD).",
         ),
-    ] = None,
+    ] = "",
     end: Annotated[
         str,
         typer.Option(
@@ -319,7 +319,7 @@ def stats(
             "-e",
             help="End date (YYYY-MM-DD).",
         ),
-    ] = None,
+    ] = "",
     calendar: Annotated[
         bool,
         typer.Option(
@@ -355,7 +355,7 @@ def stats(
             help="Show the top ten workouts in a table.",
             is_flag=True,
         ),
-    ] = None,
+    ] = False,
 ) -> None:
     """Display stats from all workouts in database."""
     data = read_database(KETTLEBELLS_DB)
