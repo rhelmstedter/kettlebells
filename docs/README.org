@@ -37,10 +37,8 @@ kettlebells setloads
 The ~save~ command saves workouts to the database. The current options are:
 - [[iron-cardio][ic]]
 - [[abc][abc]]
-- [[abfb][abfb]]
-- [[abf][abf]]
 - [[btb][btb]]
-- dfw
+- [[dfw][dfw]]
 - [[pw][pw]]
 - [[rop][rop]]
 - [[wolf][wolf]]
@@ -52,19 +50,6 @@ When run with no option, the ~save~ command will attempt to use the most recentl
 kettlebells save --workout-type abc
 #+end_src
 
-**** abfb
-When the ~save~ command is run with the workout type of ~abfb~, an armor building formula barbell workout is saved. Currently, the user can choose from variations of Program One, Program Two, and Program Three.
-
-#+begin_src bash
-kettlebells save --workout-type abfb
-#+end_src
-
-**** abf
-When the ~save~ command is run with the workout type of ~abf~, an armor building formula workout is saved. This program alternates between the armor building complex and double kettlebell press. See the [[https://danjohnuniversity.com/bookstore][Dan Jon Bookstore]] for more details
-
-#+begin_src bash
-kettlebells save --workout-type abf
-#+end_src
 
 **** dfw
 When the ~save~ command is run with the workout type of ~dfw~, a dry fighting weight workout is saved. See [[https://www.strongfirst.com/dry-fighting-weight/][the original post]] for more details
@@ -246,6 +231,22 @@ The ~stats~ command displays the aggregated workout count, time, weight moved, n
 kettlebells stats
 #+end_src
 
+**** Filtering by time
+The stats command can be filtered using three arguments: ~--start~, ~--end~, ~--year~.
+
+Here is an example using ~--start~ and ~--end~ to get the stats from Jan 2024.
+#+begin_src bash
+kettlebells stats --start 2024-01-01 --end 2024-02-01
+#+end_src
+
+If you want to see an entire year, just use ~--year~.
+
+#+begin_src bash
+kettlebells stats --year 2024
+#+end_src
+
+All three time filters work with the plots. And ~--year~ works with the calendar command covered later.
+
 **** plot
 To display a line plot of the weight moved per workout, use the ~--plot line~ option. Add a line at the median with ~--median~ or at the mean with ~--average~.
 
@@ -269,7 +270,7 @@ kettlebells stats --plot event
 To display a calendar of workouts in a given year, use the ~--calendar~ flag and pass the year as the argument.
 
 #+begin_src bash
-kettlebells stats --calendar 2023
+kettlebells stats --calendar -y 2023
 #+end_src
 
 **** best

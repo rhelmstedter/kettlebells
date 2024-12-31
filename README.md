@@ -1,22 +1,22 @@
 
 # Table of Contents
 
-1.  [Installation](#org5bfc676)
-2.  [Usage](#org79dc4b0)
-    1.  [Initialize](#orgdf188a8)
-    2.  [Commands](#orgdd6de2e)
-        1.  [save](#org3a1f051)
-        2.  [random](#orga3e0022)
-        3.  [last](#org1c7d249)
-        4.  [view](#orge6db22d)
-        5.  [stats](#orgde30aef)
+1.  [Installation](#org334e358)
+2.  [Usage](#orgec33842)
+    1.  [Initialize](#orgbe72457)
+    2.  [Commands](#org26e69a1)
+        1.  [save](#org3af7ba3)
+        2.  [random](#orge99f7e9)
+        3.  [last](#org5305bf6)
+        4.  [view](#org46afb8d)
+        5.  [stats](#org7a086b3)
 
 kettlebells is a CLI designed to create, save, and track the progress of kettlebell workouts. The inspiration for this project came from [Pat Flynn&rsquo;s conversation with Bret Jones](https://www.chroniclesofstrength.com/what-strength-aerobics-are-and-how-to-use-them-w-brett-jones/). (For a more detailed look at Iron Cardio, go checkout the [Iron Cardio Book](https://strongandfit.com/products/iron-cardio-by-brett-jones) by Bret Jones.) After starting an [initial project](https://github.com/rhelmstedter/iron-cardio) that focused only on iron cardio, I wanted to be able to add more. This is essentially a fork of the iron-cardio project designed to add various workouts such as the armor building complex, and dry fighting weight.
 
 As of version 0.2.1, the way workouts are constructed has completely changed. This will allow users to construct their own custom workouts in the future. It will also allow the stats to keep track of how many reps of each type of exercise have been done.
 
 
-<a id="org5bfc676"></a>
+<a id="org334e358"></a>
 
 # Installation
 
@@ -25,12 +25,12 @@ Use [pipx](https://github.com/pypa/pipx).
     pipx install kettlebells
 
 
-<a id="org79dc4b0"></a>
+<a id="orgec33842"></a>
 
 # Usage
 
 
-<a id="orgdf188a8"></a>
+<a id="orgbe72457"></a>
 
 ## Initialize
 
@@ -43,51 +43,37 @@ Next, run the `setloads` command. This sets the units to either pounds (lbs) or 
     kettlebells setloads
 
 
-<a id="orgdd6de2e"></a>
+<a id="org26e69a1"></a>
 
 ## Commands
 
 
-<a id="org3a1f051"></a>
+<a id="org3af7ba3"></a>
 
 ### save
 
 The `save` command saves workouts to the database. The current options are:
 
--   [ic](#orgb50b706)
--   [abc](#orgcd91423)
--   [abfb](#org7c7869d)
--   [abf](#org467728b)
--   [btb](#orgffc021a)
--   dfw
--   [pw](#org3e69f97)
--   [rop](#orgcd6cbed)
--   [wolf](#orgc5b3e39)
--   [custom](#org2c1e620)
+-   [ic](#orgfb5f56f)
+-   [abc](#org4837fdf)
+-   [btb](#org59d637e)
+-   [dfw](#org554fd37)
+-   [pw](#org1f76314)
+-   [rop](#orge68ce2a)
+-   [wolf](#org02c5291)
+-   [custom](#org59b03bf)
 
 When run with no option, the `save` command will attempt to use the most recently generated random workout. Otherwise, use the `--workout-type` option to manually enter a workout, e.g.:
 
     kettlebells save --workout-type abc
 
-1.  abfb
-
-    When the `save` command is run with the workout type of `abfb`, an armor building formula barbell workout is saved. Currently, the user can choose from variations of Program One, Program Two, and Program Three.
-    
-        kettlebells save --workout-type abfb
-
-2.  abf
-
-    When the `save` command is run with the workout type of `abf`, an armor building formula workout is saved. This program alternates between the armor building complex and double kettlebell press. See the [Dan Jon Bookstore](https://danjohnuniversity.com/bookstore) for more details
-    
-        kettlebells save --workout-type abf
-
-3.  dfw
+1.  dfw
 
     When the `save` command is run with the workout type of `dfw`, a dry fighting weight workout is saved. See [the original post](https://www.strongfirst.com/dry-fighting-weight/) for more details
     
         kettlebells save --workout-type dfw
 
-4.  btb
+2.  btb
 
     The save command with a workout type of `btb` allows the user to save a Back to Basics Workout. These workouts are constructed based on The Pat Flynn Show episode with Dan John [The BEST Kettlebell Program for GEGINNERS | THE BTBKP](https://patflynnshow.libsyn.com/the-best-kettlebell-program-for-beginners-the-btbkp). The choices are ladders of 2-3-5 clean and presses followed by either snatches or double front squats. The warm up and cool exercises are not included in the workout.
     
@@ -143,7 +129,7 @@ When run with no option, the `save` command will attempt to use the most recentl
     </tbody>
     </table>
 
-5.  pw
+3.  pw
 
     The save command with a workout type of `pw` saves versions of [Dan John&rsquo;s Perfect Workout](https://youtu.be/aHQLx_HhFqo?si=b68xBn41-tcGDVJE). While in the video Dan does hip thrusts until it burns, for ease of recording the workout, `kettlebells` offers a set number of reps for the hip thrust.
     
@@ -274,19 +260,19 @@ When run with no option, the `save` command will attempt to use the most recentl
     </tbody>
     </table>
 
-6.  rop
+4.  rop
 
     The save command with a workout type of `rop` saves versions of Pavel Tsatsouline&rsquo;s rite of passage program from [Enter The Kettlebell](https://www.amazon.com/Enter-Kettlebell-Strength-Secret-Supermen/dp/1942812132). The clean and press and pullups are calculated as ladders, while the swings and snatches are straight sets.
     
         kettlebells save --workout-type rop
 
-7.  wolf
+5.  wolf
 
     The save command with a workout type of `wolf` saves workouts from the free program [The Wolf](https://chasingstrength.com/reports/double-kettlebell-complex/) from [Geoff Neupert](https://chasingstrength.com). This is a gasser for sure.
     
         kettlebells save --workout-type wolf
 
-8.  custom
+6.  custom
 
     When the `save` command is run with the workout type of `custom`, the user can save a custom workout. Custom workouts need a `workout_type` and a `variation`. The default is `custom`. Exercises are chosen via [iterfzf](https://github.com/dahlia/iterfzf). Select `Other` to add a custom exercise. Select `Done` or press escape when finished adding all the exercises.
     
@@ -303,7 +289,7 @@ When run with no option, the `save` command will attempt to use the most recentl
         Consider a workout out like the [8 - 5 - 3 Rep Scheme](https://www.youtube.com/watch?v=nHPfglRCp6M&t=13s) from Pat Flynn. The `workout_type` would be &ldquo;complex&rdquo;, the `variation` would be &ldquo;8-5-3 Rep Scheme&rdquo;. Technically, a set consists of 8 Goblet Squats, 5 Start Stop Swings, 3 Push-ups. Then you would repeat this for 5 rounds. However, in `kettlebells` the user will add each exercise separately. So the Goblet Squat would be 5 sets of 8. The Start Stop Swing would be 5 sets of 5, and the Push-up would be 5 sets of 3.
 
 
-<a id="orga3e0022"></a>
+<a id="orge99f7e9"></a>
 
 ### random
 
@@ -494,7 +480,7 @@ The work out command generates a random workout. The current options are:
     </table>
 
 
-<a id="org1c7d249"></a>
+<a id="org5305bf6"></a>
 
 ### last
 
@@ -503,7 +489,7 @@ The `last` command displays the last saved workout and calculates the stats for 
     kettlebells last
 
 
-<a id="orge6db22d"></a>
+<a id="org46afb8d"></a>
 
 ### view
 
@@ -516,7 +502,7 @@ Use the `--Program` flag to filter workouts based on a certain workout<sub>type<
     kettlebells view --Program
 
 
-<a id="orgde30aef"></a>
+<a id="org7a086b3"></a>
 
 ### stats
 
@@ -524,7 +510,21 @@ The `stats` command displays the aggregated workout count, time, weight moved, n
 
     kettlebells stats
 
-1.  plot
+1.  Filtering by time
+
+    The stats command can be filtered using three arguments: `--start`, `--end`, `--year`.
+    
+    Here is an example using `--start` and `--end` to get the stats from Jan 2024.
+    
+        kettlebells stats --start 2024-01-01 --end 2024-02-01
+    
+    If you want to see an entire year, just use `--year`.
+    
+        kettlebells stats --year 2024
+    
+    All three time filters work with the plots. And `--year` works with the calendar command covered later.
+
+2.  plot
 
     To display a line plot of the weight moved per workout, use the `--plot line` option. Add a line at the median with `--median` or at the mean with `--average`.
     
@@ -538,13 +538,13 @@ The `stats` command displays the aggregated workout count, time, weight moved, n
     
         kettlebells stats --plot event
 
-2.  calendar
+3.  calendar
 
     To display a calendar of workouts in a given year, use the `--calendar` flag and pass the year as the argument.
     
-        kettlebells stats --calendar 2023
+        kettlebells stats --calendar -y 2023
 
-3.  best
+4.  best
 
     The `best` command displays the top ten workout based on the weight moved.
     
