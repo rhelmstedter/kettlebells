@@ -1,36 +1,48 @@
 
 # Table of Contents
 
-1.  [Installation](#org334e358)
-2.  [Usage](#orgec33842)
-    1.  [Initialize](#orgbe72457)
-    2.  [Commands](#org26e69a1)
-        1.  [save](#org3af7ba3)
-        2.  [random](#orge99f7e9)
-        3.  [last](#org5305bf6)
-        4.  [view](#org46afb8d)
-        5.  [stats](#org7a086b3)
+1.  [Installation](#orge5b644e)
+    1.  [uv](#org7e7f82e)
+    2.  [pipx](#org67caf93)
+2.  [Usage](#orgd8f3016)
+    1.  [Initialize](#orgef7d366)
+    2.  [Commands](#org9b5744f)
+        1.  [save](#org086b389)
+        2.  [random](#orga9560dd)
+        3.  [last](#org44778dc)
+        4.  [view](#org09efd79)
+        5.  [stats](#orgd521883)
 
 kettlebells is a CLI designed to create, save, and track the progress of kettlebell workouts. The inspiration for this project came from [Pat Flynn&rsquo;s conversation with Bret Jones](https://www.chroniclesofstrength.com/what-strength-aerobics-are-and-how-to-use-them-w-brett-jones/). (For a more detailed look at Iron Cardio, go checkout the [Iron Cardio Book](https://strongandfit.com/products/iron-cardio-by-brett-jones) by Bret Jones.) After starting an [initial project](https://github.com/rhelmstedter/iron-cardio) that focused only on iron cardio, I wanted to be able to add more. This is essentially a fork of the iron-cardio project designed to add various workouts such as the armor building complex, and dry fighting weight.
 
 As of version 0.2.1, the way workouts are constructed has completely changed. This will allow users to construct their own custom workouts in the future. It will also allow the stats to keep track of how many reps of each type of exercise have been done.
 
 
-<a id="org334e358"></a>
+<a id="orge5b644e"></a>
 
 # Installation
 
-Use [pipx](https://github.com/pypa/pipx).
+
+<a id="org7e7f82e"></a>
+
+## [uv](https://github.com/astral-sh/uv)
+
+    uv tool install kettlebells
+
+
+<a id="org67caf93"></a>
+
+## [pipx](https://github.com/pypa/pipx)
 
     pipx install kettlebells
 
 
-<a id="orgec33842"></a>
+<a id="orgd8f3016"></a>
 
 # Usage
 
 
-<a id="orgbe72457"></a>
+<a id="orgef7d366"></a>
 
 ## Initialize
 
@@ -43,25 +55,25 @@ Next, run the `setloads` command. This sets the units to either pounds (lbs) or 
     kettlebells setloads
 
 
-<a id="org26e69a1"></a>
+<a id="org9b5744f"></a>
 
 ## Commands
 
 
-<a id="org3af7ba3"></a>
+<a id="org086b389"></a>
 
 ### save
 
 The `save` command saves workouts to the database. The current options are:
 
--   [ic](#orgfb5f56f)
--   [abc](#org4837fdf)
--   [btb](#org59d637e)
--   [dfw](#org554fd37)
--   [pw](#org1f76314)
--   [rop](#orge68ce2a)
--   [wolf](#org02c5291)
--   [custom](#org59b03bf)
+-   [ic](#orgb05f320)
+-   [abc](#org734b94e)
+-   [btb](#org8aa0229)
+-   [dfw](#orgaca535f)
+-   [pw](#org90d3641)
+-   [rop](#orgdca02c9)
+-   [wolf](#org4118e7a)
+-   [custom](#orgb4dfddb)
 
 When run with no option, the `save` command will attempt to use the most recently generated random workout. Otherwise, use the `--workout-type` option to manually enter a workout, e.g.:
 
@@ -289,7 +301,7 @@ When run with no option, the `save` command will attempt to use the most recentl
         Consider a workout out like the [8 - 5 - 3 Rep Scheme](https://www.youtube.com/watch?v=nHPfglRCp6M&t=13s) from Pat Flynn. The `workout_type` would be &ldquo;complex&rdquo;, the `variation` would be &ldquo;8-5-3 Rep Scheme&rdquo;. Technically, a set consists of 8 Goblet Squats, 5 Start Stop Swings, 3 Push-ups. Then you would repeat this for 5 rounds. However, in `kettlebells` the user will add each exercise separately. So the Goblet Squat would be 5 sets of 8. The Start Stop Swing would be 5 sets of 5, and the Push-up would be 5 sets of 3.
 
 
-<a id="orge99f7e9"></a>
+<a id="orga9560dd"></a>
 
 ### random
 
@@ -480,7 +492,7 @@ The work out command generates a random workout. The current options are:
     </table>
 
 
-<a id="org5305bf6"></a>
+<a id="org44778dc"></a>
 
 ### last
 
@@ -489,7 +501,7 @@ The `last` command displays the last saved workout and calculates the stats for 
     kettlebells last
 
 
-<a id="org46afb8d"></a>
+<a id="org09efd79"></a>
 
 ### view
 
@@ -502,7 +514,7 @@ Use the `--Program` flag to filter workouts based on a certain workout<sub>type<
     kettlebells view --Program
 
 
-<a id="org7a086b3"></a>
+<a id="orgd521883"></a>
 
 ### stats
 
