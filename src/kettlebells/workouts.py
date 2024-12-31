@@ -664,6 +664,9 @@ def create_abf_barbell_workout(db_path: Path) -> Workout:
                 exercises.append(
                     Exercise(name="Front Squat", load=load, sets=sets, reps=squat_reps)
                 )
+    if Confirm.ask("Did you do any auxiliary exercises"):
+        auxiliary_exercises = add_exercises(bodyweight, units)
+        exercises.extend(auxiliary_exercises)
     print()
     return Workout(
         workout_type=workout_type,
