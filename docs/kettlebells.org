@@ -55,7 +55,7 @@ Also see [[rethink the workout object][rethink the workout object]] section for 
 
 * DONE Add a program viewer (filter?)
 CLOSED: [2023-11-29 Wed 19:42]
-It would be nice to see all the workouts of a certain type. Something like ~kettlebells filter dfw~. This would return a list of all of the DFW workouts from the datebase. Perhaps in a table of some kind.
+It would be nice to see all the workouts of a certain type. Something like ~kettlebells filter dfw~. This would return a list of all of the DFW workouts from the database. Perhaps in a table of some kind.
 
 After listening to the [[https://www.youtube.com/watch?v=TLd_kXilVUM][Birth of Iron Cardio]] podcast episode, it would also be nice to be able to compare individual workouts.
 
@@ -70,7 +70,15 @@ I would like to create a command that lets me build a template for my easy stren
 - Should it be saved in the database?
 - How will I create new templates vs edit existing ones?
 - Are there other programs that would benefit from this (e.g., DFW)?
-* TODO add a time restriction to program viewer
+* DONE add a time restriction to program viewer
+CLOSED: [2024-12-31 Tue 13:57]
 Currently if you view a program you get the workouts from all time. It would be nice to be able to enter a start date and an ending date.
 * DONE handle bodyweight exercises
 CLOSED: [2024-03-16 Sat 09:54]
+* TODO add HBBC workout
+Dan John posted about the Hercules Barbell Club workout in his [[https://forum.danjohnuniversity.com/t/dan-johns-ongoing-battle-with-life-living-and-everything-else/340/1398?u=russell_helmstedter][training log]].
+
+Clean and Press 5 sets of 3
+Snatch 8 sets of 2
+Clean and Jerk 8 sets of 1
+Front Squat 5 sets of 5
