@@ -14,7 +14,7 @@ from rich.table import Table
 from rich.text import Text
 
 from .console import console
-from .constants import DATE_FORMAT, KETTLEBELLS_HOME, SUGGESTION, WARNING
+from .constants import DATE_FORMAT, KETTLEBELLS_HOME, SUGGESTION, WARNING, EXERCISES
 from .workouts import Workout, _print_helper
 
 
@@ -382,3 +382,17 @@ def _get_dates(data: dict) -> list[tuple[int]]:
         workout_date = datetime.strptime(workout["date"], DATE_FORMAT)
         workout_dates.append((workout_date.day, workout_date.month, workout_date.year))
     return workout_dates
+
+
+def get_exercises_by_movement(data: dict):
+    units = data["loads"]["units"]
+    human_movements = defaultdict(int)
+    for workout_data in data["saved_workouts"]:
+        workout = Workout(**workout_data["workout"])
+        for exercise in workout.exercises:
+            if exercise.name in EXERCISES:
+                for movement in EXERCISES[exercise.name]:
+                    human_movements[movement] += exercise.sets * exercise.reps
+            else:
+                print(f"Unknown exercise: {exercise.name}")
+    console.print(human_movements)

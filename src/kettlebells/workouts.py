@@ -31,6 +31,14 @@ from .database import read_database
 
 
 class Exercise(BaseModel):
+    """Exercise object.
+
+    Attributes:
+        name: str
+        load: int
+        sets: int
+        reps: int
+    """
     name: str
     load: int
     sets: int
@@ -38,6 +46,17 @@ class Exercise(BaseModel):
 
 
 class Workout(BaseModel):
+    """Workout object.
+
+    Attributes:
+        workout_type: str
+        variation: str
+        time: int
+        units: str
+        bodyweight: int
+        exercises: list[Exercise]
+    """
+
     workout_type: str
     variation: str
     time: int
