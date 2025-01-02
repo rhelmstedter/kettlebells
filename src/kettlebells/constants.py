@@ -36,38 +36,42 @@ IRON_CARDIO_PARAMS = {
     "swings": {True: 2 / 6, False: 4 / 6},
     "exercises": {
         "Classic": [
-            ("Clean", 1),
-            ("Press", 1),
-            ("Front Squat", 1),
+            ("Kettlebell Clean", 1),
+            ("Kettlebell Press", 1),
+            ("Kettlebell Front Squat", 1),
         ],
         "Classic + Pullup": [
-            ("Clean", 1),
-            ("Press", 1),
-            ("Front Squat", 1),
+            ("Kettlebell Clean", 1),
+            ("Kettlebell Press", 1),
+            ("Kettlebell Front Squat", 1),
             ("Pullup", 1),
         ],
         "Classic + Snatch": [
-            ("Clean", 1),
-            ("Press", 1),
-            ("Front Squat", 1),
-            ("Snatch", 1),
+            ("Kettlebell Clean", 1),
+            ("Kettlebell Press", 1),
+            ("Kettlebell Front Squat", 1),
+            ("Kettlebell Snatch", 1),
         ],
-        "Traveling 2s": [("Clean", 1), ("Press", 1), ("Front Squat", 1)],
+        "Traveling 2s": [
+            ("Kettlebell Clean", 1),
+            ("Kettlebell Press", 1),
+            ("Kettlebell Front Squat", 1),
+        ],
         "Double Classic": [
-            ("Double Clean", 1),
-            ("Double Press", 1),
-            ("Double Front Squat", 1),
+            ("Double Kettlebell Clean", 1),
+            ("Double Kettlebell Press", 1),
+            ("Double Kettlebell Front Squat", 1),
         ],
         "Double Classic + Pullup": [
-            ("Double Clean", 1),
-            ("Double Press", 1),
-            ("Double Front Squat", 1),
+            ("Double Kettlebell Clean", 1),
+            ("Double Kettlebell Press", 1),
+            ("Double Kettlebell Front Squat", 1),
             ("Pullup", 1),
         ],
         "Double Traveling 2s": [
-            ("Double Clean", 1),
-            ("Double Press", 1),
-            ("Double Front Squat", 1),
+            ("Double Kettlebell Clean", 1),
+            ("Double Kettlebell Press", 1),
+            ("Double Kettlebell Front Squat", 1),
         ],
     },
 }
@@ -90,11 +94,15 @@ ABC_PARAMS = {
     },
     "swings": {True: 1 / 6, False: 5 / 6},
     "exercises": {
-        "Armor Building Complex 2.0": [("Clean", 2), ("Press", 2), ("Front Squat", 2)],
+        "Armor Building Complex 2.0": [
+            ("Kettlebell Clean", 2),
+            ("Kettlebell Press", 2),
+            ("Kettlebell Front Squat", 2),
+        ],
         "Armor Building Complex": [
-            ("Double Clean", 2),
-            ("Double Press", 1),
-            ("Double Front Squat", 3),
+            ("Double Kettlebell Clean", 2),
+            ("Double Kettlebell Press", 1),
+            ("Double Kettlebell Front Squat", 3),
         ],
     },
 }
@@ -103,12 +111,12 @@ BTB_PARAMS = {
     "2 C&P Ladders + Snatch": {
         "exercises": [
             {
-                "name": "Clean and Press",
+                "name": "Kettlebell Clean and Press",
                 "sets": 2,
                 "reps": 20,
             },
             {
-                "name": "Snatch",
+                "name": "Kettlebell Snatch",
                 "sets": 1,
                 "reps": 100,
             },
@@ -117,12 +125,12 @@ BTB_PARAMS = {
     "3 C&P Ladders + Snatch": {
         "exercises": [
             {
-                "name": "Clean and Press",
+                "name": "Kettlebell Clean and Press",
                 "sets": 3,
                 "reps": 20,
             },
             {
-                "name": "Snatch",
+                "name": "Kettlebell Snatch",
                 "sets": 1,
                 "reps": 80,
             },
@@ -131,12 +139,12 @@ BTB_PARAMS = {
     "5 C&P Ladders + Snatch": {
         "exercises": [
             {
-                "name": "Clean and Press",
+                "name": "Kettlebell Clean and Press",
                 "sets": 5,
                 "reps": 20,
             },
             {
-                "name": "Snatch",
+                "name": "Kettlebell Snatch",
                 "sets": 1,
                 "reps": 60,
             },
@@ -145,12 +153,12 @@ BTB_PARAMS = {
     "2 C&P Ladders + Squats": {
         "exercises": [
             {
-                "name": "Clean and Press",
+                "name": "Kettlebell Clean and Press",
                 "sets": 2,
                 "reps": 20,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "sets": 2,
                 "reps": 10,
             },
@@ -159,12 +167,12 @@ BTB_PARAMS = {
     "3 C&P Ladders + Squats": {
         "exercises": [
             {
-                "name": "Clean and Press",
+                "name": "Kettlebell Clean and Press",
                 "sets": 3,
                 "reps": 20,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "sets": 3,
                 "reps": 10,
             },
@@ -173,12 +181,12 @@ BTB_PARAMS = {
     "5 C&P Ladders + Squats": {
         "exercises": [
             {
-                "name": "Clean and Press",
+                "name": "Kettlebell Clean and Press",
                 "sets": 5,
                 "reps": 20,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "sets": 5,
                 "reps": 10,
             },
@@ -190,7 +198,7 @@ PW_PARAMS = {
     "Original": {
         "exercises": [
             {
-                "name": "Half-kneeling Press",
+                "name": "Half-kneeling Kettlebell Press",
                 "sets": 3,
                 "reps": 16,
             },
@@ -226,7 +234,7 @@ PW_PARAMS = {
     "Indoor": {
         "exercises": [
             {
-                "name": "Half-kneeling Press",
+                "name": "Half-kneeling Kettlebell Press",
                 "sets": 3,
                 "reps": 16,
             },
@@ -262,7 +270,7 @@ PW_PARAMS = {
     "The Bull": {
         "exercises": [
             {
-                "name": "Half-kneeling Press",
+                "name": "Half-kneeling Kettlebell Press",
                 "sets": 3,
                 "reps": 16,
             },
@@ -301,7 +309,7 @@ THE_GIANT_PARAMS = {
     "The Giant 1.0": {
         "W1D1": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 5,
@@ -309,7 +317,7 @@ THE_GIANT_PARAMS = {
         ],
         "W1D2": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 6,
@@ -317,7 +325,7 @@ THE_GIANT_PARAMS = {
         ],
         "W1D3": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 4,
@@ -325,7 +333,7 @@ THE_GIANT_PARAMS = {
         ],
         "W2D1": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 5,
@@ -333,7 +341,7 @@ THE_GIANT_PARAMS = {
         ],
         "W2D2": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 6,
@@ -341,7 +349,7 @@ THE_GIANT_PARAMS = {
         ],
         "W2D3": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 4,
@@ -349,7 +357,7 @@ THE_GIANT_PARAMS = {
         ],
         "W3D1": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 5,
@@ -357,7 +365,7 @@ THE_GIANT_PARAMS = {
         ],
         "W3D2": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 6,
@@ -365,7 +373,7 @@ THE_GIANT_PARAMS = {
         ],
         "W3D3": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 4,
@@ -373,7 +381,7 @@ THE_GIANT_PARAMS = {
         ],
         "W4D1": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 5,
@@ -381,7 +389,7 @@ THE_GIANT_PARAMS = {
         ],
         "W4D2": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 6,
@@ -389,7 +397,7 @@ THE_GIANT_PARAMS = {
         ],
         "W4D3": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 4,
@@ -408,31 +416,31 @@ THE_WOLF_PARAMS = {
                 "reps": 10,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
@@ -440,31 +448,31 @@ THE_WOLF_PARAMS = {
         ],
         "W1D2": [
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
@@ -472,25 +480,25 @@ THE_WOLF_PARAMS = {
         ],
         "W1D3": [
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
@@ -504,31 +512,31 @@ THE_WOLF_PARAMS = {
                 "reps": 10,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
@@ -536,31 +544,31 @@ THE_WOLF_PARAMS = {
         ],
         "W2D2": [
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
@@ -568,25 +576,25 @@ THE_WOLF_PARAMS = {
         ],
         "W2D3": [
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
@@ -594,37 +602,37 @@ THE_WOLF_PARAMS = {
         ],
         "W3D1": [
             {
-                "name": "Snatch",
+                "name": "Kettlebell Snatch",
                 "load": 0,
                 "sets": 5,
                 "reps": 10,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
@@ -632,31 +640,31 @@ THE_WOLF_PARAMS = {
         ],
         "W3D2": [
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
@@ -664,25 +672,25 @@ THE_WOLF_PARAMS = {
         ],
         "W3D3": [
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
@@ -690,37 +698,37 @@ THE_WOLF_PARAMS = {
         ],
         "W4D1": [
             {
-                "name": "Snatch",
+                "name": "Kettlebell Snatch",
                 "load": 0,
                 "sets": 3,
                 "reps": 10,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
@@ -728,31 +736,31 @@ THE_WOLF_PARAMS = {
         ],
         "W4D2": [
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
@@ -760,25 +768,25 @@ THE_WOLF_PARAMS = {
         ],
         "W4D3": [
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 3,
                 "reps": 5,
@@ -786,37 +794,37 @@ THE_WOLF_PARAMS = {
         ],
         "W5D1": [
             {
-                "name": "Snatch",
+                "name": "Kettlebell Snatch",
                 "load": 0,
                 "sets": 4,
                 "reps": 10,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
@@ -824,31 +832,31 @@ THE_WOLF_PARAMS = {
         ],
         "W5D2": [
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
@@ -856,25 +864,25 @@ THE_WOLF_PARAMS = {
         ],
         "W5D3": [
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 4,
                 "reps": 5,
@@ -882,37 +890,37 @@ THE_WOLF_PARAMS = {
         ],
         "W6D1": [
             {
-                "name": "Snatch",
+                "name": "Kettlebell Snatch",
                 "load": 0,
                 "sets": 5,
                 "reps": 10,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
@@ -920,31 +928,31 @@ THE_WOLF_PARAMS = {
         ],
         "W6D2": [
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
@@ -952,25 +960,25 @@ THE_WOLF_PARAMS = {
         ],
         "W6D3": [
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Press",
+                "name": "Double Kettlebell Press",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Clean",
+                "name": "Double Kettlebell Clean",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 5,
                 "reps": 5,
@@ -1011,11 +1019,11 @@ ABFB_PARAMS = {
 
 ABF_PARAMS = {
     "Armor Building Complex": ABC_PARAMS["exercises"]["Armor Building Complex"],
-    "Double Press": [
-        ("Double Press", 2),
-        ("Double Press", 3),
-        ("Double Press", 5),
-        ("Double Press", 10),
+    "Double Kettlebell Press": [
+        ("Double Kettlebell Press", 2),
+        ("Double Kettlebell Press", 3),
+        ("Double Kettlebell Press", 5),
+        ("Double Kettlebell Press", 10),
     ],
 }
 
@@ -1030,7 +1038,7 @@ EASY_STRENGTH_PARAMS = {
                 "load": 32,
             },
             {
-                "name": "Swing",
+                "name": "Kettlebell Swing",
                 "sets": 5,
                 "reps": 15,
                 "load": 32,
@@ -1042,13 +1050,13 @@ EASY_STRENGTH_PARAMS = {
                 "load": 12,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "sets": 2,
                 "reps": 5,
                 "load": 28,
             },
             {
-                "name": "Bent Over Row",
+                "name": "Kettlebell Bent Over Row",
                 "sets": 2,
                 "reps": 10,
                 "load": 32,
@@ -1070,7 +1078,7 @@ EASY_STRENGTH_PARAMS = {
                 "load": 24,
             },
             {
-                "name": "Swing",
+                "name": "Kettlebell Swing",
                 "sets": 3,
                 "reps": 15,
                 "load": 24,
@@ -1082,7 +1090,7 @@ EASY_STRENGTH_PARAMS = {
                 "load": 0,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "sets": 1,
                 "reps": 10,
                 "load": 24,
@@ -1106,25 +1114,25 @@ EASY_STRENGTH_PARAMS = {
 ROP_PARAMS = {
     "Heavy": {
         "exercises": [
-            "Clean and Press",
+            "Kettlebell Clean and Press",
             "Pullup",
-            "Swing",
+            "Kettlebell Swing",
             "Done",
         ],
     },
     "Medium": {
         "exercises": [
-            "Clean and Press",
+            "Kettlebell Clean and Press",
             "Pullup",
-            "Swing",
+            "Kettlebell Swing",
             "Done",
         ],
     },
     "Light": {
         "exercises": [
-            "Clean and Press",
+            "Kettlebell Clean and Press",
             "Pullup",
-            "Snatch",
+            "Kettlebell Snatch",
             "Done",
         ],
     },
@@ -1134,13 +1142,13 @@ DFW_PARAMS = {
     "dry fighting weight": {
         "W1D1": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": [1, 2, 3],
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 0,
                 "reps": [1, 2, 3],
@@ -1148,13 +1156,13 @@ DFW_PARAMS = {
         ],
         "W1D2": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 1,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 0,
                 "reps": 1,
@@ -1162,13 +1170,13 @@ DFW_PARAMS = {
         ],
         "W1D3": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 2,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 0,
                 "reps": 2,
@@ -1176,13 +1184,13 @@ DFW_PARAMS = {
         ],
         "W2D1": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": [1, 2, 3],
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 0,
                 "reps": [1, 2, 3],
@@ -1190,13 +1198,13 @@ DFW_PARAMS = {
         ],
         "W2D2": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 1,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 0,
                 "reps": 1,
@@ -1204,13 +1212,13 @@ DFW_PARAMS = {
         ],
         "W2D3": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 3,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 0,
                 "reps": 3,
@@ -1218,13 +1226,13 @@ DFW_PARAMS = {
         ],
         "W3D1": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": [1, 2, 3, 4],
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 0,
                 "reps": [1, 2, 3, 4],
@@ -1232,13 +1240,13 @@ DFW_PARAMS = {
         ],
         "W3D2": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 2,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 0,
                 "reps": 2,
@@ -1246,13 +1254,13 @@ DFW_PARAMS = {
         ],
         "W3D3": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 3,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 0,
                 "reps": 3,
@@ -1260,13 +1268,13 @@ DFW_PARAMS = {
         ],
         "W4D1": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": [1, 2, 3, 4, 5],
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 0,
                 "reps": [1, 2, 3, 4, 5],
@@ -1274,13 +1282,13 @@ DFW_PARAMS = {
         ],
         "W4D2": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 2,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 0,
                 "reps": 2,
@@ -1288,13 +1296,13 @@ DFW_PARAMS = {
         ],
         "W4D3": [
             {
-                "name": "Double Clean and Press",
+                "name": "Double Kettlebell Clean and Press",
                 "load": 0,
                 "sets": 0,
                 "reps": 2,
             },
             {
-                "name": "Double Front Squat",
+                "name": "Double Kettlebell Front Squat",
                 "load": 0,
                 "sets": 0,
                 "reps": 2,
