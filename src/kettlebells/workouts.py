@@ -671,7 +671,10 @@ def create_abf_barbell_workout(db_path: Path) -> Workout:
     for exercise in workout_param["exercises"]:
         print()
         print(exercise)
-        sets_left = workout_param["exercises"][exercise]["sets"]
+        if exercise == "Curl":
+            sets_left = IntPrompt.ask("Number of total sets in the {exercise}")
+        else:
+            sets_left = workout_param["exercises"][exercise]["sets"]
         while sets_left > 0:
             load = IntPrompt.ask("  Load in lbs")
             sets = IntPrompt.ask("  Number of sets at this load")
