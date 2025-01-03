@@ -1,48 +1,49 @@
 
 # Table of Contents
 
-1.  [Installation](#orge5b644e)
-    1.  [uv](#org7e7f82e)
-    2.  [pipx](#org67caf93)
-2.  [Usage](#orgd8f3016)
-    1.  [Initialize](#orgef7d366)
-    2.  [Commands](#org9b5744f)
-        1.  [save](#org086b389)
-        2.  [random](#orga9560dd)
-        3.  [last](#org44778dc)
-        4.  [view](#org09efd79)
-        5.  [stats](#orgd521883)
+1.  [Installation](#orgc30a08d)
+    1.  [uv](#org644f9b3)
+    2.  [pipx](#org3e526d7)
+2.  [Usage](#org61925e3)
+    1.  [Initialize](#org9dc1f6a)
+    2.  [Update Exercises](#orgf9f1c9d)
+    3.  [Commands](#org6ca217f)
+        1.  [save](#orgaa12efc)
+        2.  [random](#orgfe3c69f)
+        3.  [last](#org319bbb1)
+        4.  [view](#orgb4c7591)
+        5.  [stats](#org85a8277)
 
 kettlebells is a CLI designed to create, save, and track the progress of kettlebell workouts. The inspiration for this project came from [Pat Flynn&rsquo;s conversation with Bret Jones](https://www.chroniclesofstrength.com/what-strength-aerobics-are-and-how-to-use-them-w-brett-jones/). (For a more detailed look at Iron Cardio, go checkout the [Iron Cardio Book](https://strongandfit.com/products/iron-cardio-by-brett-jones) by Bret Jones.) After starting an [initial project](https://github.com/rhelmstedter/iron-cardio) that focused only on iron cardio, I wanted to be able to add more. This is essentially a fork of the iron-cardio project designed to add various workouts such as the armor building complex, and dry fighting weight.
 
 As of version 0.2.1, the way workouts are constructed has completely changed. This will allow users to construct their own custom workouts in the future. It will also allow the stats to keep track of how many reps of each type of exercise have been done.
 
 
-<a id="orge5b644e"></a>
+<a id="orgc30a08d"></a>
 
 # Installation
 
 
-<a id="org7e7f82e"></a>
+<a id="org644f9b3"></a>
 
 ## [uv](https://github.com/astral-sh/uv)
 
     uv tool install kettlebells
 
 
-<a id="org67caf93"></a>
+<a id="org3e526d7"></a>
 
 ## [pipx](https://github.com/pypa/pipx)
 
     pipx install kettlebells
 
 
-<a id="orgd8f3016"></a>
+<a id="org61925e3"></a>
 
 # Usage
 
 
-<a id="orgef7d366"></a>
+<a id="org9dc1f6a"></a>
 
 ## Initialize
 
@@ -55,25 +56,34 @@ Next, run the `setloads` command. This sets the units to either pounds (lbs) or 
     kettlebells setloads
 
 
-<a id="org9b5744f"></a>
+<a id="orgf9f1c9d"></a>
+
+## Update Exercises
+
+Occasionally, new exercises are added to the database. If you have already initialized in a previous version, run the `update` command.
+
+    kettlebells update
+
+
+<a id="org6ca217f"></a>
 
 ## Commands
 
 
-<a id="org086b389"></a>
+<a id="orgaa12efc"></a>
 
 ### save
 
 The `save` command saves workouts to the database. The current options are:
 
--   [ic](#orgb05f320)
--   [abc](#org734b94e)
--   [btb](#org8aa0229)
--   [dfw](#orgaca535f)
--   [pw](#org90d3641)
--   [rop](#orgdca02c9)
--   [wolf](#org4118e7a)
--   [custom](#orgb4dfddb)
+-   [ic](#org119a057)
+-   [abc](#orgeaf2c20)
+-   [btb](#org251f683)
+-   [dfw](#orgfdfc716)
+-   [pw](#orga37f1b5)
+-   [rop](#orgbb8663a)
+-   [wolf](#org264a3d2)
+-   [custom](#org5463923)
 
 When run with no option, the `save` command will attempt to use the most recently generated random workout. Otherwise, use the `--workout-type` option to manually enter a workout, e.g.:
 
@@ -301,7 +311,7 @@ When run with no option, the `save` command will attempt to use the most recentl
         Consider a workout out like the [8 - 5 - 3 Rep Scheme](https://www.youtube.com/watch?v=nHPfglRCp6M&t=13s) from Pat Flynn. The `workout_type` would be &ldquo;complex&rdquo;, the `variation` would be &ldquo;8-5-3 Rep Scheme&rdquo;. Technically, a set consists of 8 Goblet Squats, 5 Start Stop Swings, 3 Push-ups. Then you would repeat this for 5 rounds. However, in `kettlebells` the user will add each exercise separately. So the Goblet Squat would be 5 sets of 8. The Start Stop Swing would be 5 sets of 5, and the Push-up would be 5 sets of 3.
 
 
-<a id="orga9560dd"></a>
+<a id="orgfe3c69f"></a>
 
 ### random
 
@@ -492,7 +502,7 @@ The work out command generates a random workout. The current options are:
     </table>
 
 
-<a id="org44778dc"></a>
+<a id="org319bbb1"></a>
 
 ### last
 
@@ -501,7 +511,7 @@ The `last` command displays the last saved workout and calculates the stats for 
     kettlebells last
 
 
-<a id="org09efd79"></a>
+<a id="orgb4c7591"></a>
 
 ### view
 
@@ -514,7 +524,7 @@ Use the `--Program` flag to filter workouts based on a certain workout<sub>type<
     kettlebells view --Program
 
 
-<a id="orgd521883"></a>
+<a id="org85a8277"></a>
 
 ### stats
 

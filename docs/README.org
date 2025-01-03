@@ -36,6 +36,13 @@ Next, run the ~setloads~ command. This sets the units to either pounds (lbs) or 
 kettlebells setloads
 #+end_src
 
+** Update Exercises
+Occasionally, new exercises are added to the database. If you have already initialized in a previous version, run the ~update~ command.
+
+#+begin_src bash
+kettlebells update
+#+end_src
+
 ** Commands
 *** save
 The ~save~ command saves workouts to the database. The current options are:

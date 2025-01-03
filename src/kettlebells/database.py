@@ -48,8 +48,11 @@ def update_database(db_path: Path) -> None:
 
     """
     data = read_database(db_path)
-    exercises = data["exercises"] | EXERCISES
-    data["exercises"] = exercises
+    exercises = data.get("exercises")
+    if exercises:
+        data["exercises"] = exercises | EXERCISES
+    else:
+        data["exercises"] = EXERCISES
     write_database(db_path, data)
 
 
