@@ -330,9 +330,9 @@ def create_btb_workout(db_path: Path) -> Workout:
     workout_type, workout_params = _get_workout_params("btb")
     variation = _get_options(workout_params)
     if "Squat" in variation:
-        second_block = "double front squats"
+        second_block = "double kettlebell front squats"
     else:
-        second_block = "snatch"
+        second_block = "kettlebell snatch"
     time = IntPrompt.ask("Workout duration (mins)")
     console.print("Enter the weight used for the...")
     c_and_p_load = IntPrompt.ask(f"clean and press ({units})")

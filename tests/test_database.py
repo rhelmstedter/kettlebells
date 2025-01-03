@@ -1,11 +1,13 @@
 import json
 from pathlib import Path
+from unittest import mock
 
-import kettlebells.database as db
 import pytest
 
+import kettlebells.database as db
 from kettlebells.constants import EXERCISES
-from .test_constants import TEST_DATA, TEST_IC_WORKOUT
+
+from .test_constants import TEST_DATA, TEST_IC_WORKOUT, TEST_NEW_EXERCISES
 
 
 def test_initialize_database(database_home):
@@ -116,3 +118,14 @@ def test_cache_workout(database):
     data = json.load(open(database.name))
     assert len(data["cached_workouts"]) == 1
     assert data["cached_workouts"][-1] == TEST_IC_WORKOUT.model_dump()
+
+
+@mock.patch("kettlebells.database.EXERCISES", TEST_NEW_EXERCISES)
+def test_update_database(database):
+    db.update_database(Path(database.name))
+    data = json.load(open(database.name))
+    expected = {
+        "Kettlebell Press": ["push"],
+        "Goblet Squat": ["squat"],
+    } | TEST_NEW_EXERCISES
+    assert data["exercises"] == expected

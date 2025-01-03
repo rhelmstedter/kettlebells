@@ -689,6 +689,10 @@ TEST_DATA = {
         "the giant": 24,
         "the wolf": 16,
     },
+    "exercises": {
+        "Kettlebell Press": ['push'],
+        "Goblet Squat": ['squat'],
+    },
     "saved_workouts": [
         {
             "date": "2023-09-12",
@@ -786,4 +790,9 @@ TEST_DATA = {
             "workout_type": "iron cardio",
         }
     ],
+}
+
+TEST_NEW_EXERCISES = {
+    "leg press": ["squat"],
+    "front squat": ["squat"],
 }

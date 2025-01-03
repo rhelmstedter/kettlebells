@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 from unittest import mock
 
@@ -8,6 +9,7 @@ from kettlebells.workouts import (
     Workout,
     _get_options,
     _get_units,
+    add_exercise_to_database,
     create_abf_barbell_workout,
     create_btb_workout,
     create_custom_workout,
@@ -459,3 +461,11 @@ def test_create_wolf_workout(int_mock, prompt_mock, database):
     int_mock.side_effect = [1, 12]
     actual = create_set_based_workout(Path(database.name), "wolf")
     assert actual == TEST_WOLF_WORKOUT
+
+
+def test_add_exercise_to_database(options_mock, prompt_mock, database):
+    """Test adding an exercise to the database."""
+    options_mock.side_effect = ["squat", "Done"]
+    add_exercise_to_database(Path(database.name), "leg curl")
+    db = json.load(open(database.name))
+    assert db["exercises"]["leg curl"] == ["squat"]
