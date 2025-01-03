@@ -1336,8 +1336,8 @@ EXERCISES = {
     "Chinup": ["pull"],
     "Clean and Press": ["hinge", "push", "pull"],
     "Clean": ["hinge", "pull"],
-    "Curl": ["isolation"],
-    "Lateral Raise": ["isolation"],
+    "Curl": ["upper body isolation"],
+    "Lateral Raise": ["upper body isolation"],
     "Shrimp Squat": ["squat"],
     "Overhead Squat": ["squat"],
     "Overhead Box Squat": ["squat"],
@@ -1395,7 +1395,7 @@ EXERCISES = {
     "Snatch": ["hinge", "pull"],
     "Split Squat": ["squat"],
     "TRX Advanced Row": ["pull"],
-    "TRX Bicep Curl": ["isolation"],
+    "TRX Bicep Curl": ["upper body isolation"],
     "TRX I": ["pull"],
     "TRX Pushup": ["push"],
     "TRX Row": ["pull"],
@@ -1409,6 +1409,7 @@ EXERCISES = {
     "Windmill": ["core"],
 }
 
+HUMAN_MOVEMENTS = ["push", "pull", "squat", "hinge", "core", "upper body isolation", "lower body isolation", "done"]
 
 BODYWEIGHT_FACTORS = {
     "Bodyweight Row": 0.5,

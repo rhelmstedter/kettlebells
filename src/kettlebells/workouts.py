@@ -17,6 +17,7 @@ from .constants import (
     EASY_STRENGTH_PARAMS,
     EXERCISES,
     FZF_DEFAULT_OPTS,
+    HUMAN_MOVEMENTS,
     IRON_CARDIO_PARAMS,
     POUNDS_TO_KILOS_RATE,
     PW_PARAMS,
@@ -751,7 +752,7 @@ def _get_options(options: dict | list) -> str:
     if isinstance(options, dict):
         options = list(options.keys())
     for i, option in enumerate(options, 1):
-        console.print(f"    [{i}] {option}")
+        console.print(f"    [{i}] {option.title()}")
     while True:
         try:
             selection = IntPrompt.ask("Choose your option")
@@ -830,13 +831,11 @@ def add_exercise_to_database(db_path: Path, exercise: str) -> None:
     data = read_database(db_path)
     movements = []
     while True:
-        movement = Prompt.ask(
-            "Enter the fundamental Movements associated with this exercise"
-        ).title()
-        if movement:
-            movements.append(movement)
-        else:
+        movement = _get_options(HUMAN_MOVEMENTS)
+        if movement == "Done":
             break
+        else:
+            movements.append(movement)
     data["exercises"][exercise] = movements
     write_database(db_path, data)
 
