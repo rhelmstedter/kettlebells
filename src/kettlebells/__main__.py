@@ -110,7 +110,9 @@ def init(
 
 
 @cli.command()
-def update(ctx: typer.Context,) -> None:
+def update(
+    ctx: typer.Context,
+) -> None:
     """Update the database with new exercises."""
     update_database(KETTLEBELLS_DB)
 

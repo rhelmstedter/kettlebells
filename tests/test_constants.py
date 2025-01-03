@@ -690,8 +690,8 @@ TEST_DATA = {
         "the wolf": 16,
     },
     "exercises": {
-        "Kettlebell Press": ['push'],
-        "Goblet Squat": ['squat'],
+        "Kettlebell Press": ["push"],
+        "Goblet Squat": ["squat"],
     },
     "saved_workouts": [
         {

@@ -7,14 +7,12 @@ from kettlebells.stats import (
     _get_dates,
     filter_by_program,
     get_all_stats,
-    get_exercises_by_movement,
     plot_workouts,
     retrieve_workout,
     top_ten_workouts,
     view_program,
 )
 from kettlebells.workouts import Workout
-from .test_constants import TEST_DATA
 
 
 def test_get_all_time_stats(database, capfd):
