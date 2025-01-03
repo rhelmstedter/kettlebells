@@ -162,7 +162,6 @@ def save(
     If no argument is passed, kettlebells will attempt to use the most recently generated workout.
     """
     confirm_loads(KETTLEBELLS_DB)
-    data = read_database(KETTLEBELLS_DB)
     match workout_type:
         case "ic" | "abc":
             workout = create_ic_or_abc(KETTLEBELLS_DB, workout_type)
@@ -187,6 +186,7 @@ def save(
         case "abf":
             workout = create_abf_workout(KETTLEBELLS_DB)
         case "":
+            data = read_database(KETTLEBELLS_DB)
             workout = Workout(**data["cached_workouts"][-1])
             console.print("Last workout generated:\n")
         case _:
