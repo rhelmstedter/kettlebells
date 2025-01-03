@@ -27,7 +27,7 @@ from .constants import (
     WARNING,
     WORKOUT_GENERATOR_PARAMS,
 )
-from .database import read_database
+from .database import read_database, write_database
 
 
 class Exercise(BaseModel):
@@ -39,6 +39,7 @@ class Exercise(BaseModel):
         sets: int
         reps: int
     """
+
     name: str
     load: int
     sets: int
@@ -461,7 +462,7 @@ def create_time_based_workout(db_path: Path, workout_type: str) -> Workout:
         exercise["load"] = load
         exercises.append(Exercise(**exercise))
     if Confirm.ask("Did you do any auxiliary exercises"):
-        auxiliary_exercises = add_exercises(bodyweight, units)
+        auxiliary_exercises = add_exercises(db_path, bodyweight, units)
         exercises.extend(auxiliary_exercises)
 
     return Workout(
@@ -538,7 +539,7 @@ def create_workout_generator_workout(db_path: Path) -> Workout:
         time = IntPrompt.ask("Duration (mins)")
     exercises = []
     while True:
-        name = _get_exercise()
+        name = _get_exercise(db_path)
         if not name:
             break
         console.print(name)
@@ -604,10 +605,10 @@ def _add_bodyweight_factor(bodyweight, name):
     return int(BODYWEIGHT_FACTORS.get(name, 0) * bodyweight)
 
 
-def add_exercises(bodyweight, units) -> None:
+def add_exercises(db_path: Path, bodyweight, units) -> None:
     exercises = []
     while True:
-        name = _get_exercise()
+        name = _get_exercise(db_path)
         if not name:
             break
         console.print(name)
@@ -638,7 +639,7 @@ def create_custom_workout(db_path: Path) -> Workout:
     if not variation:
         variation = "Custom"
     time = IntPrompt.ask("Duration (mins)")
-    exercises = add_exercises(bodyweight, units)
+    exercises = add_exercises(db_path, bodyweight, units)
 
     return Workout(
         workout_type=workout_type,
@@ -687,7 +688,7 @@ def create_abf_barbell_workout(db_path: Path) -> Workout:
                     Exercise(name="Front Squat", load=load, sets=sets, reps=squat_reps)
                 )
     if Confirm.ask("Did you do any auxiliary exercises"):
-        auxiliary_exercises = add_exercises(bodyweight, units)
+        auxiliary_exercises = add_exercises(db_path, bodyweight, units)
         exercises.extend(auxiliary_exercises)
     print()
     return Workout(
@@ -824,6 +825,22 @@ def convert_pounds_to_kilos(load: int) -> int:
     return round(load * POUNDS_TO_KILOS_RATE, 0)
 
 
+def add_exercise_to_database(db_path: Path, exercise: str) -> None:
+    """Add an exercise to the database."""
+    data = read_database(db_path)
+    movements = []
+    while True:
+        movement = Prompt.ask(
+            "Enter the fundamental Movements associated with this exercise"
+        ).title()
+        if movement:
+            movements.append(movement)
+        else:
+            break
+    data["exercises"][exercise] = movements
+    write_database(db_path, data)
+
+
 def _print_helper(to_print: list) -> None:
     """Print out various workout parameters formatted based on longest label.
 
@@ -836,12 +853,14 @@ def _print_helper(to_print: list) -> None:
     console.print()
 
 
-def _get_exercise() -> str | None:
+def _get_exercise(db_path: Path) -> str | None:
     environ["FZF_DEFAULT_OPTS"] = FZF_DEFAULT_OPTS
     exercise = iterfzf(EXERCISES, multi=False)
     match exercise:
         case "Other":
-            return Prompt.ask("Name of exercise").title()
+            exercise = Prompt.ask("Name of exercise").title()
+            add_exercise_to_database(db_path, exercise)
+            return exercise
         case "Done" | None:
             return
         case _:
