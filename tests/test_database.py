@@ -65,19 +65,19 @@ def test_save_workout(database):
             "time": 30,
             "exercises": [
                 {
-                    "name": "Double Clean",
+                    "name": "Double Kettlebell Clean",
                     "load": 28,
                     "sets": 20,
                     "reps": 1,
                 },
                 {
-                    "name": "Double Press",
+                    "name": "Double Kettlebell Press",
                     "load": 28,
                     "sets": 20,
                     "reps": 1,
                 },
                 {
-                    "name": "Double Front Squat",
+                    "name": "Double Kettlebell Front Squat",
                     "load": 28,
                     "sets": 20,
                     "reps": 1,
@@ -89,7 +89,7 @@ def test_save_workout(database):
                     "reps": 1,
                 },
                 {
-                    "name": "Swings",
+                    "name": "Kettlebell Swing",
                     "load": 28,
                     "sets": 1,
                     "reps": 60,

@@ -224,7 +224,7 @@ PW_PARAMS = {
                 "reps": 8,
             },
             {
-                "name": "Broomstick Overhead Sqaut",
+                "name": "Broomstick Overhead Squat",
                 "sets": 1,
                 "reps": 8,
                 "load": 0,
@@ -260,7 +260,7 @@ PW_PARAMS = {
                 "reps": 8,
             },
             {
-                "name": "Broomstick Overhead Sqaut",
+                "name": "Broomstick Overhead Squat",
                 "sets": 1,
                 "reps": 8,
                 "load": 0,
@@ -286,7 +286,7 @@ PW_PARAMS = {
                 "reps": 8,
             },
             {
-                "name": "Bent Over Row",
+                "name": "Kettlebell Bent Over Row",
                 "sets": 3,
                 "reps": 16,
             },
@@ -296,7 +296,7 @@ PW_PARAMS = {
                 "reps": 8,
             },
             {
-                "name": "Broomstick Overhead Sqaut",
+                "name": "Broomstick Overhead Squat",
                 "sets": 1,
                 "reps": 8,
                 "load": 0,
@@ -410,7 +410,7 @@ THE_WOLF_PARAMS = {
     "The Wolf": {
         "W1D1": [
             {
-                "name": "Snatch",
+                "name": "Kettlebell Snatch",
                 "load": 0,
                 "sets": 3,
                 "reps": 10,
@@ -506,7 +506,7 @@ THE_WOLF_PARAMS = {
         ],
         "W2D1": [
             {
-                "name": "Snatch",
+                "name": "Kettlebell Snatch",
                 "load": 0,
                 "sets": 4,
                 "reps": 10,
@@ -1096,7 +1096,7 @@ EASY_STRENGTH_PARAMS = {
                 "load": 24,
             },
             {
-                "name": "Bent Over Row",
+                "name": "Kettlebell Bent Over Row",
                 "sets": 1,
                 "reps": 20,
                 "load": 24,
@@ -1327,7 +1327,6 @@ EXERCISES = {
     "Hands Elevated Pike Pushup": ["push"],
     "Arch Body Leg Lift": ["core"],
     "Side Plank Lift": ["core"],
-    "Single Arm Bent Over Row": ["pull"],
     "Bent Press": ["hinge", "push"],
     "Bird Dog": ["core"],
     "Bodyweight Row": ["pull"],

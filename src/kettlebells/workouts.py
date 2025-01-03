@@ -71,9 +71,9 @@ class Workout(BaseModel):
         display_params = [("Variation", self.variation), ("Time", f"{self.time} mins")]
         if self.workout_type in ["iron cardio", "armor building complex"]:
             display_params.append(("Load", f"{self.exercises[0].load} {self.units}"))
-            swings = [e for e in self.exercises if "Swings" in e.name]
+            swings = [e for e in self.exercises if "Swing" in e.name]
             if swings:
-                display_params.append(("Swings", swings[0].reps))
+                display_params.append(("Kettlebell Swing", swings[0].reps))
         elif self.workout_type == "back to basics":
             second_block = self.exercises[-1]
             display_params.append(
@@ -191,7 +191,7 @@ def random_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
 
     if swings:
         swings = Exercise(
-            name="Swings",
+            name="Kettlebell Swing",
             load=load,
             sets=1,
             reps=choice(range(50, 160, 10)),
@@ -250,7 +250,7 @@ def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
         load = IntPrompt.ask(f"What weight did you use ({units})")
         exercises.append(
             Exercise(
-                name="Swings",
+                name="Kettlebell Swing",
                 load=load,
                 sets=1,
                 reps=swings,
@@ -578,14 +578,14 @@ def create_rite_of_passage_workout(db_path: Path) -> Workout:
         if name.lower() == "done":
             break
         load = IntPrompt.ask(f"  Load in {units}")
-        if name in ["Swing", "Snatch"]:
+        if name in ["Kettlebell Swing", "Kettlebell Snatch"]:
             sets = IntPrompt.ask("  Number of sets")
             reps = IntPrompt.ask("  Number of reps")
         else:
             sets = IntPrompt.ask("  Number of ladders")
             rungs = IntPrompt.ask("  Number of rungs")
             reps = rungs * (rungs + 1) // 2
-        if name.lower() == "clean and press":
+        if name.lower() == "kettlebell clean and press":
             reps *= 2
         exercise = Exercise(name=name, load=load, sets=sets, reps=reps)
         exercise.load += _add_bodyweight_factor(bodyweight, exercise.name)
@@ -720,7 +720,7 @@ def create_abf_workout(db_path: Path) -> Workout:
         sets = IntPrompt.ask("How many rounds of ABC did you complete?")
     exercises = []
     for exercise, reps in workout_params[variation]:
-        if variation == "Double Press":
+        if variation == "Double Kettlebell Press":
             sets = IntPrompt.ask(f"How many sets of {reps} reps did you complete")
         exercises.append(
             Exercise(
