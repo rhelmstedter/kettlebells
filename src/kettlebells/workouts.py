@@ -1,3 +1,5 @@
+import sys
+
 from os import environ
 from pathlib import Path
 from random import choice, choices
@@ -17,6 +19,7 @@ from .constants import (
     EASY_STRENGTH_PARAMS,
     EXERCISES,
     FZF_DEFAULT_OPTS,
+    HUMAN_MOVEMENTS,
     IRON_CARDIO_PARAMS,
     POUNDS_TO_KILOS_RATE,
     PW_PARAMS,
@@ -27,10 +30,19 @@ from .constants import (
     WARNING,
     WORKOUT_GENERATOR_PARAMS,
 )
-from .database import read_database
+from .database import read_database, write_database
 
 
 class Exercise(BaseModel):
+    """Exercise object.
+
+    Attributes:
+        name: str
+        load: int
+        sets: int
+        reps: int
+    """
+
     name: str
     load: int
     sets: int
@@ -38,6 +50,17 @@ class Exercise(BaseModel):
 
 
 class Workout(BaseModel):
+    """Workout object.
+
+    Attributes:
+        workout_type: str
+        variation: str
+        time: int
+        units: str
+        bodyweight: int
+        exercises: list[Exercise]
+    """
+
     workout_type: str
     variation: str
     time: int
@@ -52,9 +75,9 @@ class Workout(BaseModel):
         display_params = [("Variation", self.variation), ("Time", f"{self.time} mins")]
         if self.workout_type in ["iron cardio", "armor building complex"]:
             display_params.append(("Load", f"{self.exercises[0].load} {self.units}"))
-            swings = [e for e in self.exercises if "Swings" in e.name]
+            swings = [e for e in self.exercises if "Swing" in e.name]
             if swings:
-                display_params.append(("Swings", swings[0].reps))
+                display_params.append(("Kettlebell Swing", swings[0].reps))
         elif self.workout_type == "back to basics":
             second_block = self.exercises[-1]
             display_params.append(
@@ -172,7 +195,7 @@ def random_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
 
     if swings:
         swings = Exercise(
-            name="Swings",
+            name="Kettlebell Swing",
             load=load,
             sets=1,
             reps=choice(range(50, 160, 10)),
@@ -231,7 +254,7 @@ def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
         load = IntPrompt.ask(f"What weight did you use ({units})")
         exercises.append(
             Exercise(
-                name="Swings",
+                name="Kettlebell Swing",
                 load=load,
                 sets=1,
                 reps=swings,
@@ -442,7 +465,7 @@ def create_time_based_workout(db_path: Path, workout_type: str) -> Workout:
         exercise["load"] = load
         exercises.append(Exercise(**exercise))
     if Confirm.ask("Did you do any auxiliary exercises"):
-        auxiliary_exercises = add_exercises(bodyweight, units)
+        auxiliary_exercises = add_exercises(db_path, bodyweight, units)
         exercises.extend(auxiliary_exercises)
 
     return Workout(
@@ -480,7 +503,7 @@ def create_set_based_workout(db_path: Path, workout_type: str) -> Workout:
             "Try running [underline]kettlebells setloads -p[/underline]",
             style=SUGGESTION,
         )
-        return
+        sys.exit()
     week = Prompt.ask("Enter the week")
     day = Prompt.ask("Enter the day")
     variation = f"W{week}D{day}"
@@ -519,7 +542,7 @@ def create_workout_generator_workout(db_path: Path) -> Workout:
         time = IntPrompt.ask("Duration (mins)")
     exercises = []
     while True:
-        name = _get_exercise()
+        name = _get_exercise(db_path)
         if not name:
             break
         console.print(name)
@@ -559,14 +582,14 @@ def create_rite_of_passage_workout(db_path: Path) -> Workout:
         if name.lower() == "done":
             break
         load = IntPrompt.ask(f"  Load in {units}")
-        if name in ["Swing", "Snatch"]:
+        if name in ["Kettlebell Swing", "Kettlebell Snatch"]:
             sets = IntPrompt.ask("  Number of sets")
             reps = IntPrompt.ask("  Number of reps")
         else:
             sets = IntPrompt.ask("  Number of ladders")
             rungs = IntPrompt.ask("  Number of rungs")
             reps = rungs * (rungs + 1) // 2
-        if name.lower() == "clean and press":
+        if name.lower() == "kettlebell clean and press":
             reps *= 2
         exercise = Exercise(name=name, load=load, sets=sets, reps=reps)
         exercise.load += _add_bodyweight_factor(bodyweight, exercise.name)
@@ -585,10 +608,10 @@ def _add_bodyweight_factor(bodyweight, name):
     return int(BODYWEIGHT_FACTORS.get(name, 0) * bodyweight)
 
 
-def add_exercises(bodyweight, units) -> None:
+def add_exercises(db_path: Path, bodyweight, units) -> list[Exercise]:
     exercises = []
     while True:
-        name = _get_exercise()
+        name = _get_exercise(db_path)
         if not name:
             break
         console.print(name)
@@ -619,7 +642,7 @@ def create_custom_workout(db_path: Path) -> Workout:
     if not variation:
         variation = "Custom"
     time = IntPrompt.ask("Duration (mins)")
-    exercises = add_exercises(bodyweight, units)
+    exercises = add_exercises(db_path, bodyweight, units)
 
     return Workout(
         workout_type=workout_type,
@@ -652,7 +675,10 @@ def create_abf_barbell_workout(db_path: Path) -> Workout:
     for exercise in workout_param["exercises"]:
         print()
         print(exercise)
-        sets_left = workout_param["exercises"][exercise]["sets"]
+        if exercise == "Curl":
+            sets_left = IntPrompt.ask("Number of total sets in the {exercise}")
+        else:
+            sets_left = workout_param["exercises"][exercise]["sets"]
         while sets_left > 0:
             load = IntPrompt.ask("  Load in lbs")
             sets = IntPrompt.ask("  Number of sets at this load")
@@ -665,7 +691,7 @@ def create_abf_barbell_workout(db_path: Path) -> Workout:
                     Exercise(name="Front Squat", load=load, sets=sets, reps=squat_reps)
                 )
     if Confirm.ask("Did you do any auxiliary exercises"):
-        auxiliary_exercises = add_exercises(bodyweight, units)
+        auxiliary_exercises = add_exercises(db_path, bodyweight, units)
         exercises.extend(auxiliary_exercises)
     print()
     return Workout(
@@ -698,7 +724,7 @@ def create_abf_workout(db_path: Path) -> Workout:
         sets = IntPrompt.ask("How many rounds of ABC did you complete?")
     exercises = []
     for exercise, reps in workout_params[variation]:
-        if variation == "Double Press":
+        if variation == "Double Kettlebell Press":
             sets = IntPrompt.ask(f"How many sets of {reps} reps did you complete")
         exercises.append(
             Exercise(
@@ -728,7 +754,7 @@ def _get_options(options: dict | list) -> str:
     if isinstance(options, dict):
         options = list(options.keys())
     for i, option in enumerate(options, 1):
-        console.print(f"    [{i}] {option}")
+        console.print(f"    [{i}] {option.title()}")
     while True:
         try:
             selection = IntPrompt.ask("Choose your option")
@@ -802,6 +828,20 @@ def convert_pounds_to_kilos(load: int) -> int:
     return round(load * POUNDS_TO_KILOS_RATE, 0)
 
 
+def add_exercise_to_database(db_path: Path, exercise: str) -> None:
+    """Add an exercise to the database."""
+    data = read_database(db_path)
+    movements = []
+    while True:
+        movement = _get_options(HUMAN_MOVEMENTS)
+        if movement == "Done":
+            break
+        else:
+            movements.append(movement)
+    data["exercises"][exercise] = movements
+    write_database(db_path, data)
+
+
 def _print_helper(to_print: list) -> None:
     """Print out various workout parameters formatted based on longest label.
 
@@ -814,13 +854,15 @@ def _print_helper(to_print: list) -> None:
     console.print()
 
 
-def _get_exercise() -> str | None:
+def _get_exercise(db_path: Path) -> str | None:
     environ["FZF_DEFAULT_OPTS"] = FZF_DEFAULT_OPTS
     exercise = iterfzf(EXERCISES, multi=False)
     match exercise:
         case "Other":
-            return Prompt.ask("Name of exercise").title()
+            exercise = Prompt.ask("Name of exercise").title()
+            add_exercise_to_database(db_path, exercise)
+            return exercise
         case "Done" | None:
-            return
+            return None
         case _:
             return exercise

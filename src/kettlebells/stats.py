@@ -300,6 +300,14 @@ def view_program(data: dict, program: str, display_workout: bool) -> Table:
 
 
 def retrieve_workout(data: dict, preview: bool) -> tuple[str, Workout]:
+    """Retrieve a workout from the database.
+
+    Args:
+        data: A dict of the data from the database.
+        preview: A bool of whether to use preview or not.
+
+    Returns: A tuple of the date and the workout.
+    """
     data = {w["date"]: Workout(**w["workout"]) for w in data["saved_workouts"]}
     if preview:
         date = iterfzf(
@@ -334,7 +342,7 @@ def table_to_df(rich_table: Table) -> pd.DataFrame:
     return pd.DataFrame(table_data)
 
 
-def print_calendar(data: dict, year: int | None):
+def print_calendar(data: dict, year: int | None) -> None:
     """Highlight workout days and print a yearly calendar.
 
     Args:
@@ -377,8 +385,75 @@ def print_calendar(data: dict, year: int | None):
 
 
 def _get_dates(data: dict) -> list[tuple[int]]:
+    """Get the workout dates from the database.
+    Args:
+        data: The database dictionary.
+
+    returns:
+        list[tuple[int]]: A list of tuples of the workout dates.
+    """
     workout_dates = []
     for workout in data["saved_workouts"]:
         workout_date = datetime.strptime(workout["date"], DATE_FORMAT)
         workout_dates.append((workout_date.day, workout_date.month, workout_date.year))
     return workout_dates
+
+
+def get_exercises_by_movement(data: dict, start: str = "", end: str = ""):
+    """Create a table of exercises by the fundamental human movements.
+
+    Args:
+        data: The database dictionary.
+        start: The start date of the workouts to include in the table.
+        end: The end date of the workouts to include in the table.
+
+    """
+    units = data["loads"]["units"]
+    exercises = data["exercises"]
+    human_movements_reps = defaultdict(int)
+    if start:
+        start_date = datetime.strptime(start, DATE_FORMAT)
+    if end:
+        end_date = datetime.strptime(end, DATE_FORMAT)
+    for workout_data in data["saved_workouts"]:
+        workout = Workout(**workout_data["workout"])
+        date_obj = datetime.strptime(workout_data["date"], DATE_FORMAT)
+        if start and date_obj < start_date:
+            continue
+        if end and date_obj > end_date:
+            continue
+        for exercise in workout.exercises:
+            if exercise.name in exercises:
+                for movement in exercises[exercise.name]:
+                    reps = exercise.sets * exercise.reps
+                    human_movements_reps[movement] += reps
+            else:
+                print(f"Unknown exercise: {exercise.name}")
+    columns = [
+        ("Fundamental\nMovement", "magenta"),
+        ("Reps\n", "blue"),
+        (f"Weight Moved\n({units})", "blue"),
+    ]
+    movement_table = Table(title="Fundamental Human Movements")
+    for col, style in columns:
+        movement_table.add_column(col, style=style, justify="right")
+
+    total_reps = sum(human_movements_reps.values())
+    for movement, reps in sorted(
+        human_movements_reps.items(), key=lambda item: item[1], reverse=True
+    ):
+        movement_table.add_row(
+            movement.title(),
+            f"{reps:,}",
+            f"{reps / total_reps:.2%}",
+        )
+    movement_table.add_section()
+    lower_body = human_movements_reps["squat"] + human_movements_reps["hinge"]
+    upper_body = human_movements_reps["push"] + human_movements_reps["pull"]
+    movement_table.add_row(
+        "Lower Body", f"{lower_body:,}", f"{lower_body / total_reps:.2%}"
+    )
+    movement_table.add_row(
+        "Upper Body", f"{upper_body:,}", f"{upper_body / total_reps:.2%}"
+    )
+    return movement_table

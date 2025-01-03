@@ -91,7 +91,7 @@ def test_display_workout_no_swings(capfd):
     assert "Variation: " in output
     assert "Time: " in output
     assert "Load: " in output
-    assert "Swings: " not in output
+    assert "Swing: " not in output
 
 
 @pytest.mark.parametrize(
@@ -280,7 +280,13 @@ def test_rop_workout(
 ):
     """Test creating a rite of passage workout."""
     expected = TEST_ROP_WORKOUT
-    options_mock.side_effect = ["Medium", "Clean and Press", "Pullup", "Swing", "Done"]
+    options_mock.side_effect = [
+        "Medium",
+        "Kettlebell Clean and Press",
+        "Pullup",
+        "Kettlebell Swing",
+        "Done",
+    ]
     int_mock.side_effect = [45, 28, 5, 3, 0, 5, 3, 28, 5, 10]
     units_mock.side_effect = ["kg"]
     actual = create_rite_of_passage_workout(Path(database.name))
@@ -297,7 +303,7 @@ def test_rop_workout(
         ),
         (
             TEST_ABF_PRESS_WORKOUT,
-            "Double Press",
+            "Double Kettlebell Press",
             [30, 20, 5, 5, 5, 5],
         ),
     ],
@@ -320,7 +326,9 @@ def test_abf_workout(
     assert actual == expected
 
 
+@mock.patch("kettlebells.workouts.iterfzf")
 def test_abfb(
+    fzf_mock,
     options_mock,
     units_mock,
     confirm_mock,
@@ -339,12 +347,15 @@ def test_abfb(
         1,  # sets at ^ load
         95,  # load
         3,  # sets at ^ load
+        5,  # sets of curls
         45,  # load
         2,  # sets at ^ load
         55,  # load
         3,  # sets at ^ load
     ]
     units_mock.side_effect = ["kg"]
+    confirm_mock.return_value = "n"
+    fzf_mock.return_value = None
     actual = create_abf_barbell_workout(Path(database.name))
     assert isinstance(actual, Workout)
     assert actual == expected

@@ -30,6 +30,7 @@ from .database import (
 from .stats import (
     filter_by_program,
     get_all_stats,
+    get_exercises_by_movement,
     plot_workouts,
     print_calendar,
     retrieve_workout,
@@ -329,6 +330,15 @@ def stats(
             is_flag=True,
         ),
     ] = False,
+    by_movement: Annotated[
+        bool,
+        typer.Option(
+            "--by-movement",
+            "-M",
+            help="Count the reps by movement.",
+            is_flag=True,
+        ),
+    ] = False,
     median: Annotated[
         bool,
         typer.Option(
@@ -376,6 +386,12 @@ def stats(
         print_calendar(data, year)
     if best:
         console.print(top_ten_workouts(data, sort))
+    if by_movement and year:
+        start = f"{year}-01-01"
+        end = f"{year}-12-31"
+        console.print(get_exercises_by_movement(data, start, end))
+    if by_movement and not year:
+        console.print(get_exercises_by_movement(data, start, end))
 
 
 def _get_date() -> str:

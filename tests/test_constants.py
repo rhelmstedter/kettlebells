@@ -9,7 +9,7 @@ TEST_IC_WORKOUT = Workout(
         "exercises": [
             Exercise(
                 **{
-                    "name": "Double Clean",
+                    "name": "Double Kettlebell Clean",
                     "load": 28,
                     "sets": 20,
                     "reps": 1,
@@ -17,7 +17,7 @@ TEST_IC_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Press",
+                    "name": "Double Kettlebell Press",
                     "load": 28,
                     "sets": 20,
                     "reps": 1,
@@ -25,7 +25,7 @@ TEST_IC_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Front Squat",
+                    "name": "Double Kettlebell Front Squat",
                     "load": 28,
                     "sets": 20,
                     "reps": 1,
@@ -41,7 +41,7 @@ TEST_IC_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Swings",
+                    "name": "Kettlebell Swing",
                     "load": 28,
                     "sets": 1,
                     "reps": 60,
@@ -61,7 +61,7 @@ TEST_SINGLE_TRAVELING_2S_WORKOUT = Workout(
         "exercises": [
             Exercise(
                 **{
-                    "name": "Clean",
+                    "name": "Kettlebell Clean",
                     "load": 20,
                     "sets": 13,
                     "reps": 1,
@@ -69,7 +69,7 @@ TEST_SINGLE_TRAVELING_2S_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Press",
+                    "name": "Kettlebell Press",
                     "load": 20,
                     "sets": 13,
                     "reps": 1,
@@ -77,7 +77,7 @@ TEST_SINGLE_TRAVELING_2S_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Front Squat",
+                    "name": "Kettlebell Front Squat",
                     "load": 20,
                     "sets": 13,
                     "reps": 1,
@@ -85,7 +85,7 @@ TEST_SINGLE_TRAVELING_2S_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Swings",
+                    "name": "Kettlebell Swing",
                     "load": 20,
                     "sets": 1,
                     "reps": 100,
@@ -104,7 +104,7 @@ TEST_DOUBLE_TRAVELING_2S_WORKOUT = Workout(
         "exercises": [
             Exercise(
                 **{
-                    "name": "Double Clean",
+                    "name": "Double Kettlebell Clean",
                     "load": 28,
                     "sets": 16,
                     "reps": 1,
@@ -112,7 +112,7 @@ TEST_DOUBLE_TRAVELING_2S_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Press",
+                    "name": "Double Kettlebell Press",
                     "load": 28,
                     "sets": 16,
                     "reps": 1,
@@ -120,7 +120,7 @@ TEST_DOUBLE_TRAVELING_2S_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Front Squat",
+                    "name": "Double Kettlebell Front Squat",
                     "load": 28,
                     "sets": 16,
                     "reps": 1,
@@ -128,7 +128,7 @@ TEST_DOUBLE_TRAVELING_2S_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Swings",
+                    "name": "Kettlebell Swing",
                     "load": 28,
                     "sets": 1,
                     "reps": 50,
@@ -146,8 +146,17 @@ TEST_BTB_WORKOUT = Workout(
         "variation": "2 C&P Ladders + Snatch",
         "time": 30,
         "exercises": [
-            Exercise(**{"name": "Clean and Press", "load": 24, "sets": 2, "reps": 20}),
-            Exercise(**{"name": "Snatch", "load": 20, "sets": 1, "reps": 100}),
+            Exercise(
+                **{
+                    "name": "Kettlebell Clean and Press",
+                    "load": 24,
+                    "sets": 2,
+                    "reps": 20,
+                }
+            ),
+            Exercise(
+                **{"name": "Kettlebell Snatch", "load": 20, "sets": 1, "reps": 100}
+            ),
         ],
         "workout_type": "back to basics",
     },
@@ -161,7 +170,7 @@ TEST_PERFECT_WORKOUT = Workout(
         "exercises": [
             Exercise(
                 **{
-                    "name": "Half-kneeling Press",
+                    "name": "Half-kneeling Kettlebell Press",
                     "load": 20,
                     "sets": 3,
                     "reps": 16,
@@ -185,7 +194,7 @@ TEST_PERFECT_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Bent Over Row",
+                    "name": "Kettlebell Bent Over Row",
                     "load": 20,
                     "sets": 3,
                     "reps": 16,
@@ -201,7 +210,7 @@ TEST_PERFECT_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Broomstick Overhead Sqaut",
+                    "name": "Broomstick Overhead Squat",
                     "load": 0,
                     "sets": 1,
                     "reps": 8,
@@ -233,7 +242,12 @@ TEST_GIANT_WORKOUT = Workout(
         "time": 30,
         "exercises": [
             Exercise(
-                **{"name": "Double Clean and Press", "load": 24, "sets": 10, "reps": 5}
+                **{
+                    "name": "Double Kettlebell Clean and Press",
+                    "load": 24,
+                    "sets": 10,
+                    "reps": 5,
+                }
             ),
         ],
     },
@@ -249,7 +263,7 @@ TEST_WOLF_WORKOUT = Workout(
         "exercises": [
             Exercise(
                 **{
-                    "name": "Snatch",
+                    "name": "Kettlebell Snatch",
                     "load": 16,
                     "sets": 3,
                     "reps": 10,
@@ -257,7 +271,7 @@ TEST_WOLF_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Front Squat",
+                    "name": "Double Kettlebell Front Squat",
                     "load": 16,
                     "sets": 3,
                     "reps": 5,
@@ -265,7 +279,7 @@ TEST_WOLF_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Press",
+                    "name": "Double Kettlebell Press",
                     "load": 16,
                     "sets": 3,
                     "reps": 5,
@@ -273,7 +287,7 @@ TEST_WOLF_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Front Squat",
+                    "name": "Double Kettlebell Front Squat",
                     "load": 16,
                     "sets": 3,
                     "reps": 5,
@@ -281,7 +295,7 @@ TEST_WOLF_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Clean",
+                    "name": "Double Kettlebell Clean",
                     "load": 16,
                     "sets": 3,
                     "reps": 5,
@@ -289,7 +303,7 @@ TEST_WOLF_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Front Squat",
+                    "name": "Double Kettlebell Front Squat",
                     "load": 16,
                     "sets": 3,
                     "reps": 5,
@@ -386,7 +400,7 @@ TEST_WORKOUT_NO_SWINGS = Workout(
         "exercises": [
             Exercise(
                 **{
-                    "name": "Clean",
+                    "name": "Kettlebell Clean",
                     "load": 24,
                     "sets": 16,
                     "reps": 1,
@@ -394,7 +408,7 @@ TEST_WORKOUT_NO_SWINGS = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Press",
+                    "name": "Kettlebell Press",
                     "load": 24,
                     "sets": 16,
                     "reps": 1,
@@ -402,7 +416,7 @@ TEST_WORKOUT_NO_SWINGS = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Front Squat",
+                    "name": "Kettlebell Front Squat",
                     "load": 24,
                     "sets": 16,
                     "reps": 1,
@@ -410,7 +424,7 @@ TEST_WORKOUT_NO_SWINGS = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Snatch",
+                    "name": "Kettlebell Snatch",
                     "load": 24,
                     "sets": 16,
                     "reps": 1,
@@ -430,7 +444,7 @@ TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
         "exercises": [
             Exercise(
                 **{
-                    "name": "Clean",
+                    "name": "Kettlebell Clean",
                     "load": 20,
                     "sets": 10,
                     "reps": 1,
@@ -438,7 +452,7 @@ TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Press",
+                    "name": "Kettlebell Press",
                     "load": 20,
                     "sets": 10,
                     "reps": 1,
@@ -446,7 +460,7 @@ TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Front Squat",
+                    "name": "Kettlebell Front Squat",
                     "load": 20,
                     "sets": 10,
                     "reps": 1,
@@ -509,7 +523,7 @@ TEST_EASY_STRENGTH_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Swing",
+                    "name": "Kettlebell Swing",
                     "sets": 5,
                     "reps": 15,
                     "load": 32,
@@ -525,7 +539,7 @@ TEST_EASY_STRENGTH_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Front Squat",
+                    "name": "Double Kettlebell Front Squat",
                     "sets": 2,
                     "reps": 5,
                     "load": 28,
@@ -533,7 +547,7 @@ TEST_EASY_STRENGTH_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Bent Over Row",
+                    "name": "Kettlebell Bent Over Row",
                     "sets": 2,
                     "reps": 10,
                     "load": 32,
@@ -556,12 +570,12 @@ TEST_ABF_PRESS_WORKOUT = Workout(
     **{
         "bodyweight": 90,
         "units": "kg",
-        "variation": "Double Press",
+        "variation": "Double Kettlebell Press",
         "time": 30,
         "exercises": [
             Exercise(
                 **{
-                    "name": "Double Press",
+                    "name": "Double Kettlebell Press",
                     "sets": 5,
                     "reps": 2,
                     "load": 20,
@@ -569,7 +583,7 @@ TEST_ABF_PRESS_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Press",
+                    "name": "Double Kettlebell Press",
                     "sets": 5,
                     "reps": 3,
                     "load": 20,
@@ -577,7 +591,7 @@ TEST_ABF_PRESS_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Press",
+                    "name": "Double Kettlebell Press",
                     "sets": 5,
                     "reps": 5,
                     "load": 20,
@@ -585,7 +599,7 @@ TEST_ABF_PRESS_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Press",
+                    "name": "Double Kettlebell Press",
                     "sets": 5,
                     "reps": 10,
                     "load": 20,
@@ -604,7 +618,7 @@ TEST_ABF_ABC_WORKOUT = Workout(
         "exercises": [
             Exercise(
                 **{
-                    "name": "Double Clean",
+                    "name": "Double Kettlebell Clean",
                     "sets": 30,
                     "reps": 2,
                     "load": 20,
@@ -612,7 +626,7 @@ TEST_ABF_ABC_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Press",
+                    "name": "Double Kettlebell Press",
                     "sets": 30,
                     "reps": 1,
                     "load": 20,
@@ -620,7 +634,7 @@ TEST_ABF_ABC_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Double Front Squat",
+                    "name": "Double Kettlebell Front Squat",
                     "sets": 30,
                     "reps": 3,
                     "load": 20,
@@ -639,7 +653,7 @@ TEST_ROP_WORKOUT = Workout(
         "exercises": [
             Exercise(
                 **{
-                    "name": "Clean and Press",
+                    "name": "Kettlebell Clean and Press",
                     "sets": 5,
                     "reps": 12,
                     "load": 28,
@@ -655,7 +669,7 @@ TEST_ROP_WORKOUT = Workout(
             ),
             Exercise(
                 **{
-                    "name": "Swing",
+                    "name": "Kettlebell Swing",
                     "sets": 5,
                     "reps": 10,
                     "load": 28,
@@ -685,13 +699,13 @@ TEST_DATA = {
                 "time": 20,
                 "exercises": [
                     {
-                        "name": "Double Clean and Press",
+                        "name": "Double Kettlebell Clean and Press",
                         "load": 24,
                         "sets": 8,
                         "reps": 3,
                     },
                     {
-                        "name": "Double Front Squat",
+                        "name": "Double Kettlebell Front Squat",
                         "load": 24,
                         "sets": 8,
                         "reps": 3,
@@ -709,19 +723,19 @@ TEST_DATA = {
                 "time": 20,
                 "exercises": [
                     {
-                        "name": "Double Clean",
+                        "name": "Double Kettlebell Clean",
                         "load": 20,
                         "sets": 29,
                         "reps": 1,
                     },
                     {
-                        "name": "Double Press",
+                        "name": "Double Kettlebell Press",
                         "load": 20,
                         "sets": 29,
                         "reps": 1,
                     },
                     {
-                        "name": "Double Front Squat",
+                        "name": "Double Kettlebell Front Squat",
                         "load": 20,
                         "sets": 29,
                         "reps": 1,
@@ -739,19 +753,19 @@ TEST_DATA = {
             "time": 30,
             "exercises": [
                 {
-                    "name": "Double Clean",
+                    "name": "Double Kettlebell Clean",
                     "load": 28,
                     "sets": 20,
                     "reps": 1,
                 },
                 {
-                    "name": "Double Press",
+                    "name": "Double Kettlebell Press",
                     "load": 28,
                     "sets": 20,
                     "reps": 1,
                 },
                 {
-                    "name": "Double Front Squat",
+                    "name": "Double Kettlebell Front Squat",
                     "load": 28,
                     "sets": 20,
                     "reps": 1,
@@ -763,7 +777,7 @@ TEST_DATA = {
                     "reps": 1,
                 },
                 {
-                    "name": "Swings",
+                    "name": "Kettlebell Swing",
                     "load": 28,
                     "sets": 6,
                     "reps": 10,

@@ -4,11 +4,17 @@ from pathlib import Path
 import kettlebells.database as db
 import pytest
 
+from kettlebells.constants import EXERCISES
 from .test_constants import TEST_DATA, TEST_IC_WORKOUT
 
 
 def test_initialize_database(database_home):
-    expected = {"loads": dict(), "saved_workouts": [], "cached_workouts": []}
+    expected = {
+        "loads": dict(),
+        "exercises": EXERCISES,
+        "saved_workouts": [],
+        "cached_workouts": [],
+    }
     db.initialize_database(database_home.parents[0], database_home, False)
     assert database_home.is_file()
     assert json.load(open(database_home)) == expected
@@ -21,7 +27,12 @@ def test_initialize_database_already_existes(database, capfd):
 
 
 def test_initialize_database_force(database):
-    expected = {"loads": dict(), "saved_workouts": [], "cached_workouts": []}
+    expected = {
+        "loads": dict(),
+        "exercises": EXERCISES,
+        "saved_workouts": [],
+        "cached_workouts": [],
+    }
     db.initialize_database(Path(database.name).parents[0], Path(database.name), True)
     assert Path(database.name).is_file()
     assert json.load(open(database.name)) == expected
@@ -65,19 +76,19 @@ def test_save_workout(database):
             "time": 30,
             "exercises": [
                 {
-                    "name": "Double Clean",
+                    "name": "Double Kettlebell Clean",
                     "load": 28,
                     "sets": 20,
                     "reps": 1,
                 },
                 {
-                    "name": "Double Press",
+                    "name": "Double Kettlebell Press",
                     "load": 28,
                     "sets": 20,
                     "reps": 1,
                 },
                 {
-                    "name": "Double Front Squat",
+                    "name": "Double Kettlebell Front Squat",
                     "load": 28,
                     "sets": 20,
                     "reps": 1,
@@ -89,7 +100,7 @@ def test_save_workout(database):
                     "reps": 1,
                 },
                 {
-                    "name": "Swings",
+                    "name": "Kettlebell Swing",
                     "load": 28,
                     "sets": 1,
                     "reps": 60,
