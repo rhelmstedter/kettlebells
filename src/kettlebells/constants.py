@@ -1407,6 +1407,7 @@ EXERCISES = {
     "Toes to Bar": ["core"],
     "Turkish Get-up": ["squat", "core"],
     "Windmill": ["core"],
+    "Leg Press": ["squat"],
 }
 
 HUMAN_MOVEMENTS = [

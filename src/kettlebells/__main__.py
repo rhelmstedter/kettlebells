@@ -23,6 +23,7 @@ from .database import (
     cache_workout,
     confirm_loads,
     initialize_database,
+    update_database,
     read_database,
     save_workout,
     write_database,
@@ -106,6 +107,12 @@ def init(
         db_path=KETTLEBELLS_DB,
         force=force,
     )
+
+
+@cli.command()
+def update(ctx: typer.Context,) -> None:
+    """Update the database with new exercises."""
+    update_database(KETTLEBELLS_DB)
 
 
 @cli.command()

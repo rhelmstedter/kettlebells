@@ -39,6 +39,20 @@ def initialize_database(kettlebells_home: Path, db_path: Path, force: bool) -> N
     write_database(db_path, data)
 
 
+def update_database(db_path: Path) -> None:
+    """Update the database with new exercises.
+
+    Args:
+        db_path: The Path to the database.
+        data: The new version of the database to write.
+
+    """
+    data = read_database(db_path)
+    exercises = data["exercises"] | EXERCISES
+    data["exercises"] = exercises
+    write_database(db_path, data)
+
+
 def read_database(db_path: Path) -> dict:
     """Read from the data base.
 
