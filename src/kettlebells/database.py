@@ -30,7 +30,12 @@ def initialize_database(kettlebells_home: Path, db_path: Path, force: bool) -> N
         kettlebells_home.mkdir()
     except FileExistsError:
         pass
-    data: dict = {"loads": dict(), 'exercises': EXERCISES, "saved_workouts": [], "cached_workouts": []}
+    data: dict = {
+        "loads": dict(),
+        "exercises": EXERCISES,
+        "saved_workouts": [],
+        "cached_workouts": [],
+    }
     write_database(db_path, data)
 
 

@@ -1,3 +1,5 @@
+import sys
+
 from os import environ
 from pathlib import Path
 from random import choice, choices
@@ -501,7 +503,7 @@ def create_set_based_workout(db_path: Path, workout_type: str) -> Workout:
             "Try running [underline]kettlebells setloads -p[/underline]",
             style=SUGGESTION,
         )
-        return
+        sys.exit()
     week = Prompt.ask("Enter the week")
     day = Prompt.ask("Enter the day")
     variation = f"W{week}D{day}"
@@ -606,7 +608,7 @@ def _add_bodyweight_factor(bodyweight, name):
     return int(BODYWEIGHT_FACTORS.get(name, 0) * bodyweight)
 
 
-def add_exercises(db_path: Path, bodyweight, units) -> None:
+def add_exercises(db_path: Path, bodyweight, units) -> list[Exercise]:
     exercises = []
     while True:
         name = _get_exercise(db_path)
@@ -861,6 +863,6 @@ def _get_exercise(db_path: Path) -> str | None:
             add_exercise_to_database(db_path, exercise)
             return exercise
         case "Done" | None:
-            return
+            return None
         case _:
             return exercise

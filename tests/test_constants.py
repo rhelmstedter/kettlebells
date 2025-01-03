@@ -146,8 +146,17 @@ TEST_BTB_WORKOUT = Workout(
         "variation": "2 C&P Ladders + Snatch",
         "time": 30,
         "exercises": [
-            Exercise(**{"name": "Kettlebell Clean and Press", "load": 24, "sets": 2, "reps": 20}),
-            Exercise(**{"name": "Kettlebell Snatch", "load": 20, "sets": 1, "reps": 100}),
+            Exercise(
+                **{
+                    "name": "Kettlebell Clean and Press",
+                    "load": 24,
+                    "sets": 2,
+                    "reps": 20,
+                }
+            ),
+            Exercise(
+                **{"name": "Kettlebell Snatch", "load": 20, "sets": 1, "reps": 100}
+            ),
         ],
         "workout_type": "back to basics",
     },
@@ -233,7 +242,12 @@ TEST_GIANT_WORKOUT = Workout(
         "time": 30,
         "exercises": [
             Exercise(
-                **{"name": "Double Kettlebell Clean and Press", "load": 24, "sets": 10, "reps": 5}
+                **{
+                    "name": "Double Kettlebell Clean and Press",
+                    "load": 24,
+                    "sets": 10,
+                    "reps": 5,
+                }
             ),
         ],
     },

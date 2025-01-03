@@ -14,7 +14,7 @@ from rich.table import Table
 from rich.text import Text
 
 from .console import console
-from .constants import DATE_FORMAT, KETTLEBELLS_HOME, SUGGESTION, WARNING, EXERCISES
+from .constants import DATE_FORMAT, KETTLEBELLS_HOME, SUGGESTION, WARNING
 from .workouts import Workout, _print_helper
 
 
@@ -409,6 +409,7 @@ def get_exercises_by_movement(data: dict, start: str = "", end: str = ""):
 
     """
     units = data["loads"]["units"]
+    exercises = data["exercises"]
     human_movements_reps = defaultdict(int)
     if start:
         start_date = datetime.strptime(start, DATE_FORMAT)
@@ -422,8 +423,8 @@ def get_exercises_by_movement(data: dict, start: str = "", end: str = ""):
         if end and date_obj > end_date:
             continue
         for exercise in workout.exercises:
-            if exercise.name in EXERCISES:
-                for movement in EXERCISES[exercise.name]:
+            if exercise.name in exercises:
+                for movement in exercises[exercise.name]:
                     reps = exercise.sets * exercise.reps
                     human_movements_reps[movement] += reps
             else:

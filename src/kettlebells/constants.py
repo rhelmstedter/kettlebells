@@ -1402,14 +1402,23 @@ EXERCISES = {
     "TRX Single Arm Row": ["pull"],
     "TRX T": ["pull"],
     "TRX Y": ["pull"],
-    "TRX Fly": ["isolation"],
+    "TRX Fly": ["upper body isolation"],
     "Thruster": ["squat", "push"],
     "Toes to Bar": ["core"],
     "Turkish Get-up": ["squat", "core"],
     "Windmill": ["core"],
 }
 
-HUMAN_MOVEMENTS = ["push", "pull", "squat", "hinge", "core", "upper body isolation", "lower body isolation", "done"]
+HUMAN_MOVEMENTS = [
+    "push",
+    "pull",
+    "squat",
+    "hinge",
+    "core",
+    "upper body isolation",
+    "lower body isolation",
+    "done",
+]
 
 BODYWEIGHT_FACTORS = {
     "Bodyweight Row": 0.5,
