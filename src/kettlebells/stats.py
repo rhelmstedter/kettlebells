@@ -384,15 +384,64 @@ def _get_dates(data: dict) -> list[tuple[int]]:
     return workout_dates
 
 
-def get_exercises_by_movement(data: dict):
+def get_exercises_by_movement(data: dict, start: str = "", end: str = ""):
+    """Create a table of exercises by the fundamental human movements.
+
+    Args:
+        data: The database dictionary.
+        start: The start date of the workouts to include in the table.
+        end: The end date of the workouts to include in the table.
+
+    """
     units = data["loads"]["units"]
-    human_movements = defaultdict(int)
+    human_movements_reps = defaultdict(int)
+    if start:
+        start_date = datetime.strptime(start, DATE_FORMAT)
+    if end:
+        end_date = datetime.strptime(end, DATE_FORMAT)
     for workout_data in data["saved_workouts"]:
         workout = Workout(**workout_data["workout"])
+        date_obj = datetime.strptime(workout_data["date"], DATE_FORMAT)
+        if start and date_obj < start_date:
+            continue
+        if end and date_obj > end_date:
+            continue
         for exercise in workout.exercises:
             if exercise.name in EXERCISES:
                 for movement in EXERCISES[exercise.name]:
-                    human_movements[movement] += exercise.sets * exercise.reps
+                    reps = exercise.sets * exercise.reps
+                    human_movements_reps[movement] += reps
             else:
                 print(f"Unknown exercise: {exercise.name}")
-    console.print(human_movements)
+    columns = [
+        ("Fundamental\nMovement", "magenta"),
+        ("Reps\n", "blue"),
+        (f"Weight Moved\n({units})", "blue"),
+    ]
+    movement_table = Table(title="Fundamental Human Movements")
+    for col, style in columns:
+        movement_table.add_column(col, style=style, justify="right")
+
+    total_reps = sum(human_movements_reps.values())
+    for movement, reps in sorted(
+        human_movements_reps.items(), key=lambda item: item[1], reverse=True
+    ):
+        movement_table.add_row(
+            movement.title(),
+            f"{reps:,}",
+            f"{reps / total_reps:.2%}",
+        )
+    movement_table.add_section()
+    lower_body = human_movements_reps['squat'] + human_movements_reps['hinge']
+    upper_body = human_movements_reps['push'] + human_movements_reps['pull']
+    movement_table.add_row(
+        "Lower Body",
+        f"{lower_body:,}",
+        f"{lower_body / total_reps:.2%}"
+    )
+    movement_table.add_row(
+        "Upper Body",
+        f"{upper_body:,}",
+        f"{upper_body / total_reps:.2%}"
+    )
+    return movement_table

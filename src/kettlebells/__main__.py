@@ -386,8 +386,12 @@ def stats(
         print_calendar(data, year)
     if best:
         console.print(top_ten_workouts(data, sort))
-    if by_movement:
-        console.print(get_exercises_by_movement(data))
+    if by_movement and year:
+        start = f"{year}-01-01"
+        end = f"{year}-12-31"
+        console.print(get_exercises_by_movement(data, start, end))
+    if by_movement and not year:
+        console.print(get_exercises_by_movement(data, start, end))
 
 
 def _get_date() -> str:
