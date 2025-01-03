@@ -300,6 +300,14 @@ def view_program(data: dict, program: str, display_workout: bool) -> Table:
 
 
 def retrieve_workout(data: dict, preview: bool) -> tuple[str, Workout]:
+    """Retrieve a workout from the database.
+
+    Args:
+        data: A dict of the data from the database.
+        preview: A bool of whether to use preview or not.
+
+    Returns: A tuple of the date and the workout.
+    """
     data = {w["date"]: Workout(**w["workout"]) for w in data["saved_workouts"]}
     if preview:
         date = iterfzf(
@@ -334,7 +342,7 @@ def table_to_df(rich_table: Table) -> pd.DataFrame:
     return pd.DataFrame(table_data)
 
 
-def print_calendar(data: dict, year: int | None):
+def print_calendar(data: dict, year: int | None) -> None:
     """Highlight workout days and print a yearly calendar.
 
     Args:
@@ -377,6 +385,13 @@ def print_calendar(data: dict, year: int | None):
 
 
 def _get_dates(data: dict) -> list[tuple[int]]:
+    """Get the workout dates from the database.
+    Args:
+        data: The database dictionary.
+
+    returns:
+        list[tuple[int]]: A list of tuples of the workout dates.
+    """
     workout_dates = []
     for workout in data["saved_workouts"]:
         workout_date = datetime.strptime(workout["date"], DATE_FORMAT)
@@ -432,16 +447,12 @@ def get_exercises_by_movement(data: dict, start: str = "", end: str = ""):
             f"{reps / total_reps:.2%}",
         )
     movement_table.add_section()
-    lower_body = human_movements_reps['squat'] + human_movements_reps['hinge']
-    upper_body = human_movements_reps['push'] + human_movements_reps['pull']
+    lower_body = human_movements_reps["squat"] + human_movements_reps["hinge"]
+    upper_body = human_movements_reps["push"] + human_movements_reps["pull"]
     movement_table.add_row(
-        "Lower Body",
-        f"{lower_body:,}",
-        f"{lower_body / total_reps:.2%}"
+        "Lower Body", f"{lower_body:,}", f"{lower_body / total_reps:.2%}"
     )
     movement_table.add_row(
-        "Upper Body",
-        f"{upper_body:,}",
-        f"{upper_body / total_reps:.2%}"
+        "Upper Body", f"{upper_body:,}", f"{upper_body / total_reps:.2%}"
     )
     return movement_table
