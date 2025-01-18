@@ -834,7 +834,7 @@ def add_exercise_to_database(db_path: Path, exercise: str) -> None:
     movements = []
     while True:
         movement = _get_options(HUMAN_MOVEMENTS)
-        if movement == "Done":
+        if movement == "done":
             break
         else:
             movements.append(movement)
