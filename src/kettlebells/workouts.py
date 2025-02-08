@@ -856,7 +856,8 @@ def _print_helper(to_print: list) -> None:
 
 def _get_exercise(db_path: Path) -> str | None:
     environ["FZF_DEFAULT_OPTS"] = FZF_DEFAULT_OPTS
-    exercise = iterfzf(EXERCISES, multi=False)
+    exercises = read_database(db_path)["exercises"]
+    exercise = iterfzf(exercises, multi=False)
     match exercise:
         case "Other":
             exercise = Prompt.ask("Name of exercise").title()

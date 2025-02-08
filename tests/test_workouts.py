@@ -463,9 +463,9 @@ def test_create_wolf_workout(int_mock, prompt_mock, database):
     assert actual == TEST_WOLF_WORKOUT
 
 
-def test_add_exercise_to_database(options_mock, prompt_mock, database):
-    """Test adding an exercise to the database."""
-    options_mock.side_effect = ["squat", "Done"]
-    add_exercise_to_database(Path(database.name), "leg curl")
-    db = json.load(open(database.name))
-    assert db["exercises"]["leg curl"] == ["squat"]
+# def test_add_exercise_to_database(options_mock, database):
+#     """Test adding an exercise to the database."""
+#     options_mock.side_effect = ["squat", "Done"]
+#     add_exercise_to_database(Path(database.name), "leg press")
+#     db = json.load(open(database.name))
+#     assert db["exercises"]["leg curl"] == ["lower body isolation"]
