@@ -32,6 +32,7 @@ def initialize_database(kettlebells_home: Path, db_path: Path, force: bool) -> N
         pass
     data: dict = {
         "loads": dict(),
+        "templates": dict(),
         "exercises": EXERCISES,
         "saved_workouts": [],
         "cached_workouts": [],

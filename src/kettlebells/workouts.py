@@ -16,8 +16,7 @@ from .constants import (
     BODYWEIGHT_FACTORS,
     DFW_PARAMS,
     BTB_PARAMS,
-    EASY_STRENGTH_PARAMS,
-    EXERCISES,
+    # EXERCISES,
     FZF_DEFAULT_OPTS,
     HUMAN_MOVEMENTS,
     IRON_CARDIO_PARAMS,
@@ -29,6 +28,7 @@ from .constants import (
     THE_WOLF_PARAMS,
     WARNING,
     WORKOUT_GENERATOR_PARAMS,
+    KETTLEBELLS_DB,
 )
 from .database import read_database, write_database
 
@@ -744,6 +744,20 @@ def create_abf_workout(db_path: Path) -> Workout:
     )
 
 
+def create_template(db_path: Path) -> None:
+    """Create a template for a program."""
+    data = read_database(db_path)
+    bodyweight = data["loads"]["bodyweight"]
+    units = data["loads"]["units"]
+    workout_type = Prompt.ask("Type of workout")
+    if workout_type not in data["templates"]:
+        data["templates"][workout_type] = {}
+    variation = Prompt.ask("Variation")
+    exercises = add_exercises(db_path, bodyweight, units)
+    data["templates"][workout_type][variation] = [e.dict() for e in exercises]
+    write_database(db_path, data)
+
+
 def _get_options(options: dict | list) -> str:
     """Select options for a given workout parameter.
     Args:
@@ -810,6 +824,8 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
         case "wolf":
             return "the wolf", THE_WOLF_PARAMS
         case "es":
+            data = read_database(KETTLEBELLS_DB)
+            EASY_STRENGTH_PARAMS = data["templates"]["easy strength"]
             return "easy strength", EASY_STRENGTH_PARAMS
         case "wg":
             return "workout generator", WORKOUT_GENERATOR_PARAMS

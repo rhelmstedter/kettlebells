@@ -50,6 +50,7 @@ from .workouts import (
     create_rite_of_passage_workout,
     create_set_based_workout,
     create_time_based_workout,
+    create_template,
     create_workout_generator_workout,
     random_ic_or_abc,
     set_loads,
@@ -152,6 +153,14 @@ def random(
     workout = random_ic_or_abc(KETTLEBELLS_DB, workout_type)
     cache_workout(KETTLEBELLS_DB, workout)
     workout.display_workout()
+
+@cli.command()
+def template(
+    ctx: typer.Context,
+) -> None:
+    """Create a template for a program."""
+    confirm_loads(KETTLEBELLS_DB)
+    create_template(KETTLEBELLS_DB)
 
 
 @cli.command()

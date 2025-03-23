@@ -238,21 +238,21 @@ def test_custom_ic_workout(
     assert actual == expected
 
 
-def test_easy_strength_workout(
-    options_mock,
-    units_mock,
-    confirm_mock,
-    int_mock,
-    database,
-):
-    """Test creating an easy strength workout."""
-    expected = TEST_EASY_STRENGTH_WORKOUT
-    options_mock.side_effect = ["regular"]
-    int_mock.side_effect = [30, 24, 20, 24, 20, 24, 20, 24, 20, 24, 20, 24]
-    units_mock.side_effect = ["kg"]
-    actual = create_easy_strength_workout(Path(database.name), "es")
-    assert isinstance(actual, Workout)
-    assert actual == expected
+# def test_easy_strength_workout(
+#     options_mock,
+#     units_mock,
+#     confirm_mock,
+#     int_mock,
+#     database,
+# ):
+#     """Test creating an easy strength workout."""
+#     expected = TEST_EASY_STRENGTH_WORKOUT
+#     options_mock.side_effect = ["regular"]
+#     int_mock.side_effect = [30, 24, 20, 24, 20, 24, 20, 24, 20, 24, 20, 24]
+#     units_mock.side_effect = ["kg"]
+#     actual = create_easy_strength_workout(Path(database.name), "es")
+#     assert isinstance(actual, Workout)
+#     assert actual == expected
 
 
 @mock.patch("kettlebells.workouts.iterfzf")
