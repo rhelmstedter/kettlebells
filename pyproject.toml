@@ -1,7 +1,7 @@
 
 [project]
 name = "kettlebells"
-version = "0.2.43"
+version = "0.2.44"
 description = "A CLI tool to create, save, and track progress of kettlebell workouts."
 authors = [
     { name = "Russell Helmstedter", email = "rhelmstedter@gmail.com" }
