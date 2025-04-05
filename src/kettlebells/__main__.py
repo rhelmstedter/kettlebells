@@ -154,6 +154,7 @@ def random(
     cache_workout(KETTLEBELLS_DB, workout)
     workout.display_workout()
 
+
 @cli.command()
 def template(
     ctx: typer.Context,
