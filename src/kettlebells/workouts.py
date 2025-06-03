@@ -720,20 +720,29 @@ def create_abf_workout(db_path: Path) -> Workout:
     variation = _get_options(workout_params)
     time = IntPrompt.ask("How long was your workout (mins)")
     load = IntPrompt.ask(f"What weight did you use ({units})")
-    if variation == "Armor Building Complex":
-        sets = IntPrompt.ask("How many rounds of ABC did you complete?")
     exercises = []
-    for exercise, reps in workout_params[variation]:
-        if variation == "Double Kettlebell Press":
-            sets = IntPrompt.ask(f"How many sets of {reps} reps did you complete")
-        exercises.append(
-            Exercise(
-                name=exercise,
-                load=load,
-                sets=sets,
-                reps=reps,
+    if variation in ("Armor Building Complex", "Intro"):
+        sets = IntPrompt.ask("How many rounds of ABC did you complete?")
+        for exercise, reps in workout_params["Armor Building Complex"]:
+            exercises.append(
+                Exercise(
+                    name=exercise,
+                    load=load,
+                    sets=sets,
+                    reps=reps,
+                )
             )
-        )
+    if variation in ("Double Kettlebell Press", "Intro"):
+        for exercise, reps in workout_params["Double Kettlebell Press"]:
+            sets = IntPrompt.ask(f"How many sets of {reps} reps did you complete")
+            exercises.append(
+                Exercise(
+                    name=exercise,
+                    load=load,
+                    sets=sets,
+                    reps=reps,
+                )
+            )
     return Workout(
         workout_type=workout_type,
         variation=variation,

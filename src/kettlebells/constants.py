@@ -1018,6 +1018,7 @@ ABFB_PARAMS = {
 }
 
 ABF_PARAMS = {
+    "Intro": None,
     "Armor Building Complex": ABC_PARAMS["exercises"]["Armor Building Complex"],
     "Double Kettlebell Press": [
         ("Double Kettlebell Press", 2),
