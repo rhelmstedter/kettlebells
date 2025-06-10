@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 from unittest import mock
 
@@ -9,7 +8,6 @@ from kettlebells.workouts import (
     Workout,
     _get_options,
     _get_units,
-    add_exercise_to_database,
     create_abf_barbell_workout,
     create_btb_workout,
     create_custom_workout,
@@ -20,7 +18,6 @@ from kettlebells.workouts import (
     create_time_based_workout,
     set_loads,
     set_program_loads,
-    create_easy_strength_workout,
     create_workout_generator_workout,
     create_rite_of_passage_workout,
     create_abf_workout,
@@ -39,7 +36,6 @@ from .test_constants import (
     TEST_WOLF_WORKOUT,
     TEST_WORKOUT_NO_SWINGS,
     TEST_WORKOUT_SINGLE_BELL_PULLUPS,
-    TEST_EASY_STRENGTH_WORKOUT,
     TEST_WORKOUT_GENERATOR_WORKOUT,
     TEST_ROP_WORKOUT,
     TEST_ABF_ABC_WORKOUT,
