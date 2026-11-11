@@ -586,17 +586,21 @@ The `stats` command displays the aggregated workout count, time, weight moved, n
 
 2.  plot
 
-    To display a line plot of the weight moved per workout, use the `--plot line` option. Add a line at the median with `--median` or at the mean with `--average`.
+    To display a line plot of the weight moved per workout, use the `--plot line` option. Add a line at the median with `--median` or at the mean with `--average`. As the history grows, `--by week` or `--by month` plots the total per week or month instead, which shows the trend more clearly.
     
-        kettlebells stats --plot line
+        kettlebells stats --plot line --by week --median
     
-    To display a horizontal bar plot grouped by month, use the `--plot bar` option.
+    To display the weight moved per month as horizontal bars, with the exact total beside each, use the `--plot bar` option. `--median` or `--average` marks that value on the bars.
     
         kettlebells stats --plot bar
     
     To display an event plot of the current year, use the `--plot event` option.
     
         kettlebells stats --plot event
+
+    For a more detailed, interactive view, `--html` writes a report to `~/.kettlebells/stats.html` and opens it in your browser. It has the totals, the weight moved per workout, week or month (hover a point for that workout's details, drag to zoom), and the number of workouts per week. The time filters apply to it too. The charts load from the web, so the page needs an internet connection.
+    
+        kettlebells stats --html --year 2026
 
 3.  calendar
 

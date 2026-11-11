@@ -1,12 +1,10 @@
 import calendar
-import math
 import sys
 from collections import defaultdict
 from datetime import datetime
-from statistics import mean, median
+from statistics import mean
 
 import pandas as pd
-import plotext as plt
 from iterfzf import iterfzf
 from rich import box
 from rich.align import Align
@@ -15,7 +13,7 @@ from rich.table import Table
 from rich.text import Text
 
 from .console import console
-from .constants import DATE_FORMAT, EXERCISES, KETTLEBELLS_HOME, SUGGESTION, WARNING
+from .constants import DATE_FORMAT, EXERCISES, KETTLEBELLS_HOME
 from .workouts import Workout, _print_helper
 
 
@@ -97,99 +95,13 @@ def get_all_stats(
     return dates, weight_per_workout
 
 
-def plot_workouts(
-    dates: list[str],
-    weight_per_workout: list[int],
-    plot_type: str,
-    show_median: bool,
-    show_average: bool,
-    year: int | None = None,
-) -> None:
-    """Plot weight moved per workout.
-
-    Args:
-        dates: A list of the dates stored as a string.
-        weight_per_workout: A list of the weight moved per workout.
-        plot_type: event, line, or bar.
-        show_median: Draw a line at the median (line and bar plots).
-        show_average: Draw a line at the mean (line and bar plots).
-        year: The year an event plot spans. Defaults to the year of the last workout.
-    """
-    if plot_type not in ("event", "line", "bar"):
-        console.print(f":warning: {plot_type} not a valid plot.", style=WARNING)
-        console.print(
-            "Try running [underline]kettlebells stats --help[/underline] to see available plots",
-            style=SUGGESTION,
-        )
-        return
-    if not dates:
-        console.print("No workouts to plot.", style=WARNING)
-        return
-
-    figure = plt.figure
-    figure.clear()
-    match plot_type:
-        case "event":
-            if not year:
-                year = int(dates[-1][:4])
-            figure.date().activate(form=DATE_FORMAT)
-            figure.event(dates)
-            figure.ruler("x").lim(f"{year}-01-01", f"{year}-12-31")
-            figure.ruler("x").ticks(
-                [f"{year}-{m:02}-01" for m in range(1, 13)],
-                [calendar.month_abbr[m] for m in range(1, 13)],
-            )
-            figure.title("Workouts Across the Year")
-            figure.label("Months", axis="x")
-            figure.plot_size(130, 20)
-        case "line":
-            figure.date().activate(form=DATE_FORMAT)
-            figure.draw(figure.signal(dates, weight_per_workout, marker="hd").lines())
-            reference = _reference_value(weight_per_workout, show_median, show_average)
-            if reference is not None:
-                figure.line(reference, orientation="h", pixel="green")
-            figure.ruler("y").lim(lower=0)
-            figure.ruler("y").ticks(*_number_ticks(max(weight_per_workout)))
-            figure.title("Weight Moved Per Workout")
-            figure.label("Date", axis="x")
-            figure.plot_size(90, 30)
-        case "bar":
-            data: dict[str, int] = defaultdict(int)
-            for date, weight in zip(dates, weight_per_workout):
-                workout_year, month, _ = date.split("-")
-                data[f"{calendar.month_abbr[int(month)]}-{workout_year[-2:]}"] += weight
-            figure.draw(figure.bar(list(data.keys()), list(data.values()), orientation="h"))
-            reference = _reference_value(list(data.values()), show_median, show_average)
-            if reference is not None:
-                figure.line(reference, orientation="v", pixel="green")
-            figure.ruler("x").ticks(*_number_ticks(max(data.values())))
-            figure.title("Weight Moved by Month")
-            figure.label("Weight Moved", axis="x")
-            figure.plot_size(90, 30)
-
-    figure.theme("pro")
-    console.print()
-    figure.show()
-
-
-def _reference_value(values: list[int], show_median: bool, show_average: bool) -> float | None:
-    if show_median:
-        return median(values)
-    if show_average:
-        return mean(values)
-    return None
-
-
-def _number_ticks(maximum: float, count: int = 6) -> tuple[list[int], list[str]]:
-    """Round, evenly spaced ticks from 0 to at least maximum, with thousands separators.
-
-    plotext 6 labels large values in scientific notation (1.0e4) by default.
-    """
-    rough = max(maximum, 1) / (count - 1)
-    magnitude = 10 ** math.floor(math.log10(rough))
-    step = next(m * magnitude for m in (1, 2, 5, 10) if m * magnitude >= rough)
-    positions = [int(step * i) for i in range(math.ceil(maximum / step) + 1)]
-    return positions, [f"{p:,}" for p in positions]
+def get_entries(data: dict, start: str = "", end: str = "") -> list[tuple[str, Workout]]:
+    """The saved (date, workout) pairs between start and end (YYYY-MM-DD, inclusive)."""
+    return [
+        (w["date"], Workout(**w["workout"]))
+        for w in data["saved_workouts"]
+        if (not start or w["date"] >= start) and (not end or w["date"] <= end)
+    ]
 
 
 def top_ten_workouts(data: dict, sort: str) -> Table:
