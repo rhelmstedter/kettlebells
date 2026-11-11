@@ -502,6 +502,44 @@ The work out command generates a random workout. The current options are:
     </table>
 
 
+### save --repeat and save --template
+
+`--repeat` copies your last workout of a type and bumps the day (D10 → D11). Each exercise is shown with its current value: press Enter to keep it, type a new value to change it, or `-` to drop it. Values look like `3x5`, `3x5@24`, `2x5@185lb` (converted to your units), or `3x3+20` (added weight on a bodyweight exercise).
+
+    kettlebells save --repeat -w es
+
+`--template` starts from a saved template the same way. Any workout type can have templates, and `save -w es` uses the easy strength ones. Create or update a template with:
+
+    kettlebells template
+
+Bodyweight exercises (chinups, dips, pullups, pushups, rows) store only the added weight. Their bodyweight share is worked out from the workout's bodyweight when stats are calculated.
+
+### add
+
+Save workouts written as a single line, in the same shorthand you'd use on paper:
+
+    kettlebells add 2026-11-09 "ES D11 16min; SGD 2x5@185lb; Chin 2x5+25lb; Dip 3x3+45lb (elbow hurts); AW 1x10"
+
+The first segment is the workout type (a code such as `es` or a name), an optional variation, and the time. If you leave out the variation, the last one for that workout type is bumped. Text in parentheses and `note: ...` segments are saved as the workout's notes. To import several days at once, put one `YYYY-MM-DD <workout>` per line in a text file:
+
+    kettlebells add --file notes.txt
+
+### alias
+
+List the short names `add` understands, or add your own:
+
+    kettlebells alias
+    kettlebells alias LC "Loaded Carry"
+    kettlebells alias LC --remove
+
+### edit and delete
+
+Fix or remove a saved workout. Both let you pick the workout with fzf, or take a date. `delete` backs up the database first.
+
+    kettlebells edit 2026-11-09
+    kettlebells delete
+
+
 <a id="org319bbb1"></a>
 
 ### last

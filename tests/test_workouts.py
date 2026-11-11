@@ -9,36 +9,36 @@ from kettlebells.workouts import (
     _get_options,
     _get_units,
     create_abf_barbell_workout,
+    create_abf_workout,
     create_btb_workout,
     create_custom_workout,
-    random_ic_or_abc,
     create_ic_or_abc,
     create_perfect_workout,
+    create_rite_of_passage_workout,
     create_set_based_workout,
     create_time_based_workout,
+    create_workout_generator_workout,
+    random_ic_or_abc,
     set_loads,
     set_program_loads,
-    create_workout_generator_workout,
-    create_rite_of_passage_workout,
-    create_abf_workout,
 )
 
 from .test_constants import (
-    TEST_ABFB,
+    TEST_ABF_ABC_WORKOUT,
     TEST_ABF_PRESS_WORKOUT,
+    TEST_ABFB,
     TEST_BTB_WORKOUT,
     TEST_CUSTOM_WORKOUT,
     TEST_DOUBLE_TRAVELING_2S_WORKOUT,
     TEST_GIANT_WORKOUT,
     TEST_IC_WORKOUT,
     TEST_PERFECT_WORKOUT,
+    TEST_ROP_WORKOUT,
     TEST_SINGLE_TRAVELING_2S_WORKOUT,
     TEST_WOLF_WORKOUT,
+    TEST_WORKOUT_GENERATOR_WORKOUT,
     TEST_WORKOUT_NO_SWINGS,
     TEST_WORKOUT_SINGLE_BELL_PULLUPS,
-    TEST_WORKOUT_GENERATOR_WORKOUT,
-    TEST_ROP_WORKOUT,
-    TEST_ABF_ABC_WORKOUT,
 )
 
 POSSIBLE_SWINGS = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150]
@@ -465,3 +465,146 @@ def test_create_wolf_workout(int_mock, prompt_mock, database):
 #     add_exercise_to_database(Path(database.name), "leg press")
 #     db = json.load(open(database.name))
 #     assert db["exercises"]["leg curl"] == ["lower body isolation"]
+
+
+def _es_database(path):
+    import json
+
+    data = json.load(open(path))
+    data["loads"]["bodyweight"] = 85
+    data["templates"] = {
+        "easy strength": {
+            "regular": {
+                "exercises": [
+                    {"name": "Snatch Grip Deadlift", "load": 84, "sets": 2, "reps": 5},
+                    {"name": "Dip", "load": 20, "sets": 3, "reps": 3},
+                    {"name": "Ab Wheel", "load": 0, "sets": 1, "reps": 10},
+                ]
+            }
+        }
+    }
+    data["saved_workouts"].append(
+        {
+            "date": "2026-11-09",
+            "workout": {
+                "workout_type": "easy strength",
+                "variation": "D11",
+                "time": 16,
+                "units": "kg",
+                "bodyweight": 85,
+                "exercises": [
+                    {"name": "Snatch Grip Deadlift", "load": 84, "sets": 2, "reps": 5},
+                    {"name": "Chinup", "load": 11, "sets": 2, "reps": 5},
+                    {"name": "Dip", "load": 20, "sets": 3, "reps": 3},
+                ],
+            },
+        }
+    )
+    json.dump(data, open(path, "w"))
+
+
+def test_repeat_last_workout(prompt_mock, int_mock, confirm_mock, database):
+    """Enter keeps each value, typing replaces it, and - drops an exercise."""
+    from kettlebells.workouts import repeat_last_workout
+
+    _es_database(database.name)
+    # variation, then one answer per exercise
+    prompt_mock.side_effect = ["D12", "3x3@84", "-", "3x3+45lb"]
+    int_mock.side_effect = [18]
+    confirm_mock.ask.return_value = False
+    workout = repeat_last_workout(Path(database.name), "es")
+    assert prompt_mock.call_args_list[0].kwargs["default"] == "D12"
+    assert [c.kwargs["default"] for c in prompt_mock.call_args_list[1:]] == ["2x5@84", "2x5+11", "3x3+20"]
+    assert int_mock.call_args.kwargs["default"] == 16
+    assert workout.workout_type == "easy strength"
+    assert workout.variation == "D12"
+    assert workout.time == 18
+    assert [(e.name, e.sets, e.reps, e.load) for e in workout.exercises] == [
+        ("Snatch Grip Deadlift", 3, 3, 84),
+        ("Dip", 3, 3, 20),
+    ]
+
+
+def test_create_easy_strength_from_template(prompt_mock, int_mock, confirm_mock, database):
+    """The template is applied as stored: no extra bodyweight on the dip."""
+    from kettlebells.workouts import create_easy_strength_workout
+
+    _es_database(database.name)
+    prompt_mock.side_effect = lambda *args, default=None, **kwargs: default
+    int_mock.side_effect = [30]
+    confirm_mock.ask.return_value = False
+    workout = create_easy_strength_workout(Path(database.name))
+    assert workout.variation == "D12"
+    dip = workout.exercises[1]
+    assert (dip.name, dip.load, dip.total_load(85)) == ("Dip", 20, 101)
+
+
+def test_create_from_template_missing(database, capfd):
+    from kettlebells.workouts import create_from_template
+
+    assert create_from_template(Path(database.name), "the bull") is None
+    assert "No templates for the bull" in capfd.readouterr()[0]
+
+
+def test_create_template_updates_existing(prompt_mock, confirm_mock, database):
+    import json
+
+    from kettlebells.workouts import create_template
+
+    _es_database(database.name)
+    prompt_mock.side_effect = ["es", "Regular", "2x5@90", "3x3+20", "1x10"]
+    confirm_mock.ask.return_value = False
+    create_template(Path(database.name))
+    template = json.load(open(database.name))["templates"]["easy strength"]
+    assert list(template) == ["regular"]
+    assert template["regular"]["exercises"][0] == {
+        "name": "Snatch Grip Deadlift",
+        "load": 90,
+        "sets": 2,
+        "reps": 5,
+    }
+
+
+def test_display_bodyweight_and_notes(capfd):
+    from kettlebells.workouts import Exercise
+
+    workout = Workout(
+        workout_type="easy strength",
+        variation="D1",
+        time=10,
+        units="kg",
+        bodyweight=85,
+        notes="too light",
+        exercises=[
+            Exercise(name="Dip", load=20, sets=3, reps=3),
+            Exercise(name="Chinup", load=0, sets=3, reps=3),
+        ],
+    )
+    workout.display_workout()
+    output = capfd.readouterr()[0]
+    assert "3 X 3 with BW + 20 kg" in output
+    assert "3 X 3 with BW\n" in output
+    assert "Notes: too light" in output
+    assert workout.calc_workout_stats()["weight moved"] == 9 * 101 + 9 * 81
+
+
+def test_edit_workout(prompt_mock, int_mock, confirm_mock, database):
+    from kettlebells.workouts import Exercise, edit_workout
+
+    workout = Workout(
+        workout_type="easy strength",
+        variation="D1",
+        time=10,
+        units="kg",
+        bodyweight=86,
+        exercises=[Exercise(name="Dip", load=20, sets=3, reps=3)],
+    )
+    prompt_mock.side_effect = ["bad date", "2026-11-08", "Easy Strength", "D2", "3x5+20", "elbow hurts"]
+    int_mock.side_effect = [12, 85]
+    confirm_mock.ask.return_value = False
+    date, edited = edit_workout(Path(database.name), "2026-11-09", workout)
+    assert date == "2026-11-08"
+    assert edited.workout_type == "easy strength"
+    assert (edited.variation, edited.time, edited.bodyweight) == ("D2", 12, 85)
+    assert edited.exercises[0].reps == 5
+    assert edited.notes == "elbow hurts"

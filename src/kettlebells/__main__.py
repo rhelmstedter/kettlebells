@@ -4,6 +4,7 @@ from os import environ
 from pathlib import Path
 
 import typer
+from iterfzf import iterfzf
 from rich.prompt import Confirm, Prompt
 from trogon import Trogon
 from typer.main import get_group
@@ -22,12 +23,17 @@ from .constants import (
 from .database import (
     cache_workout,
     confirm_loads,
+    delete_workout,
     initialize_database,
-    update_database,
     read_database,
+    replace_workout,
     save_workout,
+    save_workouts,
+    update_database,
     write_database,
 )
+from .entry import EntryError, parse_lines
+from .names import exercise_aliases, known_exercises, workout_type_aliases
 from .stats import (
     filter_by_program,
     get_all_stats,
@@ -45,14 +51,17 @@ from .workouts import (
     create_btb_workout,
     create_custom_workout,
     create_easy_strength_workout,
+    create_from_template,
     create_ic_or_abc,
     create_perfect_workout,
     create_rite_of_passage_workout,
     create_set_based_workout,
-    create_time_based_workout,
     create_template,
+    create_time_based_workout,
     create_workout_generator_workout,
+    edit_workout,
     random_ic_or_abc,
+    repeat_last_workout,
     set_loads,
     set_program_loads,
 )
@@ -159,7 +168,10 @@ def random(
 def template(
     ctx: typer.Context,
 ) -> None:
-    """Create a template for a program."""
+    """Create or update a template for a program (any workout type).
+
+    Use it with `kettlebells save --template`; `save -w es` uses the easy strength templates.
+    """
     confirm_loads(KETTLEBELLS_DB)
     create_template(KETTLEBELLS_DB)
 
@@ -172,15 +184,43 @@ def save(
         typer.Option(
             "--workout-type",
             "-w",
-            help="Possible workout-types: ic, abc, btb, dfw, es, pw, wolf, wg, rop, or custom.",
+            help="Possible workout-types: ic, abc, abf, abfb, btb, dfw, es, giant, pw, wolf, wg, rop, or custom.",
         ),
     ] = "",
+    repeat: Annotated[
+        bool,
+        typer.Option(
+            "--repeat",
+            "-r",
+            help="Copy your last workout of a type (-w, or pick one) and bump the day. "
+            "Press Enter to keep each exercise or type a new value.",
+            is_flag=True,
+        ),
+    ] = False,
+    template: Annotated[
+        bool,
+        typer.Option(
+            "--template",
+            "-t",
+            help="Start from a saved template (-w to pick the workout type, or pick one).",
+            is_flag=True,
+        ),
+    ] = False,
 ) -> None:
     """Save a kettlebell workout.
 
     If no argument is passed, kettlebells will attempt to use the most recently generated workout.
     """
     confirm_loads(KETTLEBELLS_DB)
+    if repeat or template:
+        data = read_database(KETTLEBELLS_DB)
+        resolved = workout_type_aliases(data).get(workout_type.strip().casefold(), workout_type.strip())
+        if repeat:
+            workout = repeat_last_workout(KETTLEBELLS_DB, resolved or None)
+        else:
+            workout = create_from_template(KETTLEBELLS_DB, resolved or None)
+        _confirm_and_save(workout)
+        return
     match workout_type:
         case "ic" | "abc":
             workout = create_ic_or_abc(KETTLEBELLS_DB, workout_type)
@@ -195,7 +235,7 @@ def save(
         case "wolf":
             workout = create_set_based_workout(KETTLEBELLS_DB, workout_type)
         case "es":
-            workout = create_easy_strength_workout(KETTLEBELLS_DB, workout_type)
+            workout = create_easy_strength_workout(KETTLEBELLS_DB)
         case "wg":
             workout = create_workout_generator_workout(KETTLEBELLS_DB)
         case "rop":
@@ -219,16 +259,193 @@ def save(
             )
             return
 
+    _confirm_and_save(workout)
+
+
+def _confirm_and_save(workout: Workout | None) -> None:
     if workout is None:
         return
     workout.display_workout()
     if Confirm.ask("Save this workout?"):
         workout_date = _get_date()
+        workout.notes = Prompt.ask("Notes (Enter for none)", default="", show_default=False).strip()
         save_workout(KETTLEBELLS_DB, workout_date, workout)
         print()
         workout.display_workout_stats()
     else:
         console.print("Workout not saved.")
+
+
+@cli.command()
+def add(
+    ctx: typer.Context,
+    date: Annotated[str, typer.Argument(help="Date of the workout (YYYY-MM-DD).")] = "",
+    entry: Annotated[
+        str,
+        typer.Argument(help='The workout, e.g. "ES D11 16min; SGD 2x5@185lb; Chin 2x5+25lb; AW 1x10".'),
+    ] = "",
+    file: Annotated[
+        Path | None,
+        typer.Option(
+            "--file",
+            "-f",
+            help="A text file with one 'YYYY-MM-DD <workout>' per line.",
+            exists=True,
+            dir_okay=False,
+        ),
+    ] = None,
+    yes: Annotated[
+        bool,
+        typer.Option("--yes", "-y", help="Save without asking for confirmation.", is_flag=True),
+    ] = False,
+) -> None:
+    """Save workouts written in the quick-entry format.
+
+    Segments are separated by semicolons. The first is the workout type (es, ic, or a
+    name), an optional variation (D11, W2D3) and the time (16min). Each exercise is a
+    name or short name, sets x reps, and an optional load: @32, @185lb, or +25lb
+    (added weight on bodyweight exercises). Text in (parentheses) and "note: ..."
+    segments are saved as notes. Run `kettlebells alias` to see the short names.
+    """
+    confirm_loads(KETTLEBELLS_DB)
+    data = read_database(KETTLEBELLS_DB)
+    if file:
+        lines = file.read_text().splitlines()
+    elif date and entry:
+        lines = [f"{date} {entry}"]
+    else:
+        console.print(":warning: Give a date and a workout, or --file.", style=WARNING)
+        console.print("Try running [underline]kettlebells add --help[/underline]", style=SUGGESTION)
+        raise typer.Exit(1)
+    try:
+        parsed = parse_lines(lines, data)
+    except EntryError as error:
+        console.print(f":warning: {error}", style=WARNING)
+        raise typer.Exit(1)
+    if not parsed:
+        console.print("No workouts found.")
+        return
+    workouts = [(workout_date, Workout(**fields)) for workout_date, fields in parsed]
+    for workout_date, workout in workouts:
+        console.print(f"\nDate: [green]{datetime.strptime(workout_date, DATE_FORMAT):%b %d, %Y}\n")
+        workout.display_workout()
+    label = "this workout" if len(workouts) == 1 else f"these {len(workouts)} workouts"
+    if yes or Confirm.ask(f"Save {label}?"):
+        save_workouts(KETTLEBELLS_DB, workouts)
+        console.print(f"Saved {label}.")
+    else:
+        console.print("Nothing saved.")
+
+
+@cli.command()
+def edit(
+    ctx: typer.Context,
+    date: Annotated[str, typer.Argument(help="Date of the workout to edit (YYYY-MM-DD).")] = "",
+) -> None:
+    """Edit a saved workout. Press Enter to keep each value."""
+    data = read_database(KETTLEBELLS_DB)
+    index = _pick_saved_workout(data, date)
+    if index is None:
+        return
+    entry = data["saved_workouts"][index]
+    workout = Workout(**entry["workout"])
+    workout.display_workout()
+    new_date, new_workout = edit_workout(KETTLEBELLS_DB, entry["date"], workout)
+    console.print()
+    new_workout.display_workout()
+    if Confirm.ask("Save these changes?"):
+        replace_workout(KETTLEBELLS_DB, index, new_date, new_workout)
+        console.print("Workout updated.")
+    else:
+        console.print("No changes saved.")
+
+
+@cli.command()
+def delete(
+    ctx: typer.Context,
+    date: Annotated[str, typer.Argument(help="Date of the workout to delete (YYYY-MM-DD).")] = "",
+) -> None:
+    """Delete a saved workout. The database is backed up first."""
+    data = read_database(KETTLEBELLS_DB)
+    index = _pick_saved_workout(data, date)
+    if index is None:
+        return
+    entry = data["saved_workouts"][index]
+    console.print(f"\nDate: [green]{datetime.strptime(entry['date'], DATE_FORMAT):%b %d, %Y}\n")
+    Workout(**entry["workout"]).display_workout()
+    if Confirm.ask("Delete this workout?", default=False):
+        delete_workout(KETTLEBELLS_DB, index)
+        console.print("Workout deleted. A backup of the database is next to it in ~/.kettlebells.")
+    else:
+        console.print("Workout not deleted.")
+
+
+@cli.command()
+def alias(
+    ctx: typer.Context,
+    short: Annotated[str, typer.Argument(help="The short name, e.g. SGD.")] = "",
+    name: Annotated[str, typer.Argument(help='The full name, e.g. "Snatch Grip Deadlift".')] = "",
+    workout: Annotated[
+        bool,
+        typer.Option("--workout", "-w", help="The alias is for a workout type, not an exercise.", is_flag=True),
+    ] = False,
+    remove: Annotated[
+        bool,
+        typer.Option("--remove", "-r", help="Remove the alias.", is_flag=True),
+    ] = False,
+) -> None:
+    """List, add, or remove short names used by `kettlebells add` and `save -w`."""
+    data = read_database(KETTLEBELLS_DB)
+    kind = "workout_types" if workout else "exercises"
+    user_aliases = data.setdefault("aliases", {}).setdefault(kind, {})
+    if not short:
+        for label, aliases in (
+            ("Exercises", exercise_aliases(data)),
+            ("Workout types", workout_type_aliases(data)),
+        ):
+            console.print(label)
+            console.print("-" * len(label), style="green")
+            for key, value in sorted(aliases.items()):
+                console.print(f"  {key.upper():>6}: {value}")
+            console.print()
+        return
+    key = short.strip().casefold()
+    if remove:
+        if user_aliases.pop(key, None) is None:
+            console.print(f"'{short}' is not one of your aliases.", style=WARNING)
+            return
+        console.print(f"Removed '{short}'.")
+    else:
+        if not name:
+            console.print(":warning: Give the full name too.", style=WARNING)
+            raise typer.Exit(1)
+        name = name.strip()
+        if not workout and name.casefold() not in known_exercises(data):
+            console.print(f"Note: '{name}' is a new exercise name.", style=SUGGESTION)
+        user_aliases[key] = name
+        console.print(f"{short.upper()} -> {name}")
+    write_database(KETTLEBELLS_DB, data)
+
+
+def _pick_saved_workout(data: dict, date: str = "") -> int | None:
+    """Choose a saved workout, newest first. Returns its index."""
+    entries = [
+        (i, e)
+        for i, e in enumerate(data["saved_workouts"])
+        if not date or e["date"] == date
+    ]
+    if not entries:
+        console.print(f":warning: No saved workouts{' on ' + date if date else ''}.", style=WARNING)
+        return None
+    if len(entries) == 1 and date:
+        return entries[0][0]
+    labels = {
+        f"{e['date']}  {e['workout']['workout_type'].title()}  {e['workout']['variation']}  "
+        f"#{i}": i
+        for i, e in reversed(entries)
+    }
+    choice = iterfzf(labels.keys(), multi=False)
+    return labels.get(choice) if choice else None
 
 
 @cli.command()

@@ -1326,7 +1326,6 @@ EXERCISES = {
     "Swing": ["hinge"],
     "Kettlebell Swing": ["hinge"],
     "Ab Wheel": ["core"],
-    "Arch Body Leglift": ["core"],
     "Plank Shoulder Tap": ["core"],
     "Banded Hip Thrust": ["hinge"],
     "Bent Over Row": ["pull"],
@@ -1415,6 +1414,12 @@ EXERCISES = {
     "Turkish Get-up": ["squat", "core"],
     "Windmill": ["core"],
     "Leg Press": ["squat"],
+    "Snatch Grip Deadlift": ["hinge"],
+    "Kettlebell Front Squat": ["squat"],
+    "Loaded Carry": ["core"],
+    "TRX High Pull": ["pull"],
+    "TRX Tricep Extension": ["upper body isolation"],
+    "Overhead Tricep Extension": ["upper body isolation"],
 }
 
 HUMAN_MOVEMENTS = [
@@ -1438,4 +1443,56 @@ BODYWEIGHT_FACTORS = {
     "TRX Advanced Row": 0.64,
     "TRX Pushup": 0.5,
     "TRX Row": 0.3,
+}
+
+# Version of the database layout. Version 2 stores the load of a bodyweight exercise
+# (see BODYWEIGHT_FACTORS) as the added weight only; the bodyweight share is computed
+# from the workout's bodyweight when stats are calculated.
+SCHEMA_VERSION = 2
+
+# Short codes used by `save -w` and the quick-entry format, mapped to the workout type
+# names stored in the database.
+WORKOUT_TYPE_NAMES = {
+    "ic": "iron cardio",
+    "abc": "armor building complex",
+    "btb": "back to basics",
+    "pw": "perfect workout",
+    "giant": "the giant",
+    "wolf": "the wolf",
+    "es": "easy strength",
+    "wg": "workout generator",
+    "rop": "rite of passage",
+    "abfb": "armor building formula barbell",
+    "abf": "armor building formula",
+    "dfw": "dry fighting weight",
+}
+
+# Default short names for exercises in the quick-entry format. Users can add their own
+# with `kettlebells alias`; those are stored in the database and take precedence.
+DEFAULT_EXERCISE_ALIASES = {
+    "aw": "Ab Wheel",
+    "chin": "Chinup",
+    "c&p": "Kettlebell Clean and Press",
+    "dfs": "Double Kettlebell Front Squat",
+    "dkp": "Double Kettlebell Press",
+    "dl": "Deadlift",
+    "gs": "Goblet Squat",
+    "hlr": "Hanging Leg Raise",
+    "ht": "Hip Thrust",
+    "kbs": "Kettlebell Swing",
+    "lc": "Loaded Carry",
+    "pull": "Pullup",
+    "sgd": "Snatch Grip Deadlift",
+    "tgu": "Turkish Get-up",
+}
+
+# Known misspellings and near-duplicates, keyed by the lower-cased bad name.
+EXERCISE_NAME_FIXES = {
+    "overhead tricep extention": "Overhead Tricep Extension",
+    "arch body leglift": "Arch Body Leg Lift",
+}
+
+WORKOUT_TYPE_FIXES = {
+    "strong on!": "Strong On",
+    "55x5": "5x5",
 }
