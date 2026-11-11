@@ -76,24 +76,61 @@ def test_retrieve_workout(fzf_mock, database):
     assert date == "2023-09-14"
 
 
+PLOT_DATES = ["2023-02-01", "2023-02-15", "2023-03-10", "2023-11-20"]
+PLOT_WEIGHTS = [2300, 12500, 4100, 8000]
+
+
 @pytest.mark.parametrize(
-    "title, x_label, plot_size, plot_type, median, average",
+    "plot_type, title, expected_text",
     [
-        ("Workouts Across the Year", "Months", (130, 20), "event", False, False),
-        ("Weight Moved Per Workout", "Date", (90, 30), "line", True, False),
-        ("Weight Moved by Month", "Weight Moved", (90, 30), "bar", False, True),
+        ("event", "Workouts Across the Year", ["Jan", "Dec", "Months"]),
+        ("line", "Weight Moved Per Workout", ["10,000", "15,000", "Date"]),
+        ("bar", "Weight Moved by Month", ["Feb-23", "Nov-23", "15,000"]),
     ],
 )
-@mock.patch("kettlebells.stats.plt")
-def test_event_plot(plt_mock, title, x_label, plot_size, plot_type, median, average):
-    plot_workouts(["2023-02-01"], [2300], plot_type, median, average)
-    plt_mock.title.assert_called_once_with(title)
-    plt_mock.xlabel.assert_called_once_with(x_label)
-    plt_mock.plotsize.assert_called_once_with(*plot_size)
-    if median:
-        plt_mock.hline.assert_called_once()
-    if average:
-        plt_mock.vline.assert_called_once()
+def test_plot_workouts_renders(plot_type, title, expected_text, capfd):
+    """Render each plot with the real plotext, so an API change fails the test."""
+    plot_workouts(PLOT_DATES, PLOT_WEIGHTS, plot_type, False, False)
+    output = capfd.readouterr()[0]
+    assert title in output
+    for text in expected_text:
+        assert text in output
+    assert "e4" not in output  # no scientific-notation tick labels
+
+
+@pytest.mark.parametrize(
+    "plot_type, median, average, orientation, value",
+    [
+        ("line", True, False, "h", 6050),
+        ("line", False, True, "h", 6725),
+        ("bar", True, False, "v", 8000),
+        ("bar", False, True, "v", 26900 / 3),
+    ],
+)
+def test_plot_reference_lines(plot_type, median, average, orientation, value, capfd):
+    import plotext as plt
+
+    with mock.patch.object(plt.figure, "line", wraps=plt.figure.line) as line_mock:
+        plot_workouts(PLOT_DATES, PLOT_WEIGHTS, plot_type, median, average)
+    line_mock.assert_called_once()
+    assert line_mock.call_args.args[0] == pytest.approx(value)
+    assert line_mock.call_args.kwargs["orientation"] == orientation
+
+
+@pytest.mark.parametrize("year, expected", [(None, "2026"), (2025, "2025")])
+def test_event_plot_year(year, expected):
+    """The event plot spans the given year, or the year of the last workout."""
+    import plotext as plt
+
+    with mock.patch.object(plt.figure, "ruler") as ruler_mock, mock.patch.object(plt.figure, "show"):
+        plot_workouts(["2025-12-30", "2026-01-02"], [1, 2], "event", False, False, year=year)
+    ruler_mock.return_value.lim.assert_any_call(f"{expected}-01-01", f"{expected}-12-31")
+
+
+@pytest.mark.parametrize("plot_type, dates, message", [("pie", PLOT_DATES, "pie not a valid plot"), ("line", [], "No workouts")])
+def test_plot_workouts_nothing_to_draw(plot_type, dates, message, capfd):
+    plot_workouts(dates, PLOT_WEIGHTS[: len(dates)], plot_type, False, False)
+    assert message in capfd.readouterr()[0]
 
 
 def test_dates_in_cal(database, capfd):
@@ -118,3 +155,20 @@ def test_print_calendar(database, capfd):
     print_calendar(read_database(Path(database.name)), 2023)
     output = capfd.readouterr()[0]
     assert "September 2023" in output
+
+
+@pytest.mark.parametrize(
+    "maximum, positions",
+    [
+        (8286, [0, 2000, 4000, 6000, 8000, 10000]),
+        (75346, [0, 20000, 40000, 60000, 80000]),
+        (14800, [0, 5000, 10000, 15000]),
+        (0, [0]),
+    ],
+)
+def test_number_ticks(maximum, positions):
+    from kettlebells.stats import _number_ticks
+
+    actual_positions, labels = _number_ticks(maximum)
+    assert actual_positions == positions
+    assert labels == [f"{p:,}" for p in positions]

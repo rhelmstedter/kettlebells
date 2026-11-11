@@ -153,7 +153,7 @@ requires-dist = [
     { name = "coverage", marker = "extra == 'dev'", specifier = ">=7.3.1" },
     { name = "iterfzf", specifier = ">=1.0.0.42.0" },
     { name = "pandas", specifier = ">=2.1.3" },
-    { name = "plotext", specifier = ">=5.2.8,<6" },
+    { name = "plotext", specifier = ">=6.1,<7" },
     { name = "pydantic", specifier = ">=2.5.2" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4.0" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.1.0" },
@@ -326,11 +326,15 @@ wheels = [
 
 [[package]]
 name = "plotext"
-version = "5.3.2"
+version = "6.1.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/c9/d7/f75f397af966fe252d0d34ffd3cae765317fce2134f925f95e7d6725d1ce/plotext-5.3.2.tar.gz", hash = "sha256:52d1e932e67c177bf357a3f0fe6ce14d1a96f7f7d5679d7b455b929df517068e", size = 61967 }
+sdist = { url = "https://files.pythonhosted.org/packages/df/67/8e27c8a72e5f70026644e5b8d2f0f2b0915abcee973734c64ca0ec299ad8/plotext-6.1.0.tar.gz", hash = "sha256:6b729ce6376c5c1c2152fe85e0449dcc54879d0923b3c6c8d1670108245c6f84", size = 291326 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f6/1e/12fe7c40cd2099a1f454518754ed229b01beaf3bbb343127f0cc13ce6c22/plotext-5.3.2-py3-none-any.whl", hash = "sha256:394362349c1ddbf319548cfac17ca65e6d5dfc03200c40dfdc0503b3e95a2283", size = 64047 },
+    { url = "https://files.pythonhosted.org/packages/da/1c/9cf958b92e41e027c3a1a25cc95b9e09584936ab50adfa2b8a2e19f580d3/plotext-6.1.0-py3-none-macosx_10_13_x86_64.whl", hash = "sha256:4fec26b86ad32b3597de5861cfbf0023bb5ae02250f0ca940b12b069bccf43e6", size = 423804 },
+    { url = "https://files.pythonhosted.org/packages/38/38/fe4741eda3dc845695cd142b0bbbb91ffb07baf61dae55f3278997920c9e/plotext-6.1.0-py3-none-macosx_11_0_arm64.whl", hash = "sha256:bfafad58a20da6c279e722481b5c3e67a9c8c54bde722d414c5ceffe71b7c652", size = 417645 },
+    { url = "https://files.pythonhosted.org/packages/f6/48/a74491726361a8fd73cccdf961ce36336dbb3a010ae5e92df4ddd6f9c0f0/plotext-6.1.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:6c035440296be20e539ee70d4de07290d84bb0c9017bb3bc5867a8b3f9cead56", size = 474593 },
+    { url = "https://files.pythonhosted.org/packages/aa/8d/c55ff1348ebaf319d63b6c71455b02c5e02b58211bbc5216d833b200735e/plotext-6.1.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e59f54cedfb56129e2aec1f885869fe13903fdd4e6f18a10301e71a7d5b9851c", size = 475814 },
+    { url = "https://files.pythonhosted.org/packages/a9/7c/62fcce32e391cdd80b6af9b703d90119603920b726a7372b8826831e0d27/plotext-6.1.0-py3-none-win_amd64.whl", hash = "sha256:60c85326da5454db482c9b1357c9ba385bae4a05c9dd498ff604e80458e03e3b", size = 1010518 },
 ]
 
 [[package]]
