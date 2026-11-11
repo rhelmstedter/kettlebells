@@ -1,4 +1,5 @@
 import calendar
+import math
 import sys
 from collections import defaultdict
 from datetime import datetime
@@ -109,66 +110,86 @@ def plot_workouts(
     Args:
         dates: A list of the dates stored as a string.
         weight_per_workout: A list of the weight moved per workout.
+        plot_type: event, line, or bar.
+        show_median: Draw a line at the median (line and bar plots).
+        show_average: Draw a line at the mean (line and bar plots).
+        year: The year an event plot spans. Defaults to the year of the last workout.
     """
+    if plot_type not in ("event", "line", "bar"):
+        console.print(f":warning: {plot_type} not a valid plot.", style=WARNING)
+        console.print(
+            "Try running [underline]kettlebells stats --help[/underline] to see available plots",
+            style=SUGGESTION,
+        )
+        return
+    if not dates:
+        console.print("No workouts to plot.", style=WARNING)
+        return
+
+    figure = plt.figure
+    figure.clear()
     match plot_type:
         case "event":
-            x_axis = []
-            for date in dates:
-                year, month, day = date.split("-")
-                x_axis.append("-".join((year[-2:], month, day)))
-            plt.date_form("y-m-d")
-            plt.plotsize(130, 20)
-            plt.title("Workouts Across the Year")
-            plt.xlabel("Months")
-            if year and len(year) == 4:
-                year = year[-2:]
             if not year:
-                year = str(datetime.today().year)[-2:]
-            plt.xlim(f"{year}-01-01", f"{year}-12-31")
-            plt.event_plot(x_axis, marker="hd")
-            ticks = [f"{year}-{m}-01" for m in range(1, 13)]
-            xlabels = [calendar.month_abbr[m] for m in range(1, 13)]
-            plt.xticks(ticks, xlabels)
-        case "line":
-            x_axis = []
-            for date in dates:
-                year, month, day = date.split("-")
-                x_axis.append("-".join((year[-2:], month, day)))
-            if show_median:
-                plt.hline(median(weight_per_workout), "green")
-            elif show_average:
-                plt.hline(mean(weight_per_workout), "green")
-            plt.date_form("y-m-d")
-            plt.title("Weight Moved Per Workout")
-            plt.xlabel("Date")
-            plt.ylim(lower=0)
-            plt.plotsize(90, 30)
-            plt.plot(x_axis, weight_per_workout, marker="hd")
-        case "bar":
-            data = defaultdict(int)
-            for date, weight in zip(dates, weight_per_workout):
-                year, month, _ = date.split("-")
-                month = calendar.month_abbr[int(month)]
-                data["-".join((month, year[-2:]))] += weight
-            if show_median:
-                plt.vline(median(data.values()), "green")
-            elif show_average:
-                plt.vline(mean(data.values()), "green")
-            plt.title("Weight Moved by Month")
-            plt.xlabel("Weight Moved")
-            plt.plotsize(90, 30)
-            plt.bar(data.keys(), data.values(), orientation="h")
-        case _:
-            console.print(f":warning: {plot_type} not a valid plot.", style=WARNING)
-            console.print(
-                "Try running [underline]kettlebells stats --help[/underline] to see available plots",
-                style=SUGGESTION,
+                year = int(dates[-1][:4])
+            figure.date().activate(form=DATE_FORMAT)
+            figure.event(dates)
+            figure.ruler("x").lim(f"{year}-01-01", f"{year}-12-31")
+            figure.ruler("x").ticks(
+                [f"{year}-{m:02}-01" for m in range(1, 13)],
+                [calendar.month_abbr[m] for m in range(1, 13)],
             )
-            return
+            figure.title("Workouts Across the Year")
+            figure.label("Months", axis="x")
+            figure.plot_size(130, 20)
+        case "line":
+            figure.date().activate(form=DATE_FORMAT)
+            figure.draw(figure.signal(dates, weight_per_workout, marker="hd").lines())
+            reference = _reference_value(weight_per_workout, show_median, show_average)
+            if reference is not None:
+                figure.line(reference, orientation="h", pixel="green")
+            figure.ruler("y").lim(lower=0)
+            figure.ruler("y").ticks(*_number_ticks(max(weight_per_workout)))
+            figure.title("Weight Moved Per Workout")
+            figure.label("Date", axis="x")
+            figure.plot_size(90, 30)
+        case "bar":
+            data: dict[str, int] = defaultdict(int)
+            for date, weight in zip(dates, weight_per_workout):
+                workout_year, month, _ = date.split("-")
+                data[f"{calendar.month_abbr[int(month)]}-{workout_year[-2:]}"] += weight
+            figure.draw(figure.bar(list(data.keys()), list(data.values()), orientation="h"))
+            reference = _reference_value(list(data.values()), show_median, show_average)
+            if reference is not None:
+                figure.line(reference, orientation="v", pixel="green")
+            figure.ruler("x").ticks(*_number_ticks(max(data.values())))
+            figure.title("Weight Moved by Month")
+            figure.label("Weight Moved", axis="x")
+            figure.plot_size(90, 30)
 
-    plt.theme("pro")
+    figure.theme("pro")
     console.print()
-    plt.show()
+    figure.show()
+
+
+def _reference_value(values: list[int], show_median: bool, show_average: bool) -> float | None:
+    if show_median:
+        return median(values)
+    if show_average:
+        return mean(values)
+    return None
+
+
+def _number_ticks(maximum: float, count: int = 6) -> tuple[list[int], list[str]]:
+    """Round, evenly spaced ticks from 0 to at least maximum, with thousands separators.
+
+    plotext 6 labels large values in scientific notation (1.0e4) by default.
+    """
+    rough = max(maximum, 1) / (count - 1)
+    magnitude = 10 ** math.floor(math.log10(rough))
+    step = next(m * magnitude for m in (1, 2, 5, 10) if m * magnitude >= rough)
+    positions = [int(step * i) for i in range(math.ceil(maximum / step) + 1)]
+    return positions, [f"{p:,}" for p in positions]
 
 
 def top_ten_workouts(data: dict, sort: str) -> Table:
