@@ -288,3 +288,21 @@ def test_stats_by_movement(database):
         result = runner.invoke(cli, ["stats", "-M", "-y", "2023"])
     assert result.exit_code == 0
     assert "Fundamental Human Movements" in result.stdout
+
+
+def test_stats_html(database, tmp_path):
+    with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)), mock.patch.object(
+        kettlebells.__main__, "KETTLEBELLS_HOME", tmp_path
+    ), mock.patch("kettlebells.__main__.webbrowser.open") as open_mock:
+        result = runner.invoke(cli, ["stats", "--html", "-y", "2023"])
+    assert result.exit_code == 0, result.stdout
+    page = tmp_path / "stats.html"
+    assert "Stats from 2023" in page.read_text()
+    open_mock.assert_called_once_with(page.as_uri())
+
+
+def test_stats_plot_options(database):
+    with mock.patch.object(kettlebells.__main__, "KETTLEBELLS_DB", Path(database.name)):
+        with mock.patch("kettlebells.__main__.plot_workouts") as plot_mock:
+            runner.invoke(cli, ["stats", "-p", "line", "--by", "week"])
+    assert plot_mock.call_args.kwargs == {"by": "week", "units": "kg"}

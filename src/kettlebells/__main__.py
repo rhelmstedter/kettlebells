@@ -1,4 +1,5 @@
 import sys
+import webbrowser
 from datetime import datetime
 from os import environ
 from pathlib import Path
@@ -34,11 +35,12 @@ from .database import (
 )
 from .entry import EntryError, parse_lines
 from .names import exercise_aliases, known_exercises, workout_type_aliases
+from .plots import plot_workouts, write_html_report
 from .stats import (
     filter_by_program,
     get_all_stats,
+    get_entries,
     get_exercises_by_movement,
-    plot_workouts,
     print_calendar,
     retrieve_workout,
     top_ten_workouts,
@@ -525,6 +527,21 @@ def stats(
             help="Possible plots: line, event, bar.",
         ),
     ] = "",
+    by: Annotated[
+        str,
+        typer.Option(
+            "--by",
+            help="For the line plot: plot each workout, or the total per week or month.",
+        ),
+    ] = "workout",
+    html: Annotated[
+        bool,
+        typer.Option(
+            "--html",
+            help="Write an interactive HTML report to ~/.kettlebells/stats.html and open it.",
+            is_flag=True,
+        ),
+    ] = False,
     year: Annotated[
         int | None,
         typer.Option(
@@ -617,7 +634,11 @@ def stats(
     else:
         dates, weight_per_workout = get_all_stats(data, start=start, end=end)
     if plot:
-        plot_workouts(dates, weight_per_workout, plot, median, average, year)
+        plot_workouts(
+            dates, weight_per_workout, plot, median, average, year, by=by, units=data["loads"]["units"]
+        )
+    if html:
+        _write_report(data, start, end, year)
     if calendar:
         print_calendar(data, year)
     if best:
@@ -628,6 +649,20 @@ def stats(
         console.print(get_exercises_by_movement(data, start, end))
     if by_movement and not year:
         console.print(get_exercises_by_movement(data, start, end))
+
+
+def _write_report(data: dict, start: str, end: str, year: int | None) -> None:
+    if year:
+        start, end, title = f"{year}-01-01", f"{year}-12-31", f"Stats from {year}"
+    elif start or end:
+        title = f"Stats from {start or 'the start'} to {end or 'today'}"
+    else:
+        title = "All Time Stats"
+    path = write_html_report(
+        KETTLEBELLS_HOME / "stats.html", get_entries(data, start, end), data["loads"]["units"], title
+    )
+    console.print(f"Report saved to {path}")
+    webbrowser.open(path.as_uri())
 
 
 def _get_date() -> str:
