@@ -1,5 +1,5 @@
 import sys
-
+from datetime import datetime
 from os import environ
 from pathlib import Path
 from random import choice, choices
@@ -14,9 +14,9 @@ from .constants import (
     ABF_PARAMS,
     ABFB_PARAMS,
     BODYWEIGHT_FACTORS,
-    DFW_PARAMS,
     BTB_PARAMS,
-    # EXERCISES,
+    DATE_FORMAT,
+    DFW_PARAMS,
     FZF_DEFAULT_OPTS,
     HUMAN_MOVEMENTS,
     IRON_CARDIO_PARAMS,
@@ -28,9 +28,10 @@ from .constants import (
     THE_WOLF_PARAMS,
     WARNING,
     WORKOUT_GENERATOR_PARAMS,
-    KETTLEBELLS_DB,
 )
-from .database import read_database, write_database
+from .database import bodyweight_share, read_database, write_database
+from .entry import EntryError, format_spec, parse_spec
+from .names import bump_variation, normalize_workout_type, resolve_workout_type
 
 
 class Exercise(BaseModel):
@@ -38,7 +39,7 @@ class Exercise(BaseModel):
 
     Attributes:
         name: str
-        load: int
+        load: int, for bodyweight exercises (see BODYWEIGHT_FACTORS) the added weight
         sets: int
         reps: int
     """
@@ -47,6 +48,19 @@ class Exercise(BaseModel):
     load: int
     sets: int
     reps: int
+
+    @property
+    def is_bodyweight(self) -> bool:
+        return self.name in BODYWEIGHT_FACTORS
+
+    def total_load(self, bodyweight: int) -> int:
+        """The load moved per rep, including the bodyweight share if any."""
+        return self.load + bodyweight_share(self.name, bodyweight)
+
+    def describe_load(self, units: str) -> str:
+        if self.is_bodyweight:
+            return f"BW + {self.load} {units}" if self.load else "BW"
+        return f"{self.load} {units}"
 
 
 class Workout(BaseModel):
@@ -59,6 +73,7 @@ class Workout(BaseModel):
         units: str
         bodyweight: int
         exercises: list[Exercise]
+        notes: str
     """
 
     workout_type: str
@@ -67,6 +82,7 @@ class Workout(BaseModel):
     units: str
     bodyweight: int
     exercises: list[Exercise]
+    notes: str = ""
 
     def display_workout(self) -> None:
         """Print a workout to the console."""
@@ -92,15 +108,22 @@ class Workout(BaseModel):
                 exercises.append(
                     (
                         exercise.name,
-                        f"{exercise.sets} X {exercise.reps} with {exercise.load} {self.units}",
+                        f"{exercise.sets} X {exercise.reps} with {exercise.describe_load(self.units)}",
                     )
                 )
             _print_helper(display_params)
             console.print("Exercises")
             console.print("---------", style="green")
             _print_helper(exercises)
+            self._display_notes()
             return
         _print_helper(display_params)
+        self._display_notes()
+
+    def _display_notes(self) -> None:
+        if self.notes:
+            console.print(f"Notes: {self.notes}", style="italic")
+            console.print()
 
     def calc_workout_stats(self) -> dict:
         """Calculate the stats for a given workout.
@@ -111,10 +134,9 @@ class Workout(BaseModel):
         total_reps = 0
         weight_moved = 0
         for exercise in self.exercises:
+            load = exercise.total_load(self.bodyweight)
             if "double" in exercise.name.lower():
-                load = exercise.load * 2
-            else:
-                load = exercise.load
+                load *= 2
             if "clean and press" in exercise.name.lower():
                 reps = 2 * exercise.reps * exercise.sets
             else:
@@ -239,12 +261,10 @@ def create_ic_or_abc(db_path: Path, workout_type: str) -> Workout:
     for exercise, reps in workout_params["exercises"][variation]:
         if bells == "Single Bell" and exercise == "Pullup":
             sets = sets // 2
-        if exercise == "Pullup":
-            load = _add_bodyweight_factor(bodyweight, exercise)
         exercises.append(
             Exercise(
                 name=exercise,
-                load=load,
+                load=0 if exercise in BODYWEIGHT_FACTORS else load,
                 sets=sets,
                 reps=reps,
             )
@@ -396,36 +416,9 @@ def create_perfect_workout(db_path: Path) -> Workout:
     )
 
 
-def create_easy_strength_workout(db_path: Path, workout_type: str) -> Workout:
-    """Create an Easy Strength workout.
-
-    Args:
-        db_path: The Path to the database.
-
-    Returns:
-        A workout object.
-
-    """
-    data = read_database(db_path)
-    bodyweight = data["loads"]["bodyweight"]
-    units = data["loads"]["units"]
-    workout_type, workout_params = _get_workout_params(workout_type)
-    variation = _get_options(workout_params)
-    time = IntPrompt.ask("Workout duration (mins)")
-    exercises = []
-    for exercise in workout_params[variation]["exercises"]:
-        exercise = Exercise(**exercise)
-        exercise.load += _add_bodyweight_factor(bodyweight, exercise.name)
-        exercises.append(exercise)
-    variation = IntPrompt.ask("What day of Easy Strength is this")
-    return Workout(
-        workout_type=workout_type,
-        variation=f"{variation:0>2}",
-        time=time,
-        units=units,
-        bodyweight=bodyweight,
-        exercises=exercises,
-    )
+def create_easy_strength_workout(db_path: Path) -> Workout | None:
+    """Create an Easy Strength workout from one of the easy strength templates."""
+    return create_from_template(db_path, "easy strength")
 
 
 def create_time_based_workout(db_path: Path, workout_type: str) -> Workout:
@@ -546,10 +539,9 @@ def create_workout_generator_workout(db_path: Path) -> Workout:
         if not name:
             break
         console.print(name)
-        load = IntPrompt.ask(f"  Load in {units}")
+        load = IntPrompt.ask(_load_label(name, units))
         sets = workout_params[variation]["sets"]
         reps = IntPrompt.ask("  (Average) Reps per set")
-        load += _add_bodyweight_factor(bodyweight, name)
         exercises.append(Exercise(name=name, load=load, sets=sets, reps=reps))
     return Workout(
         workout_type=workout_type,
@@ -581,7 +573,7 @@ def create_rite_of_passage_workout(db_path: Path) -> Workout:
         name = _get_options(workout_params[variation]["exercises"])
         if name.lower() == "done":
             break
-        load = IntPrompt.ask(f"  Load in {units}")
+        load = IntPrompt.ask(_load_label(name, units))
         if name in ["Kettlebell Swing", "Kettlebell Snatch"]:
             sets = IntPrompt.ask("  Number of sets")
             reps = IntPrompt.ask("  Number of reps")
@@ -591,9 +583,7 @@ def create_rite_of_passage_workout(db_path: Path) -> Workout:
             reps = rungs * (rungs + 1) // 2
         if name.lower() == "kettlebell clean and press":
             reps *= 2
-        exercise = Exercise(name=name, load=load, sets=sets, reps=reps)
-        exercise.load += _add_bodyweight_factor(bodyweight, exercise.name)
-        exercises.append(exercise)
+        exercises.append(Exercise(name=name, load=load, sets=sets, reps=reps))
     return Workout(
         workout_type=workout_type,
         variation=f"{variation:0>2}",
@@ -604,8 +594,10 @@ def create_rite_of_passage_workout(db_path: Path) -> Workout:
     )
 
 
-def _add_bodyweight_factor(bodyweight, name):
-    return int(BODYWEIGHT_FACTORS.get(name, 0) * bodyweight)
+def _load_label(name: str, units: str) -> str:
+    if name in BODYWEIGHT_FACTORS:
+        return f"  Added weight in {units} (0 for bodyweight only)"
+    return f"  Load in {units}"
 
 
 def add_exercises(db_path: Path, bodyweight, units) -> list[Exercise]:
@@ -615,10 +607,9 @@ def add_exercises(db_path: Path, bodyweight, units) -> list[Exercise]:
         if not name:
             break
         console.print(name)
-        load = IntPrompt.ask(f"  Load in {units}")
+        load = IntPrompt.ask(_load_label(name, units))
         sets = IntPrompt.ask("  Number of sets")
         reps = IntPrompt.ask("  Reps per set")
-        load += _add_bodyweight_factor(bodyweight, name)
         exercises.append(Exercise(name=name, load=load, sets=sets, reps=reps))
     return exercises
 
@@ -753,18 +744,185 @@ def create_abf_workout(db_path: Path) -> Workout:
     )
 
 
+def prompt_exercises(db_path: Path, exercises: list[Exercise], units: str) -> list[Exercise]:
+    """Go through exercises with their current values as defaults.
+
+    Enter keeps an exercise as is, a new value such as 3x5@24, 2x5@185lb or 3x3+20
+    replaces it, and - drops it. More exercises can be added at the end.
+    """
+    console.print(
+        f"Press Enter to keep, type a new value (3x5@24, 2x5@185lb, 3x3+20; loads in {units} "
+        "unless given), or - to drop an exercise.",
+        style=SUGGESTION,
+    )
+    result = []
+    for exercise in exercises:
+        default = format_spec(exercise.name, exercise.sets, exercise.reps, exercise.load)
+        while True:
+            answer = Prompt.ask(f"  {exercise.name}", default=default).strip()
+            if answer in ("-", "skip"):
+                break
+            try:
+                sets, reps, load = parse_spec(answer, units)
+            except EntryError as error:
+                console.print(f":warning: {error}", style=WARNING)
+                continue
+            result.append(Exercise(name=exercise.name, load=load, sets=sets, reps=reps))
+            break
+    if Confirm.ask("Add more exercises?", default=False):
+        result.extend(add_exercises(db_path, 0, units))
+    return result
+
+
+def last_workout_of_type(data: dict, workout_type: str) -> tuple[str, Workout] | None:
+    """The date and workout of the most recent saved workout of a type."""
+    key = workout_type.casefold()
+    for entry in reversed(data.get("saved_workouts", [])):
+        if entry["workout"]["workout_type"].casefold() == key:
+            return entry["date"], Workout(**entry["workout"])
+    return None
+
+
+def _recent_workout_types(data: dict, limit: int = 10) -> list[str]:
+    types: list[str] = []
+    for entry in reversed(data.get("saved_workouts", [])):
+        workout_type = entry["workout"]["workout_type"]
+        if workout_type not in types:
+            types.append(workout_type)
+        if len(types) == limit:
+            break
+    return types
+
+
+def _find_key(options, name: str) -> str | None:
+    return next((key for key in options if key.casefold() == name.casefold()), None)
+
+
 def create_template(db_path: Path) -> None:
-    """Create a template for a program."""
+    """Create a template for a program, or update an existing one."""
     data = read_database(db_path)
-    bodyweight = data["loads"]["bodyweight"]
     units = data["loads"]["units"]
-    workout_type = Prompt.ask("Type of workout")
-    if workout_type not in data["templates"]:
-        data["templates"][workout_type] = {}
-    variation = Prompt.ask("Variation")
-    exercises = add_exercises(db_path, bodyweight, units)
-    data["templates"][workout_type][variation] = [e.dict() for e in exercises]
+    bodyweight = data["loads"]["bodyweight"]
+    templates = data.setdefault("templates", {})
+    if templates:
+        console.print("Existing templates:")
+        for workout_type, variations in templates.items():
+            console.print(f"    {workout_type.title()}: {', '.join(variations)}")
+    workout_type = resolve_workout_type(Prompt.ask("Type of workout (a code such as es, or a name)"), data)
+    workout_type = _find_key(templates, workout_type) or workout_type
+    variation = Prompt.ask("Template name (e.g. regular, light, The Bull)")
+    variation = _find_key(templates.get(workout_type, {}), variation) or variation
+    existing = templates.get(workout_type, {}).get(variation)
+    if existing:
+        console.print(f"Updating the {workout_type.title()} {variation} template.")
+        exercises = prompt_exercises(db_path, [Exercise(**e) for e in existing["exercises"]], units)
+    else:
+        last = last_workout_of_type(data, workout_type)
+        if last and Confirm.ask(f"Start from your last {workout_type.title()} workout ({last[0]})?"):
+            exercises = prompt_exercises(db_path, last[1].exercises, units)
+        else:
+            exercises = add_exercises(db_path, bodyweight, units)
+    # Re-read: adding a new exercise above writes it to the database.
+    data = read_database(db_path)
+    data.setdefault("templates", {}).setdefault(workout_type, {})[variation] = {
+        "exercises": [e.model_dump() for e in exercises]
+    }
     write_database(db_path, data)
+    console.print(f"Saved the {workout_type.title()} {variation} template.")
+
+
+def create_from_template(db_path: Path, workout_type: str | None = None) -> Workout | None:
+    """Create a workout from a saved template, with each exercise editable."""
+    data = read_database(db_path)
+    templates = data.get("templates", {})
+    if workout_type is None and templates:
+        workout_type = _get_options(list(templates))
+    key = _find_key(templates, workout_type or "")
+    if key is None:
+        console.print(f":warning: No templates for {workout_type or 'any workout'}.", style=WARNING)
+        console.print(
+            "Create one with [underline]kettlebells template[/underline].", style=SUGGESTION
+        )
+        return None
+    variations = templates[key]
+    if len(variations) > 1:
+        template_name = _get_options(list(variations))
+    else:
+        template_name = next(iter(variations))
+    units = data["loads"]["units"]
+    last = last_workout_of_type(data, key)
+    if last and any(c.isdigit() for c in last[1].variation):
+        default_variation = bump_variation(last[1].variation)
+    else:
+        default_variation = template_name.title()
+    variation = Prompt.ask("Variation (e.g. the day)", default=default_variation)
+    time = IntPrompt.ask("Workout duration (mins)")
+    exercises = [Exercise(**e) for e in variations[template_name]["exercises"]]
+    exercises = prompt_exercises(db_path, exercises, units)
+    return Workout(
+        workout_type=key,
+        variation=variation,
+        time=time,
+        units=units,
+        bodyweight=data["loads"]["bodyweight"],
+        exercises=exercises,
+    )
+
+
+def repeat_last_workout(db_path: Path, workout_type: str | None = None) -> Workout | None:
+    """Copy the last workout of a type, bumping the day, with each exercise editable."""
+    data = read_database(db_path)
+    if not data.get("saved_workouts"):
+        console.print(":warning: There are no saved workouts to repeat.", style=WARNING)
+        return None
+    if workout_type:
+        workout_type = resolve_workout_type(workout_type, data)
+    else:
+        workout_type = _get_options(_recent_workout_types(data))
+    found = last_workout_of_type(data, workout_type)
+    if found is None:
+        console.print(f":warning: No saved {workout_type} workouts.", style=WARNING)
+        return None
+    date, last = found
+    console.print(f"Repeating your {last.workout_type.title()} {last.variation} workout from {date}.")
+    variation = Prompt.ask("Variation (e.g. the day)", default=bump_variation(last.variation))
+    time = IntPrompt.ask("Workout duration (mins)", default=last.time)
+    exercises = prompt_exercises(db_path, last.exercises, data["loads"]["units"])
+    return Workout(
+        workout_type=last.workout_type,
+        variation=variation,
+        time=time,
+        units=data["loads"]["units"],
+        bodyweight=data["loads"]["bodyweight"],
+        exercises=exercises,
+    )
+
+
+def edit_workout(db_path: Path, date: str, workout: Workout) -> tuple[str, Workout]:
+    """Edit every field of a saved workout, with the current values as defaults."""
+    data = read_database(db_path)
+    while True:
+        new_date = Prompt.ask("Date (YYYY-MM-DD)", default=date)
+        try:
+            datetime.strptime(new_date, DATE_FORMAT)
+            break
+        except ValueError:
+            console.print(f":warning: {new_date} not a valid date.", style=WARNING)
+    workout_type = normalize_workout_type(Prompt.ask("Type of workout", default=workout.workout_type), data)
+    variation = Prompt.ask("Variation", default=workout.variation)
+    time = IntPrompt.ask("Workout duration (mins)", default=workout.time)
+    bodyweight = IntPrompt.ask(f"Bodyweight ({workout.units})", default=workout.bodyweight)
+    exercises = prompt_exercises(db_path, workout.exercises, workout.units)
+    notes = Prompt.ask("Notes (- to clear)", default=workout.notes or None, show_default=bool(workout.notes)) or ""
+    return new_date, Workout(
+        workout_type=workout_type,
+        variation=variation,
+        time=time,
+        units=workout.units,
+        bodyweight=bodyweight,
+        exercises=exercises,
+        notes="" if notes.strip() == "-" else notes.strip(),
+    )
 
 
 def _get_options(options: dict | list) -> str:
@@ -832,10 +990,6 @@ def _get_workout_params(workout_type: str) -> tuple[str, dict]:
             return "the giant", THE_GIANT_PARAMS
         case "wolf":
             return "the wolf", THE_WOLF_PARAMS
-        case "es":
-            data = read_database(KETTLEBELLS_DB)
-            EASY_STRENGTH_PARAMS = data["templates"]["easy strength"]
-            return "easy strength", EASY_STRENGTH_PARAMS
         case "wg":
             return "workout generator", WORKOUT_GENERATOR_PARAMS
         case "rop":

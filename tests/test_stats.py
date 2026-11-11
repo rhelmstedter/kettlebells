@@ -2,6 +2,7 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
+
 from kettlebells.database import read_database
 from kettlebells.stats import (
     _get_dates,
@@ -100,3 +101,20 @@ def test_dates_in_cal(database, capfd):
     actual = _get_dates(data)
     expected = [(12, 9, 2023), (14, 9, 2023)]
     assert actual == expected
+
+
+def test_get_exercises_by_movement(database, capfd):
+    from kettlebells.stats import get_exercises_by_movement
+
+    data = read_database(Path(database.name))
+    table = get_exercises_by_movement(data, "2023-09-01", "2023-12-31")
+    assert table.title == "Fundamental Human Movements"
+    assert table.row_count > 2
+
+
+def test_print_calendar(database, capfd):
+    from kettlebells.stats import print_calendar
+
+    print_calendar(read_database(Path(database.name)), 2023)
+    output = capfd.readouterr()[0]
+    assert "September 2023" in output

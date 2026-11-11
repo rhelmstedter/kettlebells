@@ -34,7 +34,7 @@ TEST_IC_WORKOUT = Workout(
             Exercise(
                 **{
                     "name": "Pullup",
-                    "load": 86,
+                    "load": 0,
                     "sets": 20,
                     "reps": 1,
                 },
@@ -469,7 +469,7 @@ TEST_WORKOUT_SINGLE_BELL_PULLUPS = Workout(
             Exercise(
                 **{
                     "name": "Pullup",
-                    "load": 90,
+                    "load": 4,
                     "sets": 5,
                     "reps": 1,
                 },
@@ -664,7 +664,7 @@ TEST_ROP_WORKOUT = Workout(
                     "name": "Pullup",
                     "sets": 5,
                     "reps": 6,
-                    "load": 86,
+                    "load": 0,
                 },
             ),
             Exercise(
@@ -680,6 +680,9 @@ TEST_ROP_WORKOUT = Workout(
     }
 )
 TEST_DATA = {
+    "schema_version": 2,
+    "templates": {},
+    "aliases": {"exercises": {}, "workout_types": {}},
     "loads": {
         "units": "kg",
         "bodyweight": 90,
@@ -776,7 +779,7 @@ TEST_DATA = {
                 },
                 {
                     "name": "Pullup",
-                    "load": 90,
+                    "load": 4,
                     "sets": 20,
                     "reps": 1,
                 },

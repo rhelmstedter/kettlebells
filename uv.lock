@@ -128,7 +128,6 @@ dependencies = [
     { name = "pandas" },
     { name = "plotext" },
     { name = "pydantic" },
-    { name = "pytest-mock" },
     { name = "rich" },
     { name = "trogon" },
     { name = "typer" },
@@ -139,12 +138,14 @@ dev = [
     { name = "coverage" },
     { name = "pytest" },
     { name = "pytest-cov" },
+    { name = "pytest-mock" },
     { name = "ruff-lsp" },
 ]
 
 [package.dev-dependencies]
 dev = [
     { name = "pytest-cov" },
+    { name = "pytest-mock" },
 ]
 
 [package.metadata]
@@ -156,7 +157,7 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.5.2" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4.0" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.1.0" },
-    { name = "pytest-mock", specifier = ">=3.12.0" },
+    { name = "pytest-mock", marker = "extra == 'dev'", specifier = ">=3.12.0" },
     { name = "rich", specifier = ">=13.5.2" },
     { name = "ruff-lsp", marker = "extra == 'dev'", specifier = ">=0.0.58" },
     { name = "trogon", specifier = ">=0.5.0" },
@@ -164,7 +165,10 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "pytest-cov", specifier = ">=5.0.0" }]
+dev = [
+    { name = "pytest-cov", specifier = ">=5.0.0" },
+    { name = "pytest-mock", specifier = ">=3.12.0" },
+]
 
 [[package]]
 name = "linkify-it-py"
